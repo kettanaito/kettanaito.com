@@ -5,3 +5,12 @@
  */
 
 // You can delete this file if you're not using it
+const setUpLayout = require('./setUpLayout')
+let isLayoutConfigured = false
+
+exports.onPreRenderHTML = () => {
+  if (!isLayoutConfigured) {
+    setUpLayout()
+    isLayoutConfigured = true
+  }
+}
