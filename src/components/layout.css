@@ -1,3 +1,8 @@
+::selection {
+  background-color: hsl(1, 80%, 60%);
+  color: #fff;
+}
+
 html {
   font-family: sans-serif;
   -ms-text-size-adjust: 100%;
@@ -46,6 +51,9 @@ a {
 a:active,
 a:hover {
   outline-width: 0;
+}
+a:hover {
+  text-decoration: underline;
 }
 abbr[title] {
   border-bottom: none;
@@ -199,7 +207,7 @@ html {
   box-sizing: inherit;
 }
 body {
-  background-color: #f7f8fa;
+  background-color: hsl(216, 33%, 95%);
   color: hsla(0, 0%, 0%, 0.8);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
     Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -213,6 +221,7 @@ body {
   font-feature-settings: 'kern', 'liga', 'clig', 'calt';
 }
 img {
+  display: block;
   max-width: 100%;
   margin-left: 0;
   margin-right: 0;
@@ -221,7 +230,7 @@ img {
   padding-left: 0;
   padding-right: 0;
   padding-top: 0;
-  margin-bottom: 1.45rem;
+  /* margin-bottom: 1.45rem; */
 }
 h1 {
   margin-left: 0;
@@ -468,7 +477,7 @@ iframe {
 hr {
   margin: 2rem 0;
   border: 0;
-  color: #ccc;
+  color: #aaa;
   height: 1em;
   font-size: 1.5rem;
   text-align: center;

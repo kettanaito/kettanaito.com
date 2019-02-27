@@ -6,18 +6,20 @@ import PostThumbnail from './PostThumbnail'
 
 const postsQuery = graphql`
   query ListQuery {
-    allMarkdownRemark(sort: { order: DESC, fields: [frontmatter___date] }) {
+    postList: allMarkdownRemark(
+      sort: { order: DESC, fields: [frontmatter___date] }
+    ) {
       edges {
         node {
           id
           fields {
             url
           }
-          timeToRead
           frontmatter {
             title
             description
             date(formatString: "MMMM DD, YYYY")
+            category
             thumbnail
           }
         }
@@ -30,12 +32,11 @@ const PostList = props => {
   return (
     <StaticQuery query={postsQuery}>
       {data => {
-        const { allMarkdownRemark: postList } = data
+        const { postList } = data
 
         return (
           <>
             <Composition
-              // templateCols="repeat(auto-fit, 400px)"
               templateColsMd="repeat(2, 1fr)"
               justifyContent="center"
               gutter={32}

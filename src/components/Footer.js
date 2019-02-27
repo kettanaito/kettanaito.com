@@ -6,7 +6,7 @@ import Container from './Container'
 import Text from './Text'
 
 const StyledBox = styled(Box)`
-  border-top: 1px solid #ededed;
+  border-top: 1px solid #ddd;
 `
 
 const Footer = () => (

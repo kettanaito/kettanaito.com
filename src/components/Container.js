@@ -5,7 +5,8 @@ const Container = props => (
   <Box
     width={920}
     marginHorizontal="auto"
-    paddingHorizontal={32}
+    paddingHorizontal={16}
+    paddingHorizontalMd={32}
     maxWidth="100%"
     {...props}
   />

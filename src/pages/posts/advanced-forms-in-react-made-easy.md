@@ -1,8 +1,10 @@
 ---
-title: Advanced forms in React made easy.
-description: Form is one of the most important interaction elements on the website. It’s easy to create a simple form. It’s hard to create a real-world form. For more than two years my team and I have been working on a huge e-commerce solution, and for more than two years we have struggled to fit the requirements into the form library we have chosen at the very beginning.
 date: '2018-05-14'
+category: OSS
+title: Advanced forms in React made easy.
+description: Learn how to create clean and performant forms using React Advanced Form package.
 thumbnail: https://cdn-images-1.medium.com/max/2000/1*2ab2nCOuM6WVH3xC0WJg9g.png
+keywords: react, form, react advanced form, multi-layer validation, resolver
 ---
 
 ## Foreword

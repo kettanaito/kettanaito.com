@@ -1,42 +1,45 @@
 import React from 'react'
 import { graphql } from 'gatsby'
-import styled from 'styled-components'
 import { Box } from 'atomic-layout'
 
 import Layout from '../components/layout'
 import Text from '../components/Text'
-
-const StyledBox = styled(Box)`
-  background-color: #fff;
-`
+import { Wrapper as ContentWrapper } from '../components/PostThumbnail'
 
 function BlogPost(props) {
   const { markdownRemark: post } = props.data
   const { frontmatter, timeToRead } = post
-  const { date } = frontmatter
+  const { date, category } = frontmatter
 
   return (
     <Layout>
-      <StyledBox padding={32}>
-        <h1>{frontmatter.title}</h1>
-        <Text as="p" small muted>
-          {date} · {timeToRead} minutes(s) read
-        </Text>
-        <hr />
-        <article dangerouslySetInnerHTML={{ __html: post.html }} />
-      </StyledBox>
+      <ContentWrapper>
+        <Box padding={16} paddingMd={32}>
+          <h1>{frontmatter.title}</h1>
+          <Text as="p">
+            <Text primary>{category}</Text>
+            <Text muted>
+              {' '}
+              · {date} · {timeToRead} minutes(s) read
+            </Text>
+          </Text>
+          <hr />
+          <article dangerouslySetInnerHTML={{ __html: post.html }} />
+        </Box>
+      </ContentWrapper>
     </Layout>
   )
 }
 
 export const query = graphql`
-  query PostQuery($slug: String!) {
+  query SinglePostQuery($slug: String!) {
     markdownRemark(fields: { slug: { eq: $slug } }) {
       html
       frontmatter {
         title
         description
         date(formatString: "MMMM DD, YYYY")
+        category
       }
       timeToRead
     }
