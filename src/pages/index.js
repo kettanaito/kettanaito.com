@@ -7,7 +7,10 @@ import PostList from '../components/PostList'
 const IndexPage = props => {
   return (
     <Layout>
-      <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
+      <SEO
+        title="Redd"
+        keywords={['redd', 'developer', 'technology', 'javascript', 'react']}
+      />
       <PostList />
     </Layout>
   )
