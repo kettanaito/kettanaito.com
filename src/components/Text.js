@@ -2,7 +2,7 @@ import * as R from 'ramda'
 import styled from 'styled-components'
 
 const getColor = R.cond([
-  [R.prop('primary'), R.always('hsl(1, 80%, 60%)')],
+  [R.prop('primary'), R.always('hsl(1, 65%, 50%)')],
   [R.always, R.always('inherit')],
 ])
 
