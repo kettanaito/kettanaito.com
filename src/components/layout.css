@@ -1,5 +1,5 @@
 ::selection {
-  background-color: hsl(1, 80%, 60%);
+  background-color: hsl(355, 55%, 50%);
   color: #fff;
 }
 
@@ -45,7 +45,7 @@ template {
   display: none;
 }
 a {
-  color: hsl(1, 80%, 60%);
+  color: hsl(355, 55%, 50%);
   background-color: transparent;
   -webkit-text-decoration-skip: objects;
 }

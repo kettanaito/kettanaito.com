@@ -15,7 +15,7 @@ const HeaderContainer = styled.header`
 const LogoImage = styled.img`
   display: block;
   margin: 0;
-  max-width: 150px;
+  max-width: 175px;
   transition: opacity 0.2s;
 
   &:hover {
