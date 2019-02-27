@@ -8,7 +8,7 @@ const IndexPage = props => {
   return (
     <Layout>
       <SEO
-        title="Redd"
+        title="Blog"
         keywords={['redd', 'developer', 'technology', 'javascript', 'react']}
       />
       <PostList />

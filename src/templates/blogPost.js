@@ -3,6 +3,7 @@ import { graphql } from 'gatsby'
 import { Box } from 'atomic-layout'
 
 import Layout from '../components/layout'
+import Seo from '../components/seo'
 import Text from '../components/Text'
 import { Wrapper as ContentWrapper } from '../components/PostThumbnail'
 
@@ -13,6 +14,11 @@ function BlogPost(props) {
 
   return (
     <Layout>
+      <Seo
+        title={frontmatter.title}
+        description={frontmatter.description}
+        keywords={frontmatter.keywords}
+      />
       <ContentWrapper>
         <Box padding={16} paddingMd={32}>
           <h1>{frontmatter.title}</h1>

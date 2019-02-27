@@ -45,6 +45,7 @@ template {
   display: none;
 }
 a {
+  color: hsl(1, 80%, 60%);
   background-color: transparent;
   -webkit-text-decoration-skip: objects;
 }
@@ -548,6 +549,9 @@ li *:last-child {
   margin-bottom: 0;
 }
 p *:last-child {
+  margin-bottom: 0;
+}
+p:last-child {
   margin-bottom: 0;
 }
 li > p {
