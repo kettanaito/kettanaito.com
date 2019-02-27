@@ -38,7 +38,7 @@ const PostList = props => {
           <>
             <Composition
               templateColsMd="repeat(2, 1fr)"
-              templateColsXl="repeat(3, 1fr)"
+              templateColsXxl="repeat(3, 1fr)"
               justifyContent="center"
               gutter={32}
               maxWidth="100%"
