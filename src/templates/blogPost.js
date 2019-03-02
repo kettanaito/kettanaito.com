@@ -4,7 +4,7 @@ import { Box } from 'atomic-layout'
 
 import Layout from '../components/layout'
 import Share from '../components/Share'
-import Seo from '../components/Seo'
+import Seo from '../components/seo'
 import Text from '../components/Text'
 import { Wrapper as ContentWrapper } from '../components/PostList/PostThumbnail'
 
