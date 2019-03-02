@@ -2,7 +2,7 @@ import React from 'react'
 import { graphql } from 'gatsby'
 import { Box } from 'atomic-layout'
 
-import Layout from '../components/Layout'
+import Layout from '../components/layout'
 import Share from '../components/Share'
 import Seo from '../components/Seo'
 import Text from '../components/Text'
