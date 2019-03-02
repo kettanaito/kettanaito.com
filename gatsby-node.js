@@ -14,7 +14,7 @@ exports.createPages = ({ actions, graphql }) => {
     resolve(
       graphql(`
         {
-          allMarkdownRemark {
+          allMdx {
             edges {
               node {
                 fields {
@@ -35,11 +35,12 @@ exports.createPages = ({ actions, graphql }) => {
         }
         const blogTemplate = path.resolve('./src/templates/blogPost.js')
 
-        result.data.allMarkdownRemark.edges.forEach(({ node }) => {
+        result.data.allMdx.edges.forEach(({ node }) => {
           createPage({
             path: node.fields.url,
             component: blogTemplate,
             context: {
+              id: node.id,
               slug: node.fields.slug,
               // additional data can be passed via context
             },
@@ -55,7 +56,7 @@ exports.createPages = ({ actions, graphql }) => {
 exports.onCreateNode = ({ node, getNode, actions }) => {
   const { createNodeField } = actions
 
-  if (node.internal.type === 'MarkdownRemark') {
+  if (['Mdx'].includes(node.internal.type)) {
     const postSlug = createFilePath({
       node,
       getNode,

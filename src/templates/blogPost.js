@@ -1,5 +1,6 @@
 import React from 'react'
 import { graphql } from 'gatsby'
+import MDXRenderer from 'gatsby-mdx/mdx-renderer'
 import { Box } from 'atomic-layout'
 
 import Layout from '../components/layout'
@@ -10,7 +11,7 @@ import { Wrapper as ContentWrapper } from '../components/PostList/PostThumbnail'
 
 function BlogPost(props) {
   const { location, data } = props
-  const { markdownRemark: post } = data
+  const { mdx: post } = data
   const { frontmatter, timeToRead } = post
   const { date, category } = frontmatter
 
@@ -33,6 +34,7 @@ function BlogPost(props) {
               </Text>
             </Text>
             <hr />
+            <MDXRenderer>{post.code.body}</MDXRenderer>
             <article dangerouslySetInnerHTML={{ __html: post.html }} />
           </Box>
         </ContentWrapper>
@@ -46,8 +48,7 @@ function BlogPost(props) {
 
 export const query = graphql`
   query SinglePostQuery($slug: String!) {
-    markdownRemark(fields: { slug: { eq: $slug } }) {
-      html
+    mdx(fields: { slug: { eq: $slug } }) {
       frontmatter {
         title
         description
@@ -55,6 +56,9 @@ export const query = graphql`
         category
       }
       timeToRead
+      code {
+        body
+      }
     }
   }
 `
