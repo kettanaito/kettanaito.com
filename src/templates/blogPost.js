@@ -2,13 +2,15 @@ import React from 'react'
 import { graphql } from 'gatsby'
 import { Box } from 'atomic-layout'
 
-import Layout from '../components/layout'
-import Seo from '../components/seo'
+import Layout from '../components/Layout'
+import Share from '../components/Share'
+import Seo from '../components/Seo'
 import Text from '../components/Text'
-import { Wrapper as ContentWrapper } from '../components/PostThumbnail'
+import { Wrapper as ContentWrapper } from '../components/PostList/PostThumbnail'
 
 function BlogPost(props) {
-  const { markdownRemark: post } = props.data
+  const { location, data } = props
+  const { markdownRemark: post } = data
   const { frontmatter, timeToRead } = post
   const { date, category } = frontmatter
 
@@ -19,20 +21,25 @@ function BlogPost(props) {
         description={frontmatter.description}
         keywords={frontmatter.keywords}
       />
-      <ContentWrapper>
-        <Box padding={16} paddingMd={32}>
-          <h1>{frontmatter.title}</h1>
-          <Text as="p">
-            <Text primary>{category}</Text>
-            <Text muted>
-              {' '}
-              · {date} · {timeToRead} minutes(s) read
+      <div>
+        <ContentWrapper>
+          <Box padding={16} paddingMd={32}>
+            <h1>{frontmatter.title}</h1>
+            <Text as="p">
+              <Text primary>{category}</Text>
+              <Text muted>
+                {' '}
+                · {date} · {timeToRead} minutes(s) read
+              </Text>
             </Text>
-          </Text>
-          <hr />
-          <article dangerouslySetInnerHTML={{ __html: post.html }} />
+            <hr />
+            <article dangerouslySetInnerHTML={{ __html: post.html }} />
+          </Box>
+        </ContentWrapper>
+        <Box paddingTop={32} paddingHorizontal={16} paddingHorizontalMd={32}>
+          <Share title={frontmatter.title} url={location.href} />
         </Box>
-      </ContentWrapper>
+      </div>
     </Layout>
   )
 }

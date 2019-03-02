@@ -10,6 +10,7 @@ const HeaderContainer = styled.header`
   padding: 1rem 0;
   background-color: #fff;
   font-size: 0.85rem;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.05);
 `
 
 const LogoImage = styled.img`
