@@ -44,7 +44,7 @@ const About = () => (
           <Content as="p">
             <span role="img" aria-label="Waving hand">
               👋
-            </span>
+            </span>{' '}
             My name is Artem, and I'm a Full-stack developer from Ukraine. I've
             been programming since I was 12, and it has become my occupation a
             few years ago. Now I build applications in React, Redux and GraphQL,

@@ -41,4 +41,4 @@ npm install atomic-layout
 
 - [**Documentation**](https://redd.gitbook.io/atomic-layout)
 - ["Future of Layouts" by Artem Zakhachenko, React Vienna](https://www.youtube.com/watch?v=x_93DjN_bUA)
-- [Full-page example (ZEIT)](#)
+  <!-- - [Full-page example (ZEIT)](#) -->
