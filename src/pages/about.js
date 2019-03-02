@@ -2,8 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import { Composition } from 'atomic-layout'
 
-import Layout from '../components/layout'
-import SEO from '../components/seo'
+import Layout from '../components/Layout'
+import SEO from '../components/Seo'
 
 const AvatarImage = styled.img`
   margin-right: 1rem;
