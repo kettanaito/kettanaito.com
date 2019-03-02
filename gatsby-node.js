@@ -8,7 +8,7 @@ const { createFilePath, createFileNode } = require('gatsby-source-filesystem')
 
 exports.createPages = ({ actions, graphql }) => {
   const { createPage } = actions
-  const blogPostTemplate = path.resolve('src/templates/blogPost.js')
+  const blogPostTemplate = path.resolve('src/templates/BlogPost.js')
 
   return new Promise((resolve, reject) => {
     resolve(
@@ -33,7 +33,7 @@ exports.createPages = ({ actions, graphql }) => {
           console.log(result.errors)
           return reject(result.errors)
         }
-        const blogTemplate = path.resolve('./src/templates/blogPost.js')
+        const blogTemplate = path.resolve('./src/templates/BlogPost.js')
 
         result.data.allMarkdownRemark.edges.forEach(({ node }) => {
           createPage({

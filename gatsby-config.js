@@ -39,8 +39,8 @@ module.exports = {
         name: `Redd`,
         short_name: `Redd`,
         start_url: `/`,
-        background_color: `#eb4a47`,
-        theme_color: `#eb4a47`,
+        background_color: `#D22F2D`,
+        theme_color: `#D22F2D`,
         display: `minimal-ui`,
         icon: `src/images/redd-icon.png`, // This path is relative to the root of the site.
       },

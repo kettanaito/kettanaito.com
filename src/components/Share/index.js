@@ -1,5 +1,4 @@
 import React from 'react'
-import styled from 'styled-components'
 import { Composition } from 'atomic-layout'
 import {
   FacebookShareButton,
@@ -11,8 +10,6 @@ import {
 } from 'react-share'
 
 import Text from '../../components/Text'
-
-const Wrapper = styled.aside``
 
 const Share = ({ title, url }) => {
   return (

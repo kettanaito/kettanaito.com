@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import { Box, Composition } from 'atomic-layout'
 
 import Text from '../Text'
-import Image from '../Image'
 
 const postTemplate = `
   thumbnail
