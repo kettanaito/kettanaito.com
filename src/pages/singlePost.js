@@ -61,9 +61,9 @@ export const query = graphql`
         category
         image {
           childImageSharp {
-            resize(width: 500, height: 500) {
-              src
-            }
+            # resize(width: 500, height: 500) {
+            #   src
+            # }
             fluid(maxWidth: 786) {
               ...GatsbyImageSharpFluid
             }

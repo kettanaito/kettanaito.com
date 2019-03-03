@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Composition } from 'atomic-layout'
 
+import AvatarImageSrc from '../images/me-dark.jpg'
 import Layout from '../components/layout'
 import SEO from '../components/seo'
 
@@ -13,9 +14,12 @@ const AvatarImage = styled.img`
   width: ${({ size }) => size}px;
 `
 
-const About = () => (
+const About = ({ data }) => (
   <Layout>
-    <SEO title="About" />
+    <SEO
+      title="About"
+      description="Find out about the mission and the people behind Redd Developer project."
+    />
     <h1>About</h1>
     <p>
       This is a personal uncommercial blog on a mission to create a safe place
@@ -35,12 +39,9 @@ const About = () => (
     >
       {({ Avatar, Content }) => (
         <>
-          <Avatar
-            as={AvatarImage}
-            src="https://avatars3.githubusercontent.com/u/14984911?v=4"
-            alt="My photo"
-            size={125}
-          />
+          <Avatar>
+            <AvatarImage src={AvatarImageSrc} alt="My photo" size={125} />
+          </Avatar>
           <Content as="p">
             <span role="img" aria-label="Waving hand">
               👋

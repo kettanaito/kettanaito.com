@@ -14,14 +14,14 @@ module.exports = {
       },
     },
     {
-      resolve: 'gatsby-mdx',
-    },
-    {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: 'posts',
         path: `${__dirname}/content/posts`,
       },
+    },
+    {
+      resolve: 'gatsby-mdx',
     },
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
