@@ -18,7 +18,16 @@ const postsQuery = graphql`
             description
             date(formatString: "MMMM DD, YYYY")
             category
-            thumbnail
+            image {
+              childImageSharp {
+                resize(width: 420, height: 300) {
+                  src
+                }
+                fluid(maxWidth: 500) {
+                  ...GatsbyImageSharpFluid
+                }
+              }
+            }
           }
         }
       }
@@ -42,7 +51,7 @@ const PostList = props => {
               maxWidth="100%"
             >
               {postList.edges.map(({ node }, index) => (
-                <PostThumbnail key={node.id} node={node} />
+                <PostThumbnail key={node.id} post={node} />
               ))}
             </Composition>
           </>

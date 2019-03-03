@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'gatsby'
+import Image from 'gatsby-image'
 import styled from 'styled-components'
 import { Box, Composition } from 'atomic-layout'
 
@@ -20,7 +21,6 @@ export const Wrapper = styled.article`
 const ThumbnailMask = styled.div`
   overflow: hidden;
   width: 100%;
-  object-fit: ;
 `
 
 const PostLink = styled(Link)`
@@ -34,7 +34,7 @@ const PostTitle = styled.h2`
 `
 
 const PostThumbnail = props => {
-  const { node } = props
+  const { post } = props
 
   return (
     <Wrapper>
@@ -49,26 +49,25 @@ const PostThumbnail = props => {
         {({ Thumbnail, Title, Preview }) => (
           <>
             <ThumbnailMask height={200}>
-              <PostLink to={node.fields.url}>
-                <Thumbnail
-                  as="img"
-                  src={node.frontmatter.thumbnail}
-                  alt={node.frontmatter.title}
+              <PostLink to={post.fields.url}>
+                <Image
+                  fluid={post.frontmatter.image.childImageSharp.fluid}
+                  alt={post.frontmatter.title}
                 />
               </PostLink>
             </ThumbnailMask>
             <Title paddingHorizontal={16} paddingHorizontalMd={32}>
               <Box marginBottom={10}>
                 <Text primary small>
-                  {node.frontmatter.category}
+                  {post.frontmatter.category}
                 </Text>
                 <Text small muted>
                   {' '}
-                  · {node.frontmatter.date}
+                  · {post.frontmatter.date}
                 </Text>
               </Box>
-              <PostLink to={node.fields.url}>
-                <PostTitle>{node.frontmatter.title}</PostTitle>
+              <PostLink to={post.fields.url}>
+                <PostTitle>{post.frontmatter.title}</PostTitle>
               </PostLink>
             </Title>
             <Preview
@@ -77,8 +76,8 @@ const PostThumbnail = props => {
               paddingBottom={32}
             >
               <Text small>
-                {node.frontmatter.description || (
-                  <div dangerouslySetInnerHTML={{ __html: node.excerpt }} />
+                {post.frontmatter.description || (
+                  <div dangerouslySetInnerHTML={{ __html: post.excerpt }} />
                 )}
               </Text>
             </Preview>

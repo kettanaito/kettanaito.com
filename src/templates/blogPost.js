@@ -1,5 +1,6 @@
 import React from 'react'
 import { graphql } from 'gatsby'
+import Image from 'gatsby-image'
 import MDXRenderer from 'gatsby-mdx/mdx-renderer'
 import { Box } from 'atomic-layout'
 
@@ -24,6 +25,10 @@ function BlogPost(props) {
       />
       <div>
         <ContentWrapper>
+          <Image
+            fluid={frontmatter.image.childImageSharp.fluid}
+            alt={frontmatter.title}
+          />
           <Box padding={16} paddingMd={32}>
             <h1>{frontmatter.title}</h1>
             <Text as="p">
@@ -54,6 +59,16 @@ export const query = graphql`
         description
         date(formatString: "MMMM DD, YYYY")
         category
+        image {
+          childImageSharp {
+            resize(width: 500, height: 500) {
+              src
+            }
+            fluid(maxWidth: 786) {
+              ...GatsbyImageSharpFluid
+            }
+          }
+        }
       }
       timeToRead
       code {
