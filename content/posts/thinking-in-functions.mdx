@@ -16,9 +16,9 @@ thumbnail: https://images.unsplash.com/photo-1550945771-515f118cef86?ixlib=rb-1.
 
 ---
 
-## Separate pure and impure
+## Pure and impure
 
-_Pure function_ is a function that accepts all the data it needs through its arguments. In order words, it's a function that _doesn't rely on the surrounding context_. Those functions that do rely on context are called _impure_ and may cause undesirable behavior. Take the following function as an example:
+_Pure function_ is a function that accepts all the data it needs through its arguments. In order words, it's a function that _doesn't rely on external context_. Those functions that do rely on a context are called _impure_ and may cause undesirable behavior. Take the following function as an example:
 
 ```js
 const foo = 2
@@ -38,7 +38,7 @@ As you can see, the `add` function accepts a number (`num`) and adds it to the `
 
 Don't be obsessed with pure functions. Instead, know when to write one.
 
-Write pure a function when you operate on the **data you own at the moment**. For example, a function that gets a user by ID cannot be pure, since it fetches a user from a database (side-effect), but a function that returns the total amount of user's publications _can_ be pure, as it can accept a user through its arguments.
+Write a pure function when you **already know the data**. For example, a user request cannot be pure, since it fetches a user from a database (external context), but a function that returns the total amount of user's publications _can_ be pure, because it can accept a user via arguments.
 
 ```js
 function getUser(userId) {
