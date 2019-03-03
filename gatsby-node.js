@@ -8,7 +8,7 @@ const { createFilePath, createFileNode } = require('gatsby-source-filesystem')
 
 exports.createPages = ({ actions, graphql }) => {
   const { createPage } = actions
-  const singlePostTemplate = path.resolve('src/pages/singlePost.js')
+  const singlePostTemplate = path.resolve('src/templates/singlePost.js')
 
   return new Promise((resolve, reject) => {
     resolve(
