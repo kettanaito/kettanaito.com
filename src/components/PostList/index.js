@@ -6,7 +6,10 @@ import PostThumbnail from './PostThumbnail'
 
 const postsQuery = graphql`
   query ListQuery {
-    postList: allMdx(sort: { order: DESC, fields: [frontmatter___date] }) {
+    postList: allMdx(
+      filter: { frontmatter: { draft: { ne: true } } }
+      sort: { order: DESC, fields: [frontmatter___date] }
+    ) {
       edges {
         node {
           id
