@@ -1,9 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Composition } from 'atomic-layout'
+import { Box, Composition } from 'atomic-layout'
+import { IoLogoTwitter, IoLogoGithub, IoLogoLinkedin } from 'react-icons/io'
 
-import AvatarImageSrc from '../images/me-dark.jpg'
+import AvatarImageSrc from '../images/me-light.jpg'
 import Layout from '../components/layout'
+import Text from '../components/Text'
 import SEO from '../components/seo'
 
 const AvatarImage = styled.img`
@@ -12,6 +14,21 @@ const AvatarImage = styled.img`
   border-radius: 50%;
   height: ${({ size }) => size}px;
   width: ${({ size }) => size}px;
+`
+
+const ContactsList = styled.ul`
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    margin: 0;
+  }
+`
+
+const Block = styled.div`
+  padding: 1rem;
+  background-color: #fff;
 `
 
 const About = ({ data }) => (
@@ -26,6 +43,7 @@ const About = ({ data }) => (
       to share knowledge. No disclaimers, no tracking. Blogging as it makes
       sense to me.
     </p>
+
     <h2>Behind the effort</h2>
     <Composition
       template={`
@@ -36,6 +54,7 @@ const About = ({ data }) => (
       gutter={16}
       alignItems="center"
       justifyItems="center"
+      marginBottom={32}
     >
       {({ Avatar, Content }) => (
         <>
@@ -53,6 +72,58 @@ const About = ({ data }) => (
           </Content>
         </>
       )}
+    </Composition>
+
+    <h2>Contacts</h2>
+    <Composition as={ContactsList} templateColsSm="repeat(3, 1fr)" gutter={16}>
+      <Block as="li">
+        <Box flex alignItems="center">
+          <IoLogoGithub size={48} fill="#171515" />
+          <Box marginLeft={10}>
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://github.com/kettanaito"
+            >
+              GitHub
+            </a>
+            <Text as="p" small muted>
+              kettanaito
+            </Text>
+          </Box>
+        </Box>
+      </Block>
+      <Block as="li">
+        <Box flex alignItems="center">
+          <IoLogoTwitter size={48} fill="#2AA3EF" />
+          <Box marginLeft={10}>
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://twitter.com/kettanaito"
+            >
+              Twitter
+            </a>
+            <Text as="p" small muted>
+              @kettanaito
+            </Text>
+          </Box>
+        </Box>
+      </Block>
+      <Block as="li">
+        <Box flex alignItems="center">
+          <IoLogoLinkedin size={48} fill="#1074B0" />
+          <Box marginLeft={10}>
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://www.linkedin.com/in/artem-zakharchenko"
+            >
+              LinkedIn
+            </a>
+          </Box>
+        </Box>
+      </Block>
     </Composition>
   </Layout>
 )
