@@ -1,6 +1,6 @@
 import React from 'react'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-import PrismTheme from '../PrismTheme'
+import PrismTheme from '../../PrismTheme'
 
 const Code = ({ children, language, className, ...props }) => (
   <SyntaxHighlighter

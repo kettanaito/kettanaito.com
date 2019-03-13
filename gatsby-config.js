@@ -41,7 +41,7 @@ module.exports = {
         background_color: `#D22F2D`,
         theme_color: `#D22F2D`,
         display: `minimal-ui`,
-        icon: `src/images/redd-icon.png`, // This path is relative to the root of the site.
+        icon: `src/images/redd-icon.png`,
       },
     },
     'gatsby-plugin-styled-components',

@@ -3,7 +3,7 @@ date: '2018-12-27'
 category: Education
 title: 'The Art of Code review: From hatered to acceptance'
 description: Lessons learned from reviewing a team of 15 people throughout 2,5 years.
-keywords: code, review, art, lessons learned
+keywords: code, review, lessons learned
 image: thumbnail.jpg
 ---
 
@@ -15,11 +15,13 @@ I have been known for my notorious code reviews within the team, which some peop
 
 ---
 
-## Code review is part of development
+## Code review is a part of development
 
 I will start from assuring you that a code review by no means bears a lesser priority in your work than actual coding. I would argue that it’s even more important, since it’s one of the most useful feedback loops you can get for free. A flow in the logic discovered at the review phase can save unnecessary stress for you, and wasted money for your customer.
 
-Image of a man behind computers.
+import ImageSvg from './man-computer.svg'
+
+<img src={ImageSvg} alt="Image of a man behind computers" />
 
 Understanding an importance of a code review as a part of your job is great, but make sure the other team members are on the same page with you. That doesn’t concern developers only, but project managers, scrum masters, product owners, and, most importantly, clients.
 
@@ -38,7 +40,9 @@ Here are a few arguments I find useful when explaining how code review contribut
 
 Be polite in your code reviews. We are all humans doing our job, and we strive to do it the best we can. While this sounds obvious, you may find a lot about your colleague if you ask them for a code review at 5PM on Friday before their long-awaited vacation.
 
-Image of a woman and a man pair programming.
+import PairProgramming from './pair-programming.svg'
+
+<img src={PairProgramming} alt="Image of a woman and a man pair programming" />
 
 One of the hardest parts of giving a code review is when your suggestions are taken as a personal offense. It’s understandable that nobody likes to spend a week on a feature and hear that they need to redo everything. That hurts for both the issuer and the reviewer. **Let’s not do that**.
 
@@ -70,7 +74,9 @@ It’s a good gesture to include technical explanations and links to useful arti
 
 There was a time I have been evaluating missing commas or semicolons during my reviews. Although this is redundant and contributes close to nothing, it’s a good example of how technical debt is paid by wasting everybody’s time. We didn’t have any code auto-formatting, and people often ignored ESLint warnings in the console. Eh, those dark times.
 
-Image of two women near a big typewriter.
+import Typewriter from './typewriter.svg'
+
+<img src={Typewriter} alt="Image of two women near a big typewriter" />
 
 > Automation reduces the amount of needless checks, and let’s you focus on logic behind the changes, rather than syntax errors and typos.
 
@@ -82,7 +88,13 @@ Use tools like Prettier, and integrate linters status check into your CI to filt
 
 Developing a big product may lead into big pull request. The bigger the scope of a change is, the harder it is to evaluate its affect. Nobody wants to spend an entire day reviewing a single pull request, having a bunch of other tasks to finish.
 
-Image of a man behind a computer, and a Git commit tree.
+import VersionControl from './version-control.svg'
+
+<img
+  src={VersionControl}
+  alt="Image of a man behind a computer, and a Git commit tree"
+/>
+
 First, big pull requests can often be prevented as such.
 
 > Plan your work in small, deliverable, meaningful pieces.

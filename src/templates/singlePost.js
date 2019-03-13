@@ -1,12 +1,11 @@
 import React from 'react'
 import { graphql } from 'gatsby'
 import Image from 'gatsby-image'
-import { MDXProvider } from '@mdx-js/tag'
 import MDXRenderer from 'gatsby-mdx/mdx-renderer'
 import { Box } from 'atomic-layout'
 
 import Layout from '../components/layout'
-import Code from '../components/Code'
+import MdxProvider from '../components/mdx/MdxProvider'
 import Share from '../components/Share'
 import Seo from '../components/seo'
 import Text from '../components/Text'
@@ -16,19 +15,21 @@ function BlogPost(props) {
   const { location, data } = props
   const { mdx: post } = data
   const { frontmatter, timeToRead } = post
-  const { date, category } = frontmatter
+  const { draft, date, category } = frontmatter
 
   return (
-    <MDXProvider
-      components={{
-        code: Code,
-      }}
-    >
+    <MdxProvider>
       <Layout>
         <Seo
           title={frontmatter.title}
           description={frontmatter.description}
           keywords={frontmatter.keywords}
+          meta={
+            draft && {
+              name: 'robots',
+              content: 'noindex,nofollow',
+            }
+          }
         />
         <div>
           <ContentWrapper>
@@ -55,7 +56,7 @@ function BlogPost(props) {
           </Box>
         </div>
       </Layout>
-    </MDXProvider>
+    </MdxProvider>
   )
 }
 
