@@ -51,7 +51,7 @@ const About = ({ data }) => (
       content
     `}
       templateMd="avatar content"
-      gutter={16}
+      gutter={10}
       alignItems="center"
       justifyItems="center"
       marginBottom={32}

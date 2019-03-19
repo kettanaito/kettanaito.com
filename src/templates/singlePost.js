@@ -1,4 +1,5 @@
 import React from 'react'
+import styled from 'styled-components'
 import { graphql } from 'gatsby'
 import Image from 'gatsby-image'
 import MDXRenderer from 'gatsby-mdx/mdx-renderer'
@@ -9,11 +10,21 @@ import MdxProvider from '../components/mdx/MdxProvider'
 import Share from '../components/Share'
 import Seo from '../components/seo'
 import Text from '../components/Text'
-import { Wrapper as ContentWrapper } from '../components/PostList/PostThumbnail'
+
+const PostTitle = styled.h1`
+  font-family: 'Charter', serif;
+  text-align: center;
+`
+
+const MetaDelimiter = () => (
+  <Box as="span" paddingHorizontal={16}>
+    ·
+  </Box>
+)
 
 function BlogPost(props) {
   const { location, data } = props
-  const { mdx: post } = data
+  const { post } = data
   const { frontmatter, timeToRead } = post
   const { draft, date, category } = frontmatter
 
@@ -25,6 +36,7 @@ function BlogPost(props) {
           description={frontmatter.description}
           keywords={frontmatter.keywords}
           meta={
+            // Exclude drafts from being indexed by search engines
             draft && {
               name: 'robots',
               content: 'noindex,nofollow',
@@ -32,25 +44,36 @@ function BlogPost(props) {
           }
         />
         <div>
-          <ContentWrapper>
-            <Image
-              fluid={frontmatter.image.childImageSharp.fluid}
-              alt={frontmatter.title}
-            />
-            <Box padding={16} paddingMd={32}>
-              <h1>{frontmatter.title}</h1>
-              <Text as="p">
-                <Text primary>{category}</Text>
-                <Text muted>
-                  {' '}
-                  · {date} · {timeToRead} minutes(s) read
-                </Text>
-              </Text>
-              <hr />
-              <MDXRenderer>{post.code.body}</MDXRenderer>
-              <article dangerouslySetInnerHTML={{ __html: post.html }} />
+          <Box
+            as="header"
+            flex
+            flexDirection="column"
+            alignItems="center"
+            marginBottom={32}
+            marginBottomMd={64}
+          >
+            <PostTitle>{frontmatter.title}</PostTitle>
+            <Box as="p" flex alignItems="center">
+              <Text primary>{category}</Text>
+              <Box as={Text} muted flex alignItems="center">
+                <MetaDelimiter />
+                {date}
+                <MetaDelimiter />
+                {timeToRead} minutes(s) read
+              </Box>
             </Box>
-          </ContentWrapper>
+          </Box>
+
+          <Image
+            fluid={frontmatter.image.childImageSharp.fluid}
+            alt={frontmatter.title}
+          />
+
+          <Box padding={16} paddingMd={32}>
+            <MDXRenderer>{post.code.body}</MDXRenderer>
+            <article dangerouslySetInnerHTML={{ __html: post.html }} />
+          </Box>
+
           <Box paddingTop={32} paddingHorizontal={16} paddingHorizontalMd={32}>
             <Share title={frontmatter.title} url={location.href} />
           </Box>
@@ -62,7 +85,7 @@ function BlogPost(props) {
 
 export const query = graphql`
   query SinglePostQuery($slug: String!) {
-    mdx(fields: { slug: { eq: $slug } }) {
+    post: mdx(fields: { slug: { eq: $slug } }) {
       frontmatter {
         title
         description

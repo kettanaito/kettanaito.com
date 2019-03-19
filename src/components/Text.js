@@ -3,12 +3,8 @@ import styled from 'styled-components'
 
 const getColor = R.cond([
   [R.prop('primary'), R.always('hsl(1, 65%, 50%)')],
+  [R.prop('muted'), R.always('#888')],
   [R.always, R.always('inherit')],
-])
-
-const getOpacity = R.cond([
-  [R.prop('muted'), R.always(0.7)],
-  [R.always, R.always(1)],
 ])
 
 const getFontSize = R.cond([
@@ -20,7 +16,6 @@ const getFontSize = R.cond([
 const Text = styled.span`
   color: ${getColor};
   font-size: ${getFontSize}em;
-  opacity: ${getOpacity};
 `
 
 export default Text
