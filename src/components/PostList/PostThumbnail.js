@@ -33,7 +33,8 @@ const PostThumbnail = props => {
   return (
     <Composition
       template={postTemplate}
-      templateRows="250px auto 1fr"
+      templateRows="minmax(1fr, 250px) auto 1fr"
+      templateRowsLg="250px auto 1fr"
       gutter={16}
       gutterMd={24}
       height="100%"

@@ -26,11 +26,11 @@ const Footer = () => (
         </a>
         . Licensed under{' '}
         <a
-          href="https://creativecommons.org/licenses/by-nc/2.0/"
+          href="https://creativecommons.org/licenses/by-nc/4.0/"
           rel="noopener noreferrer"
           target="_blank"
         >
-          CC BY-NC 2.0
+          CC BY-NC
         </a>
         .
       </Text>
