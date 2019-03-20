@@ -23,9 +23,6 @@ const postsQuery = graphql`
             category
             image {
               childImageSharp {
-                resize(width: 420, height: 300) {
-                  src
-                }
                 fluid(maxWidth: 500) {
                   ...GatsbyImageSharpFluid
                 }
