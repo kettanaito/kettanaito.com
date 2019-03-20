@@ -49,7 +49,7 @@ const PostThumbnail = props => {
               />
             </PostLink>
           </ThumbnailMask>
-          <Title paddingHorizontal={16} paddingHorizontalMd={32}>
+          <Title>
             <Box marginBottom={10}>
               <Text primary small>
                 {post.frontmatter.category}
@@ -64,11 +64,7 @@ const PostThumbnail = props => {
               <PostTitle>{post.frontmatter.title}</PostTitle>
             </PostLink>
           </Title>
-          <Preview
-            paddingHorizontal={16}
-            paddingHorizontalMd={32}
-            paddingBottom={32}
-          >
+          <Preview paddingBottom={32}>
             <Text small>
               {post.frontmatter.description || (
                 <div dangerouslySetInnerHTML={{ __html: post.excerpt }} />

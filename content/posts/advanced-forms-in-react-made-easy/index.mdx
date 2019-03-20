@@ -53,11 +53,34 @@ A lot of solutions overcomplicate even at this starting point, but we are going 
 
 Declaring the form’s layout must be simple:
 
-<iframe
+```jsx
+// src/app/RegistrationForm.jsx
+import React from 'react'
+import { Form } from 'react-advanced-form'
+import { Input } from '...'
+
+export default class RegistrationForm extends React.Component {
+  render() {
+    return (
+      <Form>
+        <Input name="userEmail" type="email" required />
+        <Input name="userPassword" type="password" required />
+        <Input name="confirmPassword" type="password" required />
+        <Input name="firstName" />
+        <Input name="lastName" />
+
+        <button>Register</button>
+      </Form>
+    )
+  }
+}
+```
+
+<!-- <iframe
   src="https://codesandbox.io/embed/p7zwk8691m?fontsize=14&hidenavigation=1&module=%2Fsrc%2FRegistrationForm.js&view=editor"
   style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
   sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
-/>
+/> -->
 
 No high-order components, no configurations. Nothing to subtract to make it even more simple.
 
@@ -93,7 +116,7 @@ if (fields.email && !!field.email.value) {
 
 ## Validation schema
 
-We have ditched a “validate” function, so how are we going to perform the validation then? After years of work on a multi-country platform, where each country demands specific validation rules, we have found that the most efficient way of writing and maintaining them is a validation schema.
+We have ditched a “validate” function, so how are we going to perform the validation then? After years of work on a multi-country platform, where each country demands specific validation rules, we have found that the most efficient way of writing and maintaining them is a _validation schema_.
 
 Validation schema is a plain Object of a defined structure, which allows to select fields and predicate their validity. It does not control when to apply the validation, but which validation to apply. The relevance of the validation (that would be applying the rules for present fields only, and the unified logic we have discussed above) is ensured by the form solution.
 
@@ -273,11 +296,55 @@ Building a modern form will inevitably lead you to the point of asynchronous val
 
 Let’s use it to validate the entered e-mail on-the-fly:
 
-# CODE SNIPPET
+```jsx
+import React from 'react'
+import { Form } from 'react-advanced-form'
+
+export default class RegistrationForm extends React.Component {
+  validateEmail = ({ value, fieldProps, fields, form }) => {
+    return fetch('https://backend/', { body: value })
+      .then(res => res.json())
+      .then(res => {
+        return {
+          /* Determine if the e-mail is valid based on response */
+          valid: res.statusCode === 'SUCCESS',
+          errorCode: res.errorCode,
+        }
+      })
+  }
+
+  render() {
+    return (
+      <Form>
+        <Input
+          name="userEmail"
+          type="email"
+          asyncRule={this.validateEmail}
+          required
+        />
+
+        {/* Rest fields */}
+      </Form>
+    )
+  }
+}
+```
 
 Notice the Object shape returned when the request is resolved. Relying on the Promise status alone is not sufficient to determine the validity of the field. Therefore, there is an explicit valid property to control that. Any additional properties provided to the resolved Object are propagated to async validation message resolver, so the error message can be based on the data received from the validation response:
 
-# Code snippet
+```jsx
+// src/validation-messages.js
+export default {
+  ...,
+  name: {
+    userEmail: {
+      async: ({ value, errorCode }) => {
+        return 'E-mail ' + email + ' is already registered. Error code: ' + errorCode
+      }
+    }
+  }
+};
+```
 
 > **Tip:** You may want to consider moving async validation functions into some utils, since those are, essentially, a bunch of pure functions.
 
@@ -290,11 +357,27 @@ With React Advanced Form there are two options, which you can combine:
 - Use a `<FormProvider>` component to wrap your whole application and supply the validation rules and messages to all forms it renders (_recommended_).
 - Provide rules and messages to the `<Form>` component. This way we can extend or completely override the rules exposed by the provider.
 
-> **Tip:** Note that you can combine these two options.
+> **Tip:** Combining these two options is perfectly fine.
 
 For our form we are going to use the first option, and introduce the provider component on the root level of our application:
 
-# CODE SNIPPET
+```jsx
+// app/index.js
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { FormProvider } from 'react-advanced-form'
+import rules from './validation-rules'
+import messages from './validation-messages'
+import Root from './Root'
+
+const renderApp = () => (
+  <FormProvider rules={rules} messages={messages}>
+    <Root />
+  </FormProvider>
+)
+
+ReactDOM.render(renderApp, document.getElementById('root'))
+```
 
 Now all the forms in our application abide by the defined `rules` schema and the respective validation `messages`.
 
@@ -306,8 +389,173 @@ Briefly, it is a props change subscription system using RxJS. Whenever some fiel
 
 Okay, that sounds complicated. Some example to the rescue:
 
-# CODE SNIPPET
+```jsx
+<Input
+  name="firstName"
+  required={({ get }) => {
+    // resolves any time "value" prop of "lastName" changes
+    return !!get(['lastName', 'value']);
+  }} />
 
-> Note that the getter function returns the **actual value** of the prop.
+<Input
+  name="lastName"
+  required={({ get }) => {
+    // resolves any time "value" prop of "firstName" changes
+    return !!get(['firstName', 'value']);
+  }} />
+```
+
+> Note that the getter function returns the _actual value_ of the prop.
 
 Using simple one-line reactive props resolvers, our `firstName` and `lastName` fields are interdependent and reactive, while still stateless. Read more on [Reactive props](https://redd.gitbook.io/react-advanced-form/architecture/reactive-props) feature to understand its full potential.
+
+## Skipping fields
+
+The `confirmPassword` field is beneficial for validation, but its value doesn’t contribute to the serialized object in any way. Being able to skip certain fields during the serialization is such an essential part of the form’s functionality it makes me ashamed we still need to do some workarounds to achieve that.
+
+No more. There is the `skip` prop designed for that very purpose. Once provided, a field is bypassed during the serialization process.
+
+```jsx
+<Input name="confirmPassword" type="password" required skip />
+```
+
+A skipped field behaves just as any other field, meaning it gets validated and can prevent the form from being submitted.
+
+## Field grouping
+
+Our registration form is nice and shiny, but what a bummer — we have just got a message from a back-end developer, saying that the fields `email`, `firstName` and `lastName` must be sent under the primaryInfo key.
+
+We’ve all been there. Well, we can easily introduce some custom logic somewhere during the serialization and… Stop! Stop thinking of tweaks and start expecting the form to do more than just field rendering. Use _field grouping_.
+
+Field grouping allows to control the data structure of the layout level. This significantly reduces the amount of additional transformations when the form layout is not aligned with the API (which, from my experience, happens too often). I believe that it should be possible to tell the serialized structure of the form by simply looking at its layout, without having to venture around in attempts to find where it might have been manually changed.
+
+In our case we would simply add a `primaryInfo` field group:
+
+```jsx
+// src/app/RegistrationForm.jsx
+import React from 'react'
+import { Form, Field } from 'react-advanced-form'
+import { Input } from '...'
+
+export default class RegistrationForm extends React.Component {
+  render() {
+    return (
+      <Form>
+        <Field.Group name="primaryInfo">
+          <Input name="userEmail" type="email" required />
+        </Field.Group>
+
+        <Input name="userPassword" type="password" required />
+        <Input name="confirmPassword" type="password" required />
+
+        <Field.Group name="primaryInfo">
+          <Input name="firstName" />
+          <Input name="lastName" />
+        </Field.Group>
+
+        <button>Register</button>
+      </Form>
+    )
+  }
+}
+```
+
+The layout above will be serialized into the following JSON:
+
+```json
+{
+  "primaryInfo": {
+    "userEmail": "...",
+    "firstName": "...",
+    "lastName": "..."
+  },
+  "userPassword": "..."
+}
+```
+
+Notice how multiple `<Field.Group>` components with the same name are automatically merged together upon serialization. Moreover, the fields with the same names under different groups are completely allowed.
+
+> Technically, field grouping allows to treat groups as different forms with a single control point. Sending any group to any end-point is now a matter of simply grabbing a proper key in the serialized Object.
+
+## Submit
+
+It’s been a long way, and now we have come to submitting the data.
+
+As clear as this process appears, it is still surprising how outdated and obsolete it is in terms of handling the submit itself. Nowadays form submit must — and I emphasize — *must* be handled asynchronously. That is not for the technical advantage alone, but also for a greater performance and user experience.
+
+That being said, it’s safe to assume that submit `action` would return an instance of Promise. Once that assumption is made, it becomes easy to handle submit start, success, failure or end relying on the Promise status.
+
+Moreover, it is also essential to validate the form before submitting, and expose some essential information — like the serialized fields — into the `action`, as this is something the one would always expect.
+
+### Submit action
+
+First, we are going to use an action prop to handle the submit of our form. That prop expects a function which returns a Promise. It also provides the data you need during the submit as the arguments to the action function.
+
+```jsx
+import React from 'react'
+import { Form } from 'react-advanced-form'
+import { Input } from '...'
+
+export default class RegistrationForm extends React.Component {
+  registerUser = ({ serialized, fields, form }) => {
+    return fetch('https://backend.dev/user', {
+      method: 'POST',
+      body: JSON.stringify(serialized),
+    })
+  }
+
+  render() {
+    return (
+      <Form action={this.registerUser}>
+        <Input name="userEmail" type="email" required />
+        <Input name="userPassword" type="password" required />
+      </Form>
+    )
+  }
+}
+```
+
+> **Tip:** You can return a Redux action, as long as it returns a Promise. You would need a dedicated middleware to ensure that (i.e. [`redux-thunk`](https://github.com/gaearon/redux-thunk)).
+
+Notice how we are not doing any manual validation or serialization, because we _shouldn’t_. Why would any form allow to submit itself without being validated beforehand? Why would any form call a submit handler and don’t provide the serialized fields, when you always need them?
+
+Of course, manual validation and serialization is there when you need it. In other cases expect the form to behave as it must.
+
+### Submit callbacks
+
+Since we know our action returns a Promise, the form can provide a standardized way to handle the status of that Promise using the respective props. So, instead of chaining the logic directly to the action dispatch, it can be declared in using the callback methods:
+
+- **onSubmitStart**. Dispatched immediately once the submit begins. This is a good place to have any UI loading logic, for example.
+- **onSubmitted**. Dispatched when the `action` Promise has resolved.
+- **onSubmitFail**. Dispatched only when the action has rejected.
+- **onSubmitEnd**. Dispatched when the submit is finished, regardless of the Promise status (similar to Bluebird’s `.finally()`).
+
+Apart from being called at the proper moment, those methods provide useful data through arguments, such as a `req` or `res` references, as well as the standard callback payload (`fields` and `form`).
+
+[Read more on submit callback handlers](https://redd.gitbook.io/react-advanced-form/components/form/callbacks).
+
+## Summary
+
+Hence, in a matter of minutes we have created the registration form with the clean layout, multi-layer validation, interdependent `required` logic, dealt with the inconsistency between design and the API, and submitted it to the latter. Without having to configure myriad of things. Without any crazy tweaks or hacks. Without even making our form stateful.
+
+The best part is that the most of the code is reusable, which makes the implementation of next forms faster and easier.
+
+Take a look at the working example of our registration form:
+
+https://codesandbox.io/embed/n7l025m5y4?module=%2Fsrc%2FRegistrationForm.jsx
+
+## Afterword
+
+That was only a glimpse of what React Advanced Form is to offer. See the [Official documentation](https://redd.gitbook.io/react-advanced-form) for more features like custom styling, integration of third-party libraries, controlling various behaviors, and much more.
+
+Of course, no example can match the experience of trying something yourself. Go ahead and give it a try:
+
+https://github.com/kettanaito/react-advanced-form
+
+Your feedback and thoughts are highly appreciated! Thank you.
+
+## Materials
+
+- [React Advanced Form](https://github.com/kettanaito/react-advanced-form)
+- [Official documentation](https://redd.gitbook.io/react-advanced-form)
+- [Getting started guidelines](https://redd.gitbook.io/react-advanced-form/getting-started/installation)

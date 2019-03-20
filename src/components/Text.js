@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 const getColor = R.cond([
   [R.prop('primary'), R.always('hsl(1, 65%, 50%)')],
-  [R.prop('muted'), R.always('#888')],
+  [R.prop('muted'), R.always('#686868')],
   [R.always, R.always('inherit')],
 ])
 

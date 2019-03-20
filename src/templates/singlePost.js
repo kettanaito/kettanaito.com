@@ -12,12 +12,13 @@ import Seo from '../components/seo'
 import Text from '../components/Text'
 
 const PostTitle = styled.h1`
-  font-family: 'Charter', serif;
-  text-align: center;
+  @media (min-width: 576px) {
+    text-align: center;
+  }
 `
 
 const MetaDelimiter = () => (
-  <Box as="span" paddingHorizontal={16}>
+  <Box as="span" paddingHorizontal={10} paddingHorizontalMd={16}>
     ·
   </Box>
 )

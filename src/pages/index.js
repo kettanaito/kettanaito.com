@@ -11,10 +11,6 @@ const IndexPage = props => {
         title="Blog"
         keywords={['redd', 'developer', 'technology', 'javascript', 'react']}
       />
-      {/* <Disclaimer
-        icon={IoIosWarning}
-        text="We've noticed you are using AdBlock. Good job!"
-      /> */}
       <PostList />
     </Layout>
   )
