@@ -176,7 +176,7 @@ export default {
     color: '#ffcc99',
   },
   regex: {
-    color: '#ffcc99',
+    color: '#005cc5',
   },
   atrule: {
     color: '#ffcc99',

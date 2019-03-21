@@ -6,7 +6,5 @@
 
 // You can delete this file if you're not using it
 
-require('./src/PrismTheme.css')
-
 const setUpLayout = require('./setUpLayout')
 setUpLayout()
