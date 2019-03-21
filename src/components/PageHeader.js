@@ -14,6 +14,10 @@ const HeaderContainer = styled.header`
   border-bottom: 1px solid #eaeaea;
   font-size: 0.85rem;
   z-index: 10;
+
+  @media (min-width: 768px) {
+    position: static;
+  }
 `
 
 const LogoImage = styled.img`
