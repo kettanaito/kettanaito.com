@@ -70,9 +70,8 @@ function BlogPost(props) {
             alt={frontmatter.title}
           />
 
-          <Box padding={16} paddingMd={32}>
+          <Box as="article" padding={16} paddingMd={32}>
             <MDXRenderer>{post.code.body}</MDXRenderer>
-            <article dangerouslySetInnerHTML={{ __html: post.html }} />
           </Box>
 
           <Box paddingTop={32} paddingHorizontal={16} paddingHorizontalMd={32}>

@@ -8,8 +8,7 @@ import Text from '../Text'
 
 const postTemplate = `
   thumbnail
-  title
-  preview
+  content
 `
 
 const ThumbnailMask = styled.div`
@@ -39,7 +38,7 @@ const PostThumbnail = props => {
       height="100%"
       maxWidthSmDown={400}
     >
-      {({ Thumbnail, Title, Preview }) => (
+      {({ Thumbnail, Content }) => (
         <>
           <ThumbnailMask height={200}>
             <PostLink to={post.fields.url}>
@@ -49,7 +48,7 @@ const PostThumbnail = props => {
               />
             </PostLink>
           </ThumbnailMask>
-          <Title>
+          <Content>
             <Box marginBottom={10}>
               <Text primary small>
                 {post.frontmatter.category}
@@ -63,14 +62,15 @@ const PostThumbnail = props => {
             <PostLink to={post.fields.url}>
               <PostTitle>{post.frontmatter.title}</PostTitle>
             </PostLink>
-          </Title>
-          <Preview paddingBottom={32}>
-            <Text small>
-              {post.frontmatter.description || (
-                <div dangerouslySetInnerHTML={{ __html: post.excerpt }} />
-              )}
-            </Text>
-          </Preview>
+
+            <Box marginTop={16}>
+              <Text small>
+                {post.frontmatter.description || (
+                  <div dangerouslySetInnerHTML={{ __html: post.excerpt }} />
+                )}
+              </Text>
+            </Box>
+          </Content>
         </>
       )}
     </Composition>

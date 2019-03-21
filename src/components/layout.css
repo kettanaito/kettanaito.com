@@ -231,7 +231,9 @@ img {
   padding-left: 0;
   padding-right: 0;
   padding-top: 0;
-  /* margin-bottom: 1.45rem; */
+}
+article img {
+  margin-bottom: 1.45em;
 }
 h1 {
   margin-left: 0;

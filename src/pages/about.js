@@ -40,8 +40,8 @@ const About = ({ data }) => (
     <h1>About</h1>
     <p>
       This is a personal uncommercial blog on a mission to create a safe place
-      to share knowledge. No disclaimers, no tracking. Blogging as it makes
-      sense to me.
+      to share knowledge. No full-screen disclaimers or ads. Blogging as it
+      makes sense to me.
     </p>
 
     <h2>Behind the effort</h2>

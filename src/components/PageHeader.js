@@ -7,9 +7,13 @@ import Container from './Container'
 import Logo from '../images/logo.svg'
 
 const HeaderContainer = styled.header`
+  position: sticky;
+  top: 0;
   padding: 1rem 0;
+  background-color: #fff;
   border-bottom: 1px solid #eaeaea;
   font-size: 0.85rem;
+  z-index: 10;
 `
 
 const LogoImage = styled.img`

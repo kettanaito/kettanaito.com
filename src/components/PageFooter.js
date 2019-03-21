@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Box } from 'atomic-layout'
+import { Link } from 'gatsby'
 
 import Container from './Container'
 import Text from './Text'
@@ -32,7 +33,7 @@ const Footer = () => (
         >
           CC BY-NC
         </a>
-        .
+        . <Link to="/privacy">Privacy policy</Link>.
       </Text>
     </StyledBox>
   </Container>
