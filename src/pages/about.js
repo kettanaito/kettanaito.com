@@ -26,11 +26,6 @@ const ContactsList = styled.ul`
   }
 `
 
-const Block = styled.div`
-  padding: 1rem;
-  background-color: #fff;
-`
-
 const About = ({ data }) => (
   <Layout>
     <SEO
@@ -76,7 +71,7 @@ const About = ({ data }) => (
 
     <h2>Contacts</h2>
     <Composition as={ContactsList} templateColsSm="repeat(3, 1fr)" gutter={16}>
-      <Block as="li">
+      <Box as="li">
         <Box flex alignItems="center">
           <IoLogoGithub size={48} fill="#171515" />
           <Box marginLeft={10}>
@@ -92,8 +87,8 @@ const About = ({ data }) => (
             </Text>
           </Box>
         </Box>
-      </Block>
-      <Block as="li">
+      </Box>
+      <Box as="li">
         <Box flex alignItems="center">
           <IoLogoTwitter size={48} fill="#2AA3EF" />
           <Box marginLeft={10}>
@@ -109,8 +104,8 @@ const About = ({ data }) => (
             </Text>
           </Box>
         </Box>
-      </Block>
-      <Block as="li">
+      </Box>
+      <Box as="li">
         <Box flex alignItems="center">
           <IoLogoLinkedin size={48} fill="#1074B0" />
           <Box marginLeft={10}>
@@ -123,7 +118,7 @@ const About = ({ data }) => (
             </a>
           </Box>
         </Box>
-      </Block>
+      </Box>
     </Composition>
   </Layout>
 )
