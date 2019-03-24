@@ -13,7 +13,6 @@ function SEO({ type, title, description, lang, meta, image, keywords }) {
       render={data => {
         const metaDescription =
           description || data.site.siteMetadata.description
-        const canonicalUrl = window.location.origin + window.location.pathname
 
         return (
           <Helmet
@@ -26,10 +25,6 @@ function SEO({ type, title, description, lang, meta, image, keywords }) {
               {
                 name: `description`,
                 content: metaDescription,
-              },
-              {
-                property: 'og:url',
-                content: canonicalUrl,
               },
               {
                 property: `og:title`,
@@ -75,12 +70,6 @@ function SEO({ type, title, description, lang, meta, image, keywords }) {
             ]
               .filter(Boolean)
               .concat(meta)}
-            link={[
-              {
-                rel: 'canonical',
-                href: canonicalUrl,
-              },
-            ]}
           />
         )
       }}
