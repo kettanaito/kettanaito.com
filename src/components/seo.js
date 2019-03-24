@@ -14,7 +14,7 @@ function SEO({ type, title, description, lang, meta, image, keywords }) {
           render={data => {
             const metaDescription =
               description || data.site.siteMetadata.description
-            const ogImage = location.origin + image
+            const ogImage = [location.origin, image].filter(Boolean).join('')
 
             return (
               <Helmet
