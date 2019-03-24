@@ -2,80 +2,82 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import { StaticQuery, graphql } from 'gatsby'
-import { globalHistory } from '@reach/router'
+import { Location } from '@reach/router'
 import DefaultImage from '../images/redd-thumbnail.jpg'
 
 function SEO({ type, title, description, lang, meta, image, keywords }) {
-  const { location } = globalHistory
-
   return (
-    <StaticQuery
-      query={detailsQuery}
-      render={data => {
-        const metaDescription =
-          description || data.site.siteMetadata.description
-        const ogImage = location.origin + image
+    <Location>
+      {({ location }) => (
+        <StaticQuery
+          query={detailsQuery}
+          render={data => {
+            const metaDescription =
+              description || data.site.siteMetadata.description
+            const ogImage = location.origin + image
 
-        return (
-          <Helmet
-            htmlAttributes={{
-              lang,
-            }}
-            title={title}
-            titleTemplate={`%s | ${data.site.siteMetadata.title}`}
-            meta={[
-              {
-                name: `description`,
-                content: metaDescription,
-              },
-              {
-                property: `og:title`,
-                content: title,
-              },
-              {
-                property: `og:description`,
-                content: metaDescription,
-              },
-              {
-                property: `og:type`,
-                content: type,
-              },
-              image && {
-                property: 'og:image',
-                content: ogImage,
-              },
-              /* Twitter */
-              {
-                name: `twitter:card`,
-                content: `summary`,
-              },
-              {
-                name: `twitter:creator`,
-                content: data.site.siteMetadata.author,
-              },
-              {
-                name: `twitter:title`,
-                content: title,
-              },
-              image && {
-                name: 'twitter:image',
-                content: ogImage,
-              },
-              {
-                name: `twitter:description`,
-                content: metaDescription,
-              },
-              keywords.length > 0 && {
-                name: `keywords`,
-                content: keywords.join(`, `),
-              },
-            ]
-              .filter(Boolean)
-              .concat(meta)}
-          />
-        )
-      }}
-    />
+            return (
+              <Helmet
+                htmlAttributes={{
+                  lang,
+                }}
+                title={title}
+                titleTemplate={`%s | ${data.site.siteMetadata.title}`}
+                meta={[
+                  {
+                    name: `description`,
+                    content: metaDescription,
+                  },
+                  {
+                    property: `og:title`,
+                    content: title,
+                  },
+                  {
+                    property: `og:description`,
+                    content: metaDescription,
+                  },
+                  {
+                    property: `og:type`,
+                    content: type,
+                  },
+                  image && {
+                    property: 'og:image',
+                    content: ogImage,
+                  },
+                  /* Twitter */
+                  {
+                    name: `twitter:card`,
+                    content: `summary`,
+                  },
+                  {
+                    name: `twitter:creator`,
+                    content: data.site.siteMetadata.author,
+                  },
+                  {
+                    name: `twitter:title`,
+                    content: title,
+                  },
+                  image && {
+                    name: 'twitter:image',
+                    content: ogImage,
+                  },
+                  {
+                    name: `twitter:description`,
+                    content: metaDescription,
+                  },
+                  keywords.length > 0 && {
+                    name: `keywords`,
+                    content: keywords.join(`, `),
+                  },
+                ]
+                  .filter(Boolean)
+                  .concat(meta)}
+              />
+            )
+          }}
+        />
+      )}
+    </Location>
   )
 }
 
