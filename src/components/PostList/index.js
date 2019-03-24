@@ -23,7 +23,7 @@ const postsQuery = graphql`
             category
             image {
               childImageSharp {
-                fluid(maxWidth: 500) {
+                fluid(maxWidth: 500, quality: 95) {
                   ...GatsbyImageSharpFluid
                 }
               }
