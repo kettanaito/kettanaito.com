@@ -6,13 +6,14 @@ import DefaultImage from '../images/redd-thumbnail.jpg'
 
 console.log({ DefaultImage })
 
-function SEO({ title, description, lang, meta, image, keywords }) {
+function SEO({ type, title, description, lang, meta, image, keywords }) {
   return (
     <StaticQuery
       query={detailsQuery}
       render={data => {
         const metaDescription =
           description || data.site.siteMetadata.description
+        const canonicalUrl = window.location.origin + window.location.pathname
 
         return (
           <Helmet
@@ -27,6 +28,10 @@ function SEO({ title, description, lang, meta, image, keywords }) {
                 content: metaDescription,
               },
               {
+                property: 'og:url',
+                content: canonicalUrl,
+              },
+              {
                 property: `og:title`,
                 content: title,
               },
@@ -36,12 +41,13 @@ function SEO({ title, description, lang, meta, image, keywords }) {
               },
               {
                 property: `og:type`,
-                content: `website`,
+                content: type,
               },
               image && {
                 property: 'og:image',
                 content: image,
               },
+              /* Twitter */
               {
                 name: `twitter:card`,
                 content: `summary`,
@@ -54,6 +60,10 @@ function SEO({ title, description, lang, meta, image, keywords }) {
                 name: `twitter:title`,
                 content: title,
               },
+              image && {
+                name: 'twitter:image',
+                content: image,
+              },
               {
                 name: `twitter:description`,
                 content: metaDescription,
@@ -65,6 +75,12 @@ function SEO({ title, description, lang, meta, image, keywords }) {
             ]
               .filter(Boolean)
               .concat(meta)}
+            link={[
+              {
+                rel: 'canonical',
+                href: canonicalUrl,
+              },
+            ]}
           />
         )
       }}
@@ -76,10 +92,12 @@ SEO.defaultProps = {
   lang: `en`,
   meta: [],
   keywords: [],
+  type: 'website',
   image: DefaultImage,
 }
 
 SEO.propTypes = {
+  type: PropTypes.string.isRequired,
   description: PropTypes.string,
   lang: PropTypes.string,
   meta: PropTypes.array,

@@ -33,6 +33,7 @@ function BlogPost(props) {
     <MdxProvider>
       <Layout>
         <Seo
+          type="article"
           title={frontmatter.title}
           description={frontmatter.description}
           keywords={frontmatter.keywords}
