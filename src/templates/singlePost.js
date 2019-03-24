@@ -36,7 +36,7 @@ function BlogPost(props) {
           title={frontmatter.title}
           description={frontmatter.description}
           keywords={frontmatter.keywords}
-          image={frontmatter.image.childImageSharp.fluid.src}
+          image={frontmatter.image.childImageSharp.ogImage.src}
           meta={
             // Exclude drafts from being indexed by search engines
             draft && {
@@ -95,6 +95,9 @@ export const query = graphql`
         image {
           childImageSharp {
             fluid(maxWidth: 786, quality: 95) {
+              ...GatsbyImageSharpFluid
+            }
+            ogImage: fluid(maxWidth: 1200, quality: 95) {
               ...GatsbyImageSharpFluid
             }
           }
