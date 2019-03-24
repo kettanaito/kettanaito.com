@@ -1,17 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { compose, defaultProps, withProps } from 'recompose'
 import Helmet from 'react-helmet'
 import { StaticQuery, graphql } from 'gatsby'
 import DefaultImage from '../images/redd-thumbnail.jpg'
-
-console.log({ DefaultImage })
 
 function SEO({
   type,
   isDraft,
   title,
   description,
+  image,
   lang,
   meta,
   imageFullUrl,
@@ -24,6 +22,12 @@ function SEO({
           description || data.site.siteMetadata.description
         const twitterCard =
           type === 'website' ? 'summary' : 'summary_large_image'
+        const imageFullUrl =
+          process.env.ENV_NAME === 'dev'
+            ? image
+            : data
+            ? data.site.siteMetadata.siteUrl + image
+            : image
 
         return (
           <Helmet
@@ -70,6 +74,7 @@ SEO.defaultProps = {
   lang: `en`,
   meta: [],
   keywords: [],
+  image: DefaultImage,
 }
 
 SEO.propTypes = {
@@ -81,23 +86,15 @@ SEO.propTypes = {
   keywords: PropTypes.arrayOf(PropTypes.string),
   title: PropTypes.string.isRequired,
   image: PropTypes.string,
-  imageFullUrl: PropTypes.string,
 }
 
-export default compose(
-  defaultProps({
-    image: DefaultImage,
-  }),
-  withProps(({ image, data }) => ({
-    imageFullUrl:
-      process.env.ENV_NAME === 'dev' ? image : `https://redd.one${image}`,
-  }))
-)(SEO)
+export default SEO
 
 const detailsQuery = graphql`
   query DefaultSEOQuery {
     site {
       siteMetadata {
+        siteUrl
         title
         description
         author
