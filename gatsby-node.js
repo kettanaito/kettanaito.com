@@ -55,7 +55,7 @@ exports.createPages = ({ actions, graphql }) => {
 exports.onCreateNode = ({ node, getNode, actions }) => {
   const { createNodeField } = actions
 
-  if (['Mdx'].includes(node.internal.type)) {
+  if (['mdx'].includes(node.internal.type.toLowerCase())) {
     const postSlug = createFilePath({
       node,
       getNode,

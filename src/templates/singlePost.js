@@ -33,18 +33,12 @@ function BlogPost(props) {
     <MdxProvider>
       <Layout>
         <Seo
+          isDraft={draft}
           type="article"
           title={frontmatter.title}
           description={frontmatter.description}
           keywords={frontmatter.keywords}
           image={frontmatter.image.childImageSharp.ogImage.src}
-          meta={
-            // Exclude drafts from being indexed by search engines
-            draft && {
-              name: 'robots',
-              content: 'noindex,nofollow',
-            }
-          }
         />
         <div>
           <Box
@@ -94,6 +88,7 @@ export const query = graphql`
       frontmatter {
         title
         description
+        keywords
         date(formatString: "MMMM DD, YYYY")
         category
         image {

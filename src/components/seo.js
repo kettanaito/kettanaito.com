@@ -5,7 +5,16 @@ import { StaticQuery, graphql } from 'gatsby'
 import { Location } from '@reach/router'
 import DefaultImage from '../images/redd-thumbnail.jpg'
 
-function SEO({ type, title, description, lang, meta, image, keywords }) {
+function SEO({
+  type,
+  isDraft,
+  title,
+  description,
+  lang,
+  meta,
+  image,
+  keywords,
+}) {
   return (
     <Location>
       {({ location }) => (
@@ -14,7 +23,6 @@ function SEO({ type, title, description, lang, meta, image, keywords }) {
           render={data => {
             const metaDescription =
               description || data.site.siteMetadata.description
-            const ogImage = [location.origin, image].filter(Boolean).join('')
 
             return (
               <Helmet
@@ -23,56 +31,32 @@ function SEO({ type, title, description, lang, meta, image, keywords }) {
                 }}
                 title={title}
                 titleTemplate={`%s | ${data.site.siteMetadata.title}`}
-                meta={[
-                  {
-                    name: `description`,
-                    content: metaDescription,
-                  },
-                  {
-                    property: `og:title`,
-                    content: title,
-                  },
-                  {
-                    property: `og:description`,
-                    content: metaDescription,
-                  },
-                  {
-                    property: `og:type`,
-                    content: type,
-                  },
-                  image && {
-                    property: 'og:image',
-                    content: ogImage,
-                  },
-                  /* Twitter */
-                  {
-                    name: `twitter:card`,
-                    content: `summary`,
-                  },
-                  {
-                    name: `twitter:creator`,
-                    content: data.site.siteMetadata.author,
-                  },
-                  {
-                    name: `twitter:title`,
-                    content: title,
-                  },
-                  image && {
-                    name: 'twitter:image',
-                    content: ogImage,
-                  },
-                  {
-                    name: `twitter:description`,
-                    content: metaDescription,
-                  },
-                  keywords.length > 0 && {
-                    name: `keywords`,
-                    content: keywords.join(`, `),
-                  },
-                ]
-                  .filter(Boolean)
-                  .concat(meta)}
-              />
+              >
+                {/* General */}
+                <meta name="description" content={metaDescription} />
+                {keywords && keywords.length > 0 && (
+                  <meta name="keywords" content={keywords.join()} />
+                )}
+                {isDraft && <meta name="robots" content="noindex,nofollow" />}
+
+                {/* OpenGraph */}
+                <meta name="og:type" content={type} />
+                <meta name="og:title" content={title} />
+                <meta name="og:description" content={metaDescription} />
+                <meta name="og:image" content={image} />
+
+                {/* Twitter */}
+                <meta name="twitter:card" content="summary" />
+                <meta name="twitter:title" content={title} />
+                <meta name="twitter:description" content={metaDescription} />
+                <meta name="twitter:image" content={image} />
+                <meta
+                  name="twitter:creator"
+                  content={data.site.siteMetadata.author}
+                />
+
+                {meta}
+              </Helmet>
             )
           }}
         />
@@ -82,6 +66,7 @@ function SEO({ type, title, description, lang, meta, image, keywords }) {
 }
 
 SEO.defaultProps = {
+  isDraft: false,
   lang: `en`,
   meta: [],
   keywords: [],
@@ -90,6 +75,7 @@ SEO.defaultProps = {
 }
 
 SEO.propTypes = {
+  isDraft: PropTypes.bool.isRequired,
   type: PropTypes.string.isRequired,
   description: PropTypes.string,
   lang: PropTypes.string,
