@@ -1,5 +1,8 @@
+const siteUrl = 'https://redd.one'
+
 module.exports = {
   siteMetadata: {
+    siteUrl,
     title: `Redd Developer`,
     description: `Tracking-free place to find technical knowledge about web development.`,
     author: `@kettanaito`,
@@ -9,7 +12,7 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-canonical-urls',
       options: {
-        siteUrl: 'https://www.redd.one',
+        siteUrl,
       },
     },
     {

@@ -32,11 +32,13 @@
     "styled-components": "^4.1.3"
   },
   "devDependencies": {
-    "prettier": "^1.16.4"
+    "cross-env": "^5.2.0",
+    "prettier": "^1.16.4",
+    "recompose": "^0.30.0"
   },
   "scripts": {
     "build": "gatsby build",
-    "develop": "gatsby develop -p 8040",
+    "develop": "cross-env ENV_NAME=dev gatsby develop -p 8040",
     "format": "prettier --write src/**/*.{js,jsx}",
     "start": "npm run develop",
     "serve": "gatsby serve -H 0.0.0.0",
