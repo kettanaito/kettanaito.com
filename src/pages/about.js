@@ -70,7 +70,12 @@ const About = ({ data }) => (
     </Composition>
 
     <h2>Contacts</h2>
-    <Composition as={ContactsList} templateColsSm="repeat(3, 1fr)" gutter={16}>
+    <Composition
+      as={ContactsList}
+      templateColsSm="repeat(3, 1fr)"
+      gutter={16}
+      alignItems="center"
+    >
       <Box as="li">
         <Box flex alignItems="center">
           <IoLogoGithub size={48} fill="#171515" />
