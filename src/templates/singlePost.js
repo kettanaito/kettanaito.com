@@ -77,7 +77,10 @@ function BlogPost(props) {
           </Box>
 
           <Box paddingTop={32} paddingHorizontal={16} paddingHorizontalMd={32}>
-            <Share title={frontmatter.title} url={location.href} />
+            <Share
+              title={frontmatter.title}
+              url={location.origin + location.pathname}
+            />
           </Box>
         </div>
       </Layout>

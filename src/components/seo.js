@@ -2,17 +2,19 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import { StaticQuery, graphql } from 'gatsby'
+import { globalHistory } from '@reach/router'
 import DefaultImage from '../images/redd-thumbnail.jpg'
 
-console.log({ DefaultImage })
-
 function SEO({ type, title, description, lang, meta, image, keywords }) {
+  const { location } = globalHistory
+
   return (
     <StaticQuery
       query={detailsQuery}
       render={data => {
         const metaDescription =
           description || data.site.siteMetadata.description
+        const ogImage = location.origin + image
 
         return (
           <Helmet
@@ -40,7 +42,7 @@ function SEO({ type, title, description, lang, meta, image, keywords }) {
               },
               image && {
                 property: 'og:image',
-                content: image,
+                content: ogImage,
               },
               /* Twitter */
               {
@@ -57,7 +59,7 @@ function SEO({ type, title, description, lang, meta, image, keywords }) {
               },
               image && {
                 name: 'twitter:image',
-                content: image,
+                content: ogImage,
               },
               {
                 name: `twitter:description`,
