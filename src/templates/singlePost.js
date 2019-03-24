@@ -36,6 +36,7 @@ function BlogPost(props) {
           title={frontmatter.title}
           description={frontmatter.description}
           keywords={frontmatter.keywords}
+          image={frontmatter.image.childImageSharp.fluid.src}
           meta={
             // Exclude drafts from being indexed by search engines
             draft && {
