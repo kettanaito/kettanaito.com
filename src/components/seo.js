@@ -45,13 +45,19 @@ function SEO({
                 <meta property="og:type" content={type} />
                 <meta property="og:title" content={title} />
                 <meta property="og:description" content={metaDescription} />
-                <meta property="og:image" content={image} />
+                <meta
+                  property="og:image"
+                  content={`https://redd.one${image}`}
+                />
 
                 {/* Twitter */}
                 <meta name="twitter:card" content={twitterCard} />
                 <meta name="twitter:title" content={title} />
                 <meta name="twitter:description" content={metaDescription} />
-                <meta name="twitter:image" content={image} />
+                <meta
+                  name="twitter:image"
+                  content={`https://redd.one${image}`}
+                />
                 <meta
                   name="twitter:creator"
                   content={data.site.siteMetadata.author}
