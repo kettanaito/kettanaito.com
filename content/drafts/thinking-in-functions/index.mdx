@@ -1,10 +1,10 @@
 ---
-draft: true
+# draft: true
 date: '2019-02-20'
 category: Education
 title: Thinking in functions
-description: We all write functions. But do we often think in functions? Discover the essentials of functional development, and learn a few practical tips.
-image: thumbnail.jpg
+description: Function is a synonym for action. It's good when your actions have purpose, and their intent is noble and clear. But what if it's not?
+image: thumbnail2.jpg
 ---
 
 ## Summary
@@ -14,6 +14,69 @@ image: thumbnail.jpg
 - [ ] Keep a function testable (don't rely on context, use arguments)
 - [ ] Avoid complexity (use composition, use high-order functions)
 - [ ] Useful resources to read
+
+---
+
+## Input and Output
+
+Functions may accept arguments (input) and may return a value (output). This sounds obvious, but it's a primary instrument of function design that is often overlooked. In practice this ability to accept and return things is a powerful architectural detail that we can use to create better functions.
+
+Try writing your functions by answering these two questions first:
+
+1. **What is this function's input?**
+1. **What is this function's output?**
+
+Doing so helps you to leave technical details aside and perceive a function as an input/output operation, which it is. Those answers often hint implementational details, but most importantly they define clear constrains over a function's responsibility event before any implementation details are written. **A good function does one thing, and does it well.** [Cool alegory here like "You don't design a plane by ABC"]
+
+```ts
+function example(list: number[]): number {}
+```
+
+It's important to start with a proper blueprint before rushing into which methods to use. However, a function's I/O is also a great feature that describes function's composability.
+
+/ / /
+
+- Always ask what is the input and what is the output of a function
+- Allows you to better understand what function is for, what should it do
+- Allows you to better understand how a function can be used in composition with another functions (and can/should it be used like that at all?)
+- Let architectural questions help you make proper decisions, leave implementational details for implementation
+
+---
+
+## Pure and Impure
+
+...
+
+---
+
+## High-order functions
+
+- What is it?
+- Why this are useful (with examples of already existing and custom hof)
+- Declarative, deterministic
+- (?) Warnings when using them
+
+---
+
+## Compose, don't complicate
+
+- There _are_ complex functions. But achieve them composing small, clear pieces, rather than creating a single ugly abomination. Pieces are easier to test, change, or remove.
+
+```js
+Examples of a complicated function
+```
+
+Instead of writing a single complicated function, try to create two smaller, more predictable functions, and let the third one be the composition of the previous two.
+
+```js
+Example of the same complicated function redone in composition
+```
+
+- Mention functional programming (and resources) for people willing to learn more how to integrate composition into projects.
+
+---
+
+_Drafts below_
 
 ---
 

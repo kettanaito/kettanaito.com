@@ -522,6 +522,10 @@ b {
 strong {
   font-weight: bold;
 }
+em {
+  font-family: Charter, Georgia, serif;
+  font-weight: bold;
+}
 dt {
   font-weight: bold;
 }
