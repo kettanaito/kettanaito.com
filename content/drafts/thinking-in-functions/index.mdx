@@ -51,6 +51,28 @@ It's important to start with a proper blueprint before rushing into which method
 
 ## High-order functions
 
+_High-order function_ is a function that accepts another function as an argument, or returns a function. Think of it as a context provider that executes a given action.
+
+Let's say we have an application that performs a lot of user operations based on their authentication status. What we may end up doing is checking the status in each of those functions:
+
+```js
+function getLatestPosts = (user) => {
+  return user.isAuthenticated ? fetchPosts(user) : null
+}
+
+function addComment = (user, comment) => {
+  return user.isAuthenticated ? postComment(user, comment) : null
+}
+```
+
+You can spot how often we would need to repeat `user.isAuthenticated` each time we have to check the user authentication status.
+
+```js
+const latestPosts = withAuthentication(user => getLatestPosts(user))
+```
+
+Our `withAuthentication` function above is a high-order function because it accepts another function as an argument. Based on the name, this function ensures that the user is authenticated before fetching their latest posts. The brilliance of high-order functions is that the action supplied to them is dynamic.
+
 - What is it?
 - Why this are useful (with examples of already existing and custom hof)
 - Declarative, deterministic
@@ -60,7 +82,9 @@ It's important to start with a proper blueprint before rushing into which method
 
 ## Compose, don't complicate
 
-- There _are_ complex functions. But achieve them composing small, clear pieces, rather than creating a single ugly abomination. Pieces are easier to test, change, or remove.
+Complexity is undesired, but unavoidable. Our task, as developers, is to prevent requirements' complexity becoming a programmatic complexity. For example, reusing things rather than introducing new things is one way to leverage this.
+
+Speaking of functions, there may be functions that perform a lot of actions.
 
 ```js
 Examples of a complicated function
@@ -72,7 +96,9 @@ Instead of writing a single complicated function, try to create two smaller, mor
 Example of the same complicated function redone in composition
 ```
 
-- Mention functional programming (and resources) for people willing to learn more how to integrate composition into projects.
+Unidirectional small functions are generally easier to test and swap with other functions. [...]
+
+> If you want to bring your composition skills further, I highly encourage you to read through Functional programming basics. Functional composition is one of the pillars of that paradigm, and it can teach you a lot regardless whether you want to adopt functional programming in your project.
 
 ---
 
