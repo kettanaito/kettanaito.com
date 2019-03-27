@@ -7,6 +7,7 @@ const PrivacyPolicy = ({ data }) => (
   <Layout>
     <SEO
       title="Privacy policy"
+      useTitleTemplate
       description="Open letter regarding privacy on the Redd Developer site."
     />
     <h1>Privacy policy</h1>

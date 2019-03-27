@@ -5,7 +5,7 @@ import SEO from '../components/seo'
 
 const NotFoundPage = () => (
   <Layout>
-    <SEO title="Page not found | Redd Developer" />
+    <SEO title="Page not found" useTitleTemplate />
     <h1>Oops... Not found!</h1>
     <p>You just hit a route that doesn&#39;t exist... the sadness.</p>
   </Layout>

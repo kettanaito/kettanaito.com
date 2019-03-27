@@ -9,6 +9,7 @@ const IndexPage = props => {
     <Layout>
       <SEO
         title="Blog"
+        useTitleTemplate
         keywords={['redd', 'developer', 'technology', 'javascript', 'react']}
       />
       <PostList />
