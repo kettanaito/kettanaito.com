@@ -18,6 +18,7 @@ export default {
     hyphens: 'none',
     background: '#f6f8fa',
     color: '#24292e',
+    padding: 0,
   },
   'pre[class*="language-"]': {
     fontFamily:
