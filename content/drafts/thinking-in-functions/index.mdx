@@ -9,11 +9,11 @@ image: thumbnail2.jpg
 
 ## Summary
 
-- [ ] Prefer pure, whenever you can/should
-- [ ] Always ask "what its input?" and "what its output?"
-- [ ] Keep a function testable (don't rely on context, use arguments)
-- [ ] Avoid complexity (use composition, use high-order functions)
-- [ ] Useful resources to read
+- [x] Input and Ouput
+- [ ] Pure and Impure
+- [ ] High-order functions
+- [ ] Compose, don't complicate
+- [ ] Resources to read more
 
 ---
 
@@ -21,25 +21,38 @@ image: thumbnail2.jpg
 
 Functions may accept arguments (input) and may return a value (output). This sounds obvious, but it's a primary instrument of function design that is often overlooked. In practice this ability to accept and return things is a powerful architectural detail that we can use to create better functions.
 
-Try writing your functions by answering these two questions first:
+Try writing your functions by first answering these two questions:
 
 1. **What is this function's input?**
 1. **What is this function's output?**
 
-Doing so helps you to leave technical details aside and perceive a function as an input/output operation, which it is. Those answers often hint implementational details, but most importantly they define clear constrains over a function's responsibility event before any implementation details are written. **A good function does one thing, and does it well.** [Cool alegory here like "You don't design a plane by ABC"]
+Doing so helps you to put technical details aside and perceive a function as an input/output operation, which it is. Those answers often hint implementational details, but most importantly they define clear constrains over a function's responsibility even before any code is written. **A good function does one thing, and does it well.** [Cool alegory here like "You don't design a plane by ABC"]
+
+> You may operate with abstract types when answering those questions. For example, you can describe a function that accepts a list of foxes and returns a bear. These abstractions help you even more to focus on the function's characteristics.
 
 ```ts
 function example(list: number[]): number {}
 ```
 
-It's important to start with a proper blueprint before rushing into which methods to use. However, a function's I/O is also a great feature that describes function's composability.
+Defining a function's input and output signatures is an absolute must to retain a clear understanding of what the function should and should not do.
 
-/ / /
+Apart from that, a function's output may serve as the other function's _input_. This characteristics makes functions composable. And because we start writing our functions from those two questions, we can design entire pipelines of operations that achieve the required goal.
 
-- Always ask what is the input and what is the output of a function
-- Allows you to better understand what function is for, what should it do
-- Allows you to better understand how a function can be used in composition with another functions (and can/should it be used like that at all?)
-- Let architectural questions help you make proper decisions, leave implementational details for implementation
+```ts
+const getUser = (id: string) => User
+const getPosts = (user: User) => Post[]
+const getLikes = (posts: Post[]) => number
+
+// getUser -> getPosts -> getLikes
+```
+
+There is one more hidden gem about this approach. Imagine you have asked yourself these questions, and your answer was: "_my function accepts the list of strings and returns a number_". Congratulations, you have just written a unit test for your function!
+
+```js
+expect(myFunc(['a', 'b', 'c'])).toEqual(2)
+```
+
+To recap, understanding a function's input and output types effectively defines a specification for that function: a function's call signature, and a unit test. Implementing things according to specification is a pleasant and safe way of programming that keeps you from leading astray.
 
 ---
 
@@ -53,7 +66,9 @@ It's important to start with a proper blueprint before rushing into which method
 
 _High-order function_ is a function that accepts another function as an argument, or returns a function. Think of it as a context provider that executes a given action.
 
-Let's say we have an application that performs a lot of user operations based on their authentication status. What we may end up doing is checking the status in each of those functions:
+### Accepting a function
+
+Let's say we have an application that performs a lot of user operations based on their authentication status. What we may end up doing is checking the status in each of those individual operations:
 
 ```js
 function getLatestPosts = (user) => {
@@ -65,13 +80,35 @@ function addComment = (user, comment) => {
 }
 ```
 
-You can spot how often we would need to repeat `user.isAuthenticated` each time we have to check the user authentication status.
+You can see how often we need to repeat `user.isAuthenticated` each time we want to check if a user is authenticated. The worst part is that in reality it may be much more complicated to determine an authentication status than simply relying on `isAuthenticated` property.
+
+We can encapsulate the logic that determines authentication and make the performed action parametric instead.
 
 ```js
-const latestPosts = withAuthentication(user => getLatestPosts(user))
+function withAuthentication(user, action) {
+  return user.isAuthenticated ? action(user) : null
+}
+
+const latestPosts = withAuthentication(user, user => getLatestPosts(user))
 ```
 
-Our `withAuthentication` function above is a high-order function because it accepts another function as an argument. Based on the name, this function ensures that the user is authenticated before fetching their latest posts. The brilliance of high-order functions is that the action supplied to them is dynamic.
+The `withAuthentication` function above is a high-order function because it accepts another function (`action`) as the second argument.
+
+* Add an explanation why HOF is more efficient than doing this:
+
+```js
+const withAuthentication = (user) => {
+  return user.isAuthenticated
+}
+
+const getLatestPosts = (user) => {
+  return withAuthentication(user) ? fetchPosts(user) : null
+}
+```
+
+### Return a function
+
+> Example when returning a function is useful.
 
 - What is it?
 - Why this are useful (with examples of already existing and custom hof)
@@ -82,7 +119,7 @@ Our `withAuthentication` function above is a high-order function because it acce
 
 ## Compose, don't complicate
 
-Complexity is undesired, but unavoidable. Our task, as developers, is to prevent requirements' complexity becoming a programmatic complexity. For example, reusing things rather than introducing new things is one way to leverage this.
+Complexity is undesired, but unavoidable. Our task, as developers, is to prevent business complexity becoming programmatic complexity. For example, reusing existing code rather than introducing new things is a common way to leverage this issue.
 
 Speaking of functions, there may be functions that perform a lot of actions.
 
@@ -90,121 +127,12 @@ Speaking of functions, there may be functions that perform a lot of actions.
 Examples of a complicated function
 ```
 
-Instead of writing a single complicated function, try to create two smaller, more predictable functions, and let the third one be the composition of the previous two.
+Instead of writing a single complicated function, try to create two smaller, more strict functions, and let the third one be the combination of the previous two.
 
 ```js
 Example of the same complicated function redone in composition
 ```
 
-Unidirectional small functions are generally easier to test and swap with other functions. [...]
+Strict small functions are easier to test and interchange with other functions, if needed, making your functions chain more maintainable.
 
 > If you want to bring your composition skills further, I highly encourage you to read through Functional programming basics. Functional composition is one of the pillars of that paradigm, and it can teach you a lot regardless whether you want to adopt functional programming in your project.
-
----
-
-_Drafts below_
-
----
-
-## Pure and impure
-
-_Pure function_ is a function that accepts all the data it needs through its arguments. In order words, it's a function that _doesn't rely on external context_. Those functions that do rely on a context are called _impure_ and may cause undesirable behavior. Take the following function as an example:
-
-```js
-const foo = 2
-
-function add(num) {
-  return num + foo
-}
-
-add(3) // 3 (num) + 2 (foo) = 5
-```
-
-As you can see, the `add` function accepts a number (`num`) and adds it to the `foo` variable. However, that variable is defined outside of the function's scope, making our `add` function impure. The biggest disatvangage of impure functions is that they are unpredictable, as their output depends from an external data.
-
-> A function demanding too many arguments is most likely an overly complex function. Try to break it into a few smaller functions instead.
-
-### When to write a pure function?
-
-Don't be obsessed with pure functions. Instead, know when to write one.
-
-Write a pure function when you **already know the data**. For example, a user request cannot be pure, since it fetches a user from a database (external context), but a function that returns the total amount of user's publications _can_ be pure, because it can accept a user via arguments.
-
-```js
-function getUser(userId) {
-  // "getUser" function is impure, because its output
-  // depends on a database (external context).
-  return queryDatabase(userId)
-}
-
-function getUserPosts(user) {
-  // "getUserPosts" function, despite operating on a "user",
-  // is pure, as it accepts already fetched user as an argument.
-  return user.posts.length
-}
-
-getUserPosts(getUser(1))
-```
-
----
-
-## Input and Output (I/O)
-
-One of the first things I suggest is to always ask yourself exactly two questions when creating a function:
-
-1. _What is this function's input?_
-1. _What is this function's output?_
-
-> Note that "nothing" is a valid answer to either of those questions. Function that doesn't accept anything, may produce something, and function that doesn't return anything may perform a side-effect.
-
-The answers to these questions define the _constrains_ your function would have. Sometimes it also helps you to understand the action performed by a function, since you can compare the input and output data types.
-
-### Example 1: Authors list
-
-Let's say we have a list of posts, and we want to find out all their authors. Our answers to the I/O questions would be:
-
-1. **Input:** A list of posts (`Array<Post>`).
-1. **Output:** A list of authors (`Array<Author>`).
-
-Without writing a single line of code, we can see that we transform Array into Array, so we may use methods like `Array.prototype.map()`, or `Array.prototype.filter()`, which also accept a list and return a list. In our case, it would be a `.map()` method:
-
-```js
-function getAuthors(posts) {
-  return posts.map(post => post.author)
-}
-```
-
-### Example 2: Total posts count
-
-Now, let's say we need to calculate the total amount of posts written by the set of given authors. Once more, starting from I/O questions:
-
-1. **Input:** List of authors (`Array<Author>`).
-1. **Output:** Number of posts (`Number`).
-
-We can see our input and output data types differ. Taking this into account, picking `Array.prototype.reduce()` may be an option for such case:
-
-```js
-function getTotalPosts(authors) {
-  return authors.reduce((acc, author) => acc + author.postCount, 0)
-}
-```
-
----
-
-## Composition over complexity
-
-Function composition is the most powerful technique to leverage complexity in your logic and increase code reusability. Taking the statements above, let's say we need to design a complex function that would accept a list of posts and return the sum of posts that their authors wrote. We may attempt to implement it the following way:
-
-```js
-function getTotalPosts(posts) {
-  posts.map(post => author.XYZ)
-}
-```
-
-> THIS IS PROBABLY A BAD EXAMPLE, SINCE GETTING AUTHOR IS PRESENTED AS SYNC ACTION. THAT WAY YOU CAN JUST REDUCE THE LIST OF POSTS INTO TOTAL AUTHORS POSTS COUNT WITHOUT FUNCTIONAL COMPOSITION.
-
-### Example 3: I/O pipelines
-
-Now we need to create a function that accepts a list of posts and returns the sum total amount of posts written by their authors.
-
-Thinking of functions as of input/output processors makes it easier to define more complex logic.

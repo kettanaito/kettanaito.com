@@ -72,7 +72,7 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
     createNodeField({
       node,
       name: 'url',
-      value: path.normalize(`blog/${postSlug}`),
+      value: `blog/${postSlug}`.replace(/\/+/g, '/'),
     })
   }
 }
