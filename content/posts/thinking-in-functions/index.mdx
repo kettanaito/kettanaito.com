@@ -1,9 +1,8 @@
 ---
-# draft: true
 date: '2019-02-20'
 category: Education
 title: Thinking in functions
-description: Function is a synonym for action. It's good when your actions have purpose, and their intent is noble and clear. But what if it's not?
+description: Function is a synonym for action. It's good when your actions have purpose, and their intent is clear. But how to write such functions?
 image: thumbnail2.jpg
 ---
 
@@ -26,12 +25,12 @@ Try writing your functions by first answering these two questions:
 1. **What is this function's input?**
 1. **What is this function's output?**
 
-Doing so helps you to put technical details aside and perceive a function as an input/output operation, which it is. Those answers often hint implementational details, but most importantly they define clear constrains over a function's responsibility even before any code is written. **A good function does one thing, and does it well.** [Cool alegory here like "You don't design a plane by ABC"]
+Doing so helps you to put technical details aside and perceive a function as an input/output operation, which it is. Those answers often hint implementational details, but most importantly they define clear constrains over a function's responsibility even before any code is written.
 
 > You may operate with abstract types when answering those questions. For example, you can describe a function that accepts a list of foxes and returns a bear. These abstractions help you even more to focus on the function's characteristics.
 
 ```ts
-function example(list: number[]): number {}
+function myFunc(list: number[]): number {}
 ```
 
 Defining a function's input and output signatures is an absolute must to retain a clear understanding of what the function should and should not do.
@@ -89,7 +88,9 @@ function withAuthentication(user, action) {
   return user.isAuthenticated ? action(user) : null
 }
 
-const latestPosts = withAuthentication(user, user => getLatestPosts(user))
+function getLatestPosts(user) {...}
+
+const latestPosts = withAuthentication(user, getLatestPosts)
 ```
 
 The `withAuthentication` function above is a high-order function because it accepts another function (`action`) as the second argument.
