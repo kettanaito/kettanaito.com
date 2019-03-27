@@ -17,12 +17,14 @@ exports.createPages = ({ actions, graphql }) => {
           allMdx {
             edges {
               node {
+                id
                 fields {
                   url
                   slug
                 }
                 frontmatter {
                   title
+                  category
                 }
               }
             }
@@ -39,7 +41,8 @@ exports.createPages = ({ actions, graphql }) => {
             path: node.fields.url,
             component: singlePostTemplate,
             context: {
-              id: node.id,
+              postId: node.id,
+              postCategory: node.frontmatter.category,
               slug: node.fields.slug,
               // additional data can be passed via context
             },

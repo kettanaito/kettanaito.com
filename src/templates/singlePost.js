@@ -7,6 +7,8 @@ import { Box } from 'atomic-layout'
 
 import Layout from '../components/layout'
 import MdxProvider from '../components/mdx/MdxProvider'
+import PostList from '../components/PostList'
+import PostThumbnailMinimal from './SimilarPost'
 import Share from '../components/Share'
 import Seo from '../components/seo'
 import Text from '../components/Text'
@@ -25,7 +27,7 @@ const MetaDelimiter = () => (
 
 function BlogPost(props) {
   const { location, data } = props
-  const { post } = data
+  const { post, similarPosts } = data
   const { frontmatter, timeToRead } = post
   const { draft, date, category } = frontmatter
 
@@ -66,16 +68,33 @@ function BlogPost(props) {
             alt={frontmatter.title}
           />
 
+          {/* Post content */}
           <Box as="article" padding={16} paddingMd={32}>
             <MDXRenderer>{post.code.body}</MDXRenderer>
           </Box>
 
+          {/* Social sharing */}
           <Box paddingTop={32} paddingHorizontal={16} paddingHorizontalMd={32}>
             <Share
               title={frontmatter.title}
               url={location.origin + location.pathname}
             />
           </Box>
+
+          {/* Similar posts */}
+          {similarPosts && (
+            <>
+              <Box as="hr" paddingVertical={32} />
+              <PostList
+                posts={similarPosts.edges}
+                postTemplate={PostThumbnailMinimal}
+                templateCols="1fr"
+                templateColsMd="1fr"
+                templateColsXxl="1fr"
+                justifyItems="center"
+              />
+            </>
+          )}
         </div>
       </Layout>
     </MdxProvider>
@@ -83,31 +102,56 @@ function BlogPost(props) {
 }
 
 export const query = graphql`
-  query SinglePostQuery($slug: String!) {
-    post: mdx(fields: { slug: { eq: $slug } }) {
-      frontmatter {
-        title
-        description
-        keywords
-        date(formatString: "MMMM DD, YYYY")
-        category
-        image {
-          childImageSharp {
-            fluid(maxWidth: 786, quality: 95) {
-              ...GatsbyImageSharpFluid
-            }
-            ogImage: fluid(maxWidth: 1200, quality: 95) {
-              ...GatsbyImageSharpFluid
-            }
+query SinglePost($postId: String!, $postCategory: String!) {
+  post: mdx(id: { eq: $postId }) {
+    id
+    frontmatter {
+      title
+      description
+      keywords
+      date(formatString: "MMMM DD, YYYY")
+      category
+      image {
+        childImageSharp {
+          fluid(maxWidth: 786, quality: 95) {
+            ...GatsbyImageSharpFluid
+          }
+          ogImage: fluid(maxWidth: 1200, quality: 95) {
+            ...GatsbyImageSharpFluid
           }
         }
       }
-      timeToRead
-      code {
-        body
+    }
+    timeToRead
+    code {
+      body
+    }
+  }
+
+  #
+  # Similar posts
+  #
+  similarPosts: allMdx(
+    limit: 3
+    sort: {
+      order: DESC
+      fields: [frontmatter___date]
+    }
+    filter: {
+      id: { ne: $postId }
+      frontmatter: {
+        draft: { ne: true }
+        category: { eq: $postCategory }
+      }
+    }
+  ) {
+    edges {
+      node {
+        ...PostPreview
       }
     }
   }
+}
 `
 
 export default BlogPost

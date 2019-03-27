@@ -4,11 +4,15 @@ import Image from 'gatsby-image'
 import styled from 'styled-components'
 import { Box, Composition } from 'atomic-layout'
 
-import Text from '../Text'
+import Text from '../components/Text'
 
 const postTemplate = `
   thumbnail
   content
+`
+
+const postTemplateInline = `
+  thumbnail content
 `
 
 const ThumbnailMask = styled.div`
@@ -22,17 +26,18 @@ const PostLink = styled(Link)`
   text-decoration: none;
 `
 
-const PostTitle = styled.h2`
+const PostTitle = styled.h3`
   margin: 0;
 `
 
-const PostThumbnail = props => {
+const PostThumbnailMinimal = props => {
   const { post } = props
 
   return (
     <Composition
       template={postTemplate}
-      templateRows="250px 1fr"
+      templateMd={postTemplateInline}
+      templateColsMd="250px 1fr"
       gutter={16}
       gutterMd={24}
       height="100%"
@@ -80,4 +85,4 @@ const PostThumbnail = props => {
   )
 }
 
-export default PostThumbnail
+export default PostThumbnailMinimal
