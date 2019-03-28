@@ -84,7 +84,7 @@ function BlogPost(props) {
           {/* Similar posts */}
           {similarPosts && (
             <>
-              <Box as="hr" paddingVertical={32} />
+              <Box as="hr" paddingVertical={10} paddingVerticalMd={32} />
               <PostList
                 posts={similarPosts.edges}
                 postTemplate={PostThumbnailMinimal}
