@@ -4,7 +4,7 @@ import Image from 'gatsby-image'
 import styled from 'styled-components'
 import { Box, Composition } from 'atomic-layout'
 
-import Text from '../components/Text'
+import Text from '../Text'
 
 const postTemplate = `
   thumbnail
@@ -71,7 +71,7 @@ const PostThumbnailMinimal = props => {
               <PostTitle>{post.frontmatter.title}</PostTitle>
             </PostLink>
 
-            <Box marginTop={16}>
+            <Box marginTop={8}>
               <Text small>
                 {post.frontmatter.description || (
                   <div dangerouslySetInnerHTML={{ __html: post.excerpt }} />

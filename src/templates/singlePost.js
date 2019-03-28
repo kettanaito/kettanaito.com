@@ -8,7 +8,6 @@ import { Box } from 'atomic-layout'
 import Layout from '../components/layout'
 import MdxProvider from '../components/mdx/MdxProvider'
 import PostList from '../components/PostList'
-import PostThumbnailMinimal from './SimilarPost'
 import Share from '../components/Share'
 import Seo from '../components/seo'
 import Text from '../components/Text'
@@ -87,11 +86,7 @@ function BlogPost(props) {
               <Box as="hr" paddingVertical={10} paddingVerticalMd={32} />
               <PostList
                 posts={similarPosts.edges}
-                postTemplate={PostThumbnailMinimal}
-                templateCols="1fr"
-                templateColsMd="1fr"
-                templateColsXxl="1fr"
-                justifyItems="center"
+                variant="minimal"
               />
             </>
           )}

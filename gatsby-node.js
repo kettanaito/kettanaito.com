@@ -55,6 +55,18 @@ exports.createPages = ({ actions, graphql }) => {
   })
 }
 
+// exports.onCreatePage = ({ page, actions }) => {
+//   const { createPage, deletePage } = actions
+
+//   deletePage(page)
+//   createPage({
+//     ...page,
+//     context: {
+//       url: '???'
+//     }
+//   })
+// }
+
 exports.onCreateNode = ({ node, getNode, actions }) => {
   const { createNodeField } = actions
 
