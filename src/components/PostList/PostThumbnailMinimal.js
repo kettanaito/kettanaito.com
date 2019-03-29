@@ -42,6 +42,7 @@ const PostThumbnailMinimal = props => {
       gutterMd={24}
       height="100%"
       maxWidthSmDown={400}
+      alignItems="center"
     >
       {({ Thumbnail, Content }) => (
         <>
@@ -57,13 +58,13 @@ const PostThumbnailMinimal = props => {
           </Thumbnail>
 
           <Content>
-            <Box marginBottom={10}>
-              <Text primary small>
+            <Box as={Text} muted small marginBottom={10}>
+              <Text primary>
                 {post.frontmatter.category}
               </Text>
-              <Text small muted>
-                {' '}
-                · {post.frontmatter.date}
+              <Box as="span" inline marginHorizontal={8}>·</Box>
+              <Text>
+                {post.frontmatter.date}
               </Text>
             </Box>
 

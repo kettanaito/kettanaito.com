@@ -52,13 +52,13 @@ const PostThumbnail = props => {
           </Thumbnail>
 
           <Content>
-            <Box marginBottom={10}>
+            <Box as={Text} muted marginBottom={10}>
               <Text primary small>
                 {post.frontmatter.category}
               </Text>
+              <Box as="span" inline marginHorizontal={8}>·</Box>
               <Text small muted>
-                {' '}
-                · {post.frontmatter.date}
+                {post.frontmatter.date}
               </Text>
             </Box>
 
