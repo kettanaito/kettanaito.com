@@ -17,6 +17,7 @@ const postTemplateInline = `
 
 const ThumbnailMask = styled.div`
   overflow: hidden;
+  max-height: 100%;
   width: 100%;
 `
 

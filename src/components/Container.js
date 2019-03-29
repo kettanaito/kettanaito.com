@@ -7,7 +7,6 @@ const Container = props => (
     widthXxl={1400}
     marginHorizontal="auto"
     paddingHorizontal={16}
-    paddingHorizontalMd={32}
     maxWidth="100%"
     {...props}
   />

@@ -13,6 +13,7 @@ const postTemplate = `
 
 const ThumbnailMask = styled.div`
   overflow: hidden;
+  max-height: 100%;
   width: 100%;
 `
 
@@ -32,7 +33,7 @@ const PostThumbnail = props => {
   return (
     <Composition
       template={postTemplate}
-      templateRows="250px 1fr"
+      templateRows="auto 1fr"
       gutter={16}
       gutterMd={24}
       height="100%"

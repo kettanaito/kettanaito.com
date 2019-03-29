@@ -68,12 +68,12 @@ function BlogPost(props) {
           />
 
           {/* Post content */}
-          <Box as="article" padding={16} paddingMd={32}>
+          <Box as="article">
             <MDXRenderer>{post.code.body}</MDXRenderer>
           </Box>
 
           {/* Social sharing */}
-          <Box paddingTop={32} paddingHorizontal={16} paddingHorizontalMd={32}>
+          <Box paddingTop={32} paddingBottom={16}>
             <Share
               title={frontmatter.title}
               url={location.origin + location.pathname}
@@ -83,10 +83,10 @@ function BlogPost(props) {
           {/* Similar posts */}
           {similarPosts && (
             <>
-              <Box as="hr" paddingVertical={10} paddingVerticalMd={32} />
+              <hr />
               <PostList
-                posts={similarPosts.edges}
                 variant="minimal"
+                posts={similarPosts.edges}
               />
             </>
           )}
