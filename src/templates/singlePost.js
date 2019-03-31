@@ -77,6 +77,7 @@ function BlogPost(props) {
             <Share
               title={frontmatter.title}
               url={location.origin + location.pathname}
+              text={frontmatter.socialShareText}
             />
           </Box>
 
@@ -106,6 +107,7 @@ query SinglePost($postId: String!, $postCategory: String!) {
       keywords
       date(formatString: "MMMM DD, YYYY")
       category
+      socialShareText
       image {
         childImageSharp {
           fluid(maxWidth: 786, quality: 95) {

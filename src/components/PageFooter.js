@@ -27,7 +27,7 @@ const Footer = () => (
       paddingVertical={16}
     >
       <Text as="span">
-        © {new Date().getFullYear()}, Built with love and
+        © {new Date().getFullYear()}. Built with love and
         {` `}
         <FooterLink
           href="https://www.gatsbyjs.org"

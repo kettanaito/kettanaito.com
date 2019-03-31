@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Box, Composition } from 'atomic-layout'
 import {
@@ -12,14 +13,17 @@ import {
 
 import Text from '../../components/Text'
 
+const defaultShareText = 'Liked this article? Please support publications like this by sharing it with your friends.'
+
 const StyledContainer = styled(Box)`
-  background-color: hsla(221, 44%, 41%, 0.1);
+  background-color: hsla(221, 44%, 41%, 0.075);
 `
 
-const Share = ({ title, url }) => {
+const Share = ({ title, url, text }) => {
   return (
     <StyledContainer flex flexDirection="column" alignItems="center" padding={32}>
-      <h3>Share this post:</h3>
+      <h3>Share this post</h3>
+      <Text as="p" small>{text || defaultShareText}</Text>
       <Composition
         templateCols="repeat(3, 32px)"
         gutter={16}
@@ -38,6 +42,12 @@ const Share = ({ title, url }) => {
       </Composition>
     </StyledContainer>
   )
+}
+
+Share.propTypes = {
+  title: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
+  text: PropTypes.string,
 }
 
 export default Share
