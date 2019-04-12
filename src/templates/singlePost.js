@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { graphql } from 'gatsby'
 import Image from 'gatsby-image'
 import MDXRenderer from 'gatsby-mdx/mdx-renderer'
-import { Box } from 'atomic-layout'
+import AtomicLayout, { Only, Box } from 'atomic-layout'
 
 import Layout from '../components/layout'
 import MdxProvider from '../components/mdx/MdxProvider'
@@ -13,7 +13,7 @@ import Seo from '../components/seo'
 import Text from '../components/Text'
 
 const PostTitle = styled.h1`
-  @media (min-width: 576px) {
+  @media (min-width: ${AtomicLayout.getBreakpoint('sm').minWidth}) {
     text-align: center;
   }
 `
@@ -44,20 +44,28 @@ function BlogPost(props) {
         <div>
           <Box
             as="header"
-            flex
+            // flex
             flexDirection="column"
             alignItems="center"
             marginBottom={32}
             marginBottomMd={64}
           >
             <PostTitle>{frontmatter.title}</PostTitle>
-            <Box as="p" flex alignItems="center">
+            <Box
+              as="p"
+              flex
+              flexDirection="column"
+              flexDirectionSm="row"
+              justifyContent="center"
+              justifyContentXsDown="start"
+              width="100%"
+            >
               <Text primary>{category}</Text>
-              <Box as={Text} muted flex alignItems="center">
+              <Only as={MetaDelimiter} from="sm" />
+              <Box flex>
+                <Text>{date}</Text>
                 <MetaDelimiter />
-                {date}
-                <MetaDelimiter />
-                {timeToRead} minutes(s) read
+                <Text>{timeToRead} minute(s) read</Text>
               </Box>
             </Box>
           </Box>
@@ -85,10 +93,7 @@ function BlogPost(props) {
           {similarPosts && (
             <>
               <hr />
-              <PostList
-                variant="minimal"
-                posts={similarPosts.edges}
-              />
+              <PostList variant="minimal" posts={similarPosts.edges} />
             </>
           )}
         </div>
@@ -98,57 +103,51 @@ function BlogPost(props) {
 }
 
 export const query = graphql`
-query SinglePost($postId: String!, $postCategory: String!) {
-  post: mdx(id: { eq: $postId }) {
-    id
-    frontmatter {
-      title
-      description
-      keywords
-      date(formatString: "MMMM DD, YYYY")
-      category
-      socialShareText
-      image {
-        childImageSharp {
-          fluid(maxWidth: 786, quality: 95) {
-            ...GatsbyImageSharpFluid
-          }
-          ogImage: fluid(maxWidth: 1200, quality: 95) {
-            ...GatsbyImageSharpFluid
+  query SinglePost($postId: String!, $postCategory: String!) {
+    post: mdx(id: { eq: $postId }) {
+      id
+      frontmatter {
+        title
+        description
+        keywords
+        date(formatString: "MMMM DD, YYYY")
+        category
+        socialShareText
+        image {
+          childImageSharp {
+            fluid(maxWidth: 786, quality: 95) {
+              ...GatsbyImageSharpFluid
+            }
+            ogImage: fluid(maxWidth: 1200, quality: 95) {
+              ...GatsbyImageSharpFluid
+            }
           }
         }
       }
+      timeToRead
+      code {
+        body
+      }
     }
-    timeToRead
-    code {
-      body
-    }
-  }
 
-  #
-  # Similar posts
-  #
-  similarPosts: allMdx(
-    limit: 3
-    sort: {
-      order: DESC
-      fields: [frontmatter___date]
-    }
-    filter: {
-      id: { ne: $postId }
-      frontmatter: {
-        draft: { ne: true }
-        category: { eq: $postCategory }
+    #
+    # Similar posts
+    #
+    similarPosts: allMdx(
+      limit: 3
+      sort: { order: DESC, fields: [frontmatter___date] }
+      filter: {
+        id: { ne: $postId }
+        frontmatter: { draft: { ne: true }, category: { eq: $postCategory } }
       }
-    }
-  ) {
-    edges {
-      node {
-        ...PostPreview
+    ) {
+      edges {
+        node {
+          ...PostPreview
+        }
       }
     }
   }
-}
 `
 
 export default BlogPost
