@@ -22,9 +22,9 @@ module.exports = () => {
         minWidth: '1200px',
         maxWidth: '1400px',
       },
-      xxl: {
-        minWidth: '1600px',
-      },
+      // xxl: {
+      //   minWidth: '1600px',
+      // },
     },
   })
 }

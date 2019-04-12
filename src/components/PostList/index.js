@@ -4,46 +4,44 @@ import { graphql } from 'gatsby'
 import { Composition } from 'atomic-layout'
 
 import PostThumbnail from './PostThumbnail'
-import PostThumbnailMinimal from './PostThumbnailMinimal';
+import PostThumbnailMinimal from './PostThumbnailMinimal'
 
 export const PostPreviewFragment = graphql`
-fragment PostPreview on Mdx {
-  id
-  fields {
-    url
-  }
-  frontmatter {
-    title
-    description
-    date(formatString: "MMMM DD, YYYY")
-    category
-    image {
-      childImageSharp {
-        fluid(maxWidth: 500, quality: 95) {
-          ...GatsbyImageSharpFluid
+  fragment PostPreview on Mdx {
+    id
+    fields {
+      url
+    }
+    frontmatter {
+      title
+      description
+      date(formatString: "MMMM DD, YYYY")
+      category
+      image {
+        childImageSharp {
+          fluid(maxWidth: 500, quality: 95) {
+            ...GatsbyImageSharpFluid
+          }
         }
       }
     }
   }
-}
 `
 
 const PostList = ({ posts, variant, ...restProps }) => {
-  const compositionProps = variant === 'minimal'
-    ? {
-      templateCols: '1fr',
-      templateColsMd: '1fr',
-      templateColsXxl: '1fr',
-      justifyItems: 'center',
-    }
-    : {
-      templateColsMd: 'repeat(2, 1fr)',
-      templateColsXxl: 'repeat(3, 1fr)',
-    }
+  const compositionProps =
+    variant === 'minimal'
+      ? {
+          templateCols: '1fr',
+          templateColsMd: '1fr',
+          justifyItems: 'center',
+        }
+      : {
+          templateColsMd: 'repeat(2, 1fr)',
+        }
 
-  const PostTemplate = variant === 'minimal'
-    ? PostThumbnailMinimal
-    : PostThumbnail
+  const PostTemplate =
+    variant === 'minimal' ? PostThumbnailMinimal : PostThumbnail
 
   return (
     <Composition
