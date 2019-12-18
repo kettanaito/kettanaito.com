@@ -7,7 +7,6 @@ import Text from '../Text'
 
 const StyledContainer = styled.div`
   background-color: #f6f8fa;
-  // border: 1px solid #d1d5da;
   border-radius: 4px;
 `
 
@@ -16,7 +15,7 @@ const GitHubRepo = ({ owner, repo }) => {
 
   React.useEffect(() => {
     fetch(`https://api.github.com/repos/${owner}/${repo}`)
-      .then(res => res.json())
+      .then((res) => res.json())
       .then(setData)
   }, [owner, repo])
 
@@ -50,8 +49,8 @@ const GitHubRepo = ({ owner, repo }) => {
                 </Text>
               </>
             ) : (
-                <Text small>Communicating to the octocat...</Text>
-              )}
+              <Text small>Communicating to the octocat...</Text>
+            )}
           </Content>
         </>
       )}

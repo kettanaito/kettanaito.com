@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { graphql } from 'gatsby'
 import { Composition } from 'atomic-layout'
 
@@ -27,7 +26,7 @@ export const PostPreviewFragment = graphql`
   }
 `
 
-const PostList = ({ posts, variant, ...restProps }) => {
+const PostList = ({ posts, showLatestBadge, ...restProps }) => {
   return (
     <Composition
       templateCols="1fr"
@@ -36,19 +35,15 @@ const PostList = ({ posts, variant, ...restProps }) => {
       maxWidth="100%"
       {...restProps}
     >
-      {posts.map(({ node }) => (
-        <PostThumbnail key={node.id} post={node} />
+      {posts.map(({ node }, index) => (
+        <PostThumbnail
+          key={node.id}
+          post={node}
+          showLatestBadge={index === 0 && showLatestBadge}
+        />
       ))}
     </Composition>
   )
-}
-
-PostList.propTypes = {
-  variant: PropTypes.oneOf(['full', 'minimal']).isRequired,
-}
-
-PostList.defaultProps = {
-  variant: 'full',
 }
 
 export default PostList

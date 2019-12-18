@@ -13,7 +13,7 @@ const IndexPage = ({ data }) => {
         useTitleTemplate
         keywords={['redd', 'developer', 'technology', 'javascript', 'react']}
       />
-      <PostList posts={data.postList.edges} />
+      <PostList posts={data.postList.edges} showLatestBadge />
     </Layout>
   )
 }
