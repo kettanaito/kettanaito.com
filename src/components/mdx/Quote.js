@@ -5,7 +5,7 @@ const Quote = styled.blockquote`
   padding: 0 2rem;
   color: inherit;
   border: 0;
-  font-family: Charter, "Bookman Antiqua", Georgia, serif;
+  font-family: Charter, 'Bookman Antiqua', Georgia, serif;
   font-size: 1.5rem;
   font-style: italic;
 `

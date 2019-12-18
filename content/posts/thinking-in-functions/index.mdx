@@ -1,7 +1,7 @@
 ---
-date: '2019-04-02'
+date: 2019-09-09
 category: Education
-title: Thinking in functions
+title: 'Thinking in Functions, Part I: The Input/Output pattern'
 description: Function is a synonym for action. It's good when your actions have purpose, and their intent is clear. But how to write such functions?
 keywords:
   - function
@@ -10,282 +10,100 @@ keywords:
   - compose
   - functional programming
 image: thumbnail2.jpg
-socialShareText: Now when you weild such knowledge, it's your rightful duty to share it with your friends and colleagues.
 ---
 
 import Quote from '../../../src/components/mdx/Quote.js'
 
-## Summary
+## Introduction
 
-- [x] Input and Ouput
-- [ ] Pure and Impure
-- [ ] High-order functions
-- [ ] Compose, don't complicate
-- [ ] Resources to read more
+I was lucky to work with some great minds in the industry. Once I’ve befriended a brilliant Java developer and we spent a decent amount of lunches chatting over patterns and approaches in programming. At that time I was working on a schema design for the forms validation in my project, which involved a lot of functional heavy-lifting. Each time we discussed a particular problem I was fascinated by the way he approached functional design. I’ve adopted one of his thinking patterns during the process, and it has changed the way I comprehend functions since then.
+
+If you are coming from a functional programming background the things I’m about to say may bear no novelty for you. However, I know there are developers who are not accustomed to strong types and Hindley-Milner’s notation isn’t exactly the first thing that pops up in their heads when they think of a function. I address this article to those people.
 
 ---
 
-## Input and Output
+## The Input/Output pattern
 
-Functions may accept arguments (input) and may return a value (output). This sounds obvious, but it's a primary instrument of function design that is often overlooked. In practice this ability to accept and return things is a powerful architectural detail that we can use to create better functions.
+We know that a function accepts arguments and returns a value. What we sometimes overlook is that this characteristic is an incredibly powerful design pattern we can use to write better functions.
 
-Try writing your functions by first answering these two questions:
+Try to write any function by answering these two questions first:
 
-1. **What is this function's input?**
-1. **What is this function's output?**
+1. **What is this function’s input (what arguments it accepts)?**
+1. **What is this function’s output (what data it returns)?**
 
-Doing so helps you to put technical details aside and perceive a function as an input/output operation, which it is. Those answers often hint implementational details, but most importantly they define clear constrains over a function's responsibility even before any code is written.
+Doing so allows you to put technical details aside and focus on a function as an input/output operation, which, in fact, it is. The answers you give may hint certain implementational details, but, most importantly, they define clear constrains over a function’s responsibilities long before any actual code is being written.
 
-> You may operate with abstract types when answering those questions. For example, you can describe a function that accepts a list of apples and returns a fox. Such abstractions help you focus on a function's intent event more, but it's crucial to keep primitives like "string", "number", "list", etc.
+> You may use abstract types for your answers. For example, a function may accept a list of apples and return a happy fox. Such type abstractions detach the call signature from the implementation even further.
+
+Let’s put this into practice. Say, you need to write a function that validates a form field. There are myriad of things that can affect a field’s validation, but you can leave those aside and answer the Input/Output questions first:
+
+1. My function accepts a _field_;
+1. My function returns a _validation verdict_ (`boolean`).
+
+When written down, these answers represent the function’s call signature:
 
 ```ts
-function myFunc(list: number[]): number {}
+function validate(field: Field): boolean
 ```
 
-Defining a function's input and output signatures is an absolute must to retain a clear understanding of what that function should and should not do.
+You may have no idea what the `Field` type may be at this point, but you know what it represents. The same can be said about the `validate` function in total: no matter which factors affect a field’s validity, you have to resolve to the boolean verdict in the end. Defined input and output act as a restriction that prevents our function from becoming too smart along the deadline-driven development. That ensures that the logic we write lies within the function’s responsibility and remains simple, satisfying both single responsibility and KISS principles.
 
-Apart from that, a function's output may serve as the other function's _input_. This characteristics makes functions composable. And because we start writing our functions from those two questions, we can design entire pipelines of operations and have guarantee it would work as expected.
+Adopting this pattern doesn’t mean you should immediately rewrite your code in [TypeScript](https://www.typescriptlang.org/) or any other strongly-typed language. First of all, it is the way of thinking about your functions. It’s fine to keep the input and output noted in a JSDoc block or in your sketchbook. Start from changing the way you think, and the tools will follow.
+
+<Quote>
+  Similar to how you put the user’s needs first before making proper UX
+  decisions, you think about what data your function accepts and returns in
+  order to establish the boundaries of its future implementation.
+</Quote>
+
+### Pattern at scale
+
+Thinking of functions using this pattern is great, but what about real-world operations that often consist of multiple functions and represent more complex logic?
+
+The truth is, even the most complex function can be written as a set of consecutively executing smaller functions. When you approach the task this way you can focus on designing each individual function at a time. However, keeping functions in isolation is dangerous, as you may end up with multiple puzzle pieces that don’t fit together. There is a rule of functional composition to avoid that problem:
+
+> Two functions are composable if the output of one can serve as the input to another.
+
+Knowing that, let’s implement a fairly complex operation that accepts a user and returns the amount of likes under all of their posts. To prevent the complexity, we can describe this operation as a sequence of steps:
+
+> Get a user → get user’s posts → get the amount of post’s likes
+
+Each of these steps is a function, and we can apply the Input/Output pattern to design its call signature, keeping in mind the composition principle.
 
 ```ts
 const getUser = (id: string) => User
 const getPosts = (user: User) => Post[]
-const getLikes = (posts: Post[]) => number
-
-// getUser -> getPosts -> getLikes
+const getTotalLikes = (posts: Post[]) => number
 ```
 
-There is one more hidden gem about this approach. Imagine you have asked yourself these questions, and your answer was: "_my function accepts a list of strings and returns a number_". Congratulations, you have just written a unit test for your function!
-
-```js
-expect(myFunc(['a', 'b', 'c'])).toEqual(2)
-```
-
-Understanding a function's input and output types effectively defines a specification for that function: a function's call signature, and a unit test. Implementing things according to specification is a pleasant and safe way of programming that keeps you from leading astray.
-
----
-
-## Pure and Impure
-
-Functions often operate on data. That data can be internal (arguments, scoped variables), or external (databases, loggers, DOM). A function that operates only on internal data is called *pure*. A function that operates on external data or performs side-effects is called *impure*.
-
-Since you are now designing your functions with their input/output in mind, you are gaining control over their purity as well. Despite of what you may have heard, you shouldn't praise pure functions and despise impure ones. You should treat them as different beasts, knowing their behavior and what to expect of them.
-
-This is a highly practical topic, so I will approach it with examples.
-
-* Is this function contextful? What makes it so?
-* Would this function run when stripped out from its context?
-
-### Pure functions
-
-A pure function never mutates data it doesn't own, never performs side-effects, and has everything it needs handed to it via arguments, or local variables. It also has a particularly interesting mathematical characteristic:
+Such high-level overview of a functional chain allows you to follow the data flow without distractions and highlight potential problems in the logic. Moreover, it is just a fun exercise to do.
 
 <Quote>
-Given the same input a pure function produces the same output.
+  In the end, functions are about transforming the data, so use all means
+  available to ensure that transformation is coherent and efficient.
 </Quote>
 
+### One more thing!
 
-Here's an example of a pure function that validates a given field, and returns a `boolean` indicating whether that field is valid:
+There is one more hidden gem about the Input/Output approach. Let’s say you answer those primary questions with "_my function accepts a list of strings and returns a number_". Congratulations, you have just written a unit test for your function!
 
-```js
-function validateField(fieldState) {
-  if (fieldState.required && fieldState.value === '') {
-    return false
-  }
-
-  return true
-}
+```ts
+expect(myFunc(['a', 'b'])).toEqual(2)
 ```
 
-Everything above makes ...
-
-A couple of examples of a pure function gone wrong:
-
-```js
-function validateField(fieldState) {
-  if (fieldState.required && fieldState.value === '') {
-    // Don't mutate a function's input.
-    // You never know what else relies on it.
-    fieldState.valid = false
-  }
-
-  fieldState.valid = true
-}
-```
-
-[TODO] Relpace dummy example with a real-world example of some calculations. Highlight how relying on external data is a bad idea, and how making a function pure makes it trustworthy.
-
-I would recommend to make any calculative function a pure function.
-
-```js
-function multiply(a, b) {
-  return a * b
-}
-
-multiply(2, 5) // 10
-multiply(2, 5) // 10
-```
-
-> Predictable output of a pure function makes it testable and trustworthy.
-
-### Impure functions
-
-The same output of these functions is not guaranteed granted the same input. Impure functions are also those which modify a data that doesn't belong to them.
-
-```js
-...
-
-function multiply(2, 5) {
-  // Logging to console is a side-effect
-  console.log(2 * 5)
-}
-```
-
-Examples of side effects:
-
-* Printing to browser's console (`console.log`, `console.assert`, etc.)
-* Manipulating the DOM (`appendChild`, `removeChild`, etc.)
-* Request to a database
-
-### Which is better: pure or impure?
-
-_Neither_.
+The result of this pattern may be reflected in a test scenario, backing up function design decisions with an actual unit test. This encourages TDD (test-driven development) and BDD (behavior-driven development), since we express our function’s intent by describing its input and output.
 
 ---
 
-## High-order functions
+## Summary
 
-_High-order function_ is a function that accepts another function as an argument, or returns a function. Think of it as a context provider that executes a given action. High-order functions is one of the greatest concepts to leverage code complexity without sacrificing ...
+Focusing on a function’s input and output types defines a concise specification of that function:
 
-### Accepting a function
+1. A function’s call signature;
+1. A minimal unit test for that function.
 
-Let's say we have an application that performs a lot of user operations based on their authentication status. What we may end up doing is checking the status in each of those individual operations:
+Implementing things according to the specification is a pleasant and safe experience I absolutely recommend you to get accustomed to.
 
-```js
-function getLatestPosts(user) {
-  return user.isAuthenticated ? fetchPosts(user) : null
-}
+## Afterword
 
-function addComment(user, comment) {
-  return user.isAuthenticated ? postComment(user, comment) : null
-}
-```
-
-You can see how often we need to repeat `user.isAuthenticated` each time to check if a user is authenticated. The worst part is that in reality it's often much more complicated to determine an authentication status than simply relying on a single property. Repeating that logic each time is not what you want.
-
-Our next step to get rid of that repetition may be to separate authentication check logic into its own function, and call it on the usage level:
-
-```js
-// Determine authentication of the given user
-function isAuthenticated(user) {
-  return user.isAuthenticated && moreComplicatedFactors(user)
-}
-
-function getLatestPosts(user) {
-  // Reuse the function
-  return isAuthenticated(user) ? fetchPosts(user) : null
-}
-
-function addComment(user) {
-  return isAuthenticated(user) ? postComment(user, comment) : null
-}
-```
-
-> Would this be enough? It does look good, what is the argument to use HOF instead?
-
-[...] We can encapsulate the logic that determines authentication and make the performed action parametric instead.
-
-```js
-function withAuthentication(user, action) {
-  return user.isAuthenticated ? action(user) : null
-}
-
-function getLatestPosts(user) {...}
-
-const latestPosts = withAuthentication(user, getLatestPosts)
-```
-
-The `withAuthentication` function above is a high-order function because it accepts another function called `action` as the second argument.
-
-* Add an explanation why HOF is more efficient than doing this:
-
-```js
-const withAuthentication = (user) => {
-  return user.isAuthenticated
-}
-
-const getLatestPosts = (user) => {
-  return withAuthentication(user) ? fetchPosts(user) : null
-}
-```
-
-### Return a function
-
-> Example when returning a function is useful.
-
-- What is it?
-- Why this are useful (with examples of already existing and custom hof)
-- Declarative, deterministic
-- (?) Warnings when using them
-
----
-
-## Compose, don't complicate
-
-Complexity is undesired, but unavoidable. Our task, as developers, is to prevent business complexity becoming a programmatic complexity. For example, reusing existing code rather than introducing new things is a common way to leverage this issue.
-
-Speaking of functions, there is an approach to cope with their complexity, and it's called *functional composition*. Imagine we have a function that does a lot.
-
-```js
-// Examples of a complicated function
-```
-
-Instead of writing a single complicated function, try to create two smaller, more isolated functions, and let the third one be the combination of the previous two. Utilize the knowledge of the input/output function design pattern to determine how to compose functions.
-
-```js
-// Example of the same complicated function redone in composition
-
-const simpleA = () => {}
-const simpleB = () => {}
-
-const complexFunc = (arg) => simpleB(simpleA(arg))
-```
-> Remember that you can compose two functions only if the return type of the first function is the input type for the second. This limitation makes you put more thought into making functions properly composable (reusable), and helps writting functions with strict purpose.
-
-[TODO] Benefit of a composition: illustrate how easy it's to add a new operation on top of the composition without refactoring anything. Maybe now it's a composition of three functions.
-
-Applying this principle for a large chain of functions may lead into a nesting problem, where our composition would become an ugly, terrifying monstrosity:
-
-```js
-const func = (arg) => e(d(c(b(a(arg)))))
-```
-
-To eradicate the nesting of function calls, you can use a `compose` function:
-
-```js
-function compose(...funcs) {
-  return funcs.reduce((f, g) => (...args) => f(g(...args)))
-}
-
-const complexFunc = compose(
-  simpleB,
-  simpleA,
-)(arg)
-```
-
-> Note that the invocation order of functions inside a composition is right-to-left (or bottom-to-top). If you find this confusing, take a look at compose's alternative called [`pipe`](https://ramdajs.com/docs/#pipe).
-
-### Benefits of composition
-
-As stated earlier, composition is an architecture design challenge, and by forcing you to put more thoughts into how your functions operate, you effectively end up with better written functions. This is the extension of the input/output pattern which helps you to write more effective functions, but in case of functional composition it applies to the entire *sequence of operations*.
-
-Perhaps, the following illustration may help you to understand the difference between the "monolithic" and compositional function design:
-
-> INSERT AN IMAGE HERE. Consists of two halfs: left part demostrates a monolith of a function, the right half illustrate lego-ish functional composition.
-
-Small deterministic functions are easier to test and interchange if needed, making your functions chain more maintainable in the long run.
-
-[...]
-
----
-
-If you want to bring your composition skills further, I highly recommend you to read through the Functional programming fundamentals. Functional composition is one of the pillars of that paradigm, and it can teach you a lot, regardless whether you want to adopt functional programming in your project.
+I hope this pattern helps you next time you decide to write a function. Let me know if you would like to know more practical patterns and approaches to functional design by liking this post and letting me know in the comments.
