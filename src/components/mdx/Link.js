@@ -1,4 +1,5 @@
 import React from 'react'
+import { Box } from 'atomic-layout'
 import { GoLinkExternal } from 'react-icons/go'
 
 const Link = (props) => {
@@ -6,7 +7,7 @@ const Link = (props) => {
   return (
     <a {...props} target={isExternal && '_blank'}>
       {props.children}
-      <GoLinkExternal size={14} />
+      <Box inline as={GoLinkExternal} size={14} marginLeft={2} />
     </a>
   )
 }

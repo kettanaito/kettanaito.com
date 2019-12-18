@@ -27,6 +27,7 @@ const Share = ({ title, url, text }) => {
       flexDirection="column"
       alignItems="center"
       padding={32}
+      marginTop={32}
     >
       <h3>Share this post</h3>
       <Text as="p" small>

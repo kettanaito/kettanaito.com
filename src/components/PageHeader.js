@@ -9,15 +9,10 @@ import Logo from '../images/logo.svg'
 const HeaderContainer = styled.header`
   position: sticky;
   top: 0;
-  padding: 1rem 0;
   background-color: #fff;
   border-bottom: 1px solid #eaeaea;
   font-size: 0.85rem;
   z-index: 10;
-
-  // @media (min-width: 768px) {
-  //   position: static;
-  // }
 `
 
 const LogoImage = styled.img`
@@ -31,6 +26,40 @@ const LogoImage = styled.img`
   }
 `
 
+const StyledLink = styled(Link)`
+  position: relative;
+  padding: 1.2rem 1rem;
+  text-decoration: none;
+
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    width: 0;
+    background-color: red;
+    margin: 0 auto;
+    transition: width 0.2s ease;
+  }
+
+  &:hover {
+    text-decoration: none;
+  }
+
+  &.active,
+  &:hover {
+    &:after {
+      width: 100%;
+    }
+  }
+
+  &.active:after {
+    height: 2px;
+  }
+`
+
 const Header = ({ siteTitle }) => (
   <HeaderContainer>
     <Container>
@@ -38,7 +67,9 @@ const Header = ({ siteTitle }) => (
         <Link to="/">
           <LogoImage src={Logo} alt={siteTitle} />
         </Link>
-        <Link to="/about">About</Link>
+        <StyledLink to="/about" activeClassName="active">
+          About
+        </StyledLink>
       </Box>
     </Container>
   </HeaderContainer>
