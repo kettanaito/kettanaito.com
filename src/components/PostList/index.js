@@ -4,7 +4,6 @@ import { graphql } from 'gatsby'
 import { Composition } from 'atomic-layout'
 
 import PostThumbnail from './PostThumbnail'
-import PostThumbnailMinimal from './PostThumbnailMinimal'
 
 export const PostPreviewFragment = graphql`
   fragment PostPreview on Mdx {
@@ -29,30 +28,16 @@ export const PostPreviewFragment = graphql`
 `
 
 const PostList = ({ posts, variant, ...restProps }) => {
-  const compositionProps =
-    variant === 'minimal'
-      ? {
-          templateCols: '1fr',
-          templateColsMd: '1fr',
-          justifyItems: 'center',
-        }
-      : {
-          templateColsMd: 'repeat(2, 1fr)',
-        }
-
-  const PostTemplate =
-    variant === 'minimal' ? PostThumbnailMinimal : PostThumbnail
-
   return (
     <Composition
-      {...compositionProps}
+      templateCols="1fr"
       justifyContent="center"
-      gutter={32}
+      gutter={48}
       maxWidth="100%"
       {...restProps}
     >
       {posts.map(({ node }) => (
-        <PostTemplate key={node.id} post={node} />
+        <PostThumbnail key={node.id} post={node} />
       ))}
     </Composition>
   )

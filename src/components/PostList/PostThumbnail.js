@@ -11,6 +11,10 @@ const postTemplate = `
   content
 `
 
+const postTemplateInline = `
+  thumbnail content
+`
+
 const ThumbnailMask = styled.div`
   overflow: hidden;
   max-height: 100%;
@@ -23,21 +27,24 @@ const PostLink = styled(Link)`
   text-decoration: none;
 `
 
-const PostTitle = styled.h2`
+const PostTitle = styled.h3`
   margin: 0;
 `
 
-const PostThumbnail = props => {
+const PostThumbnail = (props) => {
   const { post } = props
 
   return (
     <Composition
       template={postTemplate}
-      templateRows="auto 1fr"
+      templateMd={postTemplateInline}
+      templateColsMd="250px 1fr"
       gutter={16}
       gutterMd={24}
       height="100%"
       maxWidthSmDown={400}
+      marginHorizontal="auto"
+      alignItems="center"
     >
       {({ Thumbnail, Content }) => (
         <>
@@ -53,21 +60,19 @@ const PostThumbnail = props => {
           </Thumbnail>
 
           <Content>
-            <Box as={Text} muted marginBottom={10}>
-              <Text primary small>
-                {post.frontmatter.category}
-              </Text>
-              <Box as="span" inline marginHorizontal={8}>·</Box>
-              <Text small muted>
-                {post.frontmatter.date}
-              </Text>
+            <Box as={Text} muted small marginBottom={10}>
+              <Text primary>{post.frontmatter.category}</Text>
+              <Box as="span" inline marginHorizontal={8}>
+                ·
+              </Box>
+              <Text>{post.frontmatter.date}</Text>
             </Box>
 
             <PostLink to={post.fields.url}>
               <PostTitle>{post.frontmatter.title}</PostTitle>
             </PostLink>
 
-            <Box marginTop={16}>
+            <Box marginTop={8}>
               <Text small>
                 {post.frontmatter.description || (
                   <div dangerouslySetInnerHTML={{ __html: post.excerpt }} />
