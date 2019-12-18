@@ -66,9 +66,9 @@ const About = ({ data }) => (
               👋
             </span>{' '}
             My name is Artem, and I'm a Full-stack developer from Ukraine. I've
-            been programming since I was 12, and it has become my occupation a
-            few years ago. Now I build applications in React, Redux and GraphQL,
-            and indulge vastly in Open Source.
+            been programming since the age of 12, and it has become my
+            occupation a few years ago. Now I build applications in React, Redux
+            and GraphQL, and indulge vastly in Open Source.
           </Content>
         </>
       )}
