@@ -13,7 +13,7 @@ import Seo from '../components/seo'
 import Text from '../components/Text'
 
 const PostTitle = styled.h1`
-  @media (min-width: ${AtomicLayout.getBreakpoint('sm').minWidth}) {
+  @media (min-width: ${AtomicLayout.breakpoints.sm.minWidth}) {
     text-align: center;
   }
 `
