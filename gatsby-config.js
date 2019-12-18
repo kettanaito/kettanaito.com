@@ -36,13 +36,6 @@ module.exports = {
       },
     },
     {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        name: 'drafts',
-        path: `${__dirname}/content/drafts/`,
-      },
-    },
-    {
       resolve: 'gatsby-mdx',
     },
     `gatsby-transformer-sharp`,
