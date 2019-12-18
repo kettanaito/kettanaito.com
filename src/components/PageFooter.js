@@ -9,7 +9,7 @@ import Text from './Text'
 const StyledBox = styled(Box)`
   border-top: 1px solid #eaeaea;
   color: #676767;
-  font-size: 0.7rem;
+  font-size: 0.85rem;
 `
 
 const FooterLink = styled.a`
@@ -48,8 +48,12 @@ const Footer = () => (
         >
           CC BY-NC
         </FooterLink>
-        <Box as="span" inline marginHorizontal={8}>·</Box>
-        <FooterLink as={Link} to="/privacy">Privacy policy</FooterLink>
+        <Box as="span" inline marginHorizontal={8}>
+          ·
+        </Box>
+        <FooterLink as={Link} to="/privacy">
+          Privacy policy
+        </FooterLink>
       </Text>
     </StyledBox>
   </Container>
