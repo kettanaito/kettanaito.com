@@ -19,25 +19,18 @@ const IndexPage = ({ data }) => {
 }
 
 export const query = graphql`
-query ListQuery {
-  postList: allMdx(
-    filter: {
-      frontmatter: {
-        draft: { ne: true }
-      }
-    }
-    sort: {
-      order: DESC
-      fields: [frontmatter___date]
-    }
-  ) {
-    edges {
-      node {
-        ...PostPreview
+  query ListQuery {
+    postList: allMdx(
+      filter: { frontmatter: { date: { ne: null } } }
+      sort: { order: DESC, fields: [frontmatter___date] }
+    ) {
+      edges {
+        node {
+          ...PostPreview
+        }
       }
     }
   }
-}
 `
 
 export default IndexPage

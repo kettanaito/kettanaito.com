@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import { Box, Composition } from 'atomic-layout'
 import { IoLogoTwitter, IoLogoGithub, IoLogoLinkedin } from 'react-icons/io'
 
-import AvatarImageSrc from '../images/me-light.jpg'
 import Layout from '../components/layout'
 import Text from '../components/Text'
 import SEO from '../components/seo'

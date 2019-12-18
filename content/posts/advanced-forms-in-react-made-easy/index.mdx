@@ -1,5 +1,5 @@
 ---
-date: '2018-05-14'
+date: 2018-05-14
 category: OSS
 title: Advanced forms in React made easy.
 description: Learn how to create clean and performant forms using React Advanced Form package.
@@ -308,8 +308,8 @@ import { Form } from 'react-advanced-form'
 export default class RegistrationForm extends React.Component {
   validateEmail = ({ value, fieldProps, fields, form }) => {
     return fetch('https://backend/', { body: value })
-      .then(res => res.json())
-      .then(res => {
+      .then((res) => res.json())
+      .then((res) => {
         return {
           /* Determine if the e-mail is valid based on response */
           valid: res.statusCode === 'SUCCESS',

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { graphql } from 'gatsby'
+import { graphql, navigate } from 'gatsby'
 import Image from 'gatsby-image'
 import MDXRenderer from 'gatsby-mdx/mdx-renderer'
 import AtomicLayout, { Only, Box } from 'atomic-layout'
@@ -27,6 +27,12 @@ const MetaDelimiter = () => (
 function BlogPost(props) {
   const { location, data } = props
   const { post, similarPosts } = data
+
+  if (!data.post) {
+    navigate('/404')
+    return null
+  }
+
   const { frontmatter, timeToRead } = post
   const { draft, date, category } = frontmatter
 
@@ -93,7 +99,7 @@ function BlogPost(props) {
           {similarPosts && (
             <>
               <hr />
-              <PostList variant="minimal" posts={similarPosts.edges} />
+              <PostList posts={similarPosts.edges} />
             </>
           )}
         </div>
@@ -104,7 +110,7 @@ function BlogPost(props) {
 
 export const query = graphql`
   query SinglePost($postId: String!, $postCategory: String!) {
-    post: mdx(id: { eq: $postId }) {
+    post: mdx(id: { eq: $postId }, frontmatter: { date: { ne: null } }) {
       id
       frontmatter {
         title
@@ -112,7 +118,6 @@ export const query = graphql`
         keywords
         date(formatString: "MMMM D, YYYY")
         category
-        socialShareText
         image {
           childImageSharp {
             fluid(maxWidth: 786, quality: 95) {
@@ -138,7 +143,7 @@ export const query = graphql`
       sort: { order: DESC, fields: [frontmatter___date] }
       filter: {
         id: { ne: $postId }
-        frontmatter: { draft: { ne: true }, category: { eq: $postCategory } }
+        frontmatter: { date: { ne: null }, category: { eq: $postCategory } }
       }
     ) {
       edges {

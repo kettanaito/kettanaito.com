@@ -19,26 +19,19 @@ const NotFoundPage = ({ data }) => (
 )
 
 export const query = graphql`
-query PageQuery {
-  latestPosts: allMdx(
-    limit: 3
-    filter: {
-      frontmatter: {
-        draft: { ne: true }
-      }
-    }
-    sort: {
-      order: DESC
-      fields: [frontmatter___date]
-    }
-  ) {
-    edges {
-      node {
-        ...PostPreview
+  query PageQuery {
+    latestPosts: allMdx(
+      limit: 3
+      filter: { frontmatter: { date: { ne: null } } }
+      sort: { order: DESC, fields: [frontmatter___date] }
+    ) {
+      edges {
+        node {
+          ...PostPreview
+        }
       }
     }
   }
-}
 `
 
 export default NotFoundPage

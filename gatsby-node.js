@@ -4,7 +4,7 @@
  * See: https://www.gatsbyjs.org/docs/node-apis/
  */
 const path = require('path')
-const { createFilePath, createFileNode } = require('gatsby-source-filesystem')
+const { createFilePath } = require('gatsby-source-filesystem')
 
 exports.createPages = ({ actions, graphql }) => {
   const { createPage } = actions
@@ -30,7 +30,7 @@ exports.createPages = ({ actions, graphql }) => {
             }
           }
         }
-      `).then(result => {
+      `).then((result) => {
         if (result.errors) {
           console.log(result.errors)
           return reject(result.errors)
