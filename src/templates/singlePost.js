@@ -110,7 +110,7 @@ export const query = graphql`
         title
         description
         keywords
-        date(formatString: "MMMM DD, YYYY")
+        date(formatString: "MMMM D, YYYY")
         category
         socialShareText
         image {

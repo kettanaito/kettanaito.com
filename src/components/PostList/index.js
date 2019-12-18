@@ -15,7 +15,7 @@ export const PostPreviewFragment = graphql`
     frontmatter {
       title
       description
-      date(formatString: "MMMM DD, YYYY")
+      date(formatString: "MMMM D, YYYY")
       category
       image {
         childImageSharp {
