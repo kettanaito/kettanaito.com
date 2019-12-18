@@ -11,6 +11,8 @@ keywords:
 image: thumbnail.jpg
 ---
 
+import Quote from '../../../src/components/mdx/Quote.js'
+
 ## Introduction
 
 Hi! My name is Artem, and I am a software engineer who spent the last 2,5 years developing a multi-country e-commerce solution with millions of euro of annual revenue. During that journey I had a chance to work with more than 15 front-end engineers of different seniority level, teaching them what I knew and learning from them what I didn’t. Today I would like to share my experience being a code reviewer, and give you some pieces of advice to become a good one.
@@ -56,7 +58,9 @@ In my practice such situations happen for two reasons.
 
 This often happens to people who rush into development without properly thinking the changes through. I am strongly convinced that a day of thinking saves a week of work.
 
-> Don’t be afraid to ask and discuss! It either confirms your approach, or saves a week of work in a wrong direction.
+<Quote>
+Don’t be afraid to ask and discuss! It either confirms your approach, or saves a week of work in a wrong direction.
+</Quote>
 
 While this is feasible in a team, those working alone may struggle to get their ideas evaluated. Bear in mind that there are plenty of people eager to help you in engineering communities. You are not alone.
 
@@ -82,7 +86,9 @@ import Typewriter from './typewriter.svg'
 
 <img src={Typewriter} alt="Image of two women near a big typewriter" />
 
-> Automation reduces the amount of needless checks, and let’s you focus on logic behind the changes, rather than syntax errors and typos.
+<Quote>
+Automation reduces the amount of needless checks, and let’s you focus on logic behind the changes, rather than syntax errors and typos.
+</Quote>
 
 Use tools like Prettier, and integrate linters status check into your CI to filter out typos and syntax issues as the first, automated part of a pull request. That also helps to keep a codebase unified without putting to much thought into it. The time saved by automating the routine can be well spent on verifying the actual logic behind a pull request’s changes.
 
@@ -101,11 +107,15 @@ import VersionControl from './version-control.svg'
 
 First, big pull requests can often be prevented as such.
 
-> Plan your work in small, deliverable, meaningful pieces.
+<Quote>
+Plan your work in small, deliverable, meaningful pieces.
+</Quote>
 
 However, the scope of a feature isn’t the only factor that affects a pull request’s size. There is also a technical depth, which may render you changing hundreds of files simply to adjust the hue of that one tiny icon.
 
-> Have a clear picture of your changes prior to making them. Think it through and discuss with your colleagues whenever in doubt.
+<Quote>
+Have a clear picture of your changes prior to making them. Think it through and discuss with your colleagues whenever in doubt.
+</Quote>
 
 What if a feature is small and has a clear development plan in mind, yet still requires to change the half of the entire codebase? How to handle that?
 

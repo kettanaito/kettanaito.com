@@ -1,7 +1,7 @@
 export default {
   'code[class*="language-"]': {
     fontFamily:
-      'Fira Mono, Consolas, Menlo, Monaco, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", "Courier New", Courier, monospace',
+      '"Roboto Mono", "Fira Mono", Consolas, Menlo, Monaco, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", "Courier New", Courier, monospace',
     fontSize: '16px',
     lineHeight: '1.45',
     direction: 'ltr',
@@ -18,10 +18,11 @@ export default {
     hyphens: 'none',
     background: '#f6f8fa',
     color: '#24292e',
+    padding: 0,
   },
   'pre[class*="language-"]': {
     fontFamily:
-      'Consolas, Menlo, Monaco, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", "Courier New", Courier, monospace',
+      '"Roboto Mono", "Fira Mono", Consolas, Menlo, Monaco, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", "Courier New", Courier, monospace',
     fontSize: '16px',
     lineHeight: '1.375',
     direction: 'ltr',

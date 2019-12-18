@@ -1,33 +1,26 @@
 import React from 'react'
-import { graphql, StaticQuery } from 'gatsby'
+import PropTypes from 'prop-types'
+import { graphql } from 'gatsby'
 import { Composition } from 'atomic-layout'
 
 import PostThumbnail from './PostThumbnail'
+import PostThumbnailMinimal from './PostThumbnailMinimal'
 
-const postsQuery = graphql`
-  query ListQuery {
-    postList: allMdx(
-      filter: { frontmatter: { draft: { ne: true } } }
-      sort: { order: DESC, fields: [frontmatter___date] }
-    ) {
-      edges {
-        node {
-          id
-          fields {
-            url
-          }
-          frontmatter {
-            title
-            description
-            date(formatString: "MMMM DD, YYYY")
-            category
-            image {
-              childImageSharp {
-                fluid(maxWidth: 500, quality: 95) {
-                  ...GatsbyImageSharpFluid
-                }
-              }
-            }
+export const PostPreviewFragment = graphql`
+  fragment PostPreview on Mdx {
+    id
+    fields {
+      url
+    }
+    frontmatter {
+      title
+      description
+      date(formatString: "MMMM DD, YYYY")
+      category
+      image {
+        childImageSharp {
+          fluid(maxWidth: 500, quality: 95) {
+            ...GatsbyImageSharpFluid
           }
         }
       }
@@ -35,30 +28,42 @@ const postsQuery = graphql`
   }
 `
 
-const PostList = props => {
-  return (
-    <StaticQuery query={postsQuery}>
-      {data => {
-        const { postList } = data
+const PostList = ({ posts, variant, ...restProps }) => {
+  const compositionProps =
+    variant === 'minimal'
+      ? {
+          templateCols: '1fr',
+          templateColsMd: '1fr',
+          justifyItems: 'center',
+        }
+      : {
+          templateColsMd: 'repeat(2, 1fr)',
+        }
 
-        return (
-          <>
-            <Composition
-              templateColsMd="repeat(2, 1fr)"
-              templateColsXxl="repeat(3, 1fr)"
-              justifyContent="center"
-              gutter={32}
-              maxWidth="100%"
-            >
-              {postList.edges.map(({ node }, index) => (
-                <PostThumbnail key={node.id} post={node} />
-              ))}
-            </Composition>
-          </>
-        )
-      }}
-    </StaticQuery>
+  const PostTemplate =
+    variant === 'minimal' ? PostThumbnailMinimal : PostThumbnail
+
+  return (
+    <Composition
+      {...compositionProps}
+      justifyContent="center"
+      gutter={32}
+      maxWidth="100%"
+      {...restProps}
+    >
+      {posts.map(({ node }) => (
+        <PostTemplate key={node.id} post={node} />
+      ))}
+    </Composition>
   )
+}
+
+PostList.propTypes = {
+  variant: PropTypes.oneOf(['full', 'minimal']).isRequired,
+}
+
+PostList.defaultProps = {
+  variant: 'full',
 }
 
 export default PostList

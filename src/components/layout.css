@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700&display=swap&subset=cyrillic');
+@import url('https://fonts.googleapis.com/css?family=Playfair+Display:700&display=swap&subset=cyrillic');
+
 ::selection {
   background-color: hsl(1, 65%, 50%);
   color: #fff;
@@ -210,10 +213,10 @@ html {
 body {
   background-color: #fff;
   color: #333;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-weight: normal;
-  line-height: 1.5;
+  line-height: 1.6;
   word-wrap: break-word;
   font-kerning: normal;
   -moz-font-feature-settings: 'kern', 'liga', 'clig', 'calt';
@@ -245,7 +248,7 @@ h1 {
   padding-top: 0;
   margin-bottom: 1.45rem;
   color: inherit;
-  font-family: Charter, Georgia, serif;
+  font-family: 'Playfair Display', Charter, 'Bookman Antiqua', Georgia, serif;
   font-weight: bold;
   text-rendering: optimizeLegibility;
   font-size: 2.25rem;
@@ -254,14 +257,14 @@ h1 {
 h2 {
   margin-left: 0;
   margin-right: 0;
-  margin-top: 0;
+  margin-top: 2.45rem;
   padding-bottom: 0;
   padding-left: 0;
   padding-right: 0;
   padding-top: 0;
   margin-bottom: 1.45rem;
   color: inherit;
-  font-family: Charter, Georgia, serif;
+  font-family: 'Playfair Display', Charter, 'Bookman Antiqua', Georgia, serif;
   font-weight: bold;
   text-rendering: optimizeLegibility;
   font-size: 1.62671rem;
@@ -277,7 +280,7 @@ h3 {
   padding-top: 0;
   margin-bottom: 1.45rem;
   color: inherit;
-  font-family: Charter, Georgia, serif;
+  font-family: 'Playfair Display', Charter, 'Bookman Antiqua', Georgia, serif;
   font-weight: bold;
   text-rendering: optimizeLegibility;
   font-size: 1.38316rem;
@@ -293,10 +296,10 @@ h4 {
   padding-top: 0;
   margin-bottom: 1.45rem;
   color: inherit;
-  font-family: Charter, Georgia, serif;
+  font-family: 'Playfair Display', Charter, 'Bookman Antiqua', Georgia, serif;
   font-weight: bold;
   text-rendering: optimizeLegibility;
-  font-size: 1rem;
+  font-size: 1.2rem;
   line-height: 1.1;
 }
 h5 {
@@ -448,6 +451,7 @@ blockquote {
   border-left: 3px solid hsl(1, 65%, 50%);
   margin: 0 1.45em 1.45em 0;
   padding: 0 0 0 1em;
+  font-style: italic;
 }
 form {
   margin-left: 0;
@@ -481,7 +485,11 @@ iframe {
 }
 
 hr {
-  margin: 2rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem 0;
+  padding: 0 0 0.35em;
   border: 0;
   color: #aaa;
   height: 1em;
@@ -631,8 +639,8 @@ tt:after {
   letter-spacing: -0.2em;
   content: ' ';
 }
-pre code:before,
-pre code:after,
+/* pre code:before,
+pre code:after, */
 pre tt:before,
 pre tt:after {
   content: '';

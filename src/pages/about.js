@@ -30,6 +30,7 @@ const About = ({ data }) => (
   <Layout>
     <SEO
       title="About"
+      useTitleTemplate
       description="Find out about the mission and the people behind Redd Developer project."
     />
     <h1>About</h1>

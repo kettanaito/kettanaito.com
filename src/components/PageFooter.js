@@ -12,28 +12,44 @@ const StyledBox = styled(Box)`
   font-size: 0.7rem;
 `
 
+const FooterLink = styled.a`
+  color: #000;
+  text-decoration: none;
+`
+
 const Footer = () => (
   <Container>
-    <StyledBox flex justifyContent="center" paddingVertical={16}>
+    <StyledBox
+      flex
+      flexDirection="column"
+      flexDirectionSm="row"
+      justifyContent="space-between"
+      paddingVertical={16}
+    >
       <Text as="span">
-        © {new Date().getFullYear()}, Built with love and
+        © {new Date().getFullYear()}. Built with love and
         {` `}
-        <a
+        <FooterLink
           href="https://www.gatsbyjs.org"
           rel="noopener noreferrer"
           target="_blank"
         >
           Gatsby
-        </a>
-        . Licensed under{' '}
-        <a
+        </FooterLink>
+        .
+      </Text>
+
+      <Text as="span">
+        Licensed under{' '}
+        <FooterLink
           href="https://creativecommons.org/licenses/by-nc/4.0/"
           rel="noopener noreferrer"
           target="_blank"
         >
           CC BY-NC
-        </a>
-        . <Link to="/privacy">Privacy policy</Link>.
+        </FooterLink>
+        <Box as="span" inline marginHorizontal={8}>·</Box>
+        <FooterLink as={Link} to="/privacy">Privacy policy</FooterLink>
       </Text>
     </StyledBox>
   </Container>

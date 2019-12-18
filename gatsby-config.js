@@ -57,7 +57,7 @@ module.exports = {
         theme_color: `#d22f2d`,
         // display: `minimal-ui`,
         display: `standalone`,
-        icon: `src/images/favicons/default.png`,
+        icon: `src/images/favicons/default-square.png`,
       },
     },
     'gatsby-plugin-styled-components',

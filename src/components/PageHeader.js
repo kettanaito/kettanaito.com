@@ -15,9 +15,9 @@ const HeaderContainer = styled.header`
   font-size: 0.85rem;
   z-index: 10;
 
-  @media (min-width: 768px) {
-    position: static;
-  }
+  // @media (min-width: 768px) {
+  //   position: static;
+  // }
 `
 
 const LogoImage = styled.img`
@@ -49,7 +49,7 @@ Header.propTypes = {
 }
 
 Header.defaultProps = {
-  siteTitle: ``,
+  siteTitle: '',
 }
 
 export default Header

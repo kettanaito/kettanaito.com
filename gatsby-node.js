@@ -17,12 +17,14 @@ exports.createPages = ({ actions, graphql }) => {
           allMdx {
             edges {
               node {
+                id
                 fields {
                   url
                   slug
                 }
                 frontmatter {
                   title
+                  category
                 }
               }
             }
@@ -39,7 +41,8 @@ exports.createPages = ({ actions, graphql }) => {
             path: node.fields.url,
             component: singlePostTemplate,
             context: {
-              id: node.id,
+              postId: node.id,
+              postCategory: node.frontmatter.category,
               slug: node.fields.slug,
               // additional data can be passed via context
             },
@@ -51,6 +54,18 @@ exports.createPages = ({ actions, graphql }) => {
     )
   })
 }
+
+// exports.onCreatePage = ({ page, actions }) => {
+//   const { createPage, deletePage } = actions
+
+//   deletePage(page)
+//   createPage({
+//     ...page,
+//     context: {
+//       url: '???'
+//     }
+//   })
+// }
 
 exports.onCreateNode = ({ node, getNode, actions }) => {
   const { createNodeField } = actions
@@ -72,7 +87,7 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
     createNodeField({
       node,
       name: 'url',
-      value: path.normalize(`blog/${postSlug}`),
+      value: `blog/${postSlug}`.replace(/\/+/g, '/'),
     })
   }
 }

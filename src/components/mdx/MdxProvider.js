@@ -4,6 +4,7 @@ import { MDXProvider } from '@mdx-js/tag'
 
 /* Components */
 import Code from './Code'
+import Link from './Link'
 
 const StyledP = styled.p`
   line-height: 1.8;
@@ -21,6 +22,7 @@ const components = {
   h2: createHeading('h2'),
   h3: createHeading('h3'),
   h4: createHeading('h4'),
+  a: Link,
 }
 
 export default props => <MDXProvider {...props} components={components} />
