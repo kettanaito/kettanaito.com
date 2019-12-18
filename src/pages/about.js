@@ -55,7 +55,11 @@ const About = ({ data }) => (
       {({ Avatar, Content }) => (
         <>
           <Avatar>
-            <AvatarImage src={AvatarImageSrc} alt="My photo" size={125} />
+            <AvatarImage
+              src="https://github.com/kettanaito.png"
+              alt="My photo"
+              size={125}
+            />
           </Avatar>
           <Content as="p">
             <span role="img" aria-label="Waving hand">
