@@ -574,6 +574,7 @@ li > p {
 }
 code {
   font-size: 0.85rem;
+  font-style: normal;
   line-height: 1.45rem;
 }
 kbd {

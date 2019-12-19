@@ -1,0 +1,15 @@
+button {
+  padding: 0.25em 0.75em;
+
+  border: 0;
+  border-radius: 4px;
+  background-color: hsl(1, 65%, 50%);
+  color: #fff;
+  cursor: pointer;
+  outline: none;
+  user-select: none;
+}
+
+button:focus {
+  box-shadow: 0 0 0 4px hsla(1, 65%, 50%, 0.4);
+}

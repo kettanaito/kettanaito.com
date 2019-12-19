@@ -1,0 +1,57 @@
+---
+date: 2019-12-20
+category: Education
+title: 'Debounce vs Throttle: Definitive Visual Guide'
+description: A complete guide to learn the difference between debounce and throttle using visual examples. Never confuse the two again.
+image: thumbnail.jpg
+---
+
+import Quote from '../../../src/components/Quote'
+
+## Introduction
+
+When it comes to debounce and throttle developers often confuse the two. Sometimes it's unclear which one to use, and other time their difference slips through one's mind. To eliminate the confusion once and for all, I'd decided to compose a single definitive guide about throttle and debounce.
+
+## Event handlers
+
+Throttling and debouncing are two ways to optimize event handling. So, before we begin, let's quickly revise the basics of events.
+
+> I will use JavaScript language in this article, because it's simple, it doesn't require a compiler, and you can run or copy paste code examples into your browser to try them out.
+
+Event is an action that occurs on the page. For example, when you resize a browser window you cause the "resize" event. And when you click on a button the "click" event fires. We are interested in events to execute our own logic when they happen. That logic is represented as a function that is called a handler function (because it handles an event). For example, we may update a UI element on window resize, or display a modal on when clicked on a login button.
+
+In JavaScript you can react to events using event listeners. _Event listener_ is a function that listens to the given event on an element and executes a handler function whenever that event occurs.
+
+In this article we are going to build a ball throwing machine. Our machine has a button that, when pressed, fires a ball. To descrive this cause-and-effect relation between the button click and a ball throw we can use `addEventListener` on our button element:
+
+```js
+const button = document.getElementById('button')
+
+button.addEventListener('click', function() {
+  throwBall()
+})
+```
+
+This reads as: _whenever the `button` is clicked, execute `throwBall()` function_. Let's see our ingenious invention in action!
+
+import DefaultEvents from './components/DefaultEvents.jsx'
+
+<DefaultEvents />
+
+Whenever we press the button we produce the "click" event, to which event listener reacts with the `throwBall()` function. In other words, 1 button click results into 1 handler function call and 1 ball being thrown.
+
+<Quote>
+  By default, event handler function executes with 1-1 ratio to the event call.
+</Quote>
+
+There are cases when such 1-1 relation may become a problem.
+
+Needless to say sometimes we don't want such behavior. For example, if you needed to perform a more expensive logic than console.log, it would raise a performance issue, because of your handler function (and its expensive logic) being executed too often.
+
+There are multiple ways to control a handler function response to an event. Today we are going to look at the two most common ones: **throttling** and **debouncing**. They both limit the execution rate of a function within a given interval, but they do so in a different manner. Let's analyze each of them more closely.
+
+---
+
+## Throttle
+
+A throttled function is called once per _N_ amount of time. Any additional function calls within the specified time interval are ignored.
