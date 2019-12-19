@@ -68,7 +68,7 @@ function BlogPost(props) {
             >
               <Text primary>{category}</Text>
               <Only as={MetaDelimiter} from="sm" />
-              <Box flex>
+              <Box as="span" flex>
                 <Text>{date}</Text>
                 <MetaDelimiter />
                 <Text>{timeToRead} minute(s) read</Text>
