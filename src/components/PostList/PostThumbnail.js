@@ -78,7 +78,7 @@ const PostThumbnail = ({ post, showLatestBadge }) => {
       gutterMd={24}
       height="100%"
       maxWidthSmDown={400}
-      marginHorizontal="auto"
+      marginHorizontalSmDown="auto"
       alignItems="center"
     >
       {({ Thumbnail, Content }) => (
