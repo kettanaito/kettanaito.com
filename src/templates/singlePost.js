@@ -18,6 +18,10 @@ const PostTitle = styled.h1`
   }
 `
 
+const PostImage = styled(Image)`
+  border-radius: 3px;
+`
+
 const MetaDelimiter = () => (
   <Box as="span" paddingHorizontal={10} paddingHorizontalMd={16}>
     ·
@@ -76,7 +80,7 @@ function BlogPost(props) {
             </Box>
           </Box>
 
-          <Image
+          <PostImage
             fluid={frontmatter.image.childImageSharp.fluid}
             alt={frontmatter.title}
           />

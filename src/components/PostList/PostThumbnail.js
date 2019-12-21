@@ -53,6 +53,7 @@ const StyledThumbnail = styled.div`
 `
 
 const ThumbnailMask = styled.div`
+  border-radius: 3px;
   overflow: hidden;
   max-height: 100%;
   width: 100%;
@@ -107,7 +108,7 @@ const PostThumbnail = ({ post, showLatestBadge }) => {
               <PostTitle>{post.frontmatter.title}</PostTitle>
             </PostLink>
 
-            <Box marginTop={8}>
+            <Box marginTop={10}>
               <Text small>
                 {post.frontmatter.description || (
                   <div dangerouslySetInnerHTML={{ __html: post.excerpt }} />
