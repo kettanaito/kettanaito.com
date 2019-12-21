@@ -1,5 +1,5 @@
 import React from 'react'
-import DefaultEvents from './DefaultEvents'
+import DefaultEvents, { Warning } from './DefaultEvents'
 
 function debounce(func, duration) {
   let timeout
@@ -48,15 +48,21 @@ const DebouncedEvents = () => {
             onDoubleClick={() => setDebounceDuration(DEFAULT_DEBOUNCE_DURATION)}
           />
           <label>{debounceDuration}ms</label>
-          {debounceDuration === 0 && (
-            <p>
-              <small>No debounce applied.</small>
-            </p>
+          {debounceDuration < 200 && (
+            <Warning>{getDebouncedWarning(debounceDuration)}</Warning>
           )}
         </fieldset>
       </div>
     </DefaultEvents>
   )
+}
+
+const getDebouncedWarning = (debounceDuration) => {
+  if (debounceDuration === 0) {
+    return 'No debounce applied.'
+  }
+
+  return 'Debounce duration you have chosen is too little to simulate with a button click.'
 }
 
 export default DebouncedEvents

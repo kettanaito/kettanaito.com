@@ -2,15 +2,25 @@ import React from 'react'
 import styled from 'styled-components'
 import { Composition, useResponsiveValue } from 'atomic-layout'
 import { VendorMachine } from './VendorMachine'
+import Text from '../../../../src/components/Text'
 
 const Container = styled.div`
   margin: 2rem auto;
   max-width: 100%;
 `
 
+export const Warning = ({ children }) => {
+  return (
+    <Text as="p" small muted marginTop={8}>
+      {children}
+    </Text>
+  )
+}
+
 const DefaultEvents = ({ children, maxBalls, wrapCallback }) => {
   const [clicksCount, setClicksCount] = React.useState(0)
   const [eventsCount, setEventsCount] = React.useState(0)
+
   const arrowSymbol = useResponsiveValue(
     {
       xs: '↑',
@@ -18,6 +28,7 @@ const DefaultEvents = ({ children, maxBalls, wrapCallback }) => {
     },
     '←'
   )
+  const shouldThrowBall = eventsCount < maxBalls
 
   const handleBallThrow = React.useCallback(
     wrapCallback((func) => {
@@ -27,6 +38,10 @@ const DefaultEvents = ({ children, maxBalls, wrapCallback }) => {
   )
 
   const handleButtonClick = (throwBall) => {
+    if (!shouldThrowBall) {
+      return
+    }
+
     setClicksCount(clicksCount + 1)
 
     handleBallThrow(() => {
@@ -72,7 +87,7 @@ const DefaultEvents = ({ children, maxBalls, wrapCallback }) => {
 }
 
 DefaultEvents.defaultProps = {
-  maxBalls: 100,
+  maxBalls: 30,
   wrapCallback: function defaultWrapCallback(func) {
     return func
   },

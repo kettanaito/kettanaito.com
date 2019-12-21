@@ -21,22 +21,22 @@ const ImageContainer = styled.div`
 
 const ButtonContainer = styled.div`
   position: absolute;
-  left: 119px;
+  left: 126px;
   bottom: 215px;
   z-index: 1;
 `
 
 const VmButton = styled.button`
+  --button-shadow-color: #9c3f3f;
+  --button-active-delta: 10px;
+
   position: absolute;
   box-sizing: content-box;
 
   background-color: #e26060;
   border-radius: 50%;
   height: 30px;
-  width: 85px;
-
-  --button-shadow-color: #9c3f3f;
-  --button-active-delta: 10px;
+  width: 70px;
 
   &:before {
     content: '';
@@ -117,6 +117,8 @@ export const VendorMachine = ({
   let width = 0
   let height = 0
   const balls = []
+
+  console.log(balls)
 
   const setupCanvas = () => {
     const canvas = canvasRef.current

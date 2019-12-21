@@ -99,7 +99,10 @@ function BlogPost(props) {
           {similarPosts && (
             <>
               <hr />
-              <PostList posts={similarPosts.edges} />
+              <section>
+                <h2>Posts you may like:</h2>
+                <PostList posts={similarPosts.edges} />
+              </section>
             </>
           )}
         </div>

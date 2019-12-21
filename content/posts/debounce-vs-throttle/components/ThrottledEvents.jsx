@@ -1,5 +1,5 @@
 import React from 'react'
-import DefaultEvents from './DefaultEvents'
+import DefaultEvents, { Warning } from './DefaultEvents'
 
 function throttle(func, timeout) {
   let wait = false
@@ -49,11 +49,7 @@ const ThrottledEvents = () => {
             onDoubleClick={() => setThrottleDuration(DEFAULT_THROTTLE_DURATION)}
           />
           <label>{throttleDuration}ms</label>
-          {throttleDuration === 0 && (
-            <p>
-              <small>No throttling applied.</small>
-            </p>
-          )}
+          {throttleDuration === 0 && <Warning>No throttling applied.</Warning>}
         </fieldset>
       </div>
     </DefaultEvents>
