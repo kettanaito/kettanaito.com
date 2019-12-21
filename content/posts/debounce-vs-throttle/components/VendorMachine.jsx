@@ -27,13 +27,13 @@ const ButtonContainer = styled.div`
 `
 
 const VmButton = styled.button`
-  --button-shadow-color: #9c3f3f;
+  --button-shadow-color: #a33131;
   --button-active-delta: 10px;
 
   position: absolute;
   box-sizing: content-box;
 
-  background-color: #e26060;
+  background-color: #ff4d4d;
   border-radius: 50%;
   height: 30px;
   width: 70px;

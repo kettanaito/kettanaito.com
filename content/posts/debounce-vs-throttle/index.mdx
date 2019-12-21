@@ -173,6 +173,82 @@ Debounce is useful when you don't need an intermediate state and wish to respond
 
 ---
 
+## Common problems
+
+### Re-declaring debounced/throttled function
+
+One of the most common mistakes when working with these rate limiting functions is _repeatedly re-declaring them_. You see, both `debounce` and `throttle` work due to _the same (debounced/throttled) function reference_ being called. It is absolutely necessary to ensure you declare your debounced/throttled function only once.
+
+Allow me to illustrate this pitfall. Take a look at this click event handler:
+
+```js
+button.addEventListener('click', function handleButtonClick() {
+  return debounce(throwBall, 500)
+})
+```
+
+It may look fine at first, but in fact nothing is going to be debounced. That is because the `handleButtonClick` function is not debounced, but instead we debounce the `throwBall` function.
+
+Instead, we should debounce an entire `handleButtonClick` function:
+
+```js
+button.addEventListener(
+  'click',
+  debounce(function handleButtonClick() {
+    return throwBall()
+  }, 500)
+)
+```
+
+<Quote>
+  Remeber that the event handler function must be debounced/throttled only once.
+  The returned function must be provided to any event listeners.
+</Quote>
+
+#### React example
+
+If you are familiar with React you may also recognize the following declaration as being invalid:
+
+```jsx
+class MyComponent extends React.Component {
+  handleButtonClick = () => {
+    console.log('The button was clicked')
+  }
+
+  render() {
+    return (
+      <button onClick={debounce(this.handleButtonClick, 500)}>
+        Click the button
+      </button>
+    )
+  }
+}
+```
+
+Since `debounce` is called during the render, each Component's re-render will produce a new instance of a debounced `handleButtonClick` function, resulting into no effect being applied.
+
+Instead, the `handleButtonClick` declaration should be debounced:
+
+```jsx
+class MyComponent extends React.Component {
+  handleButtonClick = debounce(() => {
+    console.log('The button was clicked')
+  }, 500)
+
+  render() {
+    return <button onClick={this.handleButtonClick}>Click the button</button>
+  }
+}
+```
+
+### Finding optimal duration
+
+With both `debounce` and `throttle` finding a duration time optimal for UX _and_ performance is important. Choosing a fast interval will not have impact on performance, and picking a too long interval will make your UI feel sluggish.
+
+The truth is, there is no magical number to this, as time interval will differ for each use case. The best advice I can give you is to not copy any intervals blindly, but test what works the best for your application/users/server. You may want to conduct A/B testing to find that.
+
+---
+
 ## Afterword
 
 Thank you for reading through this guide! Of course, there's much more to events handling, and throttling and debouncing are not the only techniques you may use in practice. Let me know if you liked this article by reposting or retweeting it.
