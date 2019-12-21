@@ -1,13 +1,77 @@
 import React from 'react'
 import styled from 'styled-components'
+import vm from '../vm.png'
 
 export const getRandomNumber = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
 const StyledCanvas = styled.canvas`
+  position: absolute;
+  top: 130px;
+  left: 96px;
   display: block;
-  margin: 0 auto 2rem;
+`
+
+const ImageContainer = styled.div`
+  position: relative;
+  width: 350px;
+  margin: auto;
+`
+
+const ButtonContainer = styled.div`
+  position: absolute;
+  left: 119px;
+  bottom: 215px;
+  z-index: 1;
+`
+
+const VmButton = styled.button`
+  position: absolute;
+  box-sizing: content-box;
+
+  background-color: #e26060;
+  border-radius: 50%;
+  height: 30px;
+  width: 85px;
+
+  --button-shadow-color: #9c3f3f;
+  --button-active-delta: 10px;
+
+  &:before {
+    content: '';
+    position: absolute;
+    background-color: var(--button-shadow-color);
+    left: 0;
+    height: 30px;
+    width: 100%;
+    z-index: -1;
+  }
+
+  &:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 30px;
+    border-radius: 50%;
+    background-color: var(--button-shadow-color);
+    bottom: -25px;
+    left: 0;
+    z-index: -1;
+  }
+
+  &:active {
+    margin-top: var(--button-active-delta);
+
+    &:before {
+      height: calc(30px - var(--button-active-delta));
+    }
+
+    &:after {
+      /* bottom: -25px + var(--button-active-delta); */
+      margin-bottom: var(--button-active-delta);
+    }
+  }
 `
 
 class Ball {
@@ -29,7 +93,13 @@ const defaultProps = {
   drag: 0.47,
 }
 
-export const Canvas = ({ children, ballRadius, gravity, density, drag }) => {
+export const VendorMachine = ({
+  ballRadius,
+  gravity,
+  density,
+  drag,
+  onButtonClick,
+}) => {
   const canvasRef = React.useRef()
 
   let ctx = null
@@ -225,18 +295,6 @@ export const Canvas = ({ children, ballRadius, gravity, density, drag }) => {
       ctx.fill()
       ctx.closePath()
 
-      // if (mouse.isDown) {
-      //   ctx.beginPath()
-      //   ctx.strokeStyle = 'rgb(0,255,0)'
-      //   ctx.moveTo(
-      //     balls[balls.length - 1].position.x,
-      //     balls[balls.length - 1].position.y
-      //   )
-      //   ctx.lineTo(mouse.x, mouse.y)
-      //   ctx.stroke()
-      //   ctx.closePath()
-      // }
-
       // Handling the ball collisions
       handleBallCollision(balls[i])
       handleWallCollision(balls[i])
@@ -244,34 +302,41 @@ export const Canvas = ({ children, ballRadius, gravity, density, drag }) => {
   }
 
   // Public methods
-  const trigger = React.useCallback(
-    (getter) => {
-      const canvas = canvasRef.current
-      const [startMousePos, endMousePos] = getter(canvas)
+  const throwBall = React.useCallback(() => {
+    const canvas = canvasRef.current
 
-      const mouseDownEvent = new MouseEvent('mousedown', {
-        bubbles: true,
-        clientX: startMousePos.x,
-        clientY: startMousePos.y,
-        relatedTarget: canvas,
-      })
+    const startMousePos = {
+      // x: getRandomNumber(0, canvas.width) + canvas.offsetLeft,
+      x: canvas.width / 2 + canvas.offsetLeft,
+      y: 10 + canvas.offsetTop,
+    }
 
-      const mouseUpEvent = new MouseEvent('mouseup', {
-        bubbles: true,
-        clientX: endMousePos.x + getRandomNumber(-20, 20),
-        clientY: endMousePos.y + getRandomNumber(-20, 20),
-        relatedTarget: canvas,
-      })
+    const endMousePos = {
+      x: startMousePos.x + getRandomNumber(-20, 20),
+      y: startMousePos.y + getRandomNumber(-20, 20),
+    }
 
-      mouseDownEvent.nativeEvent = mouseDownEvent
-      mouseUpEvent.nativeEvent = mouseUpEvent
+    const mouseDownEvent = new MouseEvent('mousedown', {
+      bubbles: true,
+      clientX: startMousePos.x,
+      clientY: startMousePos.y,
+      relatedTarget: canvas,
+    })
 
-      handleMouseDown(mouseDownEvent)
-      getMousePosition(mouseUpEvent)
-      handleMouseUp(mouseUpEvent)
-    },
-    [canvasRef]
-  )
+    const mouseUpEvent = new MouseEvent('mouseup', {
+      bubbles: true,
+      clientX: endMousePos.x,
+      clientY: endMousePos.y,
+      relatedTarget: canvas,
+    })
+
+    mouseDownEvent.nativeEvent = mouseDownEvent
+    mouseUpEvent.nativeEvent = mouseUpEvent
+
+    handleMouseDown(mouseDownEvent)
+    getMousePosition(mouseUpEvent)
+    handleMouseUp(mouseUpEvent)
+  }, [canvasRef])
 
   React.useEffect(() => {
     setupCanvas()
@@ -279,18 +344,22 @@ export const Canvas = ({ children, ballRadius, gravity, density, drag }) => {
   }, [])
 
   return (
-    <div>
+    <ImageContainer>
+      <ButtonContainer>
+        <VmButton onClick={() => onButtonClick(throwBall)} />
+      </ButtonContainer>
+
+      <img src={vm} alt="Ball vending maching" />
       <StyledCanvas
         ref={canvasRef}
-        width={500}
-        height={250}
-        onMouseMove={getMousePosition}
-        onMouseDown={handleMouseDown}
-        onMouseUp={handleMouseUp}
+        width={154}
+        height={185}
+        // onMouseMove={getMousePosition}
+        // onMouseDown={handleMouseDown}
+        // onMouseUp={handleMouseUp}
       />
-      {children({ trigger })}
-    </div>
+    </ImageContainer>
   )
 }
 
-Canvas.defaultProps = defaultProps
+VendorMachine.defaultProps = defaultProps

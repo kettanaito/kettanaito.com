@@ -7,6 +7,8 @@
 }
 
 html {
+  --color-gray: hsl(0, 5%, 41%);
+
   font-family: sans-serif;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
@@ -81,6 +83,7 @@ mark {
   color: #000;
 }
 small {
+  color: var(--color-gray);
   font-size: 80%;
 }
 sub,
@@ -532,6 +535,10 @@ b {
 strong {
   font-weight: bold;
 }
+em {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-style: italic;
+}
 dt {
   font-weight: bold;
 }
@@ -573,8 +580,9 @@ li > p {
   margin-bottom: calc(1.45rem / 2);
 }
 code {
-  font-size: 0.85rem;
+  font-size: 0.85em;
   font-style: normal;
+  font-weight: normal;
   line-height: 1.45rem;
 }
 kbd {

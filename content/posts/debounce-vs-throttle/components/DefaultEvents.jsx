@@ -1,65 +1,81 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Canvas, getRandomNumber } from './Canvas'
+import { Composition, useResponsiveValue } from 'atomic-layout'
+import { VendorMachine } from './VendorMachine'
 
 const Container = styled.div`
-  background-color: #f6f8fa;
-  margin: 2rem 0;
-  padding: 2rem;
+  margin: 2rem auto;
+  max-width: 100%;
 `
 
-const DefaultEvents = ({ maxBalls }) => {
+const DefaultEvents = ({ children, maxBalls, wrapCallback }) => {
   const [clicksCount, setClicksCount] = React.useState(0)
   const [eventsCount, setEventsCount] = React.useState(0)
+  const arrowSymbol = useResponsiveValue(
+    {
+      xs: '↑',
+      sm: '↑',
+    },
+    '←'
+  )
 
-  const hasBalls = clicksCount < maxBalls
-  const buttonLabel = hasBalls ? 'Throw a ball' : 'Sorry, out of balls'
+  const handleBallThrow = React.useCallback(
+    wrapCallback((func) => {
+      return func()
+    }),
+    [wrapCallback]
+  )
 
-  const handleButtonClick = (trigger) => {
+  const handleButtonClick = (throwBall) => {
     setClicksCount(clicksCount + 1)
-    setEventsCount(eventsCount + 1)
 
-    trigger((canvas) => {
-      const startMousePos = {
-        x: getRandomNumber(0, canvas.width) + canvas.offsetLeft,
-        y: 0 + canvas.offsetTop,
-      }
-
-      const endMousePos = {
-        x: startMousePos.x + getRandomNumber(-20, 20),
-        y: startMousePos.y + getRandomNumber(-20, 20),
-      }
-
-      return [startMousePos, endMousePos]
+    handleBallThrow(() => {
+      throwBall()
+      setEventsCount(eventsCount + 1)
     })
   }
 
   return (
     <Container>
-      <Canvas>
-        {({ trigger }) => (
-          <div>
-            <p>
-              Button pressed: <strong>{clicksCount} time(s)</strong>
-            </p>
-            <p>
-              Event handler fired: <strong>{eventsCount} time(s)</strong>
-            </p>
-            <button
-              onClick={() => handleButtonClick(trigger)}
-              disabled={!hasBalls}
-            >
-              {buttonLabel}
-            </button>
-          </div>
-        )}
-      </Canvas>
+      <Composition
+        templateColsMd="350px 1fr"
+        gap={32}
+        gapMd={48}
+        alignItems="center"
+        justifyContent="center"
+      >
+        <VendorMachine onButtonClick={handleButtonClick} />
+        <div>
+          <p>
+            <small>{arrowSymbol} Press the red button of the machine.</small>
+          </p>
+          <table>
+            <tr>
+              <td>Button clicked:</td>
+              <td>
+                <strong>{clicksCount} time(s)</strong>
+              </td>
+            </tr>
+            <tr>
+              <td>Event handler called:</td>
+              <td>
+                <strong>{eventsCount} time(s)</strong>
+              </td>
+            </tr>
+          </table>
+
+          {children}
+        </div>
+      </Composition>
     </Container>
   )
 }
 
 DefaultEvents.defaultProps = {
   maxBalls: 100,
+  wrapCallback: function defaultWrapCallback(func) {
+    return func
+  },
 }
 
 export default DefaultEvents
