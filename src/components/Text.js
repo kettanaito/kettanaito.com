@@ -15,7 +15,7 @@ const getFontSize = R.cond([
 ])
 
 const getLineHeight = R.cond([
-  [R.prop('small'), R.always('1.2')],
+  [R.prop('small'), R.always('1.5')],
   [R.T, R.always('inherit')],
 ])
 
@@ -27,6 +27,7 @@ const Text = styled(Box)`
 
 Text.defaultProps = {
   as: 'span',
+  inline: true,
 }
 
 export default Text
