@@ -34,7 +34,9 @@ const DebouncedEvents = () => {
       <div>
         <fieldset>
           <legend>Debounce options</legend>
-          <label htmlFor="debounceDuration">Duration: </label>
+          <label htmlFor="debounceDuration">
+            Duration: {debounceDuration}ms
+          </label>
           <input
             id="debounceDuration"
             type="range"
@@ -47,7 +49,6 @@ const DebouncedEvents = () => {
             }
             onDoubleClick={() => setDebounceDuration(DEFAULT_DEBOUNCE_DURATION)}
           />
-          <label>{debounceDuration}ms</label>
           {debounceDuration < 200 && (
             <Warning>{getDebouncedWarning(debounceDuration)}</Warning>
           )}
@@ -62,7 +63,7 @@ const getDebouncedWarning = (debounceDuration) => {
     return 'No debounce applied.'
   }
 
-  return 'Debounce duration you have chosen is too little to simulate with a button click.'
+  return 'Debounce duration you have chosen is too fast to simulate with a button click. Please choose a higher number.'
 }
 
 export default DebouncedEvents

@@ -27,7 +27,6 @@ const Text = styled(Box)`
 
 Text.defaultProps = {
   as: 'span',
-  inline: true,
 }
 
 export default Text

@@ -97,11 +97,13 @@ const PostThumbnail = ({ post, showLatestBadge }) => {
 
           <Content>
             <Box as={Text} muted small marginBottom={10}>
-              <Text primary>{post.frontmatter.category}</Text>
+              <Text inline primary>
+                {post.frontmatter.category}
+              </Text>
               <Box as="span" inline marginHorizontal={8}>
                 ·
               </Box>
-              <Text>{post.frontmatter.date}</Text>
+              <Text inline>{post.frontmatter.date}</Text>
             </Box>
 
             <PostLink to={post.fields.url}>

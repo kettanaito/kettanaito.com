@@ -35,7 +35,9 @@ const ThrottledEvents = () => {
       <div>
         <fieldset>
           <legend>Throttle options</legend>
-          <label htmlFor="throttleDuration">Duration: </label>
+          <label htmlFor="throttleDuration">
+            Duration: {throttleDuration}ms
+          </label>
           <input
             id="throttleDuration"
             type="range"
@@ -48,7 +50,6 @@ const ThrottledEvents = () => {
             }
             onDoubleClick={() => setThrottleDuration(DEFAULT_THROTTLE_DURATION)}
           />
-          <label>{throttleDuration}ms</label>
           {throttleDuration === 0 && <Warning>No throttling applied.</Warning>}
         </fieldset>
       </div>
