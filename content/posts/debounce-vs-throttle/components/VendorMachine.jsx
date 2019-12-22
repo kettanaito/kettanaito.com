@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import vm from '../vm.png'
+import vendingMachineImage from '../vendingMachine.png'
+import { useIntersection } from '../../../../src/hooks/useIntersection'
 
 export const getRandomNumber = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1) + min)
@@ -13,7 +14,7 @@ const StyledCanvas = styled.canvas`
   display: block;
 `
 
-const ImageContainer = styled.div`
+const VendingMachineContainer = styled.div`
   position: relative;
   width: 350px;
   margin: auto;
@@ -26,7 +27,7 @@ const ButtonContainer = styled.div`
   z-index: 1;
 `
 
-const VmButton = styled.button`
+const RedButton = styled.button`
   --button-shadow-color: #a33131;
   --button-active-delta: 10px;
 
@@ -68,7 +69,6 @@ const VmButton = styled.button`
     }
 
     &:after {
-      /* bottom: -25px + var(--button-active-delta); */
       margin-bottom: var(--button-active-delta);
     }
   }
@@ -101,13 +101,16 @@ export const VendorMachine = ({
   onButtonClick,
 }) => {
   const canvasRef = React.useRef()
+  const ctxRef = React.useRef()
+  const timerRef = React.useRef()
+  const ballsRef = React.useRef()
 
-  let ctx = null
+  const { intersection, setIntersectionRef } = useIntersection({
+    threshold: 0.5,
+  })
+
   const fps = 1 / 60
   const dt = fps * 1000 // ms
-  let timer = false
-  // const Cd = 0.47
-  // const rho = 1.22 // kg/m^3
   const mouse = {
     x: 0,
     y: 0,
@@ -116,16 +119,22 @@ export const VendorMachine = ({
   const ag = 9.81 // m/s^2 acceleration due to gravity on earth = 9.81 m/s^2.
   let width = 0
   let height = 0
-  const balls = []
-
-  console.log(balls)
+  // const balls = []
 
   const setupCanvas = () => {
     const canvas = canvasRef.current
-    ctx = canvas.getContext('2d')
+    ctxRef.current = canvas.getContext('2d')
     height = canvas.height
     width = canvas.width
-    timer = setInterval(loop, dt)
+    ballsRef.current = []
+  }
+
+  const initDraw = () => {
+    timerRef.current = setInterval(drawFrame, dt)
+  }
+
+  const stopDraw = () => {
+    clearInterval(timerRef.current)
   }
 
   const getMousePosition = (event) => {
@@ -139,6 +148,7 @@ export const VendorMachine = ({
       getMousePosition(event)
       mouse.isDown = true
 
+      const balls = ballsRef.current
       const hue = getRandomNumber(0, 50)
       const saturation = getRandomNumber(85, 95)
       const lightness = getRandomNumber(50, 70)
@@ -158,6 +168,8 @@ export const VendorMachine = ({
 
   const handleMouseUp = (event) => {
     if (event.nativeEvent.which === 1) {
+      const balls = ballsRef.current
+
       mouse.isDown = false
 
       balls[balls.length - 1].velocity.x =
@@ -187,6 +199,8 @@ export const VendorMachine = ({
   }
 
   const handleBallCollision = (b1) => {
+    const balls = ballsRef.current
+
     for (var i = 0; i < balls.length; i++) {
       var b2 = balls[i]
       if (b1.position.x !== b2.position.x && b1.position.y !== b2.position.y) {
@@ -243,12 +257,16 @@ export const VendorMachine = ({
     }
   }
 
-  const loop = () => {
+  const drawFrame = React.useCallback(() => {
+    const ctx = ctxRef.current
+    const balls = ballsRef.current
+
     // Clear window at the begining of every frame
     ctx.clearRect(0, 0, width, height)
+    const ballsCount = balls.length
 
-    for (var i = 0; i < balls.length; i++) {
-      if (!mouse.isDown || i !== balls.length - 1) {
+    for (var i = 0; i < ballsCount; i++) {
+      if (!mouse.isDown || i !== ballsCount - 1) {
         // physics - calculating the aerodynamic forces to drag
         // -0.5 * Cd * A * v^2 * rho
         var fx =
@@ -301,7 +319,7 @@ export const VendorMachine = ({
       handleBallCollision(balls[i])
       handleWallCollision(balls[i])
     }
-  }
+  }, [ctxRef, ballsRef])
 
   // Public methods
   const throwBall = React.useCallback(() => {
@@ -342,25 +360,31 @@ export const VendorMachine = ({
 
   React.useEffect(() => {
     setupCanvas()
-    return () => clearInterval(timer)
+    return () => stopDraw()
   }, [])
 
-  return (
-    <ImageContainer>
-      <ButtonContainer>
-        <VmButton onClick={() => onButtonClick(throwBall)} />
-      </ButtonContainer>
+  React.useEffect(() => {
+    const { isIntersecting } = intersection
 
-      <img src={vm} alt="Ball vending maching" />
-      <StyledCanvas
-        ref={canvasRef}
-        width={154}
-        height={185}
-        // onMouseMove={getMousePosition}
-        // onMouseDown={handleMouseDown}
-        // onMouseUp={handleMouseUp}
+    if (isIntersecting) {
+      initDraw()
+    } else {
+      stopDraw()
+    }
+  }, [intersection.isIntersecting])
+
+  return (
+    <VendingMachineContainer>
+      <ButtonContainer>
+        <RedButton onClick={() => onButtonClick(throwBall)} />
+      </ButtonContainer>
+      <img
+        ref={setIntersectionRef}
+        src={vendingMachineImage}
+        alt="Ball vending maching"
       />
-    </ImageContainer>
+      <StyledCanvas ref={canvasRef} width={154} height={185} />
+    </VendingMachineContainer>
   )
 }
 
