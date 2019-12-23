@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { useResponsiveValue, Box } from 'atomic-layout'
 import vendingMachineImage from '../vendingMachine.png'
 import { useIntersection } from '../../../../src/hooks/useIntersection'
 
@@ -9,42 +10,52 @@ export const getRandomNumber = (min, max) => {
 
 const StyledCanvas = styled.canvas`
   position: absolute;
-  top: 130px;
-  left: 96px;
+  top: ${({ top }) => top}px;
+  left: 0;
+  right: 0;
+  margin: auto;
   display: block;
 `
 
-const VendingMachineContainer = styled.div`
+const VendingMachineContainer = styled(Box)`
   position: relative;
-  width: 350px;
   margin: auto;
+  /* Disable double tap zoom on mobile devices */
+  touch-action: manipulation;
 `
 
 const ButtonContainer = styled.div`
   position: absolute;
-  left: 126px;
-  bottom: 215px;
+  left: 0;
+  right: 0;
+  bottom: ${({ bottom }) => bottom}px;
+  margin: auto;
+  width: 85px;
   z-index: 1;
+`
+
+const StyledImage = styled.img`
+  margin: 0;
 `
 
 const RedButton = styled.button`
   --button-shadow-color: #a33131;
   --button-active-delta: 10px;
+  --button-height: 25px;
 
   position: absolute;
-  box-sizing: content-box;
 
   background-color: #ff4d4d;
   border-radius: 50%;
   height: 30px;
-  width: 70px;
+  width: 100%;
 
   &:before {
     content: '';
     position: absolute;
     background-color: var(--button-shadow-color);
     left: 0;
-    height: 30px;
+    height: var(--button-height);
     width: 100%;
     z-index: -1;
   }
@@ -65,7 +76,7 @@ const RedButton = styled.button`
     margin-top: var(--button-active-delta);
 
     &:before {
-      height: calc(30px - var(--button-active-delta));
+      height: calc(var(--button-height) - var(--button-active-delta));
     }
 
     &:after {
@@ -86,14 +97,7 @@ class Ball {
   }
 }
 
-const defaultProps = {
-  ballRadius: 10,
-  gravity: 1,
-  density: 1.22,
-  drag: 0.47,
-}
-
-export const VendorMachine = ({
+export const VendingMachine = ({
   ballRadius,
   gravity,
   density,
@@ -104,6 +108,31 @@ export const VendorMachine = ({
   const ctxRef = React.useRef()
   const timerRef = React.useRef()
   const ballsRef = React.useRef()
+
+  const canvasResponsive = useResponsiveValue(
+    {
+      xs: {
+        top: 102,
+        height: 145,
+        width: 122,
+      },
+    },
+    {
+      top: 130,
+      height: 185,
+      width: 154,
+    }
+  )
+  const buttonResponsize = useResponsiveValue(
+    {
+      xs: {
+        bottom: 150,
+      },
+    },
+    {
+      bottom: 175,
+    }
+  )
 
   const { intersection, setIntersectionRef } = useIntersection({
     threshold: 0.5,
@@ -117,15 +146,10 @@ export const VendorMachine = ({
     isDown: false,
   }
   const ag = 9.81 // m/s^2 acceleration due to gravity on earth = 9.81 m/s^2.
-  let width = 0
-  let height = 0
-  // const balls = []
 
   const setupCanvas = () => {
     const canvas = canvasRef.current
     ctxRef.current = canvas.getContext('2d')
-    height = canvas.height
-    width = canvas.width
     ballsRef.current = []
   }
 
@@ -180,6 +204,8 @@ export const VendorMachine = ({
   }
 
   const handleWallCollision = (ball) => {
+    const { height, width } = canvasResponsive
+
     if (ball.position.x > width - ball.radius) {
       ball.velocity.x *= ball.e
       ball.position.x = width - ball.radius
@@ -260,6 +286,7 @@ export const VendorMachine = ({
   const drawFrame = React.useCallback(() => {
     const ctx = ctxRef.current
     const balls = ballsRef.current
+    const { height, width } = canvasResponsive
 
     // Clear window at the begining of every frame
     ctx.clearRect(0, 0, width, height)
@@ -319,7 +346,7 @@ export const VendorMachine = ({
       handleBallCollision(balls[i])
       handleWallCollision(balls[i])
     }
-  }, [ctxRef, ballsRef])
+  }, [canvasResponsive, ctxRef, ballsRef])
 
   // Public methods
   const throwBall = React.useCallback(() => {
@@ -358,6 +385,7 @@ export const VendorMachine = ({
     handleMouseUp(mouseUpEvent)
   }, [canvasRef])
 
+  // componentDidMount
   React.useEffect(() => {
     setupCanvas()
     return () => stopDraw()
@@ -366,6 +394,7 @@ export const VendorMachine = ({
   React.useEffect(() => {
     const { isIntersecting } = intersection
 
+    // Stop canvas drawing loop when component goes out of the viewport
     if (isIntersecting) {
       initDraw()
     } else {
@@ -374,18 +403,28 @@ export const VendorMachine = ({
   }, [intersection.isIntersecting])
 
   return (
-    <VendingMachineContainer>
-      <ButtonContainer>
+    <VendingMachineContainer width="100%" maxWidth={280} maxWidthMd={350}>
+      <ButtonContainer bottom={buttonResponsize.bottom}>
         <RedButton onClick={() => onButtonClick(throwBall)} />
       </ButtonContainer>
-      <img
+      <StyledImage
         ref={setIntersectionRef}
         src={vendingMachineImage}
-        alt="Ball vending maching"
+        alt="Ball vending machine"
       />
-      <StyledCanvas ref={canvasRef} width={154} height={185} />
+      <StyledCanvas
+        ref={canvasRef}
+        top={canvasResponsive.top}
+        height={canvasResponsive.height}
+        width={canvasResponsive.width}
+      />
     </VendingMachineContainer>
   )
 }
 
-VendorMachine.defaultProps = defaultProps
+VendingMachine.defaultProps = {
+  ballRadius: 10,
+  gravity: 1,
+  density: 1.22,
+  drag: 0.47,
+}

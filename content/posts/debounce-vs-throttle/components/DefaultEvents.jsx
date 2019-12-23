@@ -1,13 +1,7 @@
 import React from 'react'
-import styled from 'styled-components'
 import { Composition, useResponsiveValue } from 'atomic-layout'
-import { VendorMachine } from './VendorMachine'
+import { VendingMachine } from './VendingMachine'
 import Text from '../../../../src/components/Text'
-
-const Container = styled.div`
-  margin: 2rem auto;
-  max-width: 100%;
-`
 
 export const Warning = ({ children }) => {
   return (
@@ -51,20 +45,23 @@ const DefaultEvents = ({ children, maxBalls, wrapCallback }) => {
   }
 
   return (
-    <Container>
-      <Composition
-        templateColsMd="350px 1fr"
-        gap={32}
-        gapMd={48}
-        alignItems="center"
-        justifyContent="center"
-      >
-        <VendorMachine onButtonClick={handleButtonClick} />
-        <div>
-          <p>
-            <small>{arrowSymbol} Press the red button of the machine.</small>
-          </p>
-          <table>
+    <Composition
+      templateColsMd="350px 1fr"
+      gap={32}
+      gapMd={48}
+      alignItems="center"
+      justifyContent="center"
+      marginVertical={48}
+      marginHorizontal="auto"
+      maxWidth="100%"
+    >
+      <VendingMachine onButtonClick={handleButtonClick} />
+      <div>
+        <p>
+          <small>{arrowSymbol} Press the red button of the machine.</small>
+        </p>
+        <table>
+          <tbody>
             <tr>
               <td>Button clicked:</td>
               <td>
@@ -77,12 +74,12 @@ const DefaultEvents = ({ children, maxBalls, wrapCallback }) => {
                 <strong>{eventsCount} time(s)</strong>
               </td>
             </tr>
-          </table>
+          </tbody>
+        </table>
 
-          {children}
-        </div>
-      </Composition>
-    </Container>
+        {children}
+      </div>
+    </Composition>
   )
 }
 
