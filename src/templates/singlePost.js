@@ -11,6 +11,7 @@ import PostList from '../components/PostList'
 import Share from '../components/Share'
 import Seo from '../components/seo'
 import Text from '../components/Text'
+import { TwitterWidget } from '../components/TwitterWidget'
 
 const PostTitle = styled.h1`
   @media (min-width: ${AtomicLayout.breakpoints.sm.minWidth}) {
@@ -97,6 +98,10 @@ function BlogPost(props) {
               url={location.origin + location.pathname}
               text={frontmatter.socialShareText}
             />
+          </Box>
+
+          <Box marginVertical={48}>
+            <TwitterWidget />
           </Box>
 
           {/* Similar posts */}
