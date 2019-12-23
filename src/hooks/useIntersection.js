@@ -15,7 +15,7 @@ export const useIntersection = ({
       observer.current.disconnect()
     }
 
-    observer.current = new window.IntersectionObserver(
+    observer.current = new IntersectionObserver(
       ([entry]) => {
         updateIntersection(entry)
 
