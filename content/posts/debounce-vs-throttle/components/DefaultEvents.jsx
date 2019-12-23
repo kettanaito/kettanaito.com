@@ -44,6 +44,11 @@ const DefaultEvents = ({ children, maxBalls, wrapCallback }) => {
     })
   }
 
+  const handleMachineReset = () => {
+    setClicksCount(0)
+    setEventsCount(0)
+  }
+
   return (
     <Composition
       templateColsMd="350px 1fr"
@@ -55,7 +60,11 @@ const DefaultEvents = ({ children, maxBalls, wrapCallback }) => {
       marginHorizontal="auto"
       maxWidth="100%"
     >
-      <VendingMachine onButtonClick={handleButtonClick} />
+      <VendingMachine
+        maxBalls={maxBalls}
+        onButtonClick={handleButtonClick}
+        onReset={handleMachineReset}
+      />
       <div>
         <p>
           <small>{arrowSymbol} Press the red button of the machine.</small>

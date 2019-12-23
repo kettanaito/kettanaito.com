@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { IoMdRefresh } from 'react-icons/io'
 import { useResponsiveValue, Box } from 'atomic-layout'
 import vendingMachineImage from '../vendingMachine.png'
 import { useIntersection } from '../../../../src/hooks/useIntersection'
@@ -85,6 +86,36 @@ const RedButton = styled.button`
   }
 `
 
+const OutOfBallsContainer = styled(Box)`
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  user-select: none;
+  z-index: 2;
+
+  background-color: rgba(255, 255, 255, 0.8);
+`
+
+const ResetButton = styled.button`
+  padding: 2rem;
+  background: none;
+  color: var(--color-text);
+  font-weight: bold;
+`
+
+const OutOfBalls = ({ onButtonClick }) => {
+  return (
+    <OutOfBallsContainer flex alignItems="center" justifyContent="center">
+      <ResetButton onClick={onButtonClick}>
+        <IoMdRefresh size={48} />
+        <p>Reset the machine</p>
+      </ResetButton>
+    </OutOfBallsContainer>
+  )
+}
+
 class Ball {
   constructor(x, y, radius, e, mass, color) {
     this.position = { x: x, y: y } // m
@@ -99,15 +130,19 @@ class Ball {
 
 export const VendingMachine = ({
   ballRadius,
+  maxBalls,
   gravity,
   density,
   drag,
   onButtonClick,
+  onReset,
 }) => {
   const canvasRef = React.useRef()
   const ctxRef = React.useRef()
-  const timerRef = React.useRef()
-  const ballsRef = React.useRef()
+  const timerRef = React.useRef(null)
+  const ballsRef = React.useRef([])
+
+  const shouldThrowBall = ballsRef.current.length < maxBalls
 
   const canvasResponsive = useResponsiveValue(
     {
@@ -150,7 +185,6 @@ export const VendingMachine = ({
   const setupCanvas = () => {
     const canvas = canvasRef.current
     ctxRef.current = canvas.getContext('2d')
-    ballsRef.current = []
   }
 
   const initDraw = () => {
@@ -385,6 +419,11 @@ export const VendingMachine = ({
     handleMouseUp(mouseUpEvent)
   }, [canvasRef])
 
+  const handleResetClick = () => {
+    onReset()
+    ballsRef.current = []
+  }
+
   // componentDidMount
   React.useEffect(() => {
     setupCanvas()
@@ -404,6 +443,7 @@ export const VendingMachine = ({
 
   return (
     <VendingMachineContainer width="100%" maxWidth={280} maxWidthMd={350}>
+      {!shouldThrowBall && <OutOfBalls onButtonClick={handleResetClick} />}
       <ButtonContainer bottom={buttonResponsize.bottom}>
         <RedButton onClick={() => onButtonClick(throwBall)} />
       </ButtonContainer>
