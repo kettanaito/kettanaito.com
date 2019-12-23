@@ -24,10 +24,10 @@ const StyledThumbnail = styled.div`
       &:after {
         content: '';
         position: absolute;
-        top: -10px;
-        left: -10px;
-        height: 10px;
-        width: 10px;
+        top: -7px;
+        left: -7px;
+        height: 14px;
+        width: 14px;
         background-color: hsl(1, 65%, 50%);
         box-sizing: content-box;
         border: 5px solid #fff;
@@ -53,6 +53,7 @@ const StyledThumbnail = styled.div`
 `
 
 const ThumbnailMask = styled.div`
+  border-radius: 3px;
   overflow: hidden;
   max-height: 100%;
   width: 100%;
@@ -96,18 +97,20 @@ const PostThumbnail = ({ post, showLatestBadge }) => {
 
           <Content>
             <Box as={Text} muted small marginBottom={10}>
-              <Text primary>{post.frontmatter.category}</Text>
+              <Text inline primary>
+                {post.frontmatter.category}
+              </Text>
               <Box as="span" inline marginHorizontal={8}>
                 ·
               </Box>
-              <Text>{post.frontmatter.date}</Text>
+              <Text inline>{post.frontmatter.date}</Text>
             </Box>
 
             <PostLink to={post.fields.url}>
               <PostTitle>{post.frontmatter.title}</PostTitle>
             </PostLink>
 
-            <Box marginTop={8}>
+            <Box marginTop={10}>
               <Text small>
                 {post.frontmatter.description || (
                   <div dangerouslySetInnerHTML={{ __html: post.excerpt }} />
