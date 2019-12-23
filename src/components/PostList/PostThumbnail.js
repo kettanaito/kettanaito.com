@@ -24,10 +24,10 @@ const StyledThumbnail = styled.div`
       &:after {
         content: '';
         position: absolute;
-        top: -10px;
-        left: -10px;
-        height: 10px;
-        width: 10px;
+        top: -7px;
+        left: -7px;
+        height: 14px;
+        width: 14px;
         background-color: hsl(1, 65%, 50%);
         box-sizing: content-box;
         border: 5px solid #fff;
