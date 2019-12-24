@@ -6,7 +6,7 @@ function throttle(func, timeout) {
 
   return function(...args) {
     if (!wait) {
-      func(...args)
+      func.apply(this, args)
       wait = true
 
       setTimeout(function() {

@@ -4,10 +4,10 @@ import DefaultEvents, { Warning } from './DefaultEvents'
 function debounce(func, duration) {
   let timeout
 
-  return (...args) => {
+  return function(...args) {
     const effect = () => {
       timeout = null
-      return func(...args)
+      return func.apply(this, args)
     }
 
     clearTimeout(timeout)

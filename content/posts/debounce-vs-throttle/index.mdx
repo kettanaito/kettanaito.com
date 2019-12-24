@@ -79,7 +79,7 @@ function throttle(func, duration) {
 
   return function(...args) {
     if (!shouldWait) {
-      func(...args)
+      func.apply(this, args)
       shouldWait = true
 
       setTimeout(function() {
@@ -136,10 +136,10 @@ A debounced function is called after _N_ amount of time passes since its last ca
 function debounce(func, duration) {
   let timeout
 
-  return (...args) => {
+  return function(...args) => {
     const effect = () => {
       timeout = null
-      return func(...args)
+      return func.apply(this, args)
     }
 
     clearTimeout(timeout)
