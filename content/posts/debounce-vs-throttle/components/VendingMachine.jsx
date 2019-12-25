@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { IoMdRefresh } from 'react-icons/io'
-import { useResponsiveValue, Box } from 'atomic-layout'
+import { Box, useResponsiveComponent } from 'atomic-layout'
 import vendingMachineImage from '../vendingMachine.png'
 import { useIntersection } from '../../../../src/hooks/useIntersection'
 
@@ -9,7 +9,7 @@ export const getRandomNumber = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
-const StyledCanvas = styled.canvas`
+const RawStyledCanvas = styled.canvas`
   position: absolute;
   top: ${({ top }) => top}px;
   left: 0;
@@ -18,6 +18,8 @@ const StyledCanvas = styled.canvas`
   display: block;
 `
 
+const StyledCanvas = useResponsiveComponent(RawStyledCanvas)
+
 const VendingMachineContainer = styled(Box)`
   position: relative;
   margin: auto;
@@ -25,7 +27,7 @@ const VendingMachineContainer = styled(Box)`
   touch-action: manipulation;
 `
 
-const ButtonContainer = styled.div`
+const RawButtonContainer = styled.div`
   position: absolute;
   left: 0;
   right: 0;
@@ -34,6 +36,8 @@ const ButtonContainer = styled.div`
   width: 85px;
   z-index: 1;
 `
+
+const ButtonContainer = useResponsiveComponent(RawButtonContainer)
 
 const StyledImage = styled.img`
   margin: 0;
@@ -144,30 +148,18 @@ export const VendingMachine = ({
 
   const shouldThrowBall = ballsRef.current.length < maxBalls
 
-  const canvasResponsive = useResponsiveValue(
-    {
-      xs: {
-        top: 102,
-        height: 145,
-        width: 122,
-      },
-    },
-    {
-      top: 130,
-      height: 185,
-      width: 154,
-    }
-  )
-  const buttonResponsize = useResponsiveValue(
-    {
-      xs: {
-        bottom: 150,
-      },
-    },
-    {
-      bottom: 175,
-    }
-  )
+  // const buttonSizeSmall = {
+  //   bottom: 150,
+  // }
+  // const buttonResponsize = useResponsiveValue(
+  //   {
+  //     xs: buttonSizeSmall,
+  //     sm: buttonSizeSmall,
+  //   },
+  //   {
+  //     bottom: 175,
+  //   }
+  // )
 
   const { intersection, setIntersectionRef } = useIntersection({
     threshold: 0.5,
@@ -238,7 +230,7 @@ export const VendingMachine = ({
   }
 
   const handleWallCollision = (ball) => {
-    const { height, width } = canvasResponsive
+    const { height, width } = canvasRef.current
 
     if (ball.position.x > width - ball.radius) {
       ball.velocity.x *= ball.e
@@ -320,7 +312,7 @@ export const VendingMachine = ({
   const drawFrame = React.useCallback(() => {
     const ctx = ctxRef.current
     const balls = ballsRef.current
-    const { height, width } = canvasResponsive
+    const { height, width } = canvasRef.current
 
     // Clear window at the begining of every frame
     ctx.clearRect(0, 0, width, height)
@@ -380,7 +372,7 @@ export const VendingMachine = ({
       handleBallCollision(balls[i])
       handleWallCollision(balls[i])
     }
-  }, [canvasResponsive, ctxRef, ballsRef])
+  }, [canvasRef, ctxRef, ballsRef])
 
   // Public methods
   const throwBall = React.useCallback(() => {
@@ -444,7 +436,7 @@ export const VendingMachine = ({
   return (
     <VendingMachineContainer width="100%" maxWidth={280} maxWidthMd={350}>
       {!shouldThrowBall && <OutOfBalls onButtonClick={handleResetClick} />}
-      <ButtonContainer bottom={buttonResponsize.bottom}>
+      <ButtonContainer bottom={150} bottomMd={175}>
         <RedButton onClick={() => onButtonClick(throwBall)} />
       </ButtonContainer>
       <StyledImage
@@ -454,9 +446,15 @@ export const VendingMachine = ({
       />
       <StyledCanvas
         ref={canvasRef}
-        top={canvasResponsive.top}
-        height={canvasResponsive.height}
-        width={canvasResponsive.width}
+        top={102}
+        height={145}
+        width={115}
+        topMd={127}
+        heightMd={185}
+        widthMd={145}
+        // top={canvasSizeRef.current.top}
+        // height={canvasSizeRef.current.height}
+        // width={canvasSizeRef.current.width}
       />
     </VendingMachineContainer>
   )
