@@ -92,7 +92,7 @@ function BlogPost(props) {
           </Box>
 
           {/* Social sharing */}
-          <Box paddingTop={32} paddingBottom={16}>
+          <Box paddingVertical={32}>
             <Share
               title={frontmatter.title}
               url={location.origin + location.pathname}
