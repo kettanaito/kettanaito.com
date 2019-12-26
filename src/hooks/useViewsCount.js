@@ -15,21 +15,26 @@ export const useViewsCount = (post, shouldIncrement = false) => {
       }
 
       async function syncViewsCount() {
-        const postRef = firebase.database().ref(`posts/${post.id}`)
+        const postRef = firebase
+          .database()
+          .ref(`posts/${process.env.GATSBY_FIREBASE_CLIENT_ID}/${post.id}`)
 
         const viewsSnapshot = await postRef.child('views').once('value')
         const viewsCount = viewsSnapshot.val() || 0
         const nextViewsCount = viewsCount + Number(shouldIncrement)
-        setViewsCount(nextViewsCount)
 
-        if (shouldIncrement) {
-          postRef.update({
-            title: post.frontmatter.title,
-            views: nextViewsCount,
-          })
-        }
+        const updatePromise = shouldIncrement
+          ? postRef.update({
+              title: post.frontmatter.title,
+              views: nextViewsCount,
+            })
+          : Promise.resolve()
 
-        setLoading(false)
+        updatePromise.then(() => {
+          // Update views count only after successful increment, if applicable.
+          setViewsCount(nextViewsCount)
+          setLoading(false)
+        })
       }
 
       syncViewsCount()
