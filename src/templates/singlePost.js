@@ -41,6 +41,8 @@ function BlogPost(props) {
   const { frontmatter, timeToRead } = post
   const { draft, date, category } = frontmatter
 
+  const readTimeLabel = timeToRead > 1 ? 'minutes' : 'minute'
+
   return (
     <MdxProvider>
       <Layout>
@@ -76,7 +78,9 @@ function BlogPost(props) {
               <Box as="span" flex>
                 <Text>{date}</Text>
                 <MetaDelimiter />
-                <Text>{timeToRead} minute(s) read</Text>
+                <Text>
+                  {timeToRead} {readTimeLabel} read
+                </Text>
               </Box>
             </Box>
           </Box>
