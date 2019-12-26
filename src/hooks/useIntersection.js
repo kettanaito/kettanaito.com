@@ -37,7 +37,7 @@ export const useIntersection = ({
     }
 
     return () => currentObserver.disconnect()
-  }, [node, root, rootMargin, threshold])
+  }, [node, root, rootMargin, threshold, once])
 
   return { setIntersectionRef, setRoot, intersection }
 }
