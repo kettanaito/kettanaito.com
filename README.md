@@ -11,3 +11,7 @@ Personal blog about software development focusing on JavaScript ecosystem. No fu
 
 - [GitHub](https://github.com/kettanaito)
 - [Twitter](https://twitter.com/kettanaito)
+
+## License
+
+Materials on this website are licensed under [CC BY-NC](https://creativecommons.org/licenses/by-nc/4.0/).
