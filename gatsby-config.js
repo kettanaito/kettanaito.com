@@ -1,5 +1,11 @@
 const siteUrl = 'https://redd.one'
 
+const {
+  FIREBASE_API_KEY,
+  FIREBASE_AUTH_DOMAIN,
+  FIREBASE_PROJECT_ID,
+} = process.env
+
 module.exports = {
   siteMetadata: {
     siteUrl,
@@ -48,12 +54,27 @@ module.exports = {
         start_url: `/`,
         background_color: `#d22f2d`,
         theme_color: `#d22f2d`,
-        // display: `minimal-ui`,
         display: `standalone`,
         icon: `src/images/favicons/default-square.png`,
       },
     },
     'gatsby-plugin-styled-components',
     'gatsby-plugin-offline',
+    {
+      resolve: `gatsby-plugin-firebase`,
+      credentials: {
+        /**
+         * @TODO Finish this config.
+         */
+        apiKey: FIREBASE_API_KEY,
+        authDomain: FIREBASE_AUTH_DOMAIN,
+        databaseURL: 'YOUR_GATSBY_FIREBASE_DATABASE_URL',
+        projectId: FIREBASE_PROJECT_ID,
+        storageBucket: 'YOUR_GATSBY_FIREBASE_STORAGE_BUCKET',
+        messagingSenderId: 'YOUR_GATSBY_FIREBASE_MESSAGING_SENDER_ID',
+        appId: 'YOUR_GATSBY_FIREBASE_APP_ID',
+        measurementId: 'YOUR_GATSBY_FIREBASE_MEASUREMENT_ID',
+      },
+    },
   ],
 }
