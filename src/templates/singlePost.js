@@ -13,6 +13,7 @@ import Share from '../components/Share'
 import Seo from '../components/seo'
 import Text from '../components/Text'
 import { TwitterWidget } from '../components/TwitterWidget'
+import { ViewsCount } from '../components/ViewsCount'
 
 const PostTitle = styled.h1`
   @media (min-width: ${AtomicLayout.breakpoints.sm.minWidth}) {
@@ -42,8 +43,6 @@ function BlogPost(props) {
         value: post.id,
       })
     }
-
-    console.log(post.id)
   }, [post.id])
 
   if (!data.post) {
@@ -93,6 +92,8 @@ function BlogPost(props) {
                 <Text>
                   {timeToRead} {readTimeLabel} read
                 </Text>
+                <MetaDelimiter />
+                <ViewsCount post={post} shouldIncrement={true} />
               </Box>
             </Box>
           </Box>
@@ -103,7 +104,7 @@ function BlogPost(props) {
           />
 
           {/* Post content */}
-          <Box as="article">
+          <Box as="article" data-post-id={post.id}>
             <MDXRenderer>{post.code.body}</MDXRenderer>
           </Box>
 
