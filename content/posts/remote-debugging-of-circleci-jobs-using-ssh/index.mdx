@@ -57,30 +57,53 @@ $ ssh -p 64536 54.208.32.182
 
 When successfully executed, you will notice your terminal's host changing from the local computer name to the remote machine's name.
 
-Any commands issued in this process are performed _on the remote machine_.
+> Screenshot of the terminal window showing the `ssh` command executed and new machine context present.
 
-### Use the same SSH as GitHub
+Any terminal commands you use in this process are executed _on the remote machine_. Browse directories and files, run your project's scripts.
+
+### Using SSH key
+
+By default, attempts to connect to the remote machine using `ssh` would use the SSH key file added in your SSH agent. There can be two issues with this: you either don't have any SSH key, or have multiple ones.
+
+#### Set up an SSH key in GitHub
+
+To create an SSH key and attach it to your GitHub profile please follow the official guide: [Generating a new SSH key and adding it to the ssh-agent](https://help.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
+
+#### Specify which key to use
+
+In case you have got multiple SSH keys you would have to specify which one to use to connect to the remote machine. Provide the path to the same SSH key you use for GitHub as the value of the `-i` flag in `ssh` command:
+
+```bash
+ssh -i ~/.ssh/git_hub.rsa -p 12345 12.123.12.123
+```
+
+> Explicit `-i` flag is only necessary if your GitHub SSH is not the default one in your SSH agent.
 
 ## Downloading files
 
-Working with the remote file-system via SSH is helpful, yet you might quickly find yourself limited. It is another environment, which lacks your favorite IDE and all those helpful tools you have got for debugging. It is useful to know how to download a file, or an entire working directory, from remote to your local.
+Working with the remote file-system via SSH is helpful, yet you might quickly find yourself limited. It is another environment, which lacks your favorite IDE and all those helpful tools you used to use for debugging. It may be helpful to know how to download a file, or an entire working directory, from remote to your local.
 
-Although you should strive towards your project being reproducible, I highly recommend to download a complete snapshot of the file-system, _including installed dependencies_. This way you eliminate any possible deviations and operate on 1-1 instance of your project from the failed job.
+Although you should strive towards your project being reproducible, I highly recommend to download a complete snapshot of the file-system, _including installed dependencies_. This way you eliminate any possible deviations and operate on the 1-1 instance of your project from the failed job.
 
-Depending on the project's (and its dependencies) size transferring its entire directory may take a significant amount of time. We can compress the working directory into a tarball to decrease its size and make the download procedure faster.
+Depending on the project's (and its dependencies) size, transferring its entire directory may take a significant amount of time. We can compress the working directory into a tarball to decrease its size and make the download procedure faster.
 
 ```bash
-$ tar ...
+$ tar -czvf ci.tar.gz /.../.../.../source/directory/path/.../
 ```
 
-With the tarball written into `...` let's download it using the following command:
+- `-c` create an archive,
+- `-z` compress the archive using gzip,
+- `-v` display progress in the terminal (verbose),
+- `-f` accept a file name of the archive.
+
+With the working directory is compressed into `ci.tar.gz` we can download it via SCP protocol using the following command:
 
 ```bash
-$ scp -P <PORT> ...???...
+$ scp -P <SSH_PORT> ...???...
 ```
 
 ---
 
 ## Materials
 
-- Links to useful materials on this topic
+- [Debugging with SSH](https://circleci.com/docs/2.0/ssh-access-jobs/) (CircleCI docs)
