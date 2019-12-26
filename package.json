@@ -40,7 +40,7 @@
     "recompose": "^0.30.0"
   },
   "scripts": {
-    "build": "gatsby build",
+    "build": "cross-env NODE_ENV=production gatsby build",
     "develop": "cross-env ENV_NAME=dev gatsby develop -p 8040",
     "format": "prettier --write src/**/*.{js,jsx}",
     "start": "npm run develop",

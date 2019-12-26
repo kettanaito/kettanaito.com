@@ -7,7 +7,9 @@ export const useViewsCount = (post, shouldIncrement = false) => {
 
   useFirebase(
     (firebase) => {
-      if (post == null) {
+      // Forbid views reading and updating during development
+      // to prevent distorting the stats while writing a post.
+      if (process.env.NODE_ENV !== 'production' || post == null) {
         setLoading(false)
         return
       }
