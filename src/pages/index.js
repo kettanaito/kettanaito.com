@@ -11,7 +11,15 @@ const IndexPage = ({ data }) => {
       <SEO
         title="Blog"
         useTitleTemplate
-        keywords={['redd', 'developer', 'technology', 'javascript', 'react']}
+        keywords={[
+          'redd',
+          'developer',
+          'technology',
+          'javascript',
+          'react',
+          'programming',
+          'blog',
+        ]}
       />
       <PostList posts={data.postList.edges} showLatestBadge />
     </Layout>
