@@ -17,6 +17,12 @@ const FooterLink = styled.a`
   text-decoration: none;
 `
 
+const Delimiter = () => (
+  <Box as="span" inline marginHorizontal={8}>
+    ·
+  </Box>
+)
+
 const Footer = () => (
   <Container>
     <StyledBox
@@ -48,9 +54,15 @@ const Footer = () => (
         >
           CC BY-NC
         </FooterLink>
-        <Box as="span" inline marginHorizontal={8}>
-          ·
-        </Box>
+        <Delimiter />
+        <FooterLink
+          href="https://github.com/Redd-Developer/redd.one"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          GitHub
+        </FooterLink>
+        <Delimiter />
         <FooterLink as={Link} to="/privacy">
           Privacy policy
         </FooterLink>
