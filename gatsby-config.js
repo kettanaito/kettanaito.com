@@ -1,10 +1,6 @@
-const siteUrl = 'https://redd.one'
+require('dotenv').config()
 
-const {
-  FIREBASE_API_KEY,
-  FIREBASE_AUTH_DOMAIN,
-  FIREBASE_PROJECT_ID,
-} = process.env
+const siteUrl = 'https://redd.one'
 
 module.exports = {
   siteMetadata: {
@@ -16,15 +12,15 @@ module.exports = {
   plugins: [
     `gatsby-plugin-react-helmet`,
     {
-      resolve: 'gatsby-plugin-canonical-urls',
+      resolve: `gatsby-plugin-canonical-urls`,
       options: {
         siteUrl,
       },
     },
     {
-      resolve: 'gatsby-plugin-google-analytics',
+      resolve: `gatsby-plugin-google-analytics`,
       options: {
-        trackingId: 'UA-136640393-1',
+        trackingId: `UA-136640393-1`,
       },
     },
     {
@@ -37,12 +33,12 @@ module.exports = {
     {
       resolve: `gatsby-source-filesystem`,
       options: {
-        name: 'posts',
+        name: `posts`,
         path: `${__dirname}/content/posts/`,
       },
     },
     {
-      resolve: 'gatsby-mdx',
+      resolve: `gatsby-mdx`,
     },
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
@@ -58,22 +54,21 @@ module.exports = {
         icon: `src/images/favicons/default-square.png`,
       },
     },
-    'gatsby-plugin-styled-components',
-    'gatsby-plugin-offline',
+    `gatsby-plugin-styled-components`,
+    `gatsby-plugin-offline`,
     {
       resolve: `gatsby-plugin-firebase`,
-      credentials: {
-        /**
-         * @TODO Finish this config.
-         */
-        apiKey: FIREBASE_API_KEY,
-        authDomain: FIREBASE_AUTH_DOMAIN,
-        databaseURL: 'YOUR_GATSBY_FIREBASE_DATABASE_URL',
-        projectId: FIREBASE_PROJECT_ID,
-        storageBucket: 'YOUR_GATSBY_FIREBASE_STORAGE_BUCKET',
-        messagingSenderId: 'YOUR_GATSBY_FIREBASE_MESSAGING_SENDER_ID',
-        appId: 'YOUR_GATSBY_FIREBASE_APP_ID',
-        measurementId: 'YOUR_GATSBY_FIREBASE_MEASUREMENT_ID',
+      options: {
+        features: {
+          auth: true,
+          database: true,
+          firestore: false,
+          storage: true,
+          messaging: false,
+          functions: true,
+          performance: false,
+          analytics: true,
+        },
       },
     },
   ],
