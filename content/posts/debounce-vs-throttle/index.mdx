@@ -113,6 +113,11 @@ import ThrottledEvents from './components/ThrottledEvents.jsx'
 
 No matter how often we press the button a ball won't be thrown more than once per throttled interval (500ms in our case). That's a great way to keep our ball machine from overheating during the busy hours!
 
+<Quote>
+  Throttle is a spring that throws balls: after a ball flies out it needs some
+  time to shrink back, so it cannot throw any more balls until it's ready.
+</Quote>
+
 ### When to use throttle?
 
 Use `throttle` to _consistently_ react to a frequent event.
@@ -170,6 +175,12 @@ import DebouncedEvents from './components/DebouncedEvents.jsx'
 <DebouncedEvents />
 
 If we keep pressing the button fast enough no balls will be thrown at all, unless a debounce duration (500ms) passes since the last click. It is if our machine treats any amount of button clicks within a defined time period as _a single event_ and handles it respectively.
+
+<Quote>
+  Debounce is an overloaded waiter: if you keep asking him your requests will be
+  ignored until you stop and give him some time to think about your latest
+  inquiry.
+</Quote>
 
 ### When to use debounce?
 
