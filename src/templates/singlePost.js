@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { graphql, navigate } from 'gatsby'
 import Image from 'gatsby-image'
 import MDXRenderer from 'gatsby-mdx/mdx-renderer'
+import { trackCustomEvent } from 'gatsby-plugin-google-analytics'
 import AtomicLayout, { Only, Box } from 'atomic-layout'
 
 import Layout from '../components/layout'
@@ -33,6 +34,18 @@ function BlogPost(props) {
   const { location, data } = props
   const { post, similarPosts } = data
 
+  useEffect(() => {
+    if (post.id != null) {
+      trackCustomEvent({
+        category: 'post',
+        action: 'view',
+        value: post.id,
+      })
+    }
+
+    console.log(post.id)
+  }, [post.id])
+
   if (!data.post) {
     navigate('/404')
     return null
@@ -57,7 +70,6 @@ function BlogPost(props) {
         <div>
           <Box
             as="header"
-            // flex
             flexDirection="column"
             alignItems="center"
             marginBottom={32}
@@ -126,6 +138,9 @@ function BlogPost(props) {
 
 export const query = graphql`
   query SinglePost($postId: String!, $postCategory: String!) {
+    #
+    # Single post detail
+    #
     post: mdx(id: { eq: $postId }, frontmatter: { date: { ne: null } }) {
       id
       frontmatter {
