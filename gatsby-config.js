@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const siteUrl = 'https://redd.one'
 
 module.exports = {
@@ -10,15 +12,15 @@ module.exports = {
   plugins: [
     `gatsby-plugin-react-helmet`,
     {
-      resolve: 'gatsby-plugin-canonical-urls',
+      resolve: `gatsby-plugin-canonical-urls`,
       options: {
         siteUrl,
       },
     },
     {
-      resolve: 'gatsby-plugin-google-analytics',
+      resolve: `gatsby-plugin-google-analytics`,
       options: {
-        trackingId: 'UA-136640393-1',
+        trackingId: `UA-136640393-1`,
       },
     },
     {
@@ -31,12 +33,12 @@ module.exports = {
     {
       resolve: `gatsby-source-filesystem`,
       options: {
-        name: 'posts',
+        name: `posts`,
         path: `${__dirname}/content/posts/`,
       },
     },
     {
-      resolve: 'gatsby-mdx',
+      resolve: `gatsby-mdx`,
     },
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
@@ -48,12 +50,26 @@ module.exports = {
         start_url: `/`,
         background_color: `#d22f2d`,
         theme_color: `#d22f2d`,
-        // display: `minimal-ui`,
         display: `standalone`,
         icon: `src/images/favicons/default-square.png`,
       },
     },
-    'gatsby-plugin-styled-components',
-    'gatsby-plugin-offline',
+    `gatsby-plugin-styled-components`,
+    `gatsby-plugin-offline`,
+    {
+      resolve: `gatsby-plugin-firebase`,
+      options: {
+        features: {
+          auth: true,
+          database: true,
+          firestore: false,
+          storage: true,
+          messaging: false,
+          functions: true,
+          performance: false,
+          analytics: true,
+        },
+      },
+    },
   ],
 }

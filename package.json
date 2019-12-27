@@ -7,10 +7,12 @@
     "@mdx-js/tag": "^0.18.0",
     "atomic-layout": "^0.12.2",
     "babel-plugin-styled-components": "^1.10.0",
+    "firebase": "^7.6.1",
     "gatsby": "^2.18.17",
     "gatsby-image": "^2.2.37",
     "gatsby-mdx": "^0.4.4",
     "gatsby-plugin-canonical-urls": "^2.1.18",
+    "gatsby-plugin-firebase": "^0.1.7",
     "gatsby-plugin-google-analytics": "^2.1.31",
     "gatsby-plugin-manifest": "^2.2.34",
     "gatsby-plugin-offline": "^2.0.24",
@@ -33,11 +35,12 @@
   },
   "devDependencies": {
     "cross-env": "^5.2.0",
+    "dotenv": "^8.2.0",
     "prettier": "^1.19.1",
     "recompose": "^0.30.0"
   },
   "scripts": {
-    "build": "gatsby build",
+    "build": "cross-env NODE_ENV=production gatsby build",
     "develop": "cross-env ENV_NAME=dev gatsby develop -p 8040",
     "format": "prettier --write src/**/*.{js,jsx}",
     "start": "npm run develop",

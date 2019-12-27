@@ -4,6 +4,8 @@ import Image from 'gatsby-image'
 import styled, { css } from 'styled-components'
 import { Box, Composition } from 'atomic-layout'
 
+import { ViewsCount } from '../ViewsCount'
+
 import Text from '../Text'
 
 const postTemplate = `
@@ -69,6 +71,12 @@ const PostTitle = styled.h3`
   margin: 0;
 `
 
+const Delimiter = () => (
+  <Box as="span" inline marginHorizontal={8}>
+    ·
+  </Box>
+)
+
 const PostThumbnail = ({ post, showLatestBadge }) => {
   return (
     <Composition
@@ -96,14 +104,21 @@ const PostThumbnail = ({ post, showLatestBadge }) => {
           </Thumbnail>
 
           <Content>
-            <Box as={Text} muted small marginBottom={10}>
+            <Box
+              as={Text}
+              muted
+              small
+              flex
+              alignItems="center"
+              marginBottom={10}
+            >
               <Text inline primary>
                 {post.frontmatter.category}
               </Text>
-              <Box as="span" inline marginHorizontal={8}>
-                ·
-              </Box>
+              <Delimiter />
               <Text inline>{post.frontmatter.date}</Text>
+              <Delimiter />
+              <ViewsCount post={post} />
             </Box>
 
             <PostLink to={post.fields.url}>
