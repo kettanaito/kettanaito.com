@@ -7,6 +7,13 @@
 
 Personal blog about software development focusing on JavaScript ecosystem. No full-screen ads and shady tracking. Blogging as it makes sense to me.
 
+## Powered by
+
+- [Gatsby](https://www.gatsbyjs.org/) as a framework
+- [MDX](https://mdxjs.com/) for post content
+- [Firebase](https://firebase.google.com/) for persistent post views
+- [Google Analytics](https://analytics.google.com/) for anonymous website analytics
+
 ## Author
 
 - [GitHub](https://github.com/kettanaito)
