@@ -3,13 +3,14 @@ import { Box } from 'atomic-layout'
 import { IoMdEye } from 'react-icons/io'
 
 import Text from './Text'
+import { Loader } from './Loader'
 import { useViewsCount } from '../hooks/useViewsCount'
 
 export const ViewsCount = ({ post, shouldIncrement }) => {
   const { loading, viewsCount } = useViewsCount(post, shouldIncrement)
 
   if (loading) {
-    return null
+    return <Loader />
   }
 
   return (
