@@ -1,7 +1,8 @@
 {
   "name": "redd-developer",
-  "description": "Blog",
-  "version": "0.1.0",
+  "description": "Personal blog about programming",
+  "version": "1.0.0",
+  "license": "CC BY-NC",
   "dependencies": {
     "@mdx-js/mdx": "^0.20.0",
     "@mdx-js/tag": "^0.18.0",
