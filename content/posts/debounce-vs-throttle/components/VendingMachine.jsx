@@ -132,12 +132,15 @@ class Ball {
   }
 }
 
+const GRAVITY = 1
+const DENSITY = 1.22
+const DRAG = 0.47
+const FPS = 1 / 60
+const DT = FPS * 1000 // ms
+
 export const VendingMachine = ({
   ballRadius,
   maxBalls,
-  gravity,
-  density,
-  drag,
   onButtonClick,
   onReset,
 }) => {
@@ -165,8 +168,6 @@ export const VendingMachine = ({
     threshold: 0.5,
   })
 
-  const fps = 1 / 60
-  const dt = fps * 1000 // ms
   const mouse = {
     x: 0,
     y: 0,
@@ -177,10 +178,6 @@ export const VendingMachine = ({
   const setupCanvas = () => {
     const canvas = canvasRef.current
     ctxRef.current = canvas.getContext('2d')
-  }
-
-  const initDraw = () => {
-    timerRef.current = setInterval(drawFrame, dt)
   }
 
   const stopDraw = () => {
@@ -323,15 +320,15 @@ export const VendingMachine = ({
         // physics - calculating the aerodynamic forces to drag
         // -0.5 * Cd * A * v^2 * rho
         var fx =
-          -drag.value *
-          density *
+          -DRAG *
+          DENSITY *
           balls[i].area *
           balls[i].velocity.x *
           balls[i].velocity.x *
           (balls[i].velocity.x / Math.abs(balls[i].velocity.x))
         var fy =
-          -drag.value *
-          density *
+          -DRAG *
+          DENSITY *
           balls[i].area *
           balls[i].velocity.y *
           balls[i].velocity.y *
@@ -343,15 +340,15 @@ export const VendingMachine = ({
         // Calculating the accleration of the ball
         // F = ma or a = F/m
         var ax = fx / balls[i].mass
-        var ay = ag * gravity + fy / balls[i].mass
+        var ay = ag * GRAVITY + fy / balls[i].mass
 
         // Calculating the ball velocity
-        balls[i].velocity.x += ax * fps
-        balls[i].velocity.y += ay * fps
+        balls[i].velocity.x += ax * FPS
+        balls[i].velocity.y += ay * FPS
 
         // Calculating the position of the ball
-        balls[i].position.x += balls[i].velocity.x * fps * 100
-        balls[i].position.y += balls[i].velocity.y * fps * 100
+        balls[i].position.x += balls[i].velocity.x * FPS * 100
+        balls[i].position.y += balls[i].velocity.y * FPS * 100
       }
 
       // Rendering the ball
@@ -372,10 +369,10 @@ export const VendingMachine = ({
       handleBallCollision(balls[i])
       handleWallCollision(balls[i])
     }
-  }, [canvasRef, ctxRef, ballsRef])
+  }, [canvasRef, ctxRef, ballsRef, mouse.isDown])
 
   // Public methods
-  const throwBall = React.useCallback(() => {
+  const throwBall = () => {
     const canvas = canvasRef.current
 
     const startMousePos = {
@@ -409,7 +406,7 @@ export const VendingMachine = ({
     handleMouseDown(mouseDownEvent)
     getMousePosition(mouseUpEvent)
     handleMouseUp(mouseUpEvent)
-  }, [canvasRef])
+  }
 
   const handleResetClick = () => {
     onReset()
@@ -425,13 +422,17 @@ export const VendingMachine = ({
   React.useEffect(() => {
     const { isIntersecting } = intersection
 
+    const initDraw = () => {
+      timerRef.current = setInterval(drawFrame, DT)
+    }
+
     // Stop canvas drawing loop when component goes out of the viewport
     if (isIntersecting) {
       initDraw()
     } else {
       stopDraw()
     }
-  }, [intersection.isIntersecting])
+  }, [intersection, drawFrame])
 
   return (
     <VendingMachineContainer width="100%" maxWidth={280} maxWidthMd={350}>
@@ -452,9 +453,6 @@ export const VendingMachine = ({
         topMd={127}
         heightMd={185}
         widthMd={145}
-        // top={canvasSizeRef.current.top}
-        // height={canvasSizeRef.current.height}
-        // width={canvasSizeRef.current.width}
       />
     </VendingMachineContainer>
   )
@@ -462,7 +460,4 @@ export const VendingMachine = ({
 
 VendingMachine.defaultProps = {
   ballRadius: 10,
-  gravity: 1,
-  density: 1.22,
-  drag: 0.47,
 }
