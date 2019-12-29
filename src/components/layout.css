@@ -241,14 +241,12 @@ article img {
   margin-bottom: 1.45em;
 }
 h1 {
-  margin-left: 0;
-  margin-right: 0;
-  margin-top: 0;
+  margin: 0;
+  margin-bottom: 1em;
   padding-bottom: 0;
   padding-left: 0;
   padding-right: 0;
   padding-top: 0;
-  margin-bottom: 1em;
   color: inherit;
   font-family: 'Playfair Display', Charter, 'Bookman Antiqua', Georgia, serif;
   font-weight: bold;
@@ -257,46 +255,37 @@ h1 {
   line-height: 1.1;
 }
 h2 {
-  margin-left: 0;
-  margin-right: 0;
-  margin-top: 2.45rem;
+  margin: 2em 0 1em;
   padding-bottom: 0;
   padding-left: 0;
   padding-right: 0;
   padding-top: 0;
-  margin-bottom: 1.45rem;
   color: inherit;
   font-family: 'Playfair Display', Charter, 'Bookman Antiqua', Georgia, serif;
   font-weight: bold;
   text-rendering: optimizeLegibility;
-  font-size: 1.62671rem;
+  font-size: 2.5rem;
   line-height: 1.1;
 }
 h3 {
-  margin-left: 0;
-  margin-right: 0;
-  margin-top: 0;
+  margin: 1.5em 0 1em;
   padding-bottom: 0;
   padding-left: 0;
   padding-right: 0;
   padding-top: 0;
-  margin-bottom: 1.45rem;
   color: inherit;
   font-family: 'Playfair Display', Charter, 'Bookman Antiqua', Georgia, serif;
   font-weight: bold;
   text-rendering: optimizeLegibility;
-  font-size: 1.38316rem;
+  font-size: 1.8rem;
   line-height: 1.1;
 }
 h4 {
-  margin-left: 0;
-  margin-right: 0;
-  margin-top: 0;
+  margin: 1em 0 1em;
   padding-bottom: 0;
   padding-left: 0;
   padding-right: 0;
   padding-top: 0;
-  margin-bottom: 1.45rem;
   color: inherit;
   font-family: 'Playfair Display', Charter, 'Bookman Antiqua', Georgia, serif;
   font-weight: bold;
@@ -305,14 +294,11 @@ h4 {
   line-height: 1.1;
 }
 h5 {
-  margin-left: 0;
-  margin-right: 0;
-  margin-top: 0;
+  margin: 1em 0 1em;
   padding-bottom: 0;
   padding-left: 0;
   padding-right: 0;
   padding-top: 0;
-  margin-bottom: 1.45rem;
   color: inherit;
   font-weight: bold;
   text-rendering: optimizeLegibility;
@@ -320,14 +306,11 @@ h5 {
   line-height: 1.1;
 }
 h6 {
-  margin-left: 0;
-  margin-right: 0;
-  margin-top: 0;
+  margin: 1em 0 0 1em;
   padding-bottom: 0;
   padding-left: 0;
   padding-right: 0;
   padding-top: 0;
-  margin-bottom: 1.45rem;
   color: inherit;
   font-weight: bold;
   text-rendering: optimizeLegibility;
@@ -632,7 +615,6 @@ td:last-child {
 }
 tt,
 code {
-  /* background-color: hsla(0, 0%, 0%, 0.04); */
   background-color: rgba(255, 229, 100, 0.2);
   border-radius: 3px;
   font-family: 'SFMono-Regular', Consolas, 'Roboto Mono', 'Droid Sans Mono',
@@ -657,8 +639,13 @@ pre tt:before,
 pre tt:after {
   content: '';
 }
+
 @media only screen and (max-width: 480px) {
   html {
     font-size: 100%;
+  }
+
+  h2 {
+    margin: 1.25em 0 0.75em;
   }
 }
