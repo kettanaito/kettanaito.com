@@ -2,6 +2,7 @@ module.exports = () => {
   const Layout = require('atomic-layout').default
 
   Layout.configure({
+    defaultUnit: 'rem',
     breakpoints: {
       xs: {
         maxWidth: '575px',

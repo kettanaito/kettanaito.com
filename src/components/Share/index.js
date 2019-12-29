@@ -18,6 +18,7 @@ const defaultShareText =
 
 const StyledContainer = styled(Box)`
   background-color: hsla(221, 44%, 41%, 0.075);
+  border-radius: 3px;
 `
 
 const Share = ({ title, url, text }) => {
@@ -26,8 +27,8 @@ const Share = ({ title, url, text }) => {
       flex
       flexDirection="column"
       alignItems="center"
-      padding={32}
-      marginTop={32}
+      padding={2}
+      marginTop={2}
     >
       <h3>Share this post</h3>
       <Text as="p" small>
@@ -35,7 +36,7 @@ const Share = ({ title, url, text }) => {
       </Text>
       <Composition
         templateCols="repeat(3, 48px)"
-        gutter={20}
+        gutter={1.5}
         alignItems="center"
         justifyContent="center"
       >

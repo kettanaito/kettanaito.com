@@ -7,7 +7,7 @@ import Text from '../Text'
 
 const StyledContainer = styled.div`
   background-color: #f6f8fa;
-  border-radius: 4px;
+  border-radius: 3px;
 `
 
 const GitHubRepo = ({ owner, repo }) => {
@@ -24,20 +24,20 @@ const GitHubRepo = ({ owner, repo }) => {
       as={StyledContainer}
       areas="icon content"
       templateCols="48px 1fr"
-      gutter={16}
+      gutter={1}
       alignItems="center"
-      marginVertical={32}
-      padding={24}
+      marginVertical={2}
+      padding={1.5}
     >
       {({ Icon, Content }) => (
         <>
           <Icon as={GoRepo} size={48} align="start" />
-          <Content marginTop={-8}>
+          <Content marginTop="-8px">
             {data ? (
               <>
                 <Box
                   as="a"
-                  marginBottom={4}
+                  marginBottom="4px"
                   href={data.html_url}
                   target="_blank"
                   rel="noopener noreferrer"

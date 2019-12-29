@@ -72,7 +72,7 @@ const PostTitle = styled.h3`
 `
 
 const Delimiter = () => (
-  <Box as="span" inline marginHorizontal={8}>
+  <Box as="span" inline marginHorizontal="8px">
     ·
   </Box>
 )
@@ -83,10 +83,10 @@ const PostThumbnail = ({ post, showLatestBadge }) => {
       template={postTemplate}
       templateMd={postTemplateInline}
       templateColsMd="250px 1fr"
-      gutter={16}
-      gutterMd={24}
+      gutter={1}
+      gutterMd={2}
       height="100%"
-      maxWidthSmDown={400}
+      maxWidthSmDown="400px"
       marginHorizontalSmDown="auto"
       alignItems="center"
     >
@@ -110,7 +110,7 @@ const PostThumbnail = ({ post, showLatestBadge }) => {
               small
               flex
               alignItems="center"
-              marginBottom={10}
+              marginBottom={0.8}
             >
               <Text inline primary>
                 {post.frontmatter.category}
@@ -125,7 +125,7 @@ const PostThumbnail = ({ post, showLatestBadge }) => {
               <PostTitle>{post.frontmatter.title}</PostTitle>
             </PostLink>
 
-            <Box marginTop={10}>
+            <Box marginTop={0.8}>
               <Text small>
                 {post.frontmatter.description || (
                   <div dangerouslySetInnerHTML={{ __html: post.excerpt }} />

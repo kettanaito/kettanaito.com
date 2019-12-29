@@ -31,7 +31,7 @@ const PostList = ({ posts, showLatestBadge, ...restProps }) => {
     <Composition
       templateCols="1fr"
       justifyContent="center"
-      gutter={48}
+      gutter={3}
       maxWidth="100%"
       {...restProps}
     >

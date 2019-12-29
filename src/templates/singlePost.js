@@ -26,7 +26,7 @@ const PostImage = styled(Image)`
 `
 
 const MetaDelimiter = () => (
-  <Box as="span" paddingHorizontal={10} paddingHorizontalMd={16}>
+  <Box as="span" paddingHorizontal={1} paddingHorizontalMd={1.5}>
     ·
   </Box>
 )
@@ -71,8 +71,8 @@ function BlogPost(props) {
             as="header"
             flexDirection="column"
             alignItems="center"
-            marginBottom={32}
-            marginBottomMd={64}
+            marginBottom={3.5}
+            marginBottomMd={2.5}
           >
             <PostTitle>{frontmatter.title}</PostTitle>
             <Box
@@ -109,7 +109,7 @@ function BlogPost(props) {
           </Box>
 
           {/* Social sharing */}
-          <Box paddingVertical={32}>
+          <Box paddingVertical={2}>
             <Share
               title={frontmatter.title}
               url={location.origin + location.pathname}
@@ -117,7 +117,7 @@ function BlogPost(props) {
             />
           </Box>
 
-          <Box marginVertical={48}>
+          <Box marginVertical={3}>
             <TwitterWidget />
           </Box>
 

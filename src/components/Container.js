@@ -1,11 +1,11 @@
 import React from 'react'
 import { Box } from 'atomic-layout'
 
-const Container = props => (
+const Container = (props) => (
   <Box
-    width={800}
+    width="800px"
     marginHorizontal="auto"
-    paddingHorizontal={16}
+    paddingHorizontal={1}
     maxWidth="100%"
     {...props}
   />

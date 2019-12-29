@@ -22,7 +22,7 @@ const Layout = ({ children }) => (
     render={(data) => (
       <>
         <Header siteTitle={data.site.siteMetadata.title} />
-        <Container paddingVertical={32} paddingVerticalMd={64}>
+        <Container paddingVertical={2} paddingVerticalMd={4}>
           <main>{children}</main>
         </Container>
         <Footer />

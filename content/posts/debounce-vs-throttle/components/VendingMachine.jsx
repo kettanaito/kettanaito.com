@@ -435,7 +435,7 @@ export const VendingMachine = ({
   }, [intersection, drawFrame])
 
   return (
-    <VendingMachineContainer width="100%" maxWidth={280} maxWidthMd={350}>
+    <VendingMachineContainer width="100%" maxWidth="280px" maxWidthMd="350px">
       {!shouldThrowBall && <OutOfBalls onButtonClick={handleResetClick} />}
       <ButtonContainer bottom={150} bottomMd={175}>
         <RedButton onClick={() => onButtonClick(throwBall)} />
