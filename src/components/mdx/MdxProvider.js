@@ -10,9 +10,9 @@ const StyledP = styled.p`
   line-height: 1.8;
 `
 
-const createHeading = tagName => styled[tagName]`
-  margin-top: 1.5em;
-  margin-bottom: 0.75em;
+const createHeading = (tagName) => styled[tagName]`
+  // margin-top: 1.5em;
+  // margin-bottom: 0.75em;
 `
 
 const components = {
@@ -25,4 +25,4 @@ const components = {
   a: Link,
 }
 
-export default props => <MDXProvider {...props} components={components} />
+export default (props) => <MDXProvider {...props} components={components} />

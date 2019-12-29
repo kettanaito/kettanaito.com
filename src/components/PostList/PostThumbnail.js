@@ -104,13 +104,17 @@ const PostThumbnail = ({ post, showLatestBadge }) => {
           </Thumbnail>
 
           <Content>
+            <PostLink to={post.fields.url}>
+              <PostTitle>{post.frontmatter.title}</PostTitle>
+            </PostLink>
+
             <Box
               as={Text}
               muted
               small
               flex
               alignItems="center"
-              marginBottom={0.8}
+              marginVertical={0.8}
             >
               <Text inline primary>
                 {post.frontmatter.category}
@@ -121,11 +125,7 @@ const PostThumbnail = ({ post, showLatestBadge }) => {
               <ViewsCount post={post} />
             </Box>
 
-            <PostLink to={post.fields.url}>
-              <PostTitle>{post.frontmatter.title}</PostTitle>
-            </PostLink>
-
-            <Box marginTop={0.8}>
+            <Box>
               <Text small>
                 {post.frontmatter.description || (
                   <div dangerouslySetInnerHTML={{ __html: post.excerpt }} />

@@ -26,7 +26,7 @@ const PostImage = styled(Image)`
 `
 
 const MetaDelimiter = () => (
-  <Box as="span" paddingHorizontal={1} paddingHorizontalMd={1.5}>
+  <Box as="span" paddingHorizontal={0.8} paddingHorizontalMd={1.5}>
     ·
   </Box>
 )
@@ -71,8 +71,8 @@ function BlogPost(props) {
             as="header"
             flexDirection="column"
             alignItems="center"
-            marginBottom={3.5}
-            marginBottomMd={2.5}
+            marginBottom={2.5}
+            marginBottomMd={3.5}
           >
             <PostTitle>{frontmatter.title}</PostTitle>
             <Box
@@ -84,11 +84,13 @@ function BlogPost(props) {
               justifyContentXsDown="start"
               width="100%"
             >
-              <Text primary>{category}</Text>
-              <Only as={MetaDelimiter} from="sm" />
-              <Box as="span" flex>
-                <Text>{date}</Text>
+              <Box flex>
+                <Text primary>{category}</Text>
                 <MetaDelimiter />
+                <Text>{date}</Text>
+              </Box>
+              <Box flex>
+                <Only as={MetaDelimiter} from="sm" />
                 <Text>
                   {timeToRead} {readTimeLabel} read
                 </Text>
@@ -126,7 +128,7 @@ function BlogPost(props) {
             <>
               <hr />
               <section>
-                <h2>Posts you may like:</h2>
+                <h3>Posts you may like:</h3>
                 <PostList posts={similarPosts.edges} />
               </section>
             </>
