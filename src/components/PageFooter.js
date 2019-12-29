@@ -18,7 +18,7 @@ const FooterLink = styled.a`
 `
 
 const Delimiter = () => (
-  <Box as="span" inline marginHorizontal={8}>
+  <Box as="span" inline marginHorizontal="8px">
     ·
   </Box>
 )
@@ -30,7 +30,7 @@ const Footer = () => (
       flexDirection="column"
       flexDirectionSm="row"
       justifyContent="space-between"
-      paddingVertical={16}
+      paddingVertical={1}
     >
       <Text as="span">
         © {new Date().getFullYear()}. Built with love and

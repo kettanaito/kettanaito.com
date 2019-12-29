@@ -46,10 +46,10 @@ const About = ({ data }) => (
       content
     `}
       templateMd="avatar content"
-      gutter={10}
+      gutter={1}
       alignItems="center"
       justifyItems="center"
-      marginBottom={32}
+      marginBottom={2}
     >
       {({ Avatar, Content }) => (
         <>
@@ -77,13 +77,13 @@ const About = ({ data }) => (
     <Composition
       as={ContactsList}
       templateColsSm="repeat(3, 1fr)"
-      gutter={16}
+      gutter={1}
       alignItems="center"
     >
       <Box as="li">
         <Box flex alignItems="center">
           <IoLogoGithub size={48} fill="#171515" />
-          <Box marginLeft={10}>
+          <Box marginLeft={0.8}>
             <a
               target="_blank"
               rel="noopener noreferrer"
@@ -100,7 +100,7 @@ const About = ({ data }) => (
       <Box as="li">
         <Box flex alignItems="center">
           <IoLogoTwitter size={48} fill="#2AA3EF" />
-          <Box marginLeft={10}>
+          <Box marginLeft={0.8}>
             <a
               target="_blank"
               rel="noopener noreferrer"
@@ -117,7 +117,7 @@ const About = ({ data }) => (
       <Box as="li">
         <Box flex alignItems="center">
           <IoLogoLinkedin size={48} fill="#1074B0" />
-          <Box marginLeft={10}>
+          <Box marginLeft={0.8}>
             <a
               target="_blank"
               rel="noopener noreferrer"

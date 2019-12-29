@@ -52,11 +52,11 @@ const DefaultEvents = ({ children, maxBalls, wrapCallback }) => {
   return (
     <Composition
       templateColsMd="350px 1fr"
-      gap={32}
-      gapMd={48}
+      gap={2}
+      gapMd={3}
       alignItems="center"
       justifyContent="center"
-      marginVertical={48}
+      marginVertical={3}
       marginHorizontal="auto"
       maxWidth="100%"
     >

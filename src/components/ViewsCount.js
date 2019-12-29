@@ -15,7 +15,7 @@ export const ViewsCount = ({ post, shouldIncrement }) => {
 
   return (
     <Box as={Text} inline muted flex alignItems="center">
-      <Box as={IoMdEye} marginRight={4} />
+      <Box as={IoMdEye} marginRight="4px" />
       {viewsCount > 0 ? viewsCount.toLocaleString() : 'No views'}
     </Box>
   )

@@ -22,7 +22,7 @@ const Link = (props) => {
     >
       {props.children}
       {isExternal && (
-        <Box inline as={GoLinkExternal} size={14} marginLeft={2} />
+        <Box inline as={GoLinkExternal} size={14} marginLeft="3px" />
       )}
     </StyledLink>
   )

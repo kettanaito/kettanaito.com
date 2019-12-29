@@ -30,10 +30,10 @@ export const TwitterWidget = () => {
   return (
     <Composition
       templateColsMd="auto 1fr"
-      gap={32}
+      gap={2}
       alignItems="start"
       justifyItemsSmDown="center"
-      maxWidthSmDown={500}
+      maxWidthSmDown="500px"
       marginHorizontal="auto"
     >
       <a
