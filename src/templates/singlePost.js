@@ -111,7 +111,7 @@ function BlogPost(props) {
           </Box>
 
           {/* Social sharing */}
-          <Box paddingVertical={2}>
+          <Box paddingVertical={1}>
             <Share
               title={frontmatter.title}
               url={location.origin + location.pathname}
@@ -119,7 +119,7 @@ function BlogPost(props) {
             />
           </Box>
 
-          <Box marginVertical={3}>
+          <Box marginVertical={4}>
             <TwitterWidget />
           </Box>
 
@@ -127,10 +127,10 @@ function BlogPost(props) {
           {similarPosts && (
             <>
               <hr />
-              <section>
+              <Box marginTop={1.5}>
                 <h3>Posts you may like:</h3>
                 <PostList posts={similarPosts.edges} />
-              </section>
+              </Box>
             </>
           )}
         </div>

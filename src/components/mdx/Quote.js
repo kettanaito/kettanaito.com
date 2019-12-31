@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 const Quote = styled.blockquote`
-  margin: 0 0 2rem;
+  margin: 2.5rem 0 2.5rem;
   padding: 0 2rem;
   color: hsl(0, 5%, 41%);
   border: 0;
