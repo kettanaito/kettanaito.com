@@ -30,15 +30,14 @@ const Share = ({ title, url, text }) => {
       padding={2}
       marginTop={2}
     >
-      <h3>Share this post</h3>
-      <Text as="p" small>
-        {text || defaultShareText}
-      </Text>
+      <h4>Share this post</h4>
+      <Text as="p">{text || defaultShareText}</Text>
       <Composition
         templateCols="repeat(3, 48px)"
         gutter={1.5}
         alignItems="center"
         justifyContent="center"
+        marginTop={1}
       >
         <FacebookShareButton url={url}>
           <FacebookIcon size={48} round />
