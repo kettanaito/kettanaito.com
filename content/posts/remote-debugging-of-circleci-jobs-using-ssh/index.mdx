@@ -21,15 +21,15 @@ I am ashamed to admit that any significant change in CircleCI config used to tak
 
 ![CircleCI failed job](images/ci-failed.png)
 
-In this post I would like to share a mind-blowing technique of debugging failed jobs suggested to me by [Ricardo Feliciano](https://twitter.com/FelicianoTech). I will also add a few personal suggestions and include solutions to the obstacles I faced during the process.
+In this post I would like to share a mind-blowing technique of debugging failed jobs suggested to me by [Ricardo Feliciano](https://twitter.com/FelicianoTech). I will also drop in a few personal suggestions and make the process more smooth by describing it step-by-step.
 
 ---
 
-## The challenge
+## The problem
 
 In order to debug any issue one has to reliably reproduce it first. There are multifold of things that can affect the issue's reproduction: environment, connection speed, asynchronicity, black magic. Needless to say when your CI runs remotely all those factors are at play.
 
-## Running a job with SSH
+## Running job with SSH
 
 In order to debug a failed job using SSH it needs to be run with SSH first. In this article we are going to do that directly from the CircleCI UI:
 
@@ -53,13 +53,18 @@ The connection details are likely be different in your case, but what you are in
 
 ### Using SSH key
 
+Connecting via SSH is like opening a door: you need a key. It bears some information about a connector, and helps the server decide whether access should be granted.
+
+- Do I need a key?
+- Where the keys are stored?
+
 By default, attempts to connect to the remote machine using `ssh` would use the SSH key file added in your SSH agent. There can be two issues with this: you either don't have any SSH key, or have multiple ones.
 
 #### Set up an SSH key in GitHub
 
 To create an SSH key and attach it to your GitHub profile please follow the official guide: [Generating a new SSH key and adding it to the ssh-agent](https://help.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
 
-#### Specify which key to use
+#### Using explicit key
 
 In case you have got multiple SSH keys you would have to specify which one to use to connect to the remote machine. Provide the path to the same SSH key you use for GitHub as the value of the `-i` flag in `ssh` command:
 
@@ -101,7 +106,7 @@ Pay attention to your setup and directory structure when applying commands used 
 
 ## Taking a snapshot
 
-Working with the remote file-system via SSH is helpful, yet you might quickly find yourself limited. It is another environment, which lacks your favorite IDE and all those helpful tools you use for debugging. It may be helpful to know how to download directories and files from the remote machine.
+Working with the remote file-system s helpful, yet you might quickly find yourself limited. It is another environment, which lacks your favorite IDE and all those helpful tools you use for debugging. It may be helpful to know how to download directories and files from the remote machine.
 
 Although you should strive towards your project being reproducible, I highly recommend to download a complete snapshot of the file-system, _including installed dependencies_. This way you eliminate any possible deviations and operate on the 1-1 instance of your project from the failed job. Depending on the project's (and its dependencies) size, transferring its entire directory may take a significant amount of time. We can compress the working directory into a tarball to decrease its size and make the download procedure faster.
 
@@ -130,7 +135,7 @@ $ scp -P 64536 circleci@100.26.97.124:/home/circleci/snapshot.tar.gz ~/Desktop
 
 This command will copy the file at `/home/circleci/snapshot.tar.gz` from the remote machine to our local's `~/Desktop`. Unarchive the snapshot of the CI and debug it as if it was a regular folder. Well, because it is.
 
-## Running a job locally
+## Running job locally
 
 - Your environment is still a point of deviation that may get in a way of reliably reproducing the issue
 - Consider using CircleCI CLI to run a job
@@ -140,3 +145,4 @@ This command will copy the file at `/home/circleci/snapshot.tar.gz` from the rem
 ## Links & Materials
 
 - [Debugging with SSH](https://circleci.com/docs/2.0/ssh-access-jobs/) (CircleCI documentation)
+- [What are SSH keys?](https://jumpcloud.com/blog/what-are-ssh-keys/) by JumpCloud
