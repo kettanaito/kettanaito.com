@@ -151,19 +151,6 @@ export const VendingMachine = ({
 
   const shouldThrowBall = ballsRef.current.length < maxBalls
 
-  // const buttonSizeSmall = {
-  //   bottom: 150,
-  // }
-  // const buttonResponsize = useResponsiveValue(
-  //   {
-  //     xs: buttonSizeSmall,
-  //     sm: buttonSizeSmall,
-  //   },
-  //   {
-  //     bottom: 175,
-  //   }
-  // )
-
   const { intersection, setIntersectionRef } = useIntersection({
     threshold: 0.5,
   })
@@ -376,7 +363,6 @@ export const VendingMachine = ({
     const canvas = canvasRef.current
 
     const startMousePos = {
-      // x: getRandomNumber(0, canvas.width) + canvas.offsetLeft,
       x: canvas.width / 2 + canvas.offsetLeft,
       y: 10 + canvas.offsetTop,
     }
