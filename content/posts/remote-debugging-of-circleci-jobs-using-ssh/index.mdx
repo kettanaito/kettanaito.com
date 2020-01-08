@@ -2,14 +2,16 @@
 date: 2020-01-25
 category: Education
 title: 'Remote debugging of CircleCI jobs using SSH'
-description: Got a failing CI job? Debug it precisely on the remote machine using SSH in minutes.
+description: Got a failing CI job? Let's connect to the very remote machine that ran your job and see what's going on.
 keywords:
   - circleci
+  - ci
   - continuous integration
   - ssh
   - debugging
   - job
   - workflow
+  - remote
 image: thumbnail.jpg
 ---
 
@@ -29,12 +31,14 @@ In this post I would like to share a mind-blowing technique of debugging failed 
 
 In order to debug any issue one has to reliably reproduce it first. There are multifold of things that can affect the issue's reproduction: environment, connection speed, asynchronicity, black magic. Needless to say when your CI runs remotely all those factors are at play.
 
+To minimize the amount of deviations between the remote computer that ran your CI job and your local machine, where you desperately try to achieve the same failing state, we are going to connect to the remote machine straight away using SSH connection.
+
 ## Running job with SSH
 
 In order to debug a failed job using SSH it needs to be run with SSH first. In this article we are going to do that directly from the CircleCI UI:
 
 1. Open the failed job on CircleCI.
-1. Locate the "Rerun ???" / "Rerun workflow" button.
+1. Locate the "**Rerun ???**" / "Rerun workflow" button.
 1. Open the dropdown and choose "Rerun job with SSH" option.
 
 ![Rerun job with SSH](images/circleci-rerun-ssh.png)
@@ -48,21 +52,17 @@ The connection details are likely be different in your case, but what you are in
 ## Into the remote!
 
 - What is SSH connection
-- Why do we need a key?
 - Where to get the key (admin / not CI admin)
 
 ### Using SSH key
 
-Connecting via SSH is like opening a door: you need a key. It bears some information about a connector, and helps the server decide whether access should be granted.
+Connecting via SSH is like opening a door: you need a key. Such key bears an information about a connector, and helps the server to decide whether access should be granted. It's possible to have multiple keys stored in the SSH Agent, which is like a keychain for SSH.
 
-- Do I need a key?
-- Where the keys are stored?
+Since this debugging technique involves SSH connection, you guessed it, you would also need a key. If you are already using SSH for your VCS (i.e. Git) you should use the same SSH public key attached to your account (the once that administrates CircleCI). If you don't have an SSH key, please follow the instructions below to create one.
 
-By default, attempts to connect to the remote machine using `ssh` would use the SSH key file added in your SSH agent. There can be two issues with this: you either don't have any SSH key, or have multiple ones.
+#### Generate a new SSH key
 
-#### Set up an SSH key in GitHub
-
-To create an SSH key and attach it to your GitHub profile please follow the official guide: [Generating a new SSH key and adding it to the ssh-agent](https://help.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
+There is a great tutorial called [Generating a new SSH key and adding it to the ssh-agent](https://help.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent) from GitHub. Although it's primarily oriented on GitHub users, you can follow the same steps to generate a key, replacing GitHub-specific operations, like adding an SSH key in the user interface, with those relevant to your VCS.
 
 #### Using explicit key
 
@@ -71,6 +71,10 @@ In case you have got multiple SSH keys you would have to specify which one to us
 ```bash
 $ ssh -i ~/.ssh/id_rsa -p 64536 100.26.97.124
 ```
+
+#### Using SSH key when you're not the CircleCI admin?
+
+- Might be worth mentioning and looking into.
 
 ### Establishing connection
 
@@ -110,7 +114,7 @@ Working with the remote file-system s helpful, yet you might quickly find yourse
 
 Although you should strive towards your project being reproducible, I highly recommend to download a complete snapshot of the file-system, _including installed dependencies_. This way you eliminate any possible deviations and operate on the 1-1 instance of your project from the failed job. Depending on the project's (and its dependencies) size, transferring its entire directory may take a significant amount of time. We can compress the working directory into a tarball to decrease its size and make the download procedure faster.
 
-Being on the remote machine let's compress our current working directory into a tarball archive:
+Being on the remote machine let's compress the current working directory into a tarball archive:
 
 ```bash
 $ tar -czvf snapshot.tar.gz ./release
@@ -121,7 +125,7 @@ $ tar -czvf snapshot.tar.gz ./release
 - `-v` display progress in the terminal (verbose),
 - `-f` accept a file name of the archive.
 
-After the archive is created we can transfer `snapshot.tar.gz` using SCP ([Secure Copy Protocol](https://en.wikipedia.org/wiki/Secure_copy)). Open a new terminal window, because **we need to be on the local machine** to do this step.
+After the archive is created you can transfer `snapshot.tar.gz` using SCP ([Secure Copy Protocol](https://en.wikipedia.org/wiki/Secure_copy)). Open a new terminal window, because **you need to be on the local machine** to do this step.
 
 ```bash
 $ scp <OPTIONS> <USER>@<HOST>:/<SRC_PATH> <DEST_PATH>
@@ -133,7 +137,7 @@ $ scp -P 64536 circleci@100.26.97.124:/home/circleci/snapshot.tar.gz ~/Desktop
 
 - `-P` connection port to use (default is `20`).
 
-This command will copy the file at `/home/circleci/snapshot.tar.gz` from the remote machine to our local's `~/Desktop`. Unarchive the snapshot of the CI and debug it as if it was a regular folder. Well, because it is.
+This command will copy the file at `/home/circleci/snapshot.tar.gz` from the remote machine to your local `~/Desktop`. Unarchive the snapshot of the CI and debug it as if it was a regular folder, because it is now.
 
 ## Running job locally
 
