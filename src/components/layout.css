@@ -277,7 +277,7 @@ h3 {
   letter-spacing: -0.2px;
 }
 h4 {
-  margin: 1em 0 1em;
+  margin: 2em 0 1em;
   padding-bottom: 0;
   padding-left: 0;
   padding-right: 0;
@@ -311,6 +311,10 @@ h6 {
   text-rendering: optimizeLegibility;
   font-size: 0.78405rem;
   line-height: 1.1;
+}
+h1:first-child,
+h2:first-child {
+  margin-top: 0;
 }
 hgroup {
   margin-left: 0;
