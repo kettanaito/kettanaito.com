@@ -49,6 +49,7 @@ const RedButton = styled.button`
   --button-height: 25px;
 
   position: absolute;
+  padding: 0;
 
   background-color: #ff4d4d;
   border-radius: 50%;
@@ -424,7 +425,7 @@ export const VendingMachine = ({
     <VendingMachineContainer width="100%" maxWidth="280px" maxWidthMd="350px">
       {!shouldThrowBall && <OutOfBalls onButtonClick={handleResetClick} />}
       <ButtonContainer bottom={150} bottomMd={175}>
-        <RedButton onClick={() => onButtonClick(throwBall)} />
+        <RedButton onMouseDown={() => onButtonClick(throwBall)} />
       </ButtonContainer>
       <StyledImage
         ref={setIntersectionRef}
