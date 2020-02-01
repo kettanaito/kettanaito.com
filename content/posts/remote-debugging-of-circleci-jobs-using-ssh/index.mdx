@@ -47,9 +47,11 @@ Clicking on the option will run the respective job anew, yet this time CircleCI 
 
 ![SSH connection details](images/ci-enable-ssh.png)
 
-The connection details are likely be different in your case, but what you are interested in are the machine's host (`100.26.97.124`) and port number (`64536`). CircleCI would also print out a shorthand connection command, but let's skip that one for now. First let's ensure that our local computer has an SSH key set up, otherwise any request to reach the remote machine will be denied.
+Those details are likely be different in your case, but your primarily interest should fall onto the machine's host (`100.26.97.124`) and port number (`64536`). Remember those. CircleCI would also print out a shorthand connection command, which we will skip for now. First let's ensure that our local computer has an SSH key set up, otherwise any request to reach the remote machine will be denied.
 
 ## Into the remote!
+
+As the article's title suggests, we are going to use an SSH connection to connect to the remote machine.
 
 - What is SSH connection
 - Where to get the key (admin / not CI admin)
