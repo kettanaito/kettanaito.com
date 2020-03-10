@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { graphql, navigate } from 'gatsby'
 import Image from 'gatsby-image'
-import MDXRenderer from 'gatsby-mdx/mdx-renderer'
+import { MDXRenderer } from 'gatsby-plugin-mdx'
 import { trackCustomEvent } from 'gatsby-plugin-google-analytics'
 import AtomicLayout, { Only, Box } from 'atomic-layout'
 
@@ -107,7 +107,7 @@ function BlogPost(props) {
 
           {/* Post content */}
           <Box as="article" data-post-id={post.id}>
-            <MDXRenderer>{post.code.body}</MDXRenderer>
+            <MDXRenderer>{post.body}</MDXRenderer>
           </Box>
 
           {/* Social sharing */}
@@ -164,9 +164,7 @@ export const query = graphql`
         }
       }
       timeToRead
-      code {
-        body
-      }
+      body
     }
 
     #
