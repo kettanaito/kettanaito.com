@@ -3,8 +3,8 @@ import styled from 'styled-components'
 import { MDXProvider } from '@mdx-js/react'
 
 /* Components */
-import Code from './Code'
-import Link from './Link'
+import Code from './mdx/Code'
+import Link from './mdx/Link'
 
 const StyledP = styled.p`
   line-height: 1.8;
@@ -25,4 +25,6 @@ const components = {
   a: Link,
 }
 
-export default (props) => <MDXProvider {...props} components={components} />
+export const MdxProvider = (props) => (
+  <MDXProvider {...props} components={components} />
+)

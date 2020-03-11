@@ -8,11 +8,8 @@ import { ReactComponent as Search } from 'heroicons/dist/outline-md/md-search.sv
 import Logo from '../images/logo-2.svg'
 
 const HeaderContainer = styled.header`
-  position: sticky;
-  top: 0;
   background-color: ${({ theme }) => theme.colors.grayLight};
   border-bottom: 1px solid #e8ecf3;
-  font-size: 0.85rem;
   z-index: 10;
 `
 
