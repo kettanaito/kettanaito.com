@@ -2,7 +2,7 @@ import React from 'react'
 import { graphql } from 'gatsby'
 import { Composition } from 'atomic-layout'
 
-import PostThumbnail from './PostThumbnail'
+import { PostItem } from '../PostItem'
 
 export const PostPreviewFragment = graphql`
   fragment PostPreview on Mdx {
@@ -26,20 +26,23 @@ export const PostPreviewFragment = graphql`
   }
 `
 
-const PostList = ({ posts, showLatestBadge, ...restProps }) => {
+const PostList = ({ posts }) => {
   return (
     <Composition
-      templateCols="1fr"
+      templateCols="repeat(3, 1fr)"
       justifyContent="center"
-      gutter={3}
+      gutter={4}
       maxWidth="100%"
-      {...restProps}
     >
       {posts.map(({ node }, index) => (
-        <PostThumbnail
+        <PostItem
           key={node.id}
-          post={node}
-          showLatestBadge={index === 0 && showLatestBadge}
+          url={node.fields.url}
+          title={node.frontmatter.title}
+          image={node.frontmatter.image.childImageSharp.fluid}
+          category={node.frontmatter.category}
+          excerpt={node.frontmatter.description}
+          date={node.frontmatter.date}
         />
       ))}
     </Composition>

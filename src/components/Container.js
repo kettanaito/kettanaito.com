@@ -3,7 +3,7 @@ import { Box } from 'atomic-layout'
 
 const Container = (props) => (
   <Box
-    width="960px"
+    width="1400px"
     marginHorizontal="auto"
     paddingHorizontal={1}
     maxWidth="100%"

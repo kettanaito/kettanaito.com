@@ -1,18 +1,21 @@
 import React, { useEffect } from 'react'
-import styled from 'styled-components'
 import { graphql, navigate } from 'gatsby'
 import Image from 'gatsby-image'
 import { MDXRenderer } from 'gatsby-plugin-mdx'
 import { trackCustomEvent } from 'gatsby-plugin-google-analytics'
-import AtomicLayout, { Only, Box } from 'atomic-layout'
+import styled from 'styled-components'
+import AtomicLayout, { Box } from 'atomic-layout'
 
 import Layout from '../components/layout'
-import MdxProvider from '../components/mdx/MdxProvider'
+import { MdxProvider } from '../components/MdxProvider'
 import PostList from '../components/PostList'
 import Share from '../components/Share'
 import Seo from '../components/seo'
-import Text from '../components/Text'
 import { TwitterWidget } from '../components/TwitterWidget'
+import { CategoryName } from '../components/CategoryName'
+import { Label } from '../components/Label'
+import { Thumbnail } from '../components/Thumbnail'
+import { InnerGrid } from '../components/InnerGrid'
 
 const PostTitle = styled.h1`
   @media (min-width: ${AtomicLayout.breakpoints.sm.minWidth}) {
@@ -20,15 +23,23 @@ const PostTitle = styled.h1`
   }
 `
 
-const PostImage = styled(Image)`
-  border-radius: 3px;
+const MetaInfo = styled.ul`
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  color: ${({ theme }) => theme.colors.gray};
 `
 
-const MetaDelimiter = () => (
-  <Box as="span" paddingHorizontal={0.8} paddingHorizontalMd={1.5}>
-    ·
-  </Box>
-)
+const MetaInfoItem = styled.li`
+  &:not(:last-child):after {
+    content: '/';
+    margin: 0 1rem;
+    font-weight: 500;
+    opacity: 0.5;
+  }
+`
 
 function BlogPost(props) {
   const { location, data } = props
@@ -52,8 +63,6 @@ function BlogPost(props) {
   const { frontmatter, timeToRead } = post
   const { draft, date, category } = frontmatter
 
-  const readTimeLabel = timeToRead > 1 ? 'minutes' : 'minute'
-
   return (
     <MdxProvider>
       <Layout>
@@ -73,37 +82,34 @@ function BlogPost(props) {
             marginBottom={2.5}
             marginBottomMd={3.5}
           >
-            <PostTitle>{frontmatter.title}</PostTitle>
             <Box
-              as="p"
               flex
-              flexDirection="column"
-              flexDirectionSm="row"
+              as={CategoryName}
               justifyContent="center"
-              justifyContentXsDown="start"
-              width="100%"
+              marginBottom={3}
             >
-              <Box flex>
-                <Text primary>{category}</Text>
-                <MetaDelimiter />
-                <Text>{date}</Text>
-              </Box>
-              <Box flex>
-                <Only as={MetaDelimiter} from="sm" />
-                <Text>
-                  {timeToRead} {readTimeLabel} read
-                </Text>
-              </Box>
+              {category}
             </Box>
+            <PostTitle>{frontmatter.title}</PostTitle>
+
+            <MetaInfo>
+              <MetaInfoItem>
+                <Label>{date}</Label>
+              </MetaInfoItem>
+              <MetaInfoItem>
+                <Label>{timeToRead} min. read</Label>
+              </MetaInfoItem>
+            </MetaInfo>
           </Box>
 
-          <PostImage
+          <Thumbnail
+            as={Image}
             fluid={frontmatter.image.childImageSharp.fluid}
             alt={frontmatter.title}
           />
 
           {/* Post content */}
-          <Box as="article" data-post-id={post.id}>
+          <Box as={InnerGrid} data-post-id={post.id}>
             <MDXRenderer>{post.body}</MDXRenderer>
           </Box>
 

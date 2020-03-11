@@ -6,9 +6,9 @@ import { ThemeProvider } from 'styled-components'
 import theme from '../theme'
 import Header from './PageHeader'
 import Footer from './PageFooter'
+import Container from './Container'
 import './layout.css'
 import './custom.css'
-import Container from './Container'
 
 const Layout = ({ children }) => (
   <StaticQuery
