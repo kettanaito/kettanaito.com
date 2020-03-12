@@ -8,6 +8,7 @@ import AtomicLayout, { Box } from 'atomic-layout'
 
 import Layout from '../components/layout'
 import { MdxProvider } from '../components/MdxProvider'
+import Container from '../components/Container'
 import PostList from '../components/PostList'
 import Share from '../components/Share'
 import Seo from '../components/seo'
@@ -74,69 +75,70 @@ function BlogPost(props) {
           keywords={frontmatter.keywords}
           image={frontmatter.image.childImageSharp.ogImage.src}
         />
-        <div>
-          <Box
-            as="header"
-            flexDirection="column"
-            alignItems="center"
-            marginBottom={2.5}
-            marginBottomMd={3.5}
-          >
+        <Container paddingVertical={2} paddingVerticalMd={4}>
+          <Box width="900px" maxWidth="100%" marginHorizontal="auto">
             <Box
-              flex
-              as={CategoryName}
-              justifyContent="center"
-              marginBottom={3}
+              as="header"
+              flexDirection="column"
+              alignItems="center"
+              marginBottom={2.5}
+              marginBottomMd={3.5}
             >
-              {category}
+              <Box
+                flex
+                as={CategoryName}
+                justifyContent="center"
+                marginBottom={3}
+              >
+                {category}
+              </Box>
+              <PostTitle>{frontmatter.title}</PostTitle>
+
+              <MetaInfo>
+                <MetaInfoItem>
+                  <Label>{date}</Label>
+                </MetaInfoItem>
+                <MetaInfoItem>
+                  <Label>{timeToRead} min. read</Label>
+                </MetaInfoItem>
+              </MetaInfo>
             </Box>
-            <PostTitle>{frontmatter.title}</PostTitle>
 
-            <MetaInfo>
-              <MetaInfoItem>
-                <Label>{date}</Label>
-              </MetaInfoItem>
-              <MetaInfoItem>
-                <Label>{timeToRead} min. read</Label>
-              </MetaInfoItem>
-            </MetaInfo>
-          </Box>
-
-          <Thumbnail
-            as={Image}
-            fluid={frontmatter.image.childImageSharp.fluid}
-            alt={frontmatter.title}
-          />
-
-          {/* Post content */}
-          <Box as={InnerGrid} data-post-id={post.id}>
-            <MDXRenderer>{post.body}</MDXRenderer>
-          </Box>
-
-          {/* Social sharing */}
-          <Box paddingVertical={1}>
-            <Share
-              title={frontmatter.title}
-              url={location.origin + location.pathname}
-              text={frontmatter.socialShareText}
+            <Thumbnail
+              as={Image}
+              fluid={frontmatter.image.childImageSharp.fluid}
+              alt={frontmatter.title}
             />
-          </Box>
 
-          <Box marginVertical={4}>
-            <TwitterWidget />
-          </Box>
+            {/* Post content */}
+            <Box as={InnerGrid} data-post-id={post.id}>
+              <MDXRenderer>{post.body}</MDXRenderer>
+            </Box>
 
+            {/* Social sharing */}
+            <Box paddingVertical={1}>
+              <Share
+                title={frontmatter.title}
+                url={location.origin + location.pathname}
+                text={frontmatter.socialShareText}
+              />
+            </Box>
+
+            <Box marginVertical={4}>
+              <TwitterWidget />
+            </Box>
+          </Box>
           {/* Similar posts */}
-          {similarPosts && (
+          {similarPosts?.edges?.length > 0 && (
             <>
               <hr />
               <Box marginTop={1.5}>
-                <h3>Posts you may like:</h3>
+                <h3>Articles You May Enjoy</h3>
                 <PostList posts={similarPosts.edges} />
               </Box>
             </>
           )}
-        </div>
+        </Container>
       </Layout>
     </MdxProvider>
   )

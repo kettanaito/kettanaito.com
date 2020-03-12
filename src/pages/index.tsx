@@ -4,8 +4,10 @@ import { graphql } from 'gatsby'
 
 import Layout from '../components/layout'
 import SEO from '../components/seo'
+import Container from '../components/Container'
 import PostList from '../components/PostList'
 import { HeroPostItem } from '../components/PostItem'
+import { PageShare } from '../components/PageShare'
 
 const IndexPage = ({ data }) => {
   const { edges } = data.postList
@@ -13,8 +15,6 @@ const IndexPage = ({ data }) => {
   const [firstPost, restPosts] = useMemo(() => {
     return [edges[0], edges.slice(1)]
   }, [edges])
-
-  console.log({ firstPost })
 
   return (
     <Layout>
@@ -31,17 +31,20 @@ const IndexPage = ({ data }) => {
           'blog',
         ]}
       />
-      <Composition gap={5}>
-        <HeroPostItem
-          url={firstPost.node.fields.url}
-          title={firstPost.node.frontmatter.title}
-          image={firstPost.node.frontmatter.image.childImageSharp.fluid}
-          category={firstPost.node.frontmatter.category}
-          date={firstPost.node.frontmatter.date}
-          excerpt={firstPost.node.frontmatter.description}
-        />
-        <PostList posts={restPosts} />
-      </Composition>
+      <Container paddingVertical={2} paddingVerticalMd={4}>
+        <Composition gap={5}>
+          <HeroPostItem
+            url={firstPost.node.fields.url}
+            title={firstPost.node.frontmatter.title}
+            image={firstPost.node.frontmatter.image.childImageSharp.fluid}
+            category={firstPost.node.frontmatter.category}
+            date={firstPost.node.frontmatter.date}
+            excerpt={firstPost.node.frontmatter.description}
+          />
+          <PostList posts={restPosts} />
+        </Composition>
+      </Container>
+      <PageShare url="foo" />
     </Layout>
   )
 }
