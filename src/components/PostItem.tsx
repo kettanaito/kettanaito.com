@@ -7,6 +7,7 @@ import { Thumbnail } from './Thumbnail'
 import { CategoryName } from './CategoryName'
 import { Label } from './Label'
 import { InnerGrid } from './InnerGrid'
+import { Author } from './Author'
 
 interface PostItemProps {
   url: string
@@ -16,6 +17,16 @@ interface PostItemProps {
   excerpt: string
   date: string
 }
+
+const PostContainer = styled.article`
+  ${Thumbnail} {
+    transition: transform 0.2s ease;
+  }
+
+  &:hover ${Thumbnail} {
+    transform: translateY(-10px);
+  }
+`
 
 const PostLink = styled(Link)`
   color: currentColor;
@@ -43,7 +54,7 @@ export const PostItem: React.FC<PostItemProps> = ({
   excerpt,
 }) => {
   return (
-    <article>
+    <PostContainer>
       <PostLink to={url}>
         <Thumbnail fluid={image} alt={title} />
       </PostLink>
@@ -63,7 +74,7 @@ export const PostItem: React.FC<PostItemProps> = ({
         </PostLink>
         <PostExcerpt>{excerpt}</PostExcerpt>
       </Composition>
-    </article>
+    </PostContainer>
   )
 }
 
@@ -89,7 +100,7 @@ export const HeroPostItem: React.FC<PostItemProps> = ({
         <Composition
           as="header"
           inline
-          templateCols="repeat(2, auto)"
+          templateCols="auto 1fr"
           alignItems="baseline"
           gap={1.5}
         >
@@ -100,6 +111,11 @@ export const HeroPostItem: React.FC<PostItemProps> = ({
           <PostTitle>{title}</PostTitle>
         </PostLink>
         <PostExcerpt>{excerpt}</PostExcerpt>
+        <Author
+          githubHandle="kettanaito"
+          name="Artem Zakharchenko"
+          description="Software engineer"
+        />
       </Composition>
     </Composition>
   )

@@ -6,7 +6,6 @@ import { ThemeProvider } from 'styled-components'
 import theme from '../theme'
 import Header from './PageHeader'
 import Footer from './PageFooter'
-import Container from './Container'
 import './layout.css'
 import './custom.css'
 
@@ -24,9 +23,7 @@ const Layout = ({ children }) => (
     render={(data) => (
       <ThemeProvider theme={theme}>
         <Header siteTitle={data.site.siteMetadata.title} />
-        <Container paddingVertical={2} paddingVerticalMd={4}>
-          <main>{children}</main>
-        </Container>
+        <main>{children}</main>
         <Footer />
       </ThemeProvider>
     )}

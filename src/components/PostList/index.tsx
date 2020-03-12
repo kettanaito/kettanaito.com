@@ -29,10 +29,15 @@ export const PostPreviewFragment = graphql`
 const PostList = ({ posts }) => {
   return (
     <Composition
-      templateCols="repeat(3, 1fr)"
+      templateCols="1fr"
+      templateColsMd="repeat(2, 1fr)"
+      templateColsXl="repeat(3, 1fr)"
       justifyContent="center"
-      gutter={4}
+      gap={4}
+      gapMdOnly={2}
+      widthSmDown="500px"
       maxWidth="100%"
+      marginHorizontalSmDown="auto"
     >
       {posts.map(({ node }, index) => (
         <PostItem
