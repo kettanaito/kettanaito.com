@@ -6,7 +6,7 @@ import { Link } from 'gatsby'
 import Container from './Container'
 
 const StyledFooter = styled.footer`
-  background-color: ${({ theme }) => theme.colors.grayLight};
+  background-color: ${({ theme }) => theme.colors.grayDim};
   border-top: 1px solid #e8ecf3;
   font-size: 14px;
   color: ${({ theme }) => theme.colors.grayFoo};
