@@ -37,6 +37,10 @@ export const ShareInTwitter: React.FC<ShareComponentProps & {
   )
 }
 
+ShareInTwitter.defaultProps = {
+  hashtags: [],
+}
+
 export const ShareInReddit: React.FC<ShareComponentProps & {
   title: string
 }> = ({ url, title }) => {
