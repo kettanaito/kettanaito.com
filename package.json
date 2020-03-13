@@ -6,7 +6,6 @@
   "dependencies": {
     "@mdx-js/mdx": "^1.5.7",
     "@mdx-js/react": "^1.5.7",
-    "@mdx-js/tag": "^0.20.3",
     "@svgr/webpack": "^5.2.0",
     "atomic-layout": "^0.13.0",
     "babel-plugin-styled-components": "^1.10.7",
