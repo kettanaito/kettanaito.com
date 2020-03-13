@@ -8,6 +8,7 @@ import Container from '../components/Container'
 import PostList from '../components/PostList'
 import { HeroPostItem } from '../components/PostItem'
 import { PageShare } from '../components/PageShare'
+import { Separator } from '../components/Separator'
 
 const IndexPage = ({ data }) => {
   const { edges } = data.postList
@@ -31,7 +32,7 @@ const IndexPage = ({ data }) => {
           'blog',
         ]}
       />
-      <Container paddingVertical={2} paddingVerticalMd={4}>
+      <Container paddingVertical={4}>
         <Composition gap={5}>
           <HeroPostItem
             url={firstPost.node.fields.url}
@@ -41,6 +42,7 @@ const IndexPage = ({ data }) => {
             date={firstPost.node.frontmatter.date}
             excerpt={firstPost.node.frontmatter.description}
           />
+          <Separator />
           <PostList posts={restPosts} />
         </Composition>
       </Container>

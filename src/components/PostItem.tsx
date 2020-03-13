@@ -20,10 +20,11 @@ interface PostItemProps {
 
 const PostContainer = styled.article`
   ${Thumbnail} {
-    transition: transform 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
 
   &:hover ${Thumbnail} {
+    --shadow-offset: 10px;
     transform: translateY(-10px);
   }
 `
@@ -112,9 +113,11 @@ export const HeroPostItem: React.FC<PostItemProps> = ({
         </PostLink>
         <PostExcerpt>{excerpt}</PostExcerpt>
         <Author
-          githubHandle="kettanaito"
           name="Artem Zakharchenko"
           description="Software engineer"
+          githubHandle="kettanaito"
+          twitterHandle="kettanaito"
+          linkedInHandle="artem-zakharchenko"
         />
       </Composition>
     </Composition>
