@@ -1,7 +1,10 @@
-export default {
+import mergeDeepRight from 'ramda/es/mergeDeepRight'
+import DefaultTheme from 'react-syntax-highlighter/dist/cjs/styles/prism/ghcolors'
+
+export default mergeDeepRight(DefaultTheme, {
   'code[class*="language-"]': {
     fontFamily:
-      '"Roboto Mono", "Fira Mono", Consolas, Menlo, Monaco, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", "Courier New", Courier, monospace',
+      '"Source Code Pro", "Fira Mono", Consolas, Menlo, Monaco, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", "Courier New", Courier, monospace',
     fontSize: '16px',
     lineHeight: '1.45',
     direction: 'ltr',
@@ -9,20 +12,14 @@ export default {
     whiteSpace: 'pre',
     wordSpacing: 'normal',
     wordBreak: 'normal',
-    MozTabSize: '4',
-    OTabSize: '4',
-    tabSize: '4',
-    WebkitHyphens: 'none',
-    MozHyphens: 'none',
-    msHyphens: 'none',
-    hyphens: 'none',
-    background: '#f6f8fa',
-    color: '#24292e',
+    MozTabSize: '2',
+    OTabSize: '2',
+    tabSize: '2',
     padding: 0,
   },
   'pre[class*="language-"]': {
     fontFamily:
-      '"Roboto Mono", "Fira Mono", Consolas, Menlo, Monaco, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", "Courier New", Courier, monospace',
+      '"Source Code Pro", "Fira Mono", Consolas, Menlo, Monaco, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", "Courier New", Courier, monospace',
     fontSize: '16px',
     lineHeight: '1.375',
     direction: 'ltr',
@@ -37,47 +34,11 @@ export default {
     MozHyphens: 'none',
     msHyphens: 'none',
     hyphens: 'none',
-    background: '#f6f8fa',
-    color: '#24292e',
-    padding: '1em',
+    padding: '1.5rem',
     margin: '.5em 0',
     overflow: 'auto',
-  },
-  'pre[class*="language-"]::-moz-selection': {
-    textShadow: 'none',
-    background: '#6a51e6',
-  },
-  'pre[class*="language-"] ::-moz-selection': {
-    textShadow: 'none',
-    background: '#6a51e6',
-  },
-  'code[class*="language-"]::-moz-selection': {
-    textShadow: 'none',
-    background: '#6a51e6',
-  },
-  'code[class*="language-"] ::-moz-selection': {
-    textShadow: 'none',
-    background: '#6a51e6',
-  },
-  'pre[class*="language-"]::selection': {
-    textShadow: 'none',
-    background: '#6a51e6',
-  },
-  'pre[class*="language-"] ::selection': {
-    textShadow: 'none',
-    background: '#6a51e6',
-  },
-  'code[class*="language-"]::selection': {
-    textShadow: 'none',
-    background: '#6a51e6',
-  },
-  'code[class*="language-"] ::selection': {
-    textShadow: 'none',
-    background: '#6a51e6',
-  },
-  ':not(pre) > code[class*="language-"]': {
-    padding: '.1em',
-    borderRadius: '.3em',
+    borderRadius: 3,
+    borderColor: 'hsla(218, 10%, 45%, 0.24)',
   },
   comment: {
     color: '#6a737d',
@@ -111,6 +72,7 @@ export default {
   },
   function: {
     color: '#6f42c1',
+    fontWeight: '500',
   },
   'tag-id': {
     color: '#eeebff',
@@ -202,7 +164,7 @@ export default {
     color: '#6f42c1',
   },
   bold: {
-    fontWeight: 'bold',
+    fontWeight: '600',
   },
   'pre > code.highlight': {
     Outline: '.4em solid #8a75f5',
@@ -218,4 +180,4 @@ export default {
     background:
       'linear-gradient(to right, rgba(224, 145, 66, 0.2) 70%, rgba(224, 145, 66, 0))',
   },
-}
+})

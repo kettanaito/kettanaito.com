@@ -4,6 +4,7 @@ import { Box } from 'atomic-layout'
 import { Link } from 'gatsby'
 
 import Container from './Container'
+import { ExternalLink } from './ExternalLink'
 
 const StyledFooter = styled.footer`
   background-color: ${({ theme }) => theme.colors.grayDim};
@@ -21,7 +22,7 @@ const StyledFooter = styled.footer`
   }
 `
 
-const FooterLink = styled.a`
+const FooterLink = styled(ExternalLink)`
   color: #000;
   text-decoration: none;
 `
@@ -37,22 +38,20 @@ const Footer = () => (
     <Container>
       <Box
         flex
+        alignItems="center"
         flexDirection="column"
-        flexDirectionMd="row"
+        flexDirectionLg="row"
         justifyContent="space-between"
         paddingVertical={1}
       >
         <span>
-          © {new Date().getFullYear()}. Built with love and
+          © {new Date().getFullYear()}. Made by{' '}
+          <FooterLink to="https://github.com/kettanaito">kettanaito</FooterLink>
+          . Built with
           {` `}
-          <FooterLink
-            href="https://www.gatsbyjs.org"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Gatsby
-          </FooterLink>
-          .
+          <FooterLink to="https://www.gatsbyjs.org">Gatsby</FooterLink>.
+          Deployed with{' '}
+          <FooterLink to="https://www.netlify.com/">Netlify</FooterLink>.
         </span>
 
         <span>

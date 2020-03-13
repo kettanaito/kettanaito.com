@@ -1,13 +1,18 @@
 import React from 'react'
-import styled from 'styled-components'
-import { Composition } from 'atomic-layout'
+import styled, { useTheme } from 'styled-components'
+import { Box, Composition } from 'atomic-layout'
+import { IoLogoTwitter, IoLogoGithub, IoLogoLinkedin } from 'react-icons/io'
 import { Avatar } from './Avatar'
+import { ExternalLink } from './ExternalLink'
+import { SemanticList } from './SemanticList'
 import { ReactComponent as HalfCircle } from '../images/icons/half-circle.svg'
 
 interface AuthorProps {
   name: string
   description: string
   githubHandle: string
+  twitterHandle?: string
+  linkedInHandle?: string
   imageSize?: number
 }
 
@@ -35,8 +40,12 @@ export const Author: React.FC<AuthorProps> = ({
   name,
   description,
   githubHandle,
+  twitterHandle,
+  linkedInHandle,
   imageSize,
 }) => {
+  const theme = useTheme()
+
   return (
     <Composition templateCols="auto 1fr" alignItems="center" gap={12 / 16}>
       <AvatarConatiner>
@@ -49,7 +58,39 @@ export const Author: React.FC<AuthorProps> = ({
       </AvatarConatiner>
       <div>
         <AuthorName>{name}</AuthorName>
-        <AuthorDescription>{description}</AuthorDescription>
+        <Box as={AuthorDescription} flex alignItems="center">
+          <span>{description}</span>
+          <Box as="span" marginHorizontal={0.5}>
+            ·
+          </Box>
+          <Box as={SemanticList} flex alignItems="center">
+            {twitterHandle && (
+              <li>
+                <ExternalLink
+                  to="https://twitter.com/kettanaito"
+                  focusSize={0.5}
+                >
+                  <IoLogoTwitter fill={theme.colors.gray} />
+                </ExternalLink>
+              </li>
+            )}
+            <li>
+              <ExternalLink
+                to={`https://github.com/${githubHandle}`}
+                focusSize={0.5}
+              >
+                <IoLogoGithub fill={theme.colors.gray} />
+              </ExternalLink>
+            </li>
+            {linkedInHandle && (
+              <li>
+                <ExternalLink to={`https://linkedin.com/in/${linkedInHandle}`}>
+                  <IoLogoLinkedin fill={theme.colors.gray} size={16} />
+                </ExternalLink>
+              </li>
+            )}
+          </Box>
+        </Box>
       </div>
     </Composition>
   )

@@ -5,9 +5,9 @@ import styled, { useTheme } from 'styled-components'
 import { Composition, Box } from 'atomic-layout'
 import Container from './Container'
 import { CategoryName } from './CategoryName'
-import { ReactComponent as Search } from 'heroicons/dist/outline-md/md-search.svg'
+import { ReactComponent as MoonIcon } from 'heroicons/dist/outline-md/md-moon.svg'
 import { ReactComponent as ArrowLeft } from 'heroicons/dist/outline-md/md-arrow-left.svg'
-import Logo from '../images/logo-2.svg'
+import LogoIcon from '../images/logo-2.svg'
 
 const HeaderContainer = styled.header`
   background-color: ${({ theme }) => theme.colors.grayDim};
@@ -76,11 +76,11 @@ const Header: React.FC<HeaderProps> = ({ siteTitle }) => {
           </div>
           <Box justify="center">
             <Link to="/">
-              <LogoImage src={Logo} alt={siteTitle} />
+              <LogoImage src={LogoIcon} alt={siteTitle} />
             </Link>
           </Box>
           <Box flex justify="flex-end">
-            <Search stroke={theme.colors.gray} width={24} />
+            <MoonIcon fill={theme.colors.gray} stroke="none" width={24} />
           </Box>
         </Composition>
       </Container>

@@ -48,8 +48,6 @@ function BlogPost(props) {
   const { location, data } = props
   const { site, post, similarPosts } = data
 
-  console.log({ site, post })
-
   useEffect(() => {
     if (post.id != null) {
       trackCustomEvent({
@@ -134,13 +132,16 @@ function BlogPost(props) {
         <Box marginVertical={4}>
           <TwitterWidget />
         </Box>
+
         {/* Similar posts */}
         {similarPosts?.edges?.length > 0 && (
           <>
             <Separator />
-            <Container marginBottom={4}>
-              <Box marginTop={1.5}>
-                <h3>Articles You May Enjoy</h3>
+            <Container marginVertical={4}>
+              <Box as="h3" flex justifyContent="center">
+                Articles You May Enjoy
+              </Box>
+              <Box marginTop={3}>
                 <PostList posts={similarPosts.edges} />
               </Box>
             </Container>

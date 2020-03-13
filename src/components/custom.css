@@ -8,6 +8,7 @@ button {
   cursor: pointer;
   outline: none;
   user-select: none;
+  transition: box-shadow 0.1s ease;
 }
 
 button:focus {

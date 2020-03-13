@@ -215,8 +215,8 @@ body {
 
   background-color: #fff;
   color: var(--color-text);
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-weight: normal;
   line-height: 1.75;
   word-wrap: break-word;
@@ -385,7 +385,6 @@ p {
   padding-right: 0;
   padding-top: 0;
   margin-bottom: 1.45rem;
-  line-height: 1.8;
 }
 figure {
   margin-left: 0;
@@ -398,17 +397,17 @@ figure {
   margin-bottom: 1.45rem;
 }
 pre {
-  margin-left: 0;
-  margin-right: 0;
-  margin-top: 0;
-  margin-bottom: 1.45rem;
+  margin: 3rem 0 4rem;
   font-size: 0.85rem;
   line-height: 1.42;
   /* background: hsla(0, 0%, 0%, 0.04); */
   /* padding: 1.45rem; */
   border-radius: 3px;
-  overflow: auto;
+  /* overflow: auto; */
   word-wrap: normal;
+}
+p + pre {
+  margin-top: 4rem;
 }
 table {
   margin-left: 0;
@@ -615,10 +614,13 @@ tt,
 code {
   background-color: rgba(255, 229, 100, 0.2);
   border-radius: 3px;
-  font-family: 'SFMono-Regular', Consolas, 'Roboto Mono', 'Droid Sans Mono',
+  font-family: 'Source Code Pro', Consolas, 'Roboto Mono', 'Droid Sans Mono',
     'Liberation Mono', Menlo, Courier, monospace;
   padding: 0.2em;
   letter-spacing: 0.1px;
+}
+code .react-syntax-highlighter-line-number {
+  opacity: 0.5;
 }
 pre code {
   background: none;
