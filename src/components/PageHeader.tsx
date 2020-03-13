@@ -1,16 +1,32 @@
-import { Link } from 'gatsby'
 import React from 'react'
-import PropTypes from 'prop-types'
+import { Link } from 'gatsby'
+import { useLocation } from '@reach/router'
 import styled, { useTheme } from 'styled-components'
 import { Composition, Box } from 'atomic-layout'
 import Container from './Container'
+import { CategoryName } from './CategoryName'
 import { ReactComponent as Search } from 'heroicons/dist/outline-md/md-search.svg'
+import { ReactComponent as ArrowLeft } from 'heroicons/dist/outline-md/md-arrow-left.svg'
 import Logo from '../images/logo-2.svg'
 
 const HeaderContainer = styled.header`
-  background-color: ${({ theme }) => theme.colors.grayLight};
+  background-color: ${({ theme }) => theme.colors.grayDim};
   border-bottom: 1px solid #e8ecf3;
+  color: ${({ theme }) => theme.colors.gray};
   z-index: 10;
+`
+
+const NavBackLink = styled(Link)`
+  color: inherit;
+  text-decoration: none;
+
+  svg {
+    transition: transform 0.2s ease;
+  }
+
+  &:hover svg {
+    transform: translateX(-5px);
+  }
 `
 
 const LogoImage = styled.img`
@@ -26,8 +42,14 @@ const LogoImage = styled.img`
   }
 `
 
-const Header = ({ siteTitle }) => {
+interface HeaderProps {
+  siteTitle?: string
+}
+
+const Header: React.FC<HeaderProps> = ({ siteTitle }) => {
   const theme = useTheme()
+  const location = useLocation()
+  const isPostPage = location.pathname.startsWith('/blog/')
 
   return (
     <HeaderContainer>
@@ -38,7 +60,20 @@ const Header = ({ siteTitle }) => {
           justifyContent="space-between"
           padding={1.2}
         >
-          <div />
+          <div>
+            {isPostPage && (
+              <Composition
+                as={NavBackLink}
+                to="/"
+                templateCols="auto 1fr"
+                alignItems="center"
+                gap={0.5}
+              >
+                <ArrowLeft width={16} />
+                <CategoryName color="gray">All posts</CategoryName>
+              </Composition>
+            )}
+          </div>
           <Box justify="center">
             <Link to="/">
               <LogoImage src={Logo} alt={siteTitle} />
@@ -51,14 +86,6 @@ const Header = ({ siteTitle }) => {
       </Container>
     </HeaderContainer>
   )
-}
-
-Header.propTypes = {
-  siteTitle: PropTypes.string,
-}
-
-Header.defaultProps = {
-  siteTitle: '',
 }
 
 export default Header

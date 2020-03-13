@@ -10,13 +10,15 @@ import Layout from '../components/layout'
 import { MdxProvider } from '../components/MdxProvider'
 import Container from '../components/Container'
 import PostList from '../components/PostList'
-import Share from '../components/Share'
 import Seo from '../components/seo'
 import { TwitterWidget } from '../components/TwitterWidget'
 import { CategoryName } from '../components/CategoryName'
 import { Label } from '../components/Label'
 import { Thumbnail } from '../components/Thumbnail'
 import { InnerGrid } from '../components/InnerGrid'
+import { PostShare } from '../components/PostShare'
+import { PostGrid } from '../components/PostGrid'
+import { Separator } from '../components/Separator'
 
 const PostTitle = styled.h1`
   @media (min-width: ${AtomicLayout.breakpoints.sm.minWidth}) {
@@ -76,7 +78,7 @@ function BlogPost(props) {
           image={frontmatter.image.childImageSharp.ogImage.src}
         />
         <Container paddingVertical={2} paddingVerticalMd={4}>
-          <Box width="900px" maxWidth="100%" marginHorizontal="auto">
+          <PostGrid>
             <Box
               as="header"
               flexDirection="column"
@@ -114,31 +116,29 @@ function BlogPost(props) {
             <Box as={InnerGrid} data-post-id={post.id}>
               <MDXRenderer>{post.body}</MDXRenderer>
             </Box>
+          </PostGrid>
+        </Container>
 
-            {/* Social sharing */}
-            <Box paddingVertical={1}>
-              <Share
-                title={frontmatter.title}
-                url={location.origin + location.pathname}
-                text={frontmatter.socialShareText}
-              />
-            </Box>
+        {/* Social sharing */}
+        <Box marginVertical={1}>
+          <PostShare url={location.href} title={frontmatter.title} />
+        </Box>
 
-            <Box marginVertical={4}>
-              <TwitterWidget />
-            </Box>
-          </Box>
-          {/* Similar posts */}
-          {similarPosts?.edges?.length > 0 && (
-            <>
-              <hr />
+        <Box marginVertical={4}>
+          <TwitterWidget />
+        </Box>
+        {/* Similar posts */}
+        {similarPosts?.edges?.length > 0 && (
+          <>
+            <Separator />
+            <Container marginBottom={4}>
               <Box marginTop={1.5}>
                 <h3>Articles You May Enjoy</h3>
                 <PostList posts={similarPosts.edges} />
               </Box>
-            </>
-          )}
-        </Container>
+            </Container>
+          </>
+        )}
       </Layout>
     </MdxProvider>
   )

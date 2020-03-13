@@ -2,16 +2,9 @@ import React from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
 import styled from 'styled-components'
 import { Composition } from 'atomic-layout'
-import {
-  FacebookShareButton,
-  FacebookIcon,
-  TwitterShareButton,
-  TwitterIcon,
-  RedditShareButton,
-  RedditIcon,
-} from 'react-share'
 import Container from './Container'
 import Text from './Text'
+import { ShareInFacebook, ShareInTwitter, ShareInReddit } from './SocialLinks'
 
 const GET_WEBSITE_DETAILS = graphql`
   query GetWebsiteDetails {
@@ -41,18 +34,13 @@ export const PageShare: React.FC<PageShareProps> = ({ url }) => {
   const data = useStaticQuery(GET_WEBSITE_DETAILS)
   const { siteUrl, title, author } = data.site.siteMetadata
 
-  const socialIconProps = {
-    borderRadius: 3,
-    size: 48,
-  }
-
   return (
     <PageShareContainer>
       <Container>
         <Composition
-          templateCols="repeat(2, 1fr)"
+          templateColsMd="repeat(2, 1fr)"
           alignItems="center"
-          paddingVertical={4}
+          paddingVertical={5}
           gap={4}
         >
           <div>
@@ -65,23 +53,18 @@ export const PageShare: React.FC<PageShareProps> = ({ url }) => {
           </div>
           <Composition
             inline
-            templateCols="repeat(3, 48px)"
+            templateCols="repeat(3, 64px)"
             gap={1.5}
             justifyContent="flex-end"
+            justifyMdDown="center"
           >
-            <TwitterShareButton
-              title={`So I've found this blog and it's awesome! Check out Redd Developer by ${author}`}
+            <ShareInTwitter
               url={siteUrl}
-              hashtags={['redd', 'blog', 'programming']}
-            >
-              <TwitterIcon {...socialIconProps} />
-            </TwitterShareButton>
-            <FacebookShareButton url={siteUrl}>
-              <FacebookIcon {...socialIconProps} />
-            </FacebookShareButton>
-            <RedditShareButton title={title} url={siteUrl}>
-              <RedditIcon {...socialIconProps} />
-            </RedditShareButton>
+              title={`So I've found this blog and it's awesome! Check out Redd Developer by ${author}`}
+              hashtags={['redd', 'blog', 'javascript', 'programming']}
+            />
+            <ShareInFacebook url={siteUrl} />
+            <ShareInReddit url={siteUrl} title={title} />
           </Composition>
         </Composition>
       </Container>
