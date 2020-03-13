@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { Composition } from 'atomic-layout'
 import { ReactComponent as Heart } from 'heroicons/dist/outline-md/md-heart.svg'
 import Container from './Container'
@@ -7,10 +7,13 @@ import { InnerGrid } from './InnerGrid'
 import { PostGrid } from './PostGrid'
 import { Separator } from './Separator'
 import { ShareInTwitter, ShareInFacebook, ShareInReddit } from './SocialLinks'
+import { useLocalStorage } from '../hooks/useLocalStorage'
 
 interface PostShareProps {
+  id: string
   url: string
   title: string
+  hashtags?: string[]
 }
 
 const LikeButton = styled.button`
@@ -23,7 +26,49 @@ const LikeButton = styled.button`
   justify-content: center;
 `
 
-export const PostShare: React.FC<PostShareProps> = ({ url, title }) => {
+const HeartIcon = styled(Heart)<{ isLiked: boolean }>`
+  ${({ isLiked }) =>
+    isLiked &&
+    css`
+      animation: pop 1s;
+      fill: currentColor;
+    `}
+
+  @keyframes pop {
+    0% {
+      transform: scale(1);
+    }
+    10% {
+      transform: scale(0.85);
+    }
+    20% {
+      transform: scale(1.25);
+    }
+    30% {
+      transform: scale(0.9);
+    }
+    40% {
+      transform: scale(1);
+    }
+  }
+`
+
+const PostLikeButton: React.FC<{ postId: string }> = ({ postId }) => {
+  const [isLiked, setLiked] = useLocalStorage(`like-${postId}`)
+
+  return (
+    <LikeButton onClick={() => !isLiked && setLiked('true')}>
+      <HeartIcon isLiked={!!isLiked} width={32} stroke="currentColor" />
+    </LikeButton>
+  )
+}
+
+export const PostShare: React.FC<PostShareProps> = ({
+  id,
+  url,
+  title,
+  hashtags,
+}) => {
   return (
     <Container>
       <PostGrid>
@@ -36,10 +81,8 @@ export const PostShare: React.FC<PostShareProps> = ({ url, title }) => {
           paddingVertical={2}
           paddingVerticalMd={4}
         >
-          <LikeButton>
-            <Heart width={32} stroke="currentColor" />
-          </LikeButton>
-          <ShareInTwitter url={url} title={title} />
+          <PostLikeButton postId={id} />
+          <ShareInTwitter url={url} title={title} hashtags={hashtags} />
           <ShareInFacebook url={url} />
           <ShareInReddit url={url} title={title} />
         </Composition>
