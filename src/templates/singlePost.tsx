@@ -46,7 +46,9 @@ const MetaInfoItem = styled.li`
 
 function BlogPost(props) {
   const { location, data } = props
-  const { post, similarPosts } = data
+  const { site, post, similarPosts } = data
+
+  console.log({ site, post })
 
   useEffect(() => {
     if (post.id != null) {
@@ -121,7 +123,12 @@ function BlogPost(props) {
 
         {/* Social sharing */}
         <Box marginVertical={1}>
-          <PostShare url={location.href} title={frontmatter.title} />
+          <PostShare
+            id={post.id}
+            url={location.href}
+            title={`"${frontmatter.title}" by ${site.siteMetadata.author}`}
+            hashtags={frontmatter.hashtags}
+          />
         </Box>
 
         <Box marginVertical={4}>
@@ -146,6 +153,14 @@ function BlogPost(props) {
 
 export const query = graphql`
   query SinglePost($postId: String!, $postCategory: String!) {
+    site {
+      siteMetadata {
+        siteUrl
+        title
+        author
+      }
+    }
+
     #
     # Single post detail
     #
@@ -155,6 +170,7 @@ export const query = graphql`
         title
         description
         keywords
+        hashtags
         date(formatString: "MMMM D, YYYY")
         category
         image {
