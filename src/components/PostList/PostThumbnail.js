@@ -4,8 +4,6 @@ import Image from 'gatsby-image'
 import styled, { css } from 'styled-components'
 import { Box, Composition } from 'atomic-layout'
 
-import { ViewsCount } from '../ViewsCount'
-
 import Text from '../Text'
 
 const postTemplate = `
@@ -121,8 +119,6 @@ const PostThumbnail = ({ post, showLatestBadge }) => {
               </Text>
               <Delimiter />
               <Text inline>{post.frontmatter.date}</Text>
-              <Delimiter />
-              <ViewsCount post={post} />
             </Box>
 
             <Box>
