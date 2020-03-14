@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { MDXProvider } from '@mdx-js/react'
 
 /* Components */
-import Code from './mdx/Code'
+import { Code } from './mdx/Code'
 import Link from './mdx/Link'
 
 const StyledP = styled.p`
