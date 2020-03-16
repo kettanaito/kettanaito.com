@@ -1,6 +1,6 @@
 {
   "name": "redd-developer",
-  "description": "Personal blog about programming",
+  "description": "Software engineering blog",
   "version": "1.0.0",
   "license": "CC BY-NC",
   "dependencies": {
@@ -31,11 +31,11 @@
     "prop-types": "^15.7.2",
     "ramda": "^0.27.0",
     "react": "^16.13.0",
+    "react-cdx": "^0.1.1",
     "react-dom": "^16.13.0",
     "react-helmet": "^5.2.1",
     "react-icons": "^3.9.0",
     "react-share": "^4.0.1",
-    "react-syntax-highlighter": "^12.2.1",
     "styled-components": "^5.0.1"
   },
   "devDependencies": {
