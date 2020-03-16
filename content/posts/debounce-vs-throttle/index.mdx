@@ -233,7 +233,7 @@ button.addEventListener(
 
 #### React example
 
-If you are familiar with React you may also recognize the following declaration as being invalid:
+If you are familiar with [React](https://reactjs.org) you may also recognize the following declaration as being invalid:
 
 ```jsx
 class MyComponent extends React.Component {
@@ -251,9 +251,9 @@ class MyComponent extends React.Component {
 }
 ```
 
-Since `debounce` is called during the render, each Component's re-render will produce a new instance of a debounced `handleButtonClick` function, resulting into no effect being applied.
+Since `debounce` is called during the render, each MyComponent's re-render will produce a new instance of a debounced `handleButtonClick` function, resulting into no effect being applied.
 
-Instead, the `handleButtonClick` declaration should be debounced:
+Instead, the `handleButtonClick` _declaration_ should be debounced:
 
 ```jsx
 class MyComponent extends React.Component {
