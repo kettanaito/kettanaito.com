@@ -400,6 +400,8 @@ pre {
   margin: 3rem 0 4rem;
   font-size: 0.85rem;
   line-height: 1.42;
+  font-family: 'Source Code Pro', Menlo, Monaco, monospace;
+  font-size: 1rem;
   /* background: hsla(0, 0%, 0%, 0.04); */
   /* padding: 1.45rem; */
   border-radius: 3px;
@@ -442,6 +444,9 @@ blockquote {
   font-weight: 500;
   line-height: 1.5;
 }
+blockquote:last-child {
+  margin-bottom: 0;
+}
 form {
   margin-left: 0;
   margin-right: 0;
@@ -474,7 +479,7 @@ hr {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 2rem 0;
+  margin: 4rem 0;
   border: 0;
   color: #aaa;
   height: 1em;
@@ -560,7 +565,7 @@ li > p {
   margin-bottom: calc(1.45rem / 2);
 }
 code {
-  font-size: 0.85em;
+  font-size: 1em;
   font-style: normal;
   font-weight: normal;
   line-height: 1.45rem;
@@ -624,7 +629,7 @@ code .react-syntax-highlighter-line-number {
 }
 pre code {
   background: none;
-  line-height: 1.42;
+  line-height: 1.5;
 }
 /* code:before,
 code:after, */

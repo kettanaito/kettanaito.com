@@ -4,12 +4,14 @@ import { MDXProvider } from '@mdx-js/react'
 /* Components */
 import { Code } from './mdx/Code'
 import { Image } from './mdx/Image'
+import { Hr } from './mdx/Hr'
 import Link from './mdx/Link'
 
 const components = {
   code: Code,
   a: Link,
   img: Image,
+  hr: Hr,
 }
 
 export const MdxProvider = (props) => (

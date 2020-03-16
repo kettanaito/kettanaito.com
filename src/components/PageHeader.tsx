@@ -65,6 +65,7 @@ const Header: React.FC<HeaderProps> = ({ siteTitle }) => {
               <Composition
                 as={NavBackLink}
                 to="/"
+                inline
                 templateCols="auto 1fr"
                 alignItems="center"
                 gap={0.5}

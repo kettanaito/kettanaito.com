@@ -1,9 +1,10 @@
+import React from 'react'
+import { Box } from 'atomic-layout'
 import styled from 'styled-components'
 
-const Quote = styled.blockquote`
+const StyledBlockquote = styled.blockquote`
   position: relative;
   border: 0;
-  margin: 3rem 0 4rem 2rem;
   color: ${({ theme }) => theme.colors.grayDark};
   font-family: 'Playfair Display', Charter, 'Bookman Antiqua', Georgia, serif;
   font-size: 1.4rem;
@@ -24,4 +25,15 @@ const Quote = styled.blockquote`
   }
 `
 
-export default Quote
+export default ({ children }) => {
+  return (
+    <Box
+      as={StyledBlockquote}
+      marginVertical={2}
+      marginVerticalMd={4}
+      marginLeftMd={2}
+    >
+      {children}
+    </Box>
+  )
+}
