@@ -7,7 +7,7 @@ import { InnerGrid } from './InnerGrid'
 import { PostGrid } from './PostGrid'
 import { Separator } from './Separator'
 import { ShareInTwitter, ShareInFacebook, ShareInReddit } from './SocialLinks'
-import { useLocalStorage } from '../hooks/useLocalStorage'
+import { useLikes } from '../hooks/useLikes'
 
 interface PostShareProps {
   id: string
@@ -54,11 +54,11 @@ const HeartIcon = styled(Heart)<{ isLiked: boolean }>`
 `
 
 const PostLikeButton: React.FC<{ postId: string }> = ({ postId }) => {
-  const [isLiked, setLiked] = useLocalStorage(`like-${postId}`)
+  const { hasLike, addLike } = useLikes(postId)
 
   return (
-    <LikeButton onClick={() => !isLiked && setLiked('true')}>
-      <HeartIcon isLiked={!!isLiked} width={32} stroke="currentColor" />
+    <LikeButton onClick={addLike}>
+      <HeartIcon isLiked={hasLike} width={32} stroke="currentColor" />
     </LikeButton>
   )
 }
