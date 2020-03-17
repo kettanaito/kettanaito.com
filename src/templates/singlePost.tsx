@@ -31,25 +31,19 @@ const PostTitle = styled.h1`
   }
 `
 
-const MetaInfo = styled.ul`
-  display: flex;
-  justify-content: center;
-  list-style: none;
-  margin: 0;
-  padding: 0;
+const MetaInfo = styled.aside`
   color: ${({ theme }) => theme.colors.gray};
+  line-height: 1.2;
+  font-weight: 500;
 `
 
-const MetaInfoItem = styled.li`
-  margin: 0;
-
-  &:not(:last-child):after {
-    content: '/';
-    margin: 0 1rem;
-    font-weight: 500;
-    opacity: 0.5;
-  }
+const StyledMetaInfoDelimiter = styled.span`
+  opacity: 0.5;
 `
+
+const MetaItemDelimiter = () => {
+  return <StyledMetaInfoDelimiter>{'/'}</StyledMetaInfoDelimiter>
+}
 
 const Heart = (props) => {
   return <HeartIcon width="1.25em" {...props} />
@@ -68,21 +62,31 @@ const PostHeader = ({ post }) => {
       marginBottom={2.5}
       marginBottomMd={3.5}
     >
-      <Box flex as={CategoryName} justifyContent="center" marginBottom={3}>
+      <Box
+        flex
+        as={CategoryName}
+        justifyContent="center"
+        marginBottom={2}
+        marginBottomMd={3}
+      >
         {frontmatter.category}
       </Box>
       <PostTitle>{frontmatter.title}</PostTitle>
 
-      <MetaInfo>
-        <MetaInfoItem>
-          <Label>{frontmatter.date}</Label>
-        </MetaInfoItem>
-        <MetaInfoItem>
-          <Label>{timeToRead} min. read</Label>
-        </MetaInfoItem>
+      <Composition
+        as={MetaInfo}
+        alignItems="center"
+        justifyContent="center"
+        templateCols="repeat(5, auto)"
+        gap={1}
+      >
+        <Label>{frontmatter.date}</Label>
+        <MetaItemDelimiter />
+        <Label>{timeToRead} min. read</Label>
+        <MetaItemDelimiter />
 
         <Composition
-          as={MetaInfoItem}
+          as="span"
           inline
           templateCols="repeat(2, auto)"
           alignItems="center"
@@ -97,7 +101,7 @@ const PostHeader = ({ post }) => {
             </GhostButton>
           )}
         </Composition>
-      </MetaInfo>
+      </Composition>
     </Box>
   )
 }
