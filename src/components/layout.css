@@ -397,7 +397,7 @@ figure {
   margin-bottom: 1.45rem;
 }
 pre {
-  margin: 3rem 0 4rem;
+  margin: 2rem 0;
   font-size: 0.85rem;
   line-height: 1.42;
   font-family: 'Source Code Pro', Menlo, Monaco, monospace;
@@ -407,9 +407,6 @@ pre {
   border-radius: 3px;
   /* overflow: auto; */
   word-wrap: normal;
-}
-p + pre {
-  margin-top: 4rem;
 }
 table {
   margin-left: 0;
@@ -491,19 +488,6 @@ hr::after {
   content: '· · ·';
 }
 
-/* hr {
-  margin-left: 0;
-  margin-right: 0;
-  margin-top: 0;
-  padding-bottom: 0;
-  padding-left: 0;
-  padding-right: 0;
-  padding-top: 0;
-  margin-bottom: calc(1.45rem - 1px);
-  background: hsla(0, 0%, 0%, 0.2);
-  border: none;
-  height: 1px;
-} */
 address {
   margin-left: 0;
   margin-right: 0;
