@@ -31,7 +31,7 @@ const AuthorName = styled.p`
   font-weight: bold;
 `
 
-const AuthorDescription = styled.p`
+const AuthorDescription = styled.div`
   color: ${({ theme }) => theme.colors.gray};
   font-size: 14px;
 `
