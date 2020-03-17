@@ -3,8 +3,9 @@ import { graphql, navigate } from 'gatsby'
 import Image from 'gatsby-image'
 import { MDXRenderer } from 'gatsby-plugin-mdx'
 import { trackCustomEvent } from 'gatsby-plugin-google-analytics'
-import styled from 'styled-components'
-import AtomicLayout, { Box } from 'atomic-layout'
+import styled, { useTheme } from 'styled-components'
+import AtomicLayout, { Box, Composition } from 'atomic-layout'
+import { ReactComponent as HeartIcon } from 'heroicons/dist/outline-md/md-heart.svg'
 
 import Layout from '../components/layout'
 import { MdxProvider } from '../components/MdxProvider'
@@ -19,6 +20,10 @@ import { InnerGrid } from '../components/InnerGrid'
 import { PostShare } from '../components/PostShare'
 import { PostGrid } from '../components/PostGrid'
 import { Separator } from '../components/Separator'
+import { useLikes } from '../hooks/useLikes'
+import { GhostButton } from '../components/GhostButton'
+import { PostContext } from '../components/PostContext'
+import { useLocalStorage } from '../hooks/useLocalStorage'
 
 const PostTitle = styled.h1`
   @media (min-width: ${AtomicLayout.breakpoints.sm.minWidth}) {
@@ -36,6 +41,8 @@ const MetaInfo = styled.ul`
 `
 
 const MetaInfoItem = styled.li`
+  margin: 0;
+
   &:not(:last-child):after {
     content: '/';
     margin: 0 1rem;
@@ -44,9 +51,133 @@ const MetaInfoItem = styled.li`
   }
 `
 
-function BlogPost(props) {
-  const { location, data } = props
+const Heart = (props) => {
+  return <HeartIcon width="1.25em" {...props} />
+}
+
+const PostHeader = ({ post }) => {
+  const { frontmatter, timeToRead } = post
+  const theme = useTheme()
+  const { likesCount, hasLike, addLike } = useLikes(frontmatter.id)
+
+  return (
+    <Box
+      as="header"
+      flexDirection="column"
+      alignItems="center"
+      marginBottom={2.5}
+      marginBottomMd={3.5}
+    >
+      <Box flex as={CategoryName} justifyContent="center" marginBottom={3}>
+        {frontmatter.category}
+      </Box>
+      <PostTitle>{frontmatter.title}</PostTitle>
+
+      <MetaInfo>
+        <MetaInfoItem>
+          <Label>{frontmatter.date}</Label>
+        </MetaInfoItem>
+        <MetaInfoItem>
+          <Label>{timeToRead} min. read</Label>
+        </MetaInfoItem>
+
+        <Composition
+          as={MetaInfoItem}
+          inline
+          templateCols="repeat(2, auto)"
+          alignItems="center"
+          gap={0.2}
+        >
+          {likesCount > 0 && <Label>{likesCount}</Label>}
+          {hasLike ? (
+            <Heart stroke={theme.colors.primary} fill={theme.colors.primary} />
+          ) : (
+            <GhostButton onClick={addLike}>
+              <Heart stroke={theme.colors.primary} />
+            </GhostButton>
+          )}
+        </Composition>
+      </MetaInfo>
+    </Box>
+  )
+}
+
+function PostDetail({ location, data }) {
   const { site, post, similarPosts } = data
+  const { frontmatter } = post
+
+  const [likeState, setLikeState] = useLocalStorage(`like-${frontmatter.id}`)
+
+  return (
+    <MdxProvider>
+      <Layout>
+        <Seo
+          isDraft={frontmatter.draft}
+          type="article"
+          title={frontmatter.title}
+          description={frontmatter.description}
+          keywords={frontmatter.keywords}
+          image={frontmatter.image.childImageSharp.ogImage.src}
+        />
+        <PostContext.Provider
+          value={{
+            hasLike: likeState === 'true',
+            markLiked: () => setLikeState('true'),
+          }}
+        >
+          <Container paddingVertical={2} paddingVerticalMd={4}>
+            <PostGrid>
+              <PostHeader post={post} />
+
+              <Thumbnail
+                as={Image}
+                fluid={frontmatter.image.childImageSharp.fluid}
+                alt={frontmatter.title}
+              />
+
+              {/* Post content */}
+              <Box as={InnerGrid}>
+                <MDXRenderer>{post.body}</MDXRenderer>
+              </Box>
+            </PostGrid>
+          </Container>
+
+          {/* Social sharing */}
+          <Box marginVertical={1}>
+            <PostShare
+              id={frontmatter.id}
+              url={location.href}
+              title={`"${frontmatter.title}" by ${site.siteMetadata.author}`}
+              hashtags={frontmatter.hashtags}
+            />
+          </Box>
+
+          <Box marginVertical={4}>
+            <TwitterWidget />
+          </Box>
+
+          {/* Similar posts */}
+          {similarPosts?.edges?.length > 0 && (
+            <>
+              <Separator />
+              <Container marginVertical={4}>
+                <Box as="h3" flex justifyContent="center">
+                  Articles You May Enjoy
+                </Box>
+                <Box marginTop={3}>
+                  <PostList posts={similarPosts.edges} />
+                </Box>
+              </Container>
+            </>
+          )}
+        </PostContext.Provider>
+      </Layout>
+    </MdxProvider>
+  )
+}
+
+function BlogPost({ location, data }) {
+  const { post } = data
 
   useEffect(() => {
     if (post.id != null) {
@@ -58,98 +189,12 @@ function BlogPost(props) {
     }
   }, [post.id])
 
-  if (!data.post) {
+  if (!post) {
     navigate('/404')
     return null
   }
 
-  const { frontmatter, timeToRead } = post
-  const { draft, date, category } = frontmatter
-
-  return (
-    <MdxProvider>
-      <Layout>
-        <Seo
-          isDraft={draft}
-          type="article"
-          title={frontmatter.title}
-          description={frontmatter.description}
-          keywords={frontmatter.keywords}
-          image={frontmatter.image.childImageSharp.ogImage.src}
-        />
-        <Container paddingVertical={2} paddingVerticalMd={4}>
-          <PostGrid>
-            <Box
-              as="header"
-              flexDirection="column"
-              alignItems="center"
-              marginBottom={2.5}
-              marginBottomMd={3.5}
-            >
-              <Box
-                flex
-                as={CategoryName}
-                justifyContent="center"
-                marginBottom={3}
-              >
-                {category}
-              </Box>
-              <PostTitle>{frontmatter.title}</PostTitle>
-
-              <MetaInfo>
-                <MetaInfoItem>
-                  <Label>{date}</Label>
-                </MetaInfoItem>
-                <MetaInfoItem>
-                  <Label>{timeToRead} min. read</Label>
-                </MetaInfoItem>
-              </MetaInfo>
-            </Box>
-
-            <Thumbnail
-              as={Image}
-              fluid={frontmatter.image.childImageSharp.fluid}
-              alt={frontmatter.title}
-            />
-
-            {/* Post content */}
-            <Box as={InnerGrid}>
-              <MDXRenderer>{post.body}</MDXRenderer>
-            </Box>
-          </PostGrid>
-        </Container>
-
-        {/* Social sharing */}
-        <Box marginVertical={1}>
-          <PostShare
-            id={frontmatter.id}
-            url={location.href}
-            title={`"${frontmatter.title}" by ${site.siteMetadata.author}`}
-            hashtags={frontmatter.hashtags}
-          />
-        </Box>
-
-        <Box marginVertical={4}>
-          <TwitterWidget />
-        </Box>
-
-        {/* Similar posts */}
-        {similarPosts?.edges?.length > 0 && (
-          <>
-            <Separator />
-            <Container marginVertical={4}>
-              <Box as="h3" flex justifyContent="center">
-                Articles You May Enjoy
-              </Box>
-              <Box marginTop={3}>
-                <PostList posts={similarPosts.edges} />
-              </Box>
-            </Container>
-          </>
-        )}
-      </Layout>
-    </MdxProvider>
-  )
+  return <PostDetail location={location} data={data} />
 }
 
 export const query = graphql`
