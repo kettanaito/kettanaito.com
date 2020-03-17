@@ -59,7 +59,7 @@ export const PostItem: React.FC<PostItemProps> = ({
       <PostLink to={url}>
         <Thumbnail fluid={image} alt={title} />
       </PostLink>
-      <Composition as={InnerGrid} gap={1} marginTop={2}>
+      <Composition as={InnerGrid} gap={1} marginTop={2} paddingHorizontal={1}>
         <Box
           as="header"
           flex
