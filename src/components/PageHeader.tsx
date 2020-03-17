@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'gatsby'
 import { useLocation } from '@reach/router'
 import styled from 'styled-components'
-import { Composition, Box } from 'atomic-layout'
+import { Composition, Box, useResponsiveValue } from 'atomic-layout'
 import Container from './Container'
 import { CategoryName } from './CategoryName'
 import { ReactComponent as ArrowLeft } from 'heroicons/dist/outline-md/md-arrow-left.svg'
@@ -47,6 +47,10 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ siteTitle }) => {
   const location = useLocation()
+  const goBackLabel = useResponsiveValue(
+    { xs: 'Back', sm: 'Back' },
+    'All posts'
+  )
   const isPostPage = location.pathname.startsWith('/blog/')
 
   return (
@@ -56,9 +60,9 @@ const Header: React.FC<HeaderProps> = ({ siteTitle }) => {
           templateCols="repeat(3, 1fr)"
           alignItems="center"
           justifyContent="space-between"
-          padding={1}
+          paddingVertical={1}
         >
-          <div>
+          <Box flex alignItems="center">
             {isPostPage && (
               <Composition
                 as={NavBackLink}
@@ -69,10 +73,10 @@ const Header: React.FC<HeaderProps> = ({ siteTitle }) => {
                 gap={0.5}
               >
                 <ArrowLeft width={16} />
-                <CategoryName color="gray">All posts</CategoryName>
+                <CategoryName color="gray">{goBackLabel}</CategoryName>
               </Composition>
             )}
-          </div>
+          </Box>
           <Box justify="center">
             <Link to="/">
               <LogoImage src={LogoIcon} alt={siteTitle} />
