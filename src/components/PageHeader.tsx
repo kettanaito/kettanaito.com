@@ -1,11 +1,10 @@
 import React from 'react'
 import { Link } from 'gatsby'
 import { useLocation } from '@reach/router'
-import styled, { useTheme } from 'styled-components'
+import styled from 'styled-components'
 import { Composition, Box } from 'atomic-layout'
 import Container from './Container'
 import { CategoryName } from './CategoryName'
-import { ReactComponent as MoonIcon } from 'heroicons/dist/outline-md/md-moon.svg'
 import { ReactComponent as ArrowLeft } from 'heroicons/dist/outline-md/md-arrow-left.svg'
 import LogoIcon from '../images/logo-2.svg'
 
@@ -47,7 +46,6 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ siteTitle }) => {
-  const theme = useTheme()
   const location = useLocation()
   const isPostPage = location.pathname.startsWith('/blog/')
 
@@ -58,7 +56,7 @@ const Header: React.FC<HeaderProps> = ({ siteTitle }) => {
           templateCols="repeat(3, 1fr)"
           alignItems="center"
           justifyContent="space-between"
-          padding={1.2}
+          padding={1}
         >
           <div>
             {isPostPage && (
@@ -80,9 +78,7 @@ const Header: React.FC<HeaderProps> = ({ siteTitle }) => {
               <LogoImage src={LogoIcon} alt={siteTitle} />
             </Link>
           </Box>
-          <Box flex justify="flex-end">
-            <MoonIcon fill={theme.colors.gray} stroke="none" width={24} />
-          </Box>
+          <div />
         </Composition>
       </Container>
     </HeaderContainer>

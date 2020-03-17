@@ -40,7 +40,7 @@ export const PageShare: React.FC<PageShareProps> = ({ url }) => {
         <Composition
           templateColsMd="repeat(2, 1fr)"
           alignItems="center"
-          paddingVertical={5}
+          paddingVertical={4}
           gap={4}
         >
           <div>

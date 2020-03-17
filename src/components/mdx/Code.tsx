@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Box } from 'atomic-layout'
 import { Code as ReactCdxCode } from 'react-cdx'
 
 const CodeWrapper = styled.div`
@@ -9,12 +10,12 @@ const CodeWrapper = styled.div`
 `
 
 export const Code = ({ children, language, className, ...props }) => (
-  <CodeWrapper>
+  <Box as={CodeWrapper} marginVerticalMd={4}>
     <ReactCdxCode
       {...props}
       code={children}
       language={language || (className && className.replace('language-', ''))}
       showLineNumbers={true}
     />
-  </CodeWrapper>
+  </Box>
 )

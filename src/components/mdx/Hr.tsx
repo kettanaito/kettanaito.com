@@ -6,8 +6,19 @@ import { ReactComponent as DecorationIcon } from '../../images/icons/decoration.
 export const Hr = () => {
   const theme = useTheme()
   return (
-    <Box flex justifyContent="center" marginVertical={4}>
-      <DecorationIcon stroke={theme.colors.gray} strokeWidth={6} width={48} />
+    <Box
+      flex
+      justifyContent="center"
+      marginTop={2}
+      marginBottom={-2}
+      marginVerticalMd={4}
+    >
+      <DecorationIcon
+        stroke={theme.colors.gray}
+        strokeWidth={6}
+        width={48}
+        height={48}
+      />
     </Box>
   )
 }

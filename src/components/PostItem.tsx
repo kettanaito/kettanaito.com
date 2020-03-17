@@ -63,7 +63,9 @@ export const PostItem: React.FC<PostItemProps> = ({
         <Box
           as="header"
           flex
-          alignItems="center"
+          flexDirectionOnly="column"
+          alignItems="flex-start"
+          alignItemsSm="center"
           justifyContent="space-between"
           marginBottom="2px"
         >
@@ -90,20 +92,21 @@ export const HeroPostItem: React.FC<PostItemProps> = ({
   return (
     <Composition
       as="article"
-      templateCols="1fr 1fr"
-      alignItems="center"
+      templateColsMd="1fr 1fr"
+      alignItems="flex-start"
       gap={2}
     >
       <PostLink to={url}>
         <Thumbnail fluid={image} />
       </PostLink>
-      <Composition gap={1}>
+      <Composition gap={1} align="center">
         <Composition
           as="header"
           inline
-          templateCols="auto 1fr"
+          templateColsMd="auto 1fr"
           alignItems="baseline"
-          gap={1.5}
+          gapMd={1.5}
+          marginBottomSmDown="2px"
         >
           <CategoryName>{category}</CategoryName>
           <Label>{date}</Label>

@@ -35,7 +35,7 @@ const PostList = ({ posts }) => {
       justifyContent="center"
       gap={4}
       gapMdOnly={2}
-      widthSmDown="500px"
+      widthSmOnly="500px"
       maxWidth="100%"
       marginHorizontalSmDown="auto"
     >
