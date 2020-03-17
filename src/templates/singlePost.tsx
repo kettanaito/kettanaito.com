@@ -113,7 +113,7 @@ function BlogPost(props) {
             />
 
             {/* Post content */}
-            <Box as={InnerGrid} data-post-id={post.id}>
+            <Box as={InnerGrid}>
               <MDXRenderer>{post.body}</MDXRenderer>
             </Box>
           </PostGrid>
@@ -122,7 +122,7 @@ function BlogPost(props) {
         {/* Social sharing */}
         <Box marginVertical={1}>
           <PostShare
-            id={post.id}
+            id={frontmatter.id}
             url={location.href}
             title={`"${frontmatter.title}" by ${site.siteMetadata.author}`}
             hashtags={frontmatter.hashtags}
@@ -166,8 +166,8 @@ export const query = graphql`
     # Single post detail
     #
     post: mdx(id: { eq: $postId }, frontmatter: { date: { ne: null } }) {
-      id
       frontmatter {
+        id
         title
         description
         keywords
