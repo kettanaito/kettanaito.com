@@ -49,6 +49,23 @@ const Heart = (props) => {
   return <HeartIcon width="1.25em" {...props} />
 }
 
+const SlideRight = styled.span`
+  animation: slideRight 0.5s ease forwards;
+  color: transparent;
+  overflow: hidden;
+  white-space: nowrap;
+
+  @keyframes slideRight {
+    0% {
+      max-width: 0px;
+    }
+    100% {
+      max-width: 100px;
+      color: inherit;
+    }
+  }
+`
+
 const PostHeader = ({ post }) => {
   const { frontmatter, timeToRead } = post
   const theme = useTheme()
@@ -92,7 +109,7 @@ const PostHeader = ({ post }) => {
           alignItems="center"
           gap={0.2}
         >
-          {likesCount > 0 && <Label>{likesCount}</Label>}
+          {likesCount > 0 && <Label as={SlideRight}>{likesCount}</Label>}
           {hasLike ? (
             <Heart stroke={theme.colors.primary} fill={theme.colors.primary} />
           ) : (
@@ -126,7 +143,7 @@ function PostDetail({ location, data }) {
         />
         <PostContext.Provider
           value={{
-            likesCount: frontmatter.likesCount,
+            likesCount: 0,
             hasLike: likeState === 'true',
             markLiked: () => setLikeState('true'),
           }}
@@ -222,7 +239,6 @@ export const query = graphql`
         title
         description
         keywords
-        likesCount
         hashtags
         date(formatString: "MMMM D, YYYY")
         category
