@@ -13,7 +13,6 @@
     "gatsby": "^2.19.35",
     "gatsby-image": "^2.2.43",
     "gatsby-plugin-canonical-urls": "^2.1.21",
-    "gatsby-plugin-firebase": "0.1.7",
     "gatsby-plugin-google-analytics": "^2.1.37",
     "gatsby-plugin-manifest": "^2.2.45",
     "gatsby-plugin-mdx": "^1.0.78",
@@ -46,6 +45,7 @@
     "dotenv": "^8.2.0",
     "prettier": "^1.19.1",
     "recompose": "^0.30.0",
+    "ts-node": "^8.6.2",
     "typescript": "^3.8.3"
   },
   "scripts": {

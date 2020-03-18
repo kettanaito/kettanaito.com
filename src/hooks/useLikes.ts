@@ -1,33 +1,24 @@
-import { useState, useCallback, useContext } from 'react'
-import { useFirebase } from 'gatsby-plugin-firebase'
+import { useState, useEffect, useCallback, useContext } from 'react'
+import { getPostRef } from '../database/postUtils'
 import { PostContext } from '../components/PostContext'
 
-const { GATSBY_FIREBASE_CLIENT_ID } = process.env
-
 export const useLikes = (postId: string) => {
-  const { hasLike, markLiked } = useContext(PostContext)
-  const [postRef, setPostRef] = useState(null)
-  const [likesCount, setLikesCount] = useState<number>(null)
-
-  useFirebase(
-    (firebase) => {
-      const getLikesCount = async () => {
-        const postRef = firebase
-          .database()
-          .ref(`/posts/${GATSBY_FIREBASE_CLIENT_ID}/${postId}`)
-        setPostRef(postRef)
-
-        postRef.child('likes').on('value', (likesSnapshot) => {
-          const likesCount = likesSnapshot.val() || 0
-          setLikesCount(likesCount)
-        })
-      }
-
-      // Subscribe to likes count in real time
-      getLikesCount()
-    },
-    [postId]
+  const { likesCount: initialLikesCount, hasLike, markLiked } = useContext(
+    PostContext
   )
+  const [postRef, setPostRef] = useState<ReturnType<typeof getPostRef>>(null)
+  const [likesCount, setLikesCount] = useState<number>(initialLikesCount)
+
+  useEffect(() => {
+    const postRef = getPostRef(postId)
+    setPostRef(postRef)
+
+    // Subscribe to likes change
+    postRef.child('likes').on('value', (snapshot) => {
+      const likesCount = snapshot.val() || 0
+      setLikesCount(likesCount)
+    })
+  }, [postId])
 
   const addLike = useCallback<() => Promise<void>>(() => {
     if (hasLike) {

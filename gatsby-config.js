@@ -56,21 +56,6 @@ module.exports = {
     },
     `gatsby-plugin-styled-components`,
     `gatsby-plugin-offline`,
-    {
-      resolve: `gatsby-plugin-firebase`,
-      options: {
-        features: {
-          auth: true,
-          database: true,
-          firestore: false,
-          storage: true,
-          messaging: false,
-          functions: true,
-          performance: false,
-          analytics: true,
-        },
-      },
-    },
     `gatsby-plugin-typescript`,
     `gatsby-plugin-svgr`,
   ],
