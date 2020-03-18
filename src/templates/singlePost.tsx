@@ -128,7 +128,9 @@ function PostDetail({ location, data }) {
   const { frontmatter } = post
 
   // Store the post like state in local storage to prevent multiple likes
-  const [likeState, setLikeState] = useLocalStorage(`like-${frontmatter.id}`)
+  const { value: likeState, set: setLikeState } = useLocalStorage(
+    `like-${frontmatter.id}`
+  )
 
   return (
     <MdxProvider>

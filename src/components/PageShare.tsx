@@ -19,7 +19,7 @@ const GET_WEBSITE_DETAILS = graphql`
 `
 
 const PageShareContainer = styled.section`
-  border-top: 1px solid #e9ecf3;
+  border-top: 1px solid ${({ theme }) => theme.colors.grayLight};
 `
 
 const Heading = styled.h2`

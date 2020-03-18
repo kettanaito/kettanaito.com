@@ -2,15 +2,23 @@ import { useState } from 'react'
 
 export const useLocalStorage = (
   name: string
-): [string, (value: string) => void] => {
+): {
+  value: string
+  set: (nextValue: string) => void
+  get: () => string
+} => {
   const [value, setValue] = useState(
     typeof window === 'undefined' ? null : localStorage.getItem(name)
   )
 
-  const setStorageValue = (value: string) => {
+  const set = (value: string) => {
     localStorage.setItem(name, value)
     setValue(value)
   }
 
-  return [value, setStorageValue]
+  const get = () => {
+    return localStorage.getItem(name)
+  }
+
+  return { value, set, get }
 }

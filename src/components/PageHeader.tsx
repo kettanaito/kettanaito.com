@@ -7,19 +7,27 @@ import Container from './Container'
 import { CategoryName } from './CategoryName'
 import { ReactComponent as ArrowLeft } from 'heroicons/dist/outline-md/md-arrow-left.svg'
 import LogoIcon from '../images/logo-2.svg'
+import { ThemeSwitch } from './ThemeSwitch'
 
 const HeaderContainer = styled.header`
   background-color: ${({ theme }) => theme.colors.grayDim};
-  border-bottom: 1px solid #e8ecf3;
-  color: ${({ theme }) => theme.colors.gray};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.grayGhost};
+  color: ${({ theme }) => theme.styles.header.color};
   z-index: 10;
+
+  a {
+    color: ${({ theme }) => theme.styles.header.linkColor};
+    text-decoration: none;
+  }
+
+  ${CategoryName} {
+    color: inherit;
+  }
 `
 
 const NavBackLink = styled(Link)`
-  color: inherit;
-  text-decoration: none;
-
   svg {
+    fill: currentColor;
     transition: transform 0.2s ease;
   }
 
@@ -73,7 +81,7 @@ const Header: React.FC<HeaderProps> = ({ siteTitle }) => {
                 gap={0.5}
               >
                 <ArrowLeft width={16} />
-                <CategoryName color="gray">{goBackLabel}</CategoryName>
+                <CategoryName>{goBackLabel}</CategoryName>
               </Composition>
             )}
           </Box>
@@ -82,7 +90,9 @@ const Header: React.FC<HeaderProps> = ({ siteTitle }) => {
               <LogoImage src={LogoIcon} alt={siteTitle} />
             </Link>
           </Box>
-          <div />
+          <Box flex justify="flex-end">
+            <ThemeSwitch />
+          </Box>
         </Composition>
       </Container>
     </HeaderContainer>

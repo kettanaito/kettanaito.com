@@ -1,12 +1,7 @@
 import styled from 'styled-components'
-import theme from '../theme'
 
-interface CategoryNameProps {
-  color?: keyof typeof theme['colors']
-}
-
-export const CategoryName = styled.span<CategoryNameProps>`
-  color: ${({ theme, color }) => theme.colors[color]};
+export const CategoryName = styled.span`
+  color: ${({ theme }) => theme.colors.primary};
   font-size: 14px;
   font-weight: 500;
   letter-spacing: 3px;
