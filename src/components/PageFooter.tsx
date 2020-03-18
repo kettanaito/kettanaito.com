@@ -8,12 +8,12 @@ import { ExternalLink } from './ExternalLink'
 
 const StyledFooter = styled.footer`
   background-color: ${({ theme }) => theme.colors.grayDim};
-  border-top: 1px solid #e8ecf3;
+  border-top: 1px solid ${({ theme }) => theme.colors.grayGhost};
   font-size: 14px;
   color: ${({ theme }) => theme.colors.grayFoo};
 
   a {
-    color: #000;
+    color: ${({ theme }) => theme.styles.footer.linkColor};
     text-decoration: none;
 
     &:hover {
@@ -23,7 +23,6 @@ const StyledFooter = styled.footer`
 `
 
 const FooterLink = styled(ExternalLink)`
-  color: #000;
   text-decoration: none;
 `
 
