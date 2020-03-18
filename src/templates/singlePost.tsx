@@ -37,13 +37,13 @@ const MetaInfo = styled.aside`
   font-weight: 500;
 `
 
-const StyledMetaInfoDelimiter = styled.span`
+const MetaItemDelimiter = styled.span`
   opacity: 0.5;
-`
 
-const MetaItemDelimiter = () => {
-  return <StyledMetaInfoDelimiter>{'/'}</StyledMetaInfoDelimiter>
-}
+  &:before {
+    content: '/';
+  }
+`
 
 const Heart = (props) => {
   return <HeartIcon width="1.25em" {...props} />
