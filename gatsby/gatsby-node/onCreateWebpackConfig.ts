@@ -40,6 +40,10 @@ export const onCreateWebpackConfig: GatsbyNode['onCreateWebpackConfig'] = ({
     ],
   })
 
+  /**
+   * Fix to allow static builds when using Firebase in `gatsby-node`.
+   * @see https://github.com/firebase/firebase-js-sdk/issues/2222#issuecomment-538072948
+   */
   if (stage === 'build-html') {
     actions.setWebpackConfig({
       externals: getConfig().externals.concat(function(
