@@ -8,7 +8,7 @@ export const createPages: GatsbyNode['createPages'] = ({
   const { createPage } = actions
   const singlePostTemplate = path.resolve(
     __dirname,
-    '../src/templates/singlePost.tsx'
+    '../../src/templates/singlePost.tsx'
   )
 
   return new Promise((resolve, reject) => {
@@ -49,8 +49,6 @@ export const createPages: GatsbyNode['createPages'] = ({
             },
           })
         })
-
-        return
       })
     )
   })

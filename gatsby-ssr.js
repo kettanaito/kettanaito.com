@@ -4,14 +4,6 @@
  * See: https://www.gatsbyjs.org/docs/ssr-apis/
  */
 require('dotenv').config()
-require('firebase/database')
-const setUpLayout = require('./setUpLayout')
+// require('firebase/database')
 
-let isLayoutConfigured = false
-
-exports.onPreRenderHTML = () => {
-  if (!isLayoutConfigured) {
-    setUpLayout()
-    isLayoutConfigured = true
-  }
-}
+exports.onPreRenderHTML = require('./gatsby/gatsby-ssr/onPreRenderHTML').onPreRenderHTML

@@ -1,4 +1,4 @@
-import firebase from 'firebase'
+const firebase = require('firebase')
 
 // Configure the Firebase instance.
 // Mimics the logic of `gatsby-plugin-firebase`, but allows this code to be transpiled.
