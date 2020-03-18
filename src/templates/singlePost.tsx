@@ -107,7 +107,7 @@ const PostHeader = ({ post }) => {
           inline
           templateCols="repeat(2, auto)"
           alignItems="center"
-          gap={0.2}
+          gap="4px"
         >
           {likesCount > 0 && <Label as={SlideRight}>{likesCount}</Label>}
           {hasLike ? (
