@@ -22,6 +22,8 @@ export const useLikes = (postId: string) => {
           setLikesCount(likesCount)
         })
       }
+
+      // Subscribe to likes count in real time
       getLikesCount()
     },
     [postId]
@@ -32,16 +34,30 @@ export const useLikes = (postId: string) => {
       return
     }
 
-    const nextLikesCount = likesCount + 1
+    /**
+     * Use Firebase transactions to modify concurrently changing data.
+     * @see https://firebase.google.com/docs/reference/js/firebase.database.Reference#transaction
+     */
+    return postRef.transaction(
+      (post) => {
+        if (!post) {
+          post = {
+            likes: likesCount,
+          }
+        }
 
-    return postRef
-      .update({
-        likes: nextLikesCount,
-      })
-      .then(() => {
-        setLikesCount(nextLikesCount)
+        post.likes++
+        return post
+      },
+      (error) => {
+        if (error) {
+          console.error(error)
+          return
+        }
+
         markLiked(postId)
-      })
+      }
+    )
   }, [postRef, hasLike, likesCount, postId, markLiked])
 
   return { hasLike, likesCount, addLike }
