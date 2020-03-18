@@ -110,6 +110,7 @@ function PostDetail({ location, data }) {
   const { site, post, similarPosts } = data
   const { frontmatter } = post
 
+  // Store the post like state in local storage to prevent multiple likes
   const [likeState, setLikeState] = useLocalStorage(`like-${frontmatter.id}`)
 
   return (
@@ -125,6 +126,7 @@ function PostDetail({ location, data }) {
         />
         <PostContext.Provider
           value={{
+            likesCount: frontmatter.likesCount,
             hasLike: likeState === 'true',
             markLiked: () => setLikeState('true'),
           }}
@@ -220,6 +222,7 @@ export const query = graphql`
         title
         description
         keywords
+        likesCount
         hashtags
         date(formatString: "MMMM D, YYYY")
         category
@@ -240,6 +243,8 @@ export const query = graphql`
 
     #
     # Similar posts
+    # This request can be deferred to client-side where the category is
+    # fetched from the "mdx" query.
     #
     similarPosts: allMdx(
       limit: 3
