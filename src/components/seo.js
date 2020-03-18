@@ -17,7 +17,7 @@ function SEO({
 }) {
   return (
     <StaticQuery query={detailsQuery}>
-      {data => {
+      {(data) => {
         const titleTemplate = `%s | ${data.site.siteMetadata.title}`
         const metaDescription =
           description || data.site.siteMetadata.description
@@ -27,10 +27,10 @@ function SEO({
           process.env.ENV_NAME === 'dev'
             ? image
             : data
-              ? data.site.siteMetadata.siteUrl + image
-              : image
-        const ogTitle = useTitleTemplate ?
-          titleTemplate.replace(/%s/, title)
+            ? data.site.siteMetadata.siteUrl + image
+            : image
+        const ogTitle = useTitleTemplate
+          ? titleTemplate.replace(/%s/, title)
           : title
 
         return (
@@ -75,7 +75,7 @@ function SEO({
 SEO.defaultProps = {
   isDraft: false,
   type: 'website',
-  lang: `en`,
+  lang: 'en',
   meta: [],
   useTitleTemplate: false,
   keywords: [],

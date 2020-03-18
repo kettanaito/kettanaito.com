@@ -1,5 +1,5 @@
 import { GatsbyNode } from 'gatsby'
-import { getPostLikes } from '../src/database/postUtils'
+import { getPostLikes } from '../../src/database/postUtils'
 
 export const createResolvers: GatsbyNode['createResolvers'] = ({
   createResolvers,

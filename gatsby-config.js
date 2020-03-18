@@ -1,4 +1,12 @@
 require('dotenv').config()
+require('source-map-support').install()
+require('ts-node').register({
+  compilerOptions: {
+    module: 'commonjs',
+    target: 'ES6',
+    esModuleInterop: true,
+  },
+})
 
 const siteUrl = 'https://redd.one'
 

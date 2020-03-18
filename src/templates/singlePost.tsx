@@ -182,7 +182,7 @@ function PostDetail({ location, data }) {
   )
 }
 
-function BlogPost({ location, data }) {
+function SinglePost({ location, data }) {
   const { post } = data
 
   useEffect(() => {
@@ -263,4 +263,4 @@ export const query = graphql`
   }
 `
 
-export default BlogPost
+export default SinglePost
