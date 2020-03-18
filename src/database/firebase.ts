@@ -1,4 +1,4 @@
-import firebase from 'firebase/app'
+import * as firebase from 'firebase/app'
 
 // Configure the Firebase instance.
 // Mimics the logic of `gatsby-plugin-firebase`, but allows this code to be transpiled.

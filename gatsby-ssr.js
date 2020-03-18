@@ -4,6 +4,6 @@
  * See: https://www.gatsbyjs.org/docs/ssr-apis/
  */
 require('dotenv').config()
-// require('firebase/database')
+require('firebase/database')
 
 exports.onPreRenderHTML = require('./gatsby/gatsby-ssr/onPreRenderHTML').onPreRenderHTML
