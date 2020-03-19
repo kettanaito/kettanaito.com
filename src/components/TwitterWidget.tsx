@@ -49,7 +49,9 @@ export const TwitterWidget = () => {
             <Text lead>
               <strong>Artem Zakharchenko</strong>
             </Text>
-            <Text muted>@kettanaito</Text>
+            <Text as="p" muted>
+              @kettanaito
+            </Text>
             <p>
               Hi! My name is Artem and I am a Full-stack JavaScript engineer,
               rock-n-roll musician and medical doctor.
