@@ -1,6 +1,7 @@
 import * as R from 'ramda'
 import styled from 'styled-components'
 import { Box } from 'atomic-layout'
+import { BoxProps } from '@atomic-layout/core'
 
 const getColor = R.cond([
   [R.prop('primary'), R.always('hsl(1, 65%, 50%)')],
@@ -19,7 +20,15 @@ const getLineHeight = R.cond([
   [R.T, R.always('inherit')],
 ])
 
-const Text = styled(Box)`
+interface TextProps extends BoxProps {
+  as?: keyof JSX.IntrinsicElements | React.ComponentType<any>
+  primary?: boolean
+  muted?: boolean
+  small?: boolean
+  lead?: boolean
+}
+
+const Text: React.FC<TextProps> = styled(Box)`
   color: ${getColor};
   font-size: ${getFontSize}em;
   line-height: ${getLineHeight};
