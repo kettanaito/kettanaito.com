@@ -11,7 +11,9 @@ interface UseDarkThemePayload {
 }
 
 export const useDarkTheme = (): UseDarkThemePayload => {
-  const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)')
+  const prefersDarkMode =
+    typeof window !== 'undefined' &&
+    window.matchMedia('(prefers-color-scheme: dark)')
 
   // Retreive and update persistant value in localStorage
   const {
