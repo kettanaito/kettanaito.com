@@ -20,7 +20,7 @@ const IndexPage = ({ data }) => {
   return (
     <Layout>
       <SEO
-        title="Blog"
+        title="Software engineering blog"
         useTitleTemplate
         keywords={[
           'redd',

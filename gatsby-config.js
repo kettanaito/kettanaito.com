@@ -14,7 +14,7 @@ module.exports = {
   siteMetadata: {
     siteUrl,
     title: `Redd Developer`,
-    description: `Tracking-free place to find technical knowledge about web development.`,
+    description: `Learn the latest trends in web development, as well as the ageless basics, on this clean ad-free personal blog.`,
     author: `@kettanaito`,
   },
   plugins: [
