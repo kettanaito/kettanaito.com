@@ -4,6 +4,7 @@ import { Box } from 'atomic-layout'
 import { Link } from 'gatsby'
 
 import Container from './Container'
+import Text from './Text'
 import { ExternalLink } from './ExternalLink'
 
 const StyledFooter = styled.footer`
@@ -11,6 +12,7 @@ const StyledFooter = styled.footer`
   border-top: 1px solid ${({ theme }) => theme.colors.grayGhost};
   font-size: 14px;
   color: ${({ theme }) => theme.colors.grayFoo};
+  line-height: 1.4;
 
   a {
     color: ${({ theme }) => theme.styles.footer.linkColor};
@@ -43,7 +45,7 @@ const Footer = () => (
         justifyContent="space-between"
         paddingVertical={1}
       >
-        <span>
+        <Text as="p" marginBottomLg={0}>
           © {new Date().getFullYear()}. Made by{' '}
           <FooterLink to="https://github.com/kettanaito">kettanaito</FooterLink>
           . Built with
@@ -51,9 +53,9 @@ const Footer = () => (
           <FooterLink to="https://www.gatsbyjs.org">Gatsby</FooterLink>.
           Deployed with{' '}
           <FooterLink to="https://www.netlify.com/">Netlify</FooterLink>.
-        </span>
+        </Text>
 
-        <span>
+        <Text as="p">
           Licensed under{' '}
           <a
             href="https://creativecommons.org/licenses/by-nc/4.0/"
@@ -72,7 +74,7 @@ const Footer = () => (
           </a>
           <Delimiter />
           <Link to="/privacy">Privacy policy</Link>
-        </span>
+        </Text>
       </Box>
     </Container>
   </Box>
