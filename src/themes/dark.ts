@@ -24,8 +24,8 @@ export default mergeDeepRight<typeof theme, Partial<typeof theme>>(theme, {
       linkColor: '#fff',
     },
     code: `
-      background-color: rgba(255,255,255,0.02);
-      border: 1px solid ${colors.grayGhost};
+      background-color: rgba(255,255,255,0.03);
+      border: 1px solid ${colors.grayLight};
     `,
   },
 })
