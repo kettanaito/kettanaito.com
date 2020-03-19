@@ -28,7 +28,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   code {
-    background-color: ${({ theme }) => theme.styles.code.bgColor};
+    ${({ theme }) => theme.styles.code}
   }
 
   h1 {

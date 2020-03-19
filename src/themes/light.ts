@@ -22,8 +22,9 @@ export default {
     footer: {
       linkColor: '#000',
     },
-    code: {
-      bgColor: 'rgba(255, 229, 100, 0.2)',
-    },
+    code: `
+      background-color: hsla(50, 100%, 70%, 0.2);
+      border: 1px solid hsla(50, 70%, 60%, 0.4);
+    `,
   },
 }
