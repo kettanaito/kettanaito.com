@@ -435,7 +435,6 @@ blockquote {
   font-family: Inter, sans-serif;
   font-size: 1em;
   font-weight: 500;
-  line-height: 1.5;
 }
 blockquote:last-child {
   margin-bottom: 0;
