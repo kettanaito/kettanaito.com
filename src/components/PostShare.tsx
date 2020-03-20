@@ -76,15 +76,23 @@ export const PostShare: React.FC<PostShareProps> = ({
           <Separator />
         </InnerGrid>
         <Composition
-          templateCols="1fr repeat(3, auto)"
+          templateCols="repeat(3, 1fr)"
+          templateRowsDown="repeat(2, 1fr)"
+          templateColsSm="1fr repeat(3, auto)"
           gap={1.5}
           paddingVertical={2}
           paddingVerticalMd={4}
         >
-          <PostLikeButton postId={id} />
+          <Composition colDown="1 / span 3">
+            <PostLikeButton postId={id} />
+          </Composition>
           <ShareInTwitter url={url} title={title} hashtags={hashtags} />
-          <ShareInFacebook url={url} />
-          <ShareInReddit url={url} title={title} />
+          <Composition justifyDown="center">
+            <ShareInFacebook url={url} />
+          </Composition>
+          <Composition justifyDown="flex-end">
+            <ShareInReddit url={url} title={title} />
+          </Composition>
         </Composition>
         <InnerGrid>
           <Separator />

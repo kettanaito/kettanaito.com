@@ -1,4 +1,5 @@
 import React from 'react'
+import styled from 'styled-components'
 import { Box } from 'atomic-layout'
 import {
   FacebookShareButton,
@@ -18,10 +19,16 @@ const SOCIAL_ICON_PROPS = {
   size: 64,
 }
 
+const GeneralIcon = styled(Box)``
+GeneralIcon.defaultProps = {
+  minWidth: '32px',
+  maxWidth: '100%',
+}
+
 export const ShareInFacebook: React.FC<ShareComponentProps> = ({ url }) => {
   return (
     <Box flex as={FacebookShareButton} url={url}>
-      <FacebookIcon {...SOCIAL_ICON_PROPS} />
+      <GeneralIcon as={FacebookIcon} {...SOCIAL_ICON_PROPS} />
     </Box>
   )
 }
@@ -32,7 +39,7 @@ export const ShareInTwitter: React.FC<ShareComponentProps & {
 }> = (props) => {
   return (
     <Box flex as={TwitterShareButton} {...props}>
-      <TwitterIcon {...SOCIAL_ICON_PROPS} />
+      <GeneralIcon as={TwitterIcon} {...SOCIAL_ICON_PROPS} />
     </Box>
   )
 }
@@ -46,7 +53,7 @@ export const ShareInReddit: React.FC<ShareComponentProps & {
 }> = ({ url, title }) => {
   return (
     <Box flex as={RedditShareButton} title={title} url={url}>
-      <RedditIcon {...SOCIAL_ICON_PROPS} />
+      <GeneralIcon as={RedditIcon} {...SOCIAL_ICON_PROPS} />
     </Box>
   )
 }
