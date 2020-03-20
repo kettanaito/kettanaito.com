@@ -1,11 +1,14 @@
 import React from 'react'
+import { PageProps } from 'gatsby'
 
 import { SEO } from '../components/seo'
 import Layout from '../components/layout'
 import Container from '../components/Container'
+import Text from '../components/Text'
 import { PostGrid } from '../components/PostGrid'
+import { Separator } from '../components/Separator'
 
-const PrivacyPolicy = ({ data }) => (
+const PrivacyPolicy: React.FC<PageProps> = () => (
   <Layout>
     <SEO
       title="Privacy policy"
@@ -24,7 +27,10 @@ const PrivacyPolicy = ({ data }) => (
         </p>
 
         <h2>What data is being collected?</h2>
-        <p>During the usage of this website the following data is collected:</p>
+        <p>
+          The following data is being collected during your visits of the
+          website:
+        </p>
         <ul>
           <li>Amount of page visits</li>
           <li>Country of the visitor</li>
@@ -36,9 +42,11 @@ const PrivacyPolicy = ({ data }) => (
           decisions.
         </blockquote>
 
-        <hr />
+        <Separator />
 
-        <p>By using this resource you agree to its Privacy Policy.</p>
+        <Text marginTop={2}>
+          By continuing to use this resource you agree to its Privacy Policy.
+        </Text>
       </PostGrid>
     </Container>
   </Layout>
