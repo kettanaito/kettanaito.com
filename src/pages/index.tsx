@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { Composition } from 'atomic-layout'
-import { graphql } from 'gatsby'
+import { PageProps, graphql } from 'gatsby'
 
 import Layout from '../components/layout'
 import { SEO } from '../components/seo'
@@ -10,7 +10,7 @@ import { HeroPostItem } from '../components/PostItem'
 import { PageShare } from '../components/PageShare'
 import { Separator } from '../components/Separator'
 
-const IndexPage = ({ data }) => {
+const IndexPage: React.FC<PageProps<{ postList: any }>> = ({ data }) => {
   const { edges } = data.postList
 
   const [firstPost, restPosts] = useMemo(() => {

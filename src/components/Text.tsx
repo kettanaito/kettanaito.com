@@ -35,7 +35,7 @@ const Text: React.FC<TextProps> = styled(Box)`
 `
 
 Text.defaultProps = {
-  as: 'span',
+  as: 'p',
 }
 
 export default Text
