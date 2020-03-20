@@ -6,7 +6,7 @@ import { Composition, Box } from 'atomic-layout'
 import Container from './Container'
 import { CategoryName } from './CategoryName'
 import { ReactComponent as ArrowLeft } from 'heroicons/dist/outline-md/md-arrow-left.svg'
-import LogoIcon from '../images/logo-2.svg'
+import LogoIcon from '../images/logo.svg'
 import { ThemeSwitch } from './ThemeSwitch'
 
 const HeaderContainer = styled.header`
