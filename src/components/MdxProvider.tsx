@@ -5,7 +5,7 @@ import { MDXProvider } from '@mdx-js/react'
 import { Code } from './mdx/Code'
 import { Image } from './mdx/Image'
 import { Hr } from './mdx/Hr'
-import Link from './mdx/Link'
+import { Link } from './mdx/Link'
 
 const components = {
   code: Code,
