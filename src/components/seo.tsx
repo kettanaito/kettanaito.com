@@ -4,8 +4,8 @@ import { StaticQuery, graphql } from 'gatsby'
 import SitePreviewImage from '../images/og-image.jpg'
 
 interface SEOProps {
-  type: string
-  isDraft: boolean
+  type?: string
+  isDraft?: boolean
   title: string
   useTitleTemplate?: boolean
   description?: string
