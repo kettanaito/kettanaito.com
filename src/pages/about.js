@@ -5,7 +5,7 @@ import { IoLogoTwitter, IoLogoGithub, IoLogoLinkedin } from 'react-icons/io'
 
 import Layout from '../components/layout'
 import Text from '../components/Text'
-import SEO from '../components/seo'
+import { SEO } from '../components/seo'
 
 const AvatarImage = styled.img`
   margin-right: 1rem;

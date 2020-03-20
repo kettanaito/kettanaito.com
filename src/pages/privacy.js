@@ -1,6 +1,6 @@
 import React from 'react'
 
-import SEO from '../components/seo'
+import { SEO } from '../components/seo'
 import Layout from '../components/layout'
 import Container from '../components/Container'
 import { PostGrid } from '../components/PostGrid'
