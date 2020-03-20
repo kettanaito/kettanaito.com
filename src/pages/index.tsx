@@ -3,7 +3,7 @@ import { Composition } from 'atomic-layout'
 import { graphql } from 'gatsby'
 
 import Layout from '../components/layout'
-import SEO from '../components/seo'
+import { SEO } from '../components/seo'
 import Container from '../components/Container'
 import PostList from '../components/PostList'
 import { HeroPostItem } from '../components/PostItem'

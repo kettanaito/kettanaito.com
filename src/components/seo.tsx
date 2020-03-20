@@ -1,10 +1,21 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import { StaticQuery, graphql } from 'gatsby'
-import DefaultImage from '../images/redd-thumbnail.jpg'
+import SitePreviewImage from '../images/og-image.jpg'
 
-function SEO({
+interface SEOProps {
+  type: string
+  isDraft: boolean
+  title: string
+  useTitleTemplate?: boolean
+  description?: string
+  image?: string
+  lang?: string
+  meta?: string[]
+  keywords?: string[]
+}
+
+export const SEO: React.FC<SEOProps> = ({
   type,
   isDraft,
   title,
@@ -14,7 +25,7 @@ function SEO({
   lang,
   meta,
   keywords,
-}) {
+}) => {
   return (
     <StaticQuery query={detailsQuery}>
       {(data) => {
@@ -79,22 +90,8 @@ SEO.defaultProps = {
   meta: [],
   useTitleTemplate: false,
   keywords: [],
-  image: DefaultImage,
+  image: SitePreviewImage,
 }
-
-SEO.propTypes = {
-  isDraft: PropTypes.bool.isRequired,
-  type: PropTypes.string.isRequired,
-  description: PropTypes.string,
-  lang: PropTypes.string,
-  meta: PropTypes.array,
-  keywords: PropTypes.arrayOf(PropTypes.string),
-  title: PropTypes.string.isRequired,
-  useTitleTemplate: PropTypes.bool.isRequired,
-  image: PropTypes.string,
-}
-
-export default SEO
 
 const detailsQuery = graphql`
   query DefaultSEOQuery {

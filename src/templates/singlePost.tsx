@@ -11,7 +11,7 @@ import Layout from '../components/layout'
 import { MdxProvider } from '../components/MdxProvider'
 import Container from '../components/Container'
 import PostList from '../components/PostList'
-import Seo from '../components/seo'
+import { SEO } from '../components/seo'
 import { TwitterWidget } from '../components/TwitterWidget'
 import { CategoryName } from '../components/CategoryName'
 import { Label } from '../components/Label'
@@ -135,7 +135,7 @@ function PostDetail({ location, data }) {
   return (
     <MdxProvider>
       <Layout>
-        <Seo
+        <SEO
           isDraft={frontmatter.draft}
           type="article"
           title={frontmatter.title}
