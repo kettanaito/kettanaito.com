@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'gatsby'
 import { useLocation } from '@reach/router'
 import styled from 'styled-components'
-import { Composition, Box, useResponsiveValue } from 'atomic-layout'
+import { Composition, Box } from 'atomic-layout'
 import Container from './Container'
 import { CategoryName } from './CategoryName'
 import { ReactComponent as ArrowLeft } from 'heroicons/dist/outline-md/md-arrow-left.svg'
@@ -55,10 +55,6 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ siteTitle }) => {
   const location = useLocation()
-  const goBackLabel = useResponsiveValue(
-    { xs: 'Back', sm: 'Back' },
-    'All posts'
-  )
   const isPostPage = location.pathname.startsWith('/blog/')
 
   return (
@@ -81,7 +77,7 @@ const Header: React.FC<HeaderProps> = ({ siteTitle }) => {
                 gap={0.5}
               >
                 <ArrowLeft width={16} />
-                <CategoryName>{goBackLabel}</CategoryName>
+                <CategoryName>Back</CategoryName>
               </Composition>
             )}
           </Box>
