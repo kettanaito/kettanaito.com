@@ -8,7 +8,3 @@ export const CategoryName = styled.span`
   text-transform: uppercase;
   line-height: 1.5;
 `
-
-CategoryName.defaultProps = {
-  color: 'primary',
-}

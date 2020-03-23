@@ -1,5 +1,6 @@
 const colors = {
-  primary: 'hsl(3, 75%, 65%)',
+  primary: 'hsl(1, 70%, 60%)',
+  // primaryLight: 'hsl(1, 75%, 65%)',
   gray: 'hsl(217, 10%, 45%)',
   grayLight: 'hsl(217, 10%, 92%)',
   grayDim: '#F9F9FB',
