@@ -4,7 +4,6 @@ import { Box, Composition } from 'atomic-layout'
 import { IoLogoTwitter, IoLogoGithub, IoLogoLinkedin } from 'react-icons/io'
 import { Avatar } from './Avatar'
 import { ExternalLink } from './ExternalLink'
-import { SemanticList } from './SemanticList'
 import { ReactComponent as HalfCircle } from '../images/icons/half-circle.svg'
 
 interface AuthorProps {
@@ -63,31 +62,31 @@ export const Author: React.FC<AuthorProps> = ({
           <Box as="span" marginHorizontal={0.5}>
             ·
           </Box>
-          <Box as={SemanticList} flex alignItems="center">
+          <Box flex alignItems="center">
             {twitterHandle && (
-              <li>
+              <Box flex marginHorizontal="4px">
                 <ExternalLink
                   to="https://twitter.com/kettanaito"
                   focusSize={0.5}
                 >
                   <IoLogoTwitter fill={theme.colors.gray} />
                 </ExternalLink>
-              </li>
+              </Box>
             )}
-            <li>
+            <Box flex marginHorizontal="4px">
               <ExternalLink
                 to={`https://github.com/${githubHandle}`}
                 focusSize={0.5}
               >
                 <IoLogoGithub fill={theme.colors.gray} />
               </ExternalLink>
-            </li>
+            </Box>
             {linkedInHandle && (
-              <li>
+              <Box flex marginHorizontal="4px">
                 <ExternalLink to={`https://linkedin.com/in/${linkedInHandle}`}>
                   <IoLogoLinkedin fill={theme.colors.gray} size={16} />
                 </ExternalLink>
-              </li>
+              </Box>
             )}
           </Box>
         </Box>
