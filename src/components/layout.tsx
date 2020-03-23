@@ -21,10 +21,10 @@ const SITE_INFO = graphql`
 `
 
 const GlobalStyle = createGlobalStyle`
+
+body {
   --color-primary: ${({ theme }) => theme.colors.primary};
   --color-gray: ${({ theme }) => theme.colors.gray};
-
-  body {
     background-color: ${({ theme }) => theme.styles.body.bgColor};
     color: ${({ theme }) => theme.styles.body.color};
     transition: background-color .1s ease;
@@ -43,6 +43,20 @@ const GlobalStyle = createGlobalStyle`
   a {
     color: ${({ theme }) => theme.colors.primary};
     transition: color .1s;
+  }
+
+  th,
+  tr {
+    border-bottom: 1px solid ${({ theme }) => theme.styles.table.borderColor};
+  }
+
+  fieldset {
+    border-color: ${({ theme }) => theme.styles.fieldset.borderColor};
+  }
+
+  input[type='range']::-webkit-slider-runnable-track {
+    background-color: ${({ theme }) =>
+      theme.styles.rangeInput.runnableTrackBgColor};
   }
 `
 

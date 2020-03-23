@@ -5,7 +5,7 @@ import Text from '../../../../src/components/Text'
 
 export const Warning = ({ children }) => {
   return (
-    <Text as="p" small muted marginTop={8}>
+    <Text small muted marginTop="8px">
       {children}
     </Text>
   )

@@ -27,6 +27,15 @@ export default mergeDeepRight<typeof theme, Partial<typeof theme>>(theme, {
       background-color: rgba(255,255,255,0.03);
       border: 1px solid ${colors.grayLight};
     `,
+    table: {
+      borderColor: colors.grayGhost,
+    },
+    fieldset: {
+      borderColor: colors.grayGhost,
+    },
+    rangeInput: {
+      runnableTrackBgColor: colors.grayGhost,
+    },
     gitHubRepo: {
       linkColor: '#fff',
     },

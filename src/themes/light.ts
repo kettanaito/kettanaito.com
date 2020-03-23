@@ -32,6 +32,15 @@ export default {
       background-color: hsla(50, 100%, 70%, 0.2);
       border: 1px solid hsla(50, 70%, 60%, 0.4);
     `,
+    table: {
+      borderColor: colors.grayLight,
+    },
+    fieldset: {
+      borderColor: colors.grayLight,
+    },
+    rangeInput: {
+      runnableTrackBgColor: colors.grayLight,
+    },
     gitHubRepo: {
       linkColor: colors.primary,
     },

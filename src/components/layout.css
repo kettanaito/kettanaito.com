@@ -154,7 +154,7 @@ button:-moz-focusring {
 }
 fieldset {
   border: 1px solid silver;
-  margin: 0 2px;
+  margin: 0;
   padding: 0.35em 0.625em 0.75em;
 }
 legend {
@@ -416,14 +416,8 @@ table {
   width: 100%;
 }
 fieldset {
-  margin-left: 0;
-  margin-right: 0;
-  margin-top: 0;
-  padding-bottom: 0;
-  padding-left: 0;
-  padding-right: 0;
-  padding-top: 0;
-  margin-bottom: 1.45rem;
+  margin: 0;
+  padding: 0;
 }
 blockquote {
   border-left: 3px solid var(--color-primary);
@@ -564,12 +558,11 @@ abbr[title] {
   text-decoration: none;
 }
 thead {
-  text-align: left;
+  text-align: start;
 }
 td,
 th {
-  text-align: left;
-  border-bottom: 1px solid hsla(0, 0%, 0%, 0.12);
+  text-align: start;
   font-feature-settings: 'tnum';
   -moz-font-feature-settings: 'tnum';
   -ms-font-feature-settings: 'tnum';
