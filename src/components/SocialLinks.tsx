@@ -27,7 +27,7 @@ GeneralIcon.defaultProps = {
 
 export const ShareInFacebook: React.FC<ShareComponentProps> = ({ url }) => {
   return (
-    <Box flex as={FacebookShareButton} url={url}>
+    <Box flex as={FacebookShareButton} url={url} aria-label="Share on Facebook">
       <GeneralIcon as={FacebookIcon} {...SOCIAL_ICON_PROPS} />
     </Box>
   )
@@ -38,7 +38,7 @@ export const ShareInTwitter: React.FC<ShareComponentProps & {
   hashtags?: string[]
 }> = (props) => {
   return (
-    <Box flex as={TwitterShareButton} {...props}>
+    <Box flex as={TwitterShareButton} {...props} aria-label="Share on Twitter">
       <GeneralIcon as={TwitterIcon} {...SOCIAL_ICON_PROPS} />
     </Box>
   )
@@ -52,7 +52,13 @@ export const ShareInReddit: React.FC<ShareComponentProps & {
   title: string
 }> = ({ url, title }) => {
   return (
-    <Box flex as={RedditShareButton} title={title} url={url}>
+    <Box
+      flex
+      as={RedditShareButton}
+      title={title}
+      url={url}
+      aria-label="Share on Reddit"
+    >
       <GeneralIcon as={RedditIcon} {...SOCIAL_ICON_PROPS} />
     </Box>
   )

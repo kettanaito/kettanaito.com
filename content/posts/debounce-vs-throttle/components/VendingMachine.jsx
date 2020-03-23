@@ -113,7 +113,7 @@ const ResetButton = styled.button`
 const OutOfBalls = ({ onButtonClick }) => {
   return (
     <OutOfBallsContainer flex alignItems="center" justifyContent="center">
-      <ResetButton onClick={onButtonClick}>
+      <ResetButton aria-label="Reset machine state" onClick={onButtonClick}>
         <IoMdRefresh size={48} />
         <p>Reset the machine</p>
       </ResetButton>
@@ -400,7 +400,6 @@ export const VendingMachine = ({
     ballsRef.current = []
   }
 
-  // componentDidMount
   React.useEffect(() => {
     setupCanvas()
     return () => stopDraw()
@@ -425,7 +424,10 @@ export const VendingMachine = ({
     <VendingMachineContainer width="100%" maxWidth="280px" maxWidthMd="350px">
       {!shouldThrowBall && <OutOfBalls onButtonClick={handleResetClick} />}
       <ButtonContainer bottom={150} bottomMd={175}>
-        <RedButton onMouseDown={() => onButtonClick(throwBall)} />
+        <RedButton
+          aria-label="Throw a ball"
+          onMouseDown={() => onButtonClick(throwBall)}
+        />
       </ButtonContainer>
       <StyledImage
         ref={setIntersectionRef}
