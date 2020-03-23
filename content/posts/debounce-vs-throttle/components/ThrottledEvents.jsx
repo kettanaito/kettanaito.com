@@ -32,27 +32,21 @@ const ThrottledEvents = () => {
 
   return (
     <DefaultEvents wrapCallback={wrapCallback}>
-      <div>
-        <fieldset>
-          <legend>Throttle options</legend>
-          <label htmlFor="throttleDuration">
-            Duration: {throttleDuration}ms
-          </label>
-          <input
-            id="throttleDuration"
-            type="range"
-            min="0"
-            max="2000"
-            step="100"
-            value={throttleDuration}
-            onChange={(event) =>
-              setThrottleDuration(event.target.valueAsNumber)
-            }
-            onDoubleClick={() => setThrottleDuration(DEFAULT_THROTTLE_DURATION)}
-          />
-          {throttleDuration === 0 && <Warning>No throttling applied.</Warning>}
-        </fieldset>
-      </div>
+      <fieldset>
+        <legend>Throttle options</legend>
+        <label htmlFor="throttleDuration">Duration: {throttleDuration}ms</label>
+        <input
+          id="throttleDuration"
+          type="range"
+          min="0"
+          max="2000"
+          step="100"
+          value={throttleDuration}
+          onChange={(event) => setThrottleDuration(event.target.valueAsNumber)}
+          onDoubleClick={() => setThrottleDuration(DEFAULT_THROTTLE_DURATION)}
+        />
+        {throttleDuration === 0 && <Warning>No throttling applied.</Warning>}
+      </fieldset>
     </DefaultEvents>
   )
 }
