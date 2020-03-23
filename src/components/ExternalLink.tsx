@@ -4,7 +4,7 @@ import styled from 'styled-components'
 const StyledLink = styled.a<{ focusSize: number }>`
   display: inline-flex;
   padding: ${({ focusSize }) => focusSize}rem;
-  margin: 0 -${({ focusSize }) => focusSize / 2}rem;
+  margin: -${({ focusSize }) => focusSize}rem;
 `
 
 interface ExternalLinkProps {
