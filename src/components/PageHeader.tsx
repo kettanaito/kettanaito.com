@@ -41,11 +41,15 @@ const LogoImage = styled.img`
   margin: 0;
   height: auto;
   width: 48px;
-  transition: opacity 0.2s;
+  transition: opacity 0.2s, transform 0.2s ease;
   user-select: none;
 
   &:hover {
     opacity: 0.75;
+  }
+
+  &:active {
+    transform: scale(0.9);
   }
 `
 
