@@ -10,7 +10,7 @@ export const ThemeSwitch = () => {
   ])
 
   return (
-    <GhostButton onClick={toggleTheme}>
+    <GhostButton aria-label="Switch theme" onClick={toggleTheme}>
       <Icon size={24} width={24} />
     </GhostButton>
   )

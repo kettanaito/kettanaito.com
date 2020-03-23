@@ -4,10 +4,12 @@ import styled from 'styled-components'
 const StyledLink = styled.a<{ focusSize: number }>`
   display: inline-flex;
   padding: ${({ focusSize }) => focusSize}rem;
-  margin: -${({ focusSize }) => focusSize}rem;
 `
 
-interface ExternalLinkProps {
+type ExternalLinkProps = React.DetailedHTMLProps<
+  React.AnchorHTMLAttributes<HTMLAnchorElement>,
+  HTMLAnchorElement
+> & {
   to: string
   focusSize?: number
 }
@@ -16,9 +18,11 @@ export const ExternalLink: React.FC<ExternalLinkProps> = ({
   to,
   focusSize,
   children,
+  ...anchorProps
 }) => {
   return (
     <StyledLink
+      {...anchorProps}
       focusSize={focusSize}
       href={to}
       target="_blank"
@@ -30,5 +34,5 @@ export const ExternalLink: React.FC<ExternalLinkProps> = ({
 }
 
 ExternalLink.defaultProps = {
-  focusSize: 0.25,
+  focusSize: 1,
 }
