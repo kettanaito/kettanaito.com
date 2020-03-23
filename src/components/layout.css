@@ -7,9 +7,6 @@
 }
 
 html {
-  --color-gray: hsl(0, 5%, 41%);
-  --color-primary: hsl(1, 65%, 50%);
-
   font-family: Inter, sans-serif;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;

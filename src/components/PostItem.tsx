@@ -97,7 +97,7 @@ export const HeroPostItem: React.FC<PostItemProps> = ({
       gap={2}
     >
       <PostLink to={url}>
-        <Thumbnail fluid={image} />
+        <Thumbnail fluid={image} alt={title} />
       </PostLink>
       <Composition gap={1} align="center">
         <Composition

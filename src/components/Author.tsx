@@ -15,6 +15,16 @@ interface AuthorProps {
   imageSize?: number
 }
 
+const AuthorContainer = styled.div`
+  a {
+    color: ${({ theme }) => theme.colors.gray};
+  }
+
+  a:hover {
+    color: ${({ theme }) => theme.colors.grayDark};
+  }
+`
+
 const AvatarConatiner = styled.div`
   position: relative;
 `
@@ -46,7 +56,12 @@ export const Author: React.FC<AuthorProps> = ({
   const theme = useTheme()
 
   return (
-    <Composition templateCols="auto 1fr" alignItems="center" gap={12 / 16}>
+    <Composition
+      as={AuthorContainer}
+      templateCols="auto 1fr"
+      alignItems="center"
+      gap={12 / 16}
+    >
       <AvatarConatiner>
         <Avatar
           src={`https://github.com/${githubHandle}.png`}
@@ -57,34 +72,40 @@ export const Author: React.FC<AuthorProps> = ({
       </AvatarConatiner>
       <div>
         <AuthorName>{name}</AuthorName>
-        <Box as={AuthorDescription} flex alignItems="center">
+        <Box as={AuthorDescription} flex alignItems="center" marginTop="-6px">
           <span>{description}</span>
-          <Box as="span" marginHorizontal={0.5}>
+          <Box as="span" marginLeft={1} marginRight={0.25}>
             ·
           </Box>
           <Box flex alignItems="center">
             {twitterHandle && (
-              <Box flex marginHorizontal="4px">
+              <Box flex>
                 <ExternalLink
                   to="https://twitter.com/kettanaito"
-                  focusSize={0.5}
+                  focusSize={0.75}
+                  aria-label="Twitter profile"
                 >
-                  <IoLogoTwitter fill={theme.colors.gray} />
+                  <IoLogoTwitter role="img" size={20} />
                 </ExternalLink>
               </Box>
             )}
-            <Box flex marginHorizontal="4px">
+            <Box flex>
               <ExternalLink
                 to={`https://github.com/${githubHandle}`}
-                focusSize={0.5}
+                focusSize={0.75}
+                aria-label="GitHub profile"
               >
-                <IoLogoGithub fill={theme.colors.gray} />
+                <IoLogoGithub role="img" size={20} />
               </ExternalLink>
             </Box>
             {linkedInHandle && (
-              <Box flex marginHorizontal="4px">
-                <ExternalLink to={`https://linkedin.com/in/${linkedInHandle}`}>
-                  <IoLogoLinkedin fill={theme.colors.gray} size={16} />
+              <Box flex>
+                <ExternalLink
+                  to={`https://linkedin.com/in/${linkedInHandle}`}
+                  focusSize={0.75}
+                  aria-label="LinkedIn profile"
+                >
+                  <IoLogoLinkedin role="img" size={20} />
                 </ExternalLink>
               </Box>
             )}

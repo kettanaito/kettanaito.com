@@ -21,6 +21,9 @@ const SITE_INFO = graphql`
 `
 
 const GlobalStyle = createGlobalStyle`
+  --color-primary: ${({ theme }) => theme.colors.primary};
+  --color-gray: ${({ theme }) => theme.colors.gray};
+
   body {
     background-color: ${({ theme }) => theme.styles.body.bgColor};
     color: ${({ theme }) => theme.styles.body.color};
@@ -35,6 +38,11 @@ const GlobalStyle = createGlobalStyle`
     @media (max-width: ${AtomicLayout.breakpoints.sm.maxWidth}) {
       font-size: 3rem;
     }
+  }
+
+  a {
+    color: ${({ theme }) => theme.colors.primary};
+    transition: color .1s;
   }
 `
 
