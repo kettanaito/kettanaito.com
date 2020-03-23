@@ -46,7 +46,7 @@ export const TwitterWidget = () => {
             />
           </a>
           <div>
-            <Text lead>
+            <Text lead marginBottom={0}>
               <strong>Artem Zakharchenko</strong>
             </Text>
             <Text as="p" muted>
