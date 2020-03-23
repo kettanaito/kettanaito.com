@@ -4,7 +4,7 @@ import Image from 'gatsby-image'
 import { MDXRenderer } from 'gatsby-plugin-mdx'
 import { trackCustomEvent } from 'gatsby-plugin-google-analytics'
 import styled, { useTheme } from 'styled-components'
-import AtomicLayout, { Box, Composition } from 'atomic-layout'
+import AtomicLayout, { Box, Composition, Only } from 'atomic-layout'
 import { ReactComponent as HeartIcon } from 'heroicons/dist/outline-md/md-heart.svg'
 
 import Layout from '../components/layout'
@@ -37,7 +37,7 @@ const MetaInfo = styled.aside`
   font-weight: 500;
 `
 
-const MetaItemDelimiter = styled.span`
+const MetaItemDelimiter = styled(Box)`
   opacity: 0.5;
 
   &:before {
@@ -51,8 +51,6 @@ const Heart = (props) => {
 
 const SlideRight = styled.span`
   animation: slideRight 0.5s ease forwards;
-  color: transparent;
-  overflow: hidden;
   white-space: nowrap;
 
   @keyframes slideRight {
@@ -61,7 +59,6 @@ const SlideRight = styled.span`
     }
     100% {
       max-width: 100px;
-      color: inherit;
     }
   }
 `
@@ -94,30 +91,46 @@ const PostHeader = ({ post }) => {
         as={MetaInfo}
         alignItems="center"
         justifyContent="center"
-        templateCols="repeat(5, auto)"
-        gap={1}
+        template={`
+          date date
+          meta likes
+          / auto 1fr
+        `}
+        templateSm="date meta likes"
+        gap={0.5}
+        gapSm={1}
       >
-        <Label>{frontmatter.date}</Label>
-        <MetaItemDelimiter />
-        <Label>{timeToRead} min. read</Label>
-        <MetaItemDelimiter />
-
-        <Composition
-          as="span"
-          inline
-          templateCols="repeat(2, auto)"
-          alignItems="center"
-          gap="4px"
-        >
-          {likesCount > 0 && <Label as={SlideRight}>{likesCount}</Label>}
-          {hasLike ? (
-            <Heart stroke={theme.colors.primary} fill={theme.colors.primary} />
-          ) : (
-            <GhostButton onClick={addLike}>
-              <Heart stroke={theme.colors.primary} />
-            </GhostButton>
-          )}
-        </Composition>
+        {(Areas) => (
+          <>
+            <Areas.Date>
+              <Label>{frontmatter.date}</Label>
+            </Areas.Date>
+            <Areas.Meta flex alignItems="center">
+              <Only as={MetaItemDelimiter} from="sm" marginRight={1} />
+              <Label>{timeToRead} min. read</Label>
+            </Areas.Meta>
+            <Areas.Likes flex alignItems="center">
+              <MetaItemDelimiter marginRight={0.5} marginRightSm={1} />
+              {likesCount > 0 && (
+                <Label as={SlideRight} marginRight="4px">
+                  <strong>{likesCount}</strong>
+                </Label>
+              )}
+              {hasLike ? (
+                <Heart
+                  stroke={theme.colors.primary}
+                  fill={theme.colors.primary}
+                />
+              ) : (
+                <GhostButton onClick={addLike}>
+                  <Heart stroke={theme.colors.primary} />
+                </GhostButton>
+              )}
+            </Areas.Likes>
+          </>
+        )}
+        {/* <Only as={MetaItemDelimiter} from="md" />
+        <Only as={MetaItemDelimiter} from="md" /> */}
       </Composition>
     </Box>
   )
