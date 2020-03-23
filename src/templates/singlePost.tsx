@@ -122,15 +122,13 @@ const PostHeader = ({ post }) => {
                   fill={theme.colors.primary}
                 />
               ) : (
-                <GhostButton onClick={addLike}>
+                <GhostButton aria-label="Like this post" onClick={addLike}>
                   <Heart stroke={theme.colors.primary} />
                 </GhostButton>
               )}
             </Areas.Likes>
           </>
         )}
-        {/* <Only as={MetaItemDelimiter} from="md" />
-        <Only as={MetaItemDelimiter} from="md" /> */}
       </Composition>
     </Box>
   )

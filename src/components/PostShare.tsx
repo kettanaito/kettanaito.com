@@ -57,7 +57,7 @@ const PostLikeButton: React.FC<{ postId: string }> = ({ postId }) => {
   const { hasLike, addLike } = useLikes(postId)
 
   return (
-    <LikeButton onClick={addLike}>
+    <LikeButton aria-label="Like this post" onClick={addLike}>
       <HeartIcon isLiked={hasLike} width={32} stroke="currentColor" />
     </LikeButton>
   )
