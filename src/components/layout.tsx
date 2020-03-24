@@ -1,5 +1,5 @@
-import React, { useMemo } from 'react'
-import { StaticQuery, graphql } from 'gatsby'
+import React, { useMemo, useEffect, useState } from 'react'
+import { StaticQuery, graphql, useStaticQuery } from 'gatsby'
 import AtomicLayout from 'atomic-layout'
 import { ThemeProvider, createGlobalStyle } from 'styled-components'
 
@@ -7,7 +7,7 @@ import PageHeader from './PageHeader'
 import PageFooter from './PageFooter'
 import './layout.css'
 import './custom.css'
-import { useThemePreference } from '../hooks/useDarkTheme'
+import { useThemePreference } from '../hooks/useThemePreference'
 import { ThemeContext } from './ThemeContext'
 import lightTheme from '../themes/light'
 import darkTheme from '../themes/dark'
@@ -63,8 +63,16 @@ const GlobalStyle = createGlobalStyle`
 
 const Layout: React.FC = ({ children }) => {
   const [themeName, updateThemeMode] = useThemePreference()
-  const theme = useMemo(() => {
-    return themeName === 'dark' ? darkTheme : lightTheme
+  const [theme, setTheme] = useState(
+    themeName === 'dark' ? darkTheme : lightTheme
+  )
+
+  // const theme = useMemo(() => {
+  //   return themeName === 'dark' ? darkTheme : lightTheme
+  // }, [themeName])
+
+  useEffect(() => {
+    setTheme(themeName === 'dark' ? darkTheme : lightTheme)
   }, [themeName])
 
   return (
