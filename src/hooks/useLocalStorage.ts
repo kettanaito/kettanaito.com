@@ -1,24 +1,9 @@
-import { useState } from 'react'
+export const useLocalStorage = (key: string): [string, typeof setValue] => {
+  const value = typeof window === 'undefined' ? null : localStorage.getItem(key)
 
-export const useLocalStorage = (
-  name: string
-): {
-  value: string
-  set: (nextValue: string) => void
-  get: () => string
-} => {
-  const [value, setValue] = useState(
-    typeof window === 'undefined' ? null : localStorage.getItem(name)
-  )
-
-  const set = (value: string) => {
-    localStorage.setItem(name, value)
-    setValue(value)
+  const setValue = (nextValue: string) => {
+    localStorage.setItem(key, nextValue)
   }
 
-  const get = () => {
-    return localStorage.getItem(name)
-  }
-
-  return { value, set, get }
+  return [value, setValue]
 }

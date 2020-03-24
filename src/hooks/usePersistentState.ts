@@ -1,29 +1,19 @@
 import { useState } from 'react'
 import { useLocalStorage } from './useLocalStorage'
 
-export const usePersistentState = <V>(
+export const usePersistentState = <StateType = string>(
   persistentKey: string,
-  initialValue: V
-): {
-  value: V
-  update: (nextValue: V) => void
-  updateWithoutPersistence: (nextValue: V) => void
-  getPersistedValue: () => string
-} => {
-  const { value: persistedValue, set, get } = useLocalStorage(persistentKey)
-  const [value, rawSetValue] = useState<V>(
-    (persistedValue as any) || initialValue
+  initialValue?: StateType
+): [StateType, typeof update] => {
+  const [storedValue, updateStoredValue] = useLocalStorage(persistentKey)
+  const [value, rawSetValue] = useState<StateType>(
+    (storedValue as any) || initialValue
   )
 
-  const update = (nextValue: V) => {
+  const update = (nextValue: StateType) => {
     rawSetValue(nextValue)
-    set(nextValue.toString())
+    updateStoredValue(nextValue.toString())
   }
 
-  return {
-    value,
-    update,
-    updateWithoutPersistence: rawSetValue,
-    getPersistedValue: get,
-  }
+  return [value, update]
 }

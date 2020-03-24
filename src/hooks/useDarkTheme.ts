@@ -1,50 +1,19 @@
-import { useCallback, useMemo, useEffect } from 'react'
-import lightTheme from '../themes/light'
-import darkTheme from '../themes/dark'
 import { usePersistentState } from './usePersistentState'
+import { useColorSchemePreference } from './useColorSchemePreference'
+import { ColorScheme } from '../themes/ColorScheme'
 
-interface UseDarkThemePayload {
-  themeName: string
-  isLight: boolean
-  theme: any
-  toggleTheme: () => void
-}
+const DEFAULT_THEME_NAME = ColorScheme.light
 
-export const useDarkTheme = (): UseDarkThemePayload => {
-  const prefersDarkMode =
-    typeof window !== 'undefined' &&
-    window.matchMedia('(prefers-color-scheme: dark)')
+export const useThemePreference = (): [ColorScheme, typeof updateThemeMode] => {
+  const prefersDarkSchema = useColorSchemePreference(ColorScheme.dark)
+  const [storedThemeMode, updateThemeMode] = usePersistentState<ColorScheme>(
+    'theme-mode'
+  )
 
-  // Retreive and update persistant value in localStorage
-  const {
-    value: themeName,
-    update: updateThemeName,
-    updateWithoutPersistence,
-    getPersistedValue,
-  } = usePersistentState('theme', prefersDarkMode.matches ? 'dark' : 'light')
+  const themeModePreference = prefersDarkSchema
+    ? ColorScheme.dark
+    : ColorScheme.light
+  const themeMode = storedThemeMode || themeModePreference || DEFAULT_THEME_NAME
 
-  useEffect(() => {
-    const handleDarkModeChange = ({ matches }) => {
-      if (!getPersistedValue()) {
-        updateWithoutPersistence(matches ? 'dark' : 'light')
-      }
-    }
-    prefersDarkMode.addListener(handleDarkModeChange)
-
-    return () => {
-      prefersDarkMode.removeListener(handleDarkModeChange)
-    }
-  }, [])
-
-  // Compute whether current theme is light
-  const isLight = useMemo(() => themeName === 'light', [themeName])
-
-  // Shorthand toggle function for toggling the theme
-  const toggleTheme = useCallback(() => {
-    updateThemeName(isLight ? 'dark' : 'light')
-  }, [updateThemeName, isLight])
-
-  const theme = isLight ? lightTheme : darkTheme
-
-  return { themeName, isLight, theme, toggleTheme }
+  return [themeMode, updateThemeMode]
 }

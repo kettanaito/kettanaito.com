@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { StaticQuery, graphql } from 'gatsby'
 import AtomicLayout from 'atomic-layout'
 import { ThemeProvider, createGlobalStyle } from 'styled-components'
@@ -7,11 +7,13 @@ import PageHeader from './PageHeader'
 import PageFooter from './PageFooter'
 import './layout.css'
 import './custom.css'
-import { useDarkTheme } from '../hooks/useDarkTheme'
+import { useThemePreference } from '../hooks/useDarkTheme'
 import { ThemeContext } from './ThemeContext'
+import lightTheme from '../themes/light'
+import darkTheme from '../themes/dark'
 
-const SITE_INFO = graphql`
-  query SiteInfo {
+const GET_SITE_INFO = graphql`
+  query GetSiteInfo {
     site {
       siteMetadata {
         title
@@ -21,8 +23,7 @@ const SITE_INFO = graphql`
 `
 
 const GlobalStyle = createGlobalStyle`
-
-body {
+  body {
   --color-primary: ${({ theme }) => theme.colors.primary};
   --color-gray: ${({ theme }) => theme.colors.gray};
     background-color: ${({ theme }) => theme.styles.body.bgColor};
@@ -61,14 +62,17 @@ body {
 `
 
 const Layout: React.FC = ({ children }) => {
-  const { theme, themeName, toggleTheme } = useDarkTheme()
+  const [themeName, updateThemeMode] = useThemePreference()
+  const theme = useMemo(() => {
+    return themeName === 'dark' ? darkTheme : lightTheme
+  }, [themeName])
 
   return (
     <StaticQuery
-      query={SITE_INFO}
+      query={GET_SITE_INFO}
       render={(data) => (
         <ThemeProvider theme={theme}>
-          <ThemeContext.Provider value={{ themeName, toggleTheme }}>
+          <ThemeContext.Provider value={{ themeName, updateThemeMode }}>
             <GlobalStyle />
             <PageHeader siteTitle={data.site.siteMetadata.title} />
             <main>{children}</main>

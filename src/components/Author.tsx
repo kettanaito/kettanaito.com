@@ -1,5 +1,5 @@
 import React from 'react'
-import styled, { useTheme } from 'styled-components'
+import styled from 'styled-components'
 import { Box, Composition } from 'atomic-layout'
 import { IoLogoTwitter, IoLogoGithub, IoLogoLinkedin } from 'react-icons/io'
 import { Avatar } from './Avatar'
@@ -53,8 +53,6 @@ export const Author: React.FC<AuthorProps> = ({
   linkedInHandle,
   imageSize,
 }) => {
-  const theme = useTheme()
-
   return (
     <Composition
       as={AuthorContainer}
