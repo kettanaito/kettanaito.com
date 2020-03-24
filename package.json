@@ -51,7 +51,7 @@
   },
   "scripts": {
     "build": "cross-env NODE_ENV=production gatsby build",
-    "develop": "cross-env ENV_NAME=dev gatsby develop -p 8040",
+    "develop": "cross-env ENV_NAME=dev gatsby develop -p 8040 -H 0.0.0.0",
     "format": "prettier --write src/**/*.{js,jsx}",
     "start": "npm run develop",
     "serve": "gatsby serve -H 0.0.0.0",
