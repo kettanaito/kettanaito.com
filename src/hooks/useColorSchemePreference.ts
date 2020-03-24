@@ -5,7 +5,7 @@ export const useColorSchemePreference = (colorScheme: ColorScheme): boolean => {
   const media =
     typeof window !== 'undefined' &&
     window.matchMedia(`(prefers-color-scheme: ${colorScheme})`)
-  const [prefersDarkMode, updatePreference] = useState(media.matches)
+  const [prefersColorScheme, updatePreference] = useState(media.matches)
 
   useEffect(() => {
     const handleMediaChange = (nextMedia: MediaQueryListEvent) => {
@@ -19,5 +19,5 @@ export const useColorSchemePreference = (colorScheme: ColorScheme): boolean => {
     }
   }, [colorScheme, media])
 
-  return prefersDarkMode
+  return prefersColorScheme
 }
