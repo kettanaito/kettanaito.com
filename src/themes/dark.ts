@@ -1,5 +1,7 @@
 import { mergeDeepRight } from 'ramda'
-import theme from './light'
+import lightTheme from './light'
+
+type LightTheme = typeof lightTheme
 
 type DeepPartial<T> = {
   [P in keyof T]?: DeepPartial<T[P]>
@@ -13,7 +15,15 @@ const colors = {
   gray: 'hsl(217, 10%, 60%)',
 }
 
-export default mergeDeepRight<typeof theme, DeepPartial<typeof theme>>(theme, {
+export default mergeDeepRight<
+  typeof lightTheme,
+  {
+    utils: LightTheme['utils']
+    colors: DeepPartial<LightTheme['colors']>
+    styles: DeepPartial<LightTheme['styles']>
+  }
+>(lightTheme, {
+  utils: lightTheme.utils,
   colors,
   styles: {
     body: {
