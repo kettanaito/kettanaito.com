@@ -49,20 +49,6 @@ const Heart = (props) => {
   return <HeartIcon width="1.25em" {...props} />
 }
 
-const SlideRight = styled.span`
-  animation: slideRight 0.5s ease forwards;
-  white-space: nowrap;
-
-  @keyframes slideRight {
-    0% {
-      max-width: 0px;
-    }
-    100% {
-      max-width: 100px;
-    }
-  }
-`
-
 const PostHeader = ({ post }) => {
   const { frontmatter, timeToRead } = post
   const theme = useTheme()
@@ -111,11 +97,7 @@ const PostHeader = ({ post }) => {
             </Areas.Meta>
             <Areas.Likes flex alignItems="center">
               <MetaItemDelimiter marginRight={0.5} marginRightSm={1} />
-              {likesCount > 0 && (
-                <Label as={SlideRight} marginRight="4px">
-                  <strong>{likesCount}</strong>
-                </Label>
-              )}
+              {likesCount > 0 && <Label marginRight="4px">{likesCount}</Label>}
               {hasLike ? (
                 <Heart
                   stroke={theme.colors.primary}
@@ -139,9 +121,7 @@ function PostDetail({ location, data }) {
   const { frontmatter } = post
 
   // Store the post like state in local storage to prevent multiple likes
-  const { value: likeState, set: setLikeState } = useLocalStorage(
-    `like-${frontmatter.id}`
-  )
+  const [likeState, setLikeState] = useLocalStorage(`like-${frontmatter.id}`)
 
   return (
     <MdxProvider>
