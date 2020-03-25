@@ -395,10 +395,7 @@ pre {
   line-height: 1.42;
   font-family: 'Source Code Pro', Menlo, Monaco, monospace;
   font-size: 1rem;
-  /* background: hsla(0, 0%, 0%, 0.04); */
-  /* padding: 1.45rem; */
   border-radius: 3px;
-  /* overflow: auto; */
   word-wrap: normal;
 }
 table {

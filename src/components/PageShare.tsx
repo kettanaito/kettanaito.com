@@ -2,8 +2,8 @@ import React from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
 import styled from 'styled-components'
 import { Composition } from 'atomic-layout'
-import Container from './Container'
-import Text from './Text'
+import { Container } from './Container'
+import { Text } from './Text'
 import { ShareInFacebook, ShareInTwitter, ShareInReddit } from './SocialLinks'
 
 const GET_WEBSITE_DETAILS = graphql`
@@ -45,7 +45,7 @@ export const PageShare: React.FC<PageShareProps> = ({ url }) => {
         >
           <div>
             <Heading>Enjoyed reading?</Heading>
-            <Text lead>
+            <Text sizeVariant="lead">
               This is an uncommercial blog. The only goal it has is spreading
               knowledge. Please, consider sharing this with your friends.{' '}
               <strong>Thank you</strong>.

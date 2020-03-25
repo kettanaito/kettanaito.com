@@ -1,12 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Composition } from 'atomic-layout'
-import Container from './Container'
+import { Container } from './Container'
 import { PostGrid } from './PostGrid'
-import Text from './Text'
+import { Text } from './Text'
 import { Avatar } from './Avatar'
 
 export const TwitterWidget = () => {
-  React.useEffect(() => {
+  useEffect(() => {
     const anchor = document.createElement('a')
     anchor.setAttribute('class', 'twitter-follow-button')
     anchor.setAttribute('data-chrome', 'noheader nofooter noborders')
@@ -46,12 +46,10 @@ export const TwitterWidget = () => {
             />
           </a>
           <div>
-            <Text lead marginBottom={0}>
+            <Text sizeVariant="lead" marginBottom={0}>
               <strong>Artem Zakharchenko</strong>
             </Text>
-            <Text as="p" muted>
-              @kettanaito
-            </Text>
+            <Text colorVariant="muted">@kettanaito</Text>
             <p>
               Hi! My name is Artem and I am a Full-stack JavaScript engineer,
               rock-n-roll musician and medical doctor.

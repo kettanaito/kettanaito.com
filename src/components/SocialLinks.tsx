@@ -20,6 +20,7 @@ const SOCIAL_ICON_PROPS = {
 }
 
 const GeneralIcon = styled(Box)``
+
 GeneralIcon.defaultProps = {
   minWidth: '32px',
   maxWidth: '100%',

@@ -6,10 +6,7 @@ const StyledLink = styled.a<{ focusSize: number }>`
   padding: ${({ focusSize }) => focusSize}rem;
 `
 
-type ExternalLinkProps = React.DetailedHTMLProps<
-  React.AnchorHTMLAttributes<HTMLAnchorElement>,
-  HTMLAnchorElement
-> & {
+type ExternalLinkProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
   to: string
   focusSize?: number
 }
@@ -34,5 +31,5 @@ export const ExternalLink: React.FC<ExternalLinkProps> = ({
 }
 
 ExternalLink.defaultProps = {
-  focusSize: 1,
+  focusSize: 0,
 }

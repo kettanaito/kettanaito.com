@@ -2,11 +2,11 @@ import React from 'react'
 import { graphql, PageProps } from 'gatsby'
 import { Box } from 'atomic-layout'
 
-import Layout from '../components/layout'
-import Text from '../components/Text'
-import Container from '../components/Container'
+import { Layout } from '../components/layout'
+import { Text } from '../components/Text'
+import { Container } from '../components/Container'
 import { SEO } from '../components/seo'
-import PostList from '../components/PostList'
+import { PostList } from '../components/PostList'
 import { Separator } from '../components/Separator'
 import { Link } from '../components/mdx/Link'
 
@@ -22,7 +22,7 @@ const NotFoundPage: React.FC<PageProps<{ latestPosts: any }>> = ({
       <Container paddingVertical={4}>
         <Box marginBottom={4}>
           <h1>Page not found</h1>
-          <Text lead>
+          <Text sizeVariant="lead">
             It appears that <code>{location.pathname}</code> page does not
             exist.
           </Text>

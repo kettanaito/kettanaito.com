@@ -1,7 +1,8 @@
 import React from 'react'
 import { Box } from 'atomic-layout'
+import { BoxProps } from '@atomic-layout/core'
 
-const Container = (props) => (
+export const Container: React.FC<BoxProps> = (props) => (
   <Box
     width="1400px"
     marginHorizontal="auto"
@@ -11,5 +12,3 @@ const Container = (props) => (
     {...props}
   />
 )
-
-export default Container

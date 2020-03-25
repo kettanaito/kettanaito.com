@@ -2,7 +2,7 @@ import React from 'react'
 import { graphql } from 'gatsby'
 import { Composition } from 'atomic-layout'
 
-import { PostItem } from '../PostItem'
+import { PostItem } from './PostItem'
 
 export const PostPreviewFragment = graphql`
   fragment PostPreview on Mdx {
@@ -26,7 +26,7 @@ export const PostPreviewFragment = graphql`
   }
 `
 
-const PostList = ({ posts }) => {
+export const PostList = ({ posts }) => {
   return (
     <Composition
       templateCols="1fr"
@@ -53,5 +53,3 @@ const PostList = ({ posts }) => {
     </Composition>
   )
 }
-
-export default PostList
