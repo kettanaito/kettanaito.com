@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="Redd Developer" src="src/images/logo.svg" width="110" />
+  <img alt="Redd Developer" src="src/images/logo.svg" width="100" />
 </p>
 <h1 align="center">
   Redd Developer

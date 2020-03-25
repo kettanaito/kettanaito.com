@@ -2,9 +2,9 @@ import React from 'react'
 import { PageProps } from 'gatsby'
 
 import { SEO } from '../components/seo'
-import Layout from '../components/layout'
-import Container from '../components/Container'
-import Text from '../components/Text'
+import { Layout } from '../components/layout'
+import { Container } from '../components/Container'
+import { Text } from '../components/Text'
 import { PostGrid } from '../components/PostGrid'
 import { Separator } from '../components/Separator'
 

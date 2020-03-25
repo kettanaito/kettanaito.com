@@ -1,7 +1,7 @@
 import React from 'react'
 import { Composition, useResponsiveValue } from 'atomic-layout'
 import { VendingMachine } from './VendingMachine'
-import Text from '../../../../src/components/Text'
+import { Text } from '../../../../src/components/Text'
 
 export const Warning = ({ children }) => {
   return (

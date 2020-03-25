@@ -14,7 +14,7 @@ export const usePersistentState = <StateType = string>(
     if (value) {
       updateStoredValue(value.toString())
     }
-  }, [value])
+  }, [value, updateStoredValue])
 
   return [value, updateState]
 }

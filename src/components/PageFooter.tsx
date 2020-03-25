@@ -3,15 +3,15 @@ import styled from 'styled-components'
 import { Box } from 'atomic-layout'
 import { Link } from 'gatsby'
 
-import Container from './Container'
-import Text from './Text'
+import { Container } from './Container'
+import { Text } from './Text'
 import { ExternalLink } from './ExternalLink'
 
 const StyledFooter = styled.footer`
-  background-color: ${({ theme }) => theme.colors.grayDim};
+  background-color: ${({ theme }) => theme.styles.footer.bgColor};
   border-top: 1px solid ${({ theme }) => theme.colors.grayGhost};
   font-size: 14px;
-  color: ${({ theme }) => theme.colors.grayFoo};
+  color: ${({ theme }) => theme.colors.gray};
   line-height: 1.4;
 
   a {
@@ -45,7 +45,7 @@ const Footer = () => (
         justifyContent="space-between"
         paddingVertical={1}
       >
-        <Text as="p" marginBottomLg={0}>
+        <Text marginBottomLg={0}>
           © {new Date().getFullYear()}. Made by{' '}
           <FooterLink to="https://github.com/kettanaito">kettanaito</FooterLink>
           . Built with
@@ -55,7 +55,7 @@ const Footer = () => (
           <FooterLink to="https://www.netlify.com/">Netlify</FooterLink>.
         </Text>
 
-        <Text as="p">
+        <Text>
           Licensed under{' '}
           <a
             href="https://creativecommons.org/licenses/by-nc/4.0/"

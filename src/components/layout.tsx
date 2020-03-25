@@ -1,5 +1,5 @@
-import React, { useMemo, useEffect, useState } from 'react'
-import { StaticQuery, graphql, useStaticQuery } from 'gatsby'
+import React, { useEffect, useState } from 'react'
+import { StaticQuery, graphql } from 'gatsby'
 import AtomicLayout from 'atomic-layout'
 import { ThemeProvider, createGlobalStyle } from 'styled-components'
 
@@ -32,7 +32,8 @@ const GlobalStyle = createGlobalStyle`
   }
 
   code {
-    ${({ theme }) => theme.styles.code}
+    background-color: ${({ theme }) => theme.styles.code.bgColor};
+    border: 1px solid ${({ theme }) => theme.styles.code.borderColor};
   }
 
   h1 {
@@ -61,15 +62,11 @@ const GlobalStyle = createGlobalStyle`
   }
 `
 
-const Layout: React.FC = ({ children }) => {
+export const Layout: React.FC = ({ children }) => {
   const [themeName, updateThemeMode] = useThemePreference()
   const [theme, setTheme] = useState(
     themeName === 'dark' ? darkTheme : lightTheme
   )
-
-  // const theme = useMemo(() => {
-  //   return themeName === 'dark' ? darkTheme : lightTheme
-  // }, [themeName])
 
   useEffect(() => {
     setTheme(themeName === 'dark' ? darkTheme : lightTheme)
@@ -91,5 +88,3 @@ const Layout: React.FC = ({ children }) => {
     />
   )
 }
-
-export default Layout

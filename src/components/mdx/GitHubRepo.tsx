@@ -3,7 +3,7 @@ import styled, { useTheme } from 'styled-components'
 import { Composition } from 'atomic-layout'
 import { ReactComponent as BookIcon } from 'heroicons/dist/outline-md/md-book-open.svg'
 
-import Text from '../Text'
+import { Text } from '../Text'
 import { Label } from '../Label'
 
 const StyledContainer = styled.a`
@@ -74,7 +74,7 @@ const GitHubRepo: React.FC<GitHubRepoProps> = ({ owner, repo }) => {
                 <RepoName>
                   {data.owner.login}/<strong>{data.name}</strong>
                 </RepoName>
-                <Text as={Label} small>
+                <Text as={Label} sizeVariant="small">
                   {data.description}
                 </Text>
               </>

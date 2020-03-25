@@ -95,6 +95,7 @@ export const HeroPostItem: React.FC<PostItemProps> = ({
       templateColsMd="1fr 1fr"
       alignItems="flex-start"
       gap={2}
+      gapXl={3}
     >
       <PostLink to={url}>
         <Thumbnail fluid={image} alt={title} />
