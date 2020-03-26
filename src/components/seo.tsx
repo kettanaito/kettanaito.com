@@ -32,8 +32,8 @@ export const SEO: React.FC<SEOProps> = ({
         const titleTemplate = `%s | ${data.site.siteMetadata.title}`
         const metaDescription =
           description || data.site.siteMetadata.description
-        const twitterCard =
-          type === 'website' ? 'summary' : 'summary_large_image'
+        // const twitterCard =
+        //   type === 'website' ? 'summary' : 'summary_large_image'
         const imageFullUrl =
           process.env.ENV_NAME === 'dev'
             ? image
@@ -66,7 +66,7 @@ export const SEO: React.FC<SEOProps> = ({
             <meta property="og:image" content={imageFullUrl} />
 
             {/* Twitter */}
-            <meta name="twitter:card" content={twitterCard} />
+            <meta name="twitter:card" content="summary_large_image" />
             <meta name="twitter:title" content={ogTitle} />
             <meta name="twitter:description" content={metaDescription} />
             <meta name="twitter:image" content={imageFullUrl} />
