@@ -12,6 +12,7 @@ const getEnvVariables = () => {
       FIREBASE_MESSAGING_SENDER_ID: process.env.FIREBASE_MESSAGING_SENDER_ID,
       FIREBASE_APP_ID: process.env.FIREBASE_APP_ID,
       FIREBASE_MEASUREMENT_ID: process.env.FIREBASE_MEASUREMENT_ID,
+      FIREBASE_CLIENT_ID: process.env.FIREBASE_CLIENT_ID,
     }
   }
 
@@ -46,7 +47,7 @@ export const onCreateWebpackConfig: GatsbyNode['onCreateWebpackConfig'] = ({
    */
   if (stage === 'build-html') {
     actions.setWebpackConfig({
-      externals: getConfig().externals.concat(function(
+      externals: getConfig().externals.concat(function (
         context,
         request,
         callback

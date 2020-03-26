@@ -223,9 +223,7 @@ export const query = graphql`
       }
     }
 
-    #
     # Single post detail
-    #
     post: mdx(id: { eq: $postId }, frontmatter: { date: { ne: null } }) {
       frontmatter {
         id
@@ -250,11 +248,9 @@ export const query = graphql`
       body
     }
 
-    #
     # Similar posts
     # This request can be deferred to client-side where the category is
     # fetched from the "mdx" query.
-    #
     similarPosts: allMdx(
       limit: 3
       sort: { order: DESC, fields: [frontmatter___date] }
