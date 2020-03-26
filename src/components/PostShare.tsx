@@ -53,8 +53,11 @@ const HeartIcon = styled(Heart)<{ isLiked: boolean }>`
   }
 `
 
-const PostLikeButton: React.FC<{ postId: string }> = ({ postId }) => {
-  const { hasLike, addLike } = useLikes(postId)
+const PostLikeButton: React.FC<{ postId: string; postTitle: string }> = ({
+  postId,
+  postTitle,
+}) => {
+  const { hasLike, addLike } = useLikes(postId, postTitle)
 
   return (
     <LikeButton aria-label="Like this post" onClick={addLike}>
@@ -84,7 +87,7 @@ export const PostShare: React.FC<PostShareProps> = ({
           paddingVerticalMd={4}
         >
           <Composition colDown="1 / span 3">
-            <PostLikeButton postId={id} />
+            <PostLikeButton postId={id} postTitle={title} />
           </Composition>
           <ShareInTwitter url={url} title={title} hashtags={hashtags} />
           <Composition justifyDown="center">
