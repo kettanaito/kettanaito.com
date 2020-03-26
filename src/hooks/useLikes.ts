@@ -13,10 +13,9 @@ export const useLikes = (postId: string) => {
     const postRef = getPostRef(postId)
     setPostRef(postRef)
 
-    // Subscribe to likes change
     postRef.child('likes').on('value', (snapshot) => {
-      const likesCount = snapshot.val() || 0
-      setLikesCount(likesCount)
+      // Subscribe to likes change
+      setLikesCount(snapshot.val() || 0)
     })
   }, [postId])
 
@@ -35,6 +34,10 @@ export const useLikes = (postId: string) => {
           post = {
             likes: likesCount,
           }
+        }
+
+        if (!post.likes) {
+          post.likes = likesCount
         }
 
         post.likes++

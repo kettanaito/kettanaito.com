@@ -24,6 +24,7 @@ import { useLikes } from '../hooks/useLikes'
 import { GhostButton } from '../components/GhostButton'
 import { PostContext } from '../components/PostContext'
 import { useLocalStorage } from '../hooks/useLocalStorage'
+import { usePostViews } from '../hooks/usePostViews'
 
 const PostTitle = styled.h1`
   @media (min-width: ${AtomicLayout.breakpoints.sm.minWidth}) {
@@ -119,6 +120,8 @@ const PostHeader = ({ post }) => {
 function PostDetail({ location, data }) {
   const { site, post, similarPosts } = data
   const { frontmatter } = post
+
+  usePostViews(frontmatter.id, frontmatter.title)
 
   // Store the post like state in local storage to prevent multiple likes
   const [likeState, setLikeState] = useLocalStorage(`like-${frontmatter.id}`)
