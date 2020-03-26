@@ -1,7 +1,9 @@
 import firebase from './firebase'
 
+const { FIREBASE_CLIENT_ID } = process.env
+
 export const createPostRef = (postId: string) => {
-  return `/posts/${process.env.FIREBASE_CLIENT_ID}/${postId}`
+  return `/posts/${FIREBASE_CLIENT_ID}/${postId}`
 }
 
 export const getPostRef = (postId: string) => {
