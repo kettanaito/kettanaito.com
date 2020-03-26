@@ -62,6 +62,7 @@ export const SEO: React.FC<SEOProps> = ({
             {/* OpenGraph */}
             <meta property="og:type" content={type} />
             <meta property="og:title" content={ogTitle} />
+            <meta property="og:site_name" content="Redd Developer" />
             <meta property="og:description" content={metaDescription} />
             <meta property="og:image" content={imageFullUrl} />
 
