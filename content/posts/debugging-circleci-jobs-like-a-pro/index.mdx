@@ -1,8 +1,8 @@
 ---
-date: 2020-01-25
+date: 2020-02-10
 category: Education
-title: 'Remote debugging of CircleCI jobs using SSH'
-description: Got a failing CI job? Let's connect to the very remote machine that ran your job and see what's going on.
+title: 'Debugging CircleCI jobs like a pro using SSH'
+description: Failed CircleCI job? Let's connect to the remote machine that ran it and do some next level debugging.
 keywords:
   - circleci
   - ci
@@ -27,7 +27,7 @@ In this post I would like to share a mind-blowing technique of debugging failed 
 
 ---
 
-## The problem
+## The issue
 
 In order to debug any issue one has to reliably reproduce it first. There are multifold of things that can affect the issue's reproduction: environment, connection speed, asynchronicity, black magic. Needless to say when your CI runs remotely all those factors are at play.
 
@@ -35,11 +35,11 @@ To minimize the amount of deviations between the remote computer that ran your C
 
 ## Running job with SSH
 
-In order to debug a failed job using SSH it needs to be run with SSH first. In this article we are going to do that directly from the CircleCI UI:
+In order to debug a failed job using this technique the job needs to be run with SSH first. You can do that directly from the CircleCI UI:
 
 1. Open the failed job on CircleCI.
 1. Locate the "**Rerun ???**" / "Rerun workflow" button.
-1. Open the dropdown and choose "Rerun job with SSH" option.
+1. Open the dropdown and choose "**Rerun job with SSH**" option.
 
 ![Rerun job with SSH](images/circleci-rerun-ssh.png)
 
@@ -92,7 +92,7 @@ $ ssh -p 64536 100.26.97.124
 
 > TODO: Add instructions for Windows.
 
-When successfully executed, you will notice your terminal's host changing from the local computer name to the remote machine's name. Any commands issued in this process are executed on the remote machine.
+When successfully executed, you will notice your terminal's working directory changed to the remote machine's name. Any commands issued in this process from now on are executed on the remote machine.
 
 ![Remote machine opened in terminal](images/terminal-remote.png)
 
