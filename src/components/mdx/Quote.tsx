@@ -8,7 +8,7 @@ const StyledBlockquote = styled.blockquote`
   color: ${({ theme }) => theme.colors.grayDark};
   font-family: 'Playfair Display', Charter, 'Bookman Antiqua', Georgia, serif;
   font-size: 1.4rem;
-  font-weight: bold;
+  font-weight: 500;
   font-style: italic;
   line-height: 1.75;
 
