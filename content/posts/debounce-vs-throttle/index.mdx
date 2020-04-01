@@ -22,7 +22,7 @@ hashtags:
 image: thumbnail.jpg
 ---
 
-import Quote from '../../../src/components/mdx/Quote.js'
+import Quote from '../../../src/components/mdx/Quote.tsx'
 
 ## Introduction
 
@@ -47,7 +47,7 @@ Let's build a ball throwing machine. Our machine would have a button that, when 
 ```js
 const button = document.getElementById('button')
 
-button.addEventListener('click', function() {
+button.addEventListener('click', function () {
   throwBall()
 })
 ```
@@ -82,12 +82,12 @@ A throttled function is called once per _N_ amount of time. Any additional funct
 function throttle(func, duration) {
   let shouldWait = false
 
-  return function(...args) {
+  return function (...args) {
     if (!shouldWait) {
       func.apply(this, args)
       shouldWait = true
 
-      setTimeout(function() {
+      setTimeout(function () {
         shouldWait = false
       }, duration)
     }
@@ -104,7 +104,7 @@ To throttle our machine's button click we need to pass the event handler functio
 ```js
 button.addEventListener(
   'click',
-  throttle(function() {
+  throttle(function () {
     throwBall()
   }, 500)
 )
@@ -167,7 +167,7 @@ To apply debouncing to our example we would have to wrap the button click handle
 ```js
 button.addEventListener(
   'click',
-  debounce(function() {
+  debounce(function () {
     throwBall()
   }, 500)
 )
