@@ -43,6 +43,7 @@ const AuthorName = styled.p`
 const AuthorDescription = styled.div`
   color: ${({ theme }) => theme.colors.gray};
   font-size: 14px;
+  line-height: 1.25;
 `
 
 export const Author: React.FC<AuthorProps> = ({
