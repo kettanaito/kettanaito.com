@@ -15,7 +15,7 @@ export const Code = ({ children, language, className, ...props }) => {
   const { themeName } = useContext(ThemeContext)
 
   return (
-    <Box as={CodeWrapper} marginVerticalMd={4}>
+    <Box as={CodeWrapper} className="code" marginVerticalMd={4}>
       <ReactCdxCode
         {...props}
         code={children}

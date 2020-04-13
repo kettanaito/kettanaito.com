@@ -12,6 +12,7 @@ const components = {
   a: Link,
   img: Image,
   hr: Hr,
+  pre: ({ children }) => <>{children}</>,
 }
 
 export const MdxProvider = (props) => (
