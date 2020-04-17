@@ -11,8 +11,17 @@ const CodeWrapper = styled.div`
     0 24px 32px rgba(0, 0, 0, 0.02);
 `
 
-export const Code = ({ children, language, className, ...props }) => {
+export const Code = ({
+  children,
+  language,
+  className,
+  showLineNumbers,
+  focusedLines,
+  ...props
+}) => {
   const { themeName } = useContext(ThemeContext)
+
+  console.log({ props, focusedLines }, focusedLines && focusedLines.split(','))
 
   return (
     <Box as={CodeWrapper} className="code" marginVerticalMd={4}>
@@ -20,7 +29,8 @@ export const Code = ({ children, language, className, ...props }) => {
         {...props}
         code={children}
         language={language || (className && className.replace('language-', ''))}
-        showLineNumbers={true}
+        showLineNumbers={showLineNumbers ? showLineNumbers === 'true' : true}
+        focusedLines={focusedLines && focusedLines.split(',').map(Number)}
         {...(themeName === 'dark' ? { theme: DarkTheme as any } : {})}
       />
     </Box>

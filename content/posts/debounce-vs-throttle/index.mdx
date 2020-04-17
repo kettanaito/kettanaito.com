@@ -99,7 +99,7 @@ The `throttle` function accepts two arguments: `func`, which is a function to th
 
 To throttle our machine's button click we need to pass the event handler function as the first argument to `throttle`, and specify a throttling interval as the second argument:
 
-```js
+```js focusedLines=3,5
 button.addEventListener(
   'click',
   throttle(function () {
@@ -162,7 +162,7 @@ The `debounce` function accepts two arguments: `func`, which is a function to de
 
 To apply debouncing to our example we would have to wrap the button click handler in the `debounce`:
 
-```js
+```js focusedLines=3,5
 button.addEventListener(
   'click',
   debounce(function () {
@@ -216,7 +216,7 @@ It may look fine at first, but in fact nothing is going to be debounced. That is
 
 Instead, we should debounce an entire `handleButtonClick` function:
 
-```js
+```js focusedLines=3,5
 button.addEventListener(
   'click',
   debounce(function handleButtonClick() {
@@ -234,7 +234,7 @@ button.addEventListener(
 
 If you are familiar with [React](https://reactjs.org) you may also recognize the following declaration as being invalid:
 
-```jsx
+```jsx focusedLines=8
 class MyComponent extends React.Component {
   handleButtonClick = () => {
     console.log('The button was clicked')
@@ -254,10 +254,10 @@ Since `debounce` is called during the render, each MyComponent's re-render will 
 
 Instead, the `handleButtonClick` _declaration_ should be debounced:
 
-```jsx
+```jsx focusedLines=2,7
 class MyComponent extends React.Component {
   handleButtonClick = debounce(() => {
-    console.log('The button was clicked')
+    console.log('The button was clickeds')
   }, 500)
 
   render() {
