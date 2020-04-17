@@ -12,6 +12,7 @@
     "firebase": "^7.12.0",
     "gatsby": "^2.20.7",
     "gatsby-image": "^2.3.1",
+    "gatsby-plugin-anchor-links": "^1.1.1",
     "gatsby-plugin-canonical-urls": "^2.2.1",
     "gatsby-plugin-google-analytics": "^2.2.2",
     "gatsby-plugin-manifest": "^2.3.3",
@@ -35,6 +36,7 @@
     "react-helmet": "^5.2.1",
     "react-icons": "^3.9.0",
     "react-share": "^4.1.0",
+    "rehype-slug": "^3.0.0",
     "styled-components": "^5.0.1"
   },
   "devDependencies": {
