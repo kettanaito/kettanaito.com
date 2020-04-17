@@ -312,8 +312,7 @@ h6 {
   font-size: 0.78405rem;
   line-height: 1.1;
 }
-h1:first-child,
-h2:first-child {
+h1:first-child {
   margin-top: 0;
 }
 hgroup {
@@ -586,7 +585,7 @@ code {
   border-radius: 3px;
   font-family: 'Source Code Pro', Consolas, 'Roboto Mono', 'Droid Sans Mono',
     'Liberation Mono', Menlo, Courier, monospace;
-  padding: 0.2em;
+  padding: 0.1em 0.2em;
   letter-spacing: 0.1px;
 }
 code .react-syntax-highlighter-line-number {
