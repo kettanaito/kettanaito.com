@@ -6,6 +6,8 @@ import { Code } from './mdx/Code'
 import { Image } from './mdx/Image'
 import { Hr } from './mdx/Hr'
 import { Link } from './mdx/Link'
+import { Quote } from './mdx/Quote'
+import { GitHubRepo } from './mdx/GitHubRepo'
 
 const components = {
   code: Code,
@@ -13,6 +15,8 @@ const components = {
   img: Image,
   hr: Hr,
   pre: ({ children }) => <>{children}</>,
+  Quote,
+  GitHubRepo,
 }
 
 export const MdxProvider = (props) => (

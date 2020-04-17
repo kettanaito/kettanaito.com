@@ -35,7 +35,7 @@ interface GitHubRepoProps {
   repo: string
 }
 
-const GitHubRepo: React.FC<GitHubRepoProps> = ({ owner, repo }) => {
+export const GitHubRepo: React.FC<GitHubRepoProps> = ({ owner, repo }) => {
   const [data, setData] = React.useState(null)
   const theme = useTheme()
 
@@ -93,5 +93,3 @@ const GitHubRepo: React.FC<GitHubRepoProps> = ({ owner, repo }) => {
     </Composition>
   )
 }
-
-export default GitHubRepo

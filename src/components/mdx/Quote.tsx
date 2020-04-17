@@ -25,7 +25,7 @@ const StyledBlockquote = styled.blockquote`
   }
 `
 
-export default ({ children }) => {
+export const Quote: React.FC = ({ children }) => {
   return (
     <Box
       as={StyledBlockquote}
