@@ -144,7 +144,7 @@ A debounced function is called after _N_ amount of time passes since its last ca
 function debounce(func, duration) {
   let timeout
 
-  return function(...args) => {
+  return function (...args) {
     const effect = () => {
       timeout = null
       return func.apply(this, args)
