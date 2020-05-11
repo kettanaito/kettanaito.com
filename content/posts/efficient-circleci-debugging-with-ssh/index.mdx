@@ -158,11 +158,19 @@ Clicking on the option will run the respective job anew, yet this time CircleCI 
 
 ![SSH connection details](images/ci-enable-ssh.png)
 
-Those details are likely be different in your case, but your primarily interest should fall onto the machine's host (`100.26.97.124`) and port number (`64536`). Remember those. CircleCI would also print out a shorthand connection command, which we will skip for now.
+Those details are likely be different in your case, but your primarily interest should fall onto the machine's host (`100.26.97.124`) and port number (`64536`). Remember those. CircleCI would also print out a shorthand connection command, which we are going to use in the next step.
 
 ## Into the remote!
 
-#### Using explicit key
+### Using default key
+
+(Recommended) If your main SSH key is the one associated with your GitHub account, execute the SSH command CircleCI printed out in the "Enable SSH" step:
+
+```bash
+$ ssh -p 64536 100.26.97.124
+```
+
+### Using explicit key
 
 In case you have got multiple SSH keys you would have to specify which one to use to connect to the remote machine. Provide the path to the same SSH key you use for GitHub as the value of the `-i` flag in `ssh` command:
 
@@ -228,6 +236,10 @@ $ scp -P 64536 circleci@100.26.97.124:/home/circleci/snapshot.tar.gz ~/Desktop
 - `-P` connection port to use (default is `20`).
 
 This command will copy the file at `/home/circleci/snapshot.tar.gz` from the remote machine to your local `~/Desktop`. Unarchive the snapshot of the CI and debug it as if it was a regular folder, because it is now.
+
+## Afterword
+
+Thanks for reading through this article! I hope it will be of good use to you when debugging the next failed CI. Let me know your thoughts on the topic [on Twitter](https://twitter.com/kettanaito)!
 
 ---
 
