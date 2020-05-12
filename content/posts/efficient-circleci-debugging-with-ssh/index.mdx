@@ -22,7 +22,7 @@ image: thumbnail.jpg
 
 ## Introduction
 
-I have been actively using [CircleCI](https://circleci.com/) in my projects for years now and I love it! However, I'm ashamed to admit that most of the failed jobs took me up to 1 hour to get right. By the time I saw CI pass, I would grew an unrivaled hatred towards the red color.
+I have been actively using [CircleCI](https://circleci.com/) in my projects for years now and I love it! However, I'm ashamed to admit that most of the failed jobs took me up to 1 hour to get right. By the time I saw CI pass, I had grew an unrivaled hatred towards the red color.
 
 ![CircleCI failed job](images/ci-failed.png)
 
@@ -36,15 +36,15 @@ Reliable issue verification is the absolute must in order to resolve any problem
 
 <Quote>The issue that cannot be reproduced cannot be fixed.</Quote>
 
-Thus, whenever a remote job fails, it's in our best interest to match the context in witch it failed as close as possible to provide a viable fix. Gladly, there is a way to connect to the very machine that run our job and explore its state. Enter SSH.
+Thus, whenever a remote job fails, it's in our best interest to match the context in witch it failed as close as possible to provide a viable fix. Gladly, there is a way to connect to the very machine that's running our job and explore its state. Enter SSH.
 
 ## SS-what?
 
 **Secure Shell** (also SSH) is a network protocol that encrypts data packages sent over an insecure connection. SSH establishes a tunnel between a verified client and a server, encrypting any data that flow in-between.
 
-Originally designed by [Tatu Ylönen](https://twitter.com/tjssh) in Helsinki University of Technology, SSH has got widely adopted and gradually became a standard in software engineering. Most of the websites you visit today use SSH for various purposes, like sendind and acceptind traffic, or transfering files.
+Originally designed by [Tatu Ylönen](https://twitter.com/tjssh) in Helsinki University of Technology, SSH has been widely adopted, gradually becoming a standard in software engineering. Most of the websites you visit today use SSH for various purposes, like sendind and acceptind traffic, or transfering files.
 
-In this tutorials we are primarily interested in these applications of SSH:
+In this tutorial we are primarily interested in these applications of SSH:
 
 - Logging to a shell on a remote host (machine);
 - Transferring files.
