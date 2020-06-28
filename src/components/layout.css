@@ -326,10 +326,7 @@ hgroup {
   margin-bottom: 1.45rem;
 }
 ul {
-  margin-left: 1.45rem;
-  margin-right: 0;
-  margin-top: 0;
-  padding-bottom: 0;
+  margin: 2rem 0 2rem 3rem;
   padding-left: 0;
   padding-right: 0;
   padding-top: 0;
@@ -422,7 +419,7 @@ fieldset {
 blockquote {
   border-left: 3px solid var(--color-primary);
   margin: 2rem 0;
-  padding: 1rem 0 1rem 1.4rem;
+  padding: 0.5rem 0 0.5rem 1.4rem;
   font-family: Inter, sans-serif;
   font-size: 1em;
   font-weight: 500;
@@ -585,7 +582,7 @@ code {
   border-radius: 3px;
   font-family: 'Source Code Pro', Consolas, 'Roboto Mono', 'Droid Sans Mono',
     'Liberation Mono', Menlo, Courier, monospace;
-  padding: 0.1em 0.2em;
+  padding: 0 0.2em;
   letter-spacing: 0.1px;
 }
 code .react-syntax-highlighter-line-number {

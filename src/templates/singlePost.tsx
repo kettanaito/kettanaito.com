@@ -148,11 +148,13 @@ function PostDetail({ location, data }) {
             <PostGrid>
               <PostHeader post={post} />
 
-              <Thumbnail
-                as={Image}
-                fluid={frontmatter.image.childImageSharp.fluid}
-                alt={frontmatter.title}
-              />
+              <Box marginBottom={2}>
+                <Thumbnail
+                  as={Image}
+                  fluid={frontmatter.image.childImageSharp.fluid}
+                  alt={frontmatter.title}
+                />
+              </Box>
 
               {/* Post content */}
               <Box as={InnerGrid}>

@@ -56,7 +56,6 @@ export const GitHubRepo: React.FC<GitHubRepoProps> = ({ owner, repo }) => {
       gap={0.75}
       alignItems="center"
       marginVertical={2}
-      marginVerticalMd={4}
       padding={2}
     >
       {({ Icon, Content }) => (
