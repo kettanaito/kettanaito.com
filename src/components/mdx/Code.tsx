@@ -21,10 +21,8 @@ export const Code = ({
 }) => {
   const { themeName } = useContext(ThemeContext)
 
-  console.log({ props, focusedLines }, focusedLines && focusedLines.split(','))
-
   return (
-    <Box as={CodeWrapper} className="code" marginVerticalMd={4}>
+    <Box as={CodeWrapper} className="code" marginVerticalMd={2}>
       <ReactCdxCode
         {...props}
         code={children}

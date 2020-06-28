@@ -3,10 +3,6 @@ h3 + .code {
   margin-top: 0 !important;
 }
 
-.code + blockquote {
-  margin-top: -2rem;
-}
-
 button {
   padding: 0.25em 0.75em;
 
