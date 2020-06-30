@@ -3,6 +3,23 @@
   "description": "Software engineering blog",
   "version": "1.0.0",
   "license": "CC BY-NC",
+  "scripts": {
+    "build": "cross-env NODE_ENV=production gatsby build",
+    "develop": "cross-env ENV_NAME=dev gatsby develop -p 8040 -H 0.0.0.0",
+    "format": "prettier --write src/**/*.{js,jsx}",
+    "start": "npm run develop",
+    "serve": "gatsby serve -H 0.0.0.0",
+    "validate": "./validate-posts.sh",
+    "test": "echo \"Write tests! -> https://gatsby.app/unit-testing\""
+  },
+  "lint-staged": {
+    "content/posts/**/*.mdx": "yarn validate"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "lint-staged"
+    }
+  },
   "dependencies": {
     "@mdx-js/mdx": "^1.5.7",
     "@mdx-js/react": "^1.5.7",
@@ -48,17 +65,11 @@
     "@types/styled-components": "^5.0.1",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.11",
     "prettier": "^2.0.2",
     "recompose": "^0.30.0",
     "ts-node": "^8.8.1",
     "typescript": "^3.8.3"
-  },
-  "scripts": {
-    "build": "cross-env NODE_ENV=production gatsby build",
-    "develop": "cross-env ENV_NAME=dev gatsby develop -p 8040 -H 0.0.0.0",
-    "format": "prettier --write src/**/*.{js,jsx}",
-    "start": "npm run develop",
-    "serve": "gatsby serve -H 0.0.0.0",
-    "test": "echo \"Write tests! -> https://gatsby.app/unit-testing\""
   }
 }
