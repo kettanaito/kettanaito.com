@@ -13,7 +13,7 @@
     "test": "echo \"Write tests! -> https://gatsby.app/unit-testing\""
   },
   "lint-staged": {
-    "content/posts/**/*.mdx": "yarn validate"
+    "content/posts/**/index.mdx": "yarn validate"
   },
   "husky": {
     "hooks": {
