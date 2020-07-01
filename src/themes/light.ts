@@ -21,7 +21,7 @@ export default {
   colors,
   styles: {
     body: {
-      bgColor: '#fff',
+      bgColor: 'hsl(0, 0%, 100%)',
       color: 'hsl(0, 10%, 13%)',
     },
     main: {
