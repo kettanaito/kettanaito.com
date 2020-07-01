@@ -106,7 +106,7 @@ const OutOfBallsContainer = styled(Box)`
 const ResetButton = styled.button`
   padding: 2rem;
   background: none;
-  color: var(--color-text);
+  color: ${({ theme }) => theme.styles.body.color};
   font-weight: bold;
 `
 
