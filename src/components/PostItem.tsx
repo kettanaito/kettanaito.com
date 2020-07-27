@@ -118,6 +118,7 @@ export const HeroPostItem: React.FC<PostItemProps> = ({
         <PostExcerpt>{excerpt}</PostExcerpt>
         <Author
           name="Artem Zakharchenko"
+          imageUrl="/images/authors/kettanaito.jpg"
           description="Software engineer"
           githubHandle="kettanaito"
           twitterHandle="kettanaito"
