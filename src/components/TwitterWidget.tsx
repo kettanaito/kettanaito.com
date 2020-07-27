@@ -40,7 +40,7 @@ export const TwitterWidget = () => {
             rel="noopener noreferrer"
           >
             <Avatar
-              src={`https://github.com/kettanaito.png`}
+              src="/images/authors/kettanaito.jpg"
               alt="Artem Zakharchenko"
               size={100}
             />

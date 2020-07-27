@@ -9,6 +9,7 @@ import { ReactComponent as HalfCircle } from '../images/icons/half-circle.svg'
 interface AuthorProps {
   name: string
   description: string
+  imageUrl: string
   githubHandle: string
   twitterHandle?: string
   linkedInHandle?: string
@@ -49,6 +50,7 @@ const AuthorDescription = styled.div`
 export const Author: React.FC<AuthorProps> = ({
   name,
   description,
+  imageUrl,
   githubHandle,
   twitterHandle,
   linkedInHandle,
@@ -62,11 +64,7 @@ export const Author: React.FC<AuthorProps> = ({
       gap={12 / 16}
     >
       <AvatarConatiner>
-        <Avatar
-          src={`https://github.com/${githubHandle}.png`}
-          alt={name}
-          size={imageSize}
-        />
+        <Avatar src={imageUrl} alt={name} size={imageSize} />
         <StyledHalfCircle as={HalfCircle} height={imageSize} />
       </AvatarConatiner>
       <div>
