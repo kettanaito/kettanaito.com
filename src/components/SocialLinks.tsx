@@ -34,12 +34,20 @@ export const ShareInFacebook: React.FC<ShareComponentProps> = ({ url }) => {
   )
 }
 
-export const ShareInTwitter: React.FC<ShareComponentProps & {
-  title: string
-  hashtags?: string[]
-}> = (props) => {
+export const ShareInTwitter: React.FC<
+  ShareComponentProps & {
+    title: string
+    hashtags?: string[]
+  }
+> = (props) => {
   return (
-    <Box flex as={TwitterShareButton} {...props} aria-label="Share on Twitter">
+    <Box
+      flex
+      as={TwitterShareButton}
+      {...props}
+      hashtags={props.hashtags || []}
+      aria-label="Share on Twitter"
+    >
       <GeneralIcon as={TwitterIcon} {...SOCIAL_ICON_PROPS} />
     </Box>
   )
@@ -49,9 +57,11 @@ ShareInTwitter.defaultProps = {
   hashtags: [],
 }
 
-export const ShareInReddit: React.FC<ShareComponentProps & {
-  title: string
-}> = ({ url, title }) => {
+export const ShareInReddit: React.FC<
+  ShareComponentProps & {
+    title: string
+  }
+> = ({ url, title }) => {
   return (
     <Box
       flex
