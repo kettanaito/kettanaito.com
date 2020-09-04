@@ -1,0 +1,110 @@
+---
+date: 2020-09-04
+category: Education
+title: How to ask questions?
+description: Have you ever heard the phrase "asking the right question"? Have you ever wondered what makes a question right? I'd like to share my take on whether you should ask questions at all, and how to advance in the great art of asking.
+image: thumbnail.png
+---
+
+Being a beginner software engineer you are often tasked with implementing real-world features and fixing tricky bugs. Sometimes you may feel that you lack knowledge or aren't sure how to approach the task entirely. That is perfectly fine, even the most experienced engineers suffer from the occassional struggle and nobody truly knows everything, despite how wise they may appear. Asking for help (as well as giving one) is an inseparable part of programming, just as writing code or [giving code reviews](/blog/the-art-of-code-review). However, asking questions is a discipline on its own, and it will take some time to learn how to do that in a way that yields more results with less effort invested.
+
+There are multiple blockers that beginner engineers face when it comes to asking for help. Today I would like to bring some of them up and share my personal experience of how I dealt with those blockers.
+
+---
+
+## Asking is learning
+
+I know how it feels to be afraid or ashamed to ask a question, worrying that your colleagues may grade you as less intelligent, frown upon you asking something they find obvious, or even bully you, demanding you should have known the answer by now. If you ever felt like your surrounding doesn't encourage questions, **you are in a toxic environment and you need to escape it**. People who despise interest, experiment, and question, are seldom bright, as they block themselves and others from knowledge. Knowledge comes from learning, and learning comes from asking questions. Make sure you are travelling your journey amongst the people who understand that.
+
+However, if you are shy or insecure when it comes to asking for help, I have a lifehack for you: don't treat your question as a sign that you don't know something, treat it as a sign that you would like to learn more. Asking a question, in my opinion, is the most efficient way to learn in any field. Doing so advances you in the grand art of asking, and has a bigger chance to remember the answer, as we best remember solutions to the problems we face first-hand.
+
+<Quote>
+  Do not deprive yourself of the best way to learn: asking a question.
+</Quote>
+
+## The grand art of asking
+
+The skill of asking the right question is extremely hard to master. Nevertheless, you won't get better at it without practicing and keeping track of the details and phrases that got you closer to the answer. This topic deserves a thick book to even scratch the surface, but right now let's explore one of the most common issues when asking questions: _specificity_.
+
+Specificity in questions is often ambiguous, and may bring you both closer and farther away from the answer. Let's take a look at why that happens.
+
+### Irrelevant specificity
+
+Here's an example of a question:
+
+> How do I persist an authentication token from Google between page refreshes in React?
+
+While this may be a valid question, it contains too much details that are not useful when it comes to answering it. For example, instead of binding the authentication process to Google, consider asking about authentication persistency in general, as it's going to be vastly the same on your side for Google, Amazon, or any other provider. Instead of scoping the answer to the React ecosystem, try dropping the framework from the question, to learn about the persistency in JavaScript in general. That way the answer you get is more likely to be reused for other frameworks and libraries, making it much more valuable. Lastly, when it comes to persistency, it matters little if you persist an auth token, a unique ID, or any kind of information. Even the "authentication" part of the question can be replaced with "how to persist data", _any_ data.
+
+While the context you are working in may be important, dropping it often helps to find the beginning of a thread that will eventually lead you to the right answer.
+
+<Quote>
+  Look for knowledge, not answers. Knowledge is how the answers are produced.
+</Quote>
+
+Once the contextual specificity is omitted, notice how broader and at the same time shorter this question becomes:
+
+> How do I persist data between page refreshes?
+
+Surely, the kind of answer you get may be incomplete for your particular context, but it will be a complete answer on its own. It may direct you to using cookies, or a session storage in JavaScript to presist arbitrary data. Then, you may want to ask a follow up question or two about using those API in the context of React. Chances are you are not the first person facing this, and there may be a useful article or a library that could help you achieve your goal.
+
+<Quote>
+  Asking is investigating: you find clues that move you to more specific
+  questions and, eventually, the answer.
+</Quote>
+
+When you need to turn a red sphere into a blue pointy cube, don't expect to find a solution to that task straight away. Learn how to transform a sphere into cube first, then how to make any cube blue, and then how to make blue things pointy. Any programming task can be broken into a sequence of smaller tasks, researching which will be a more rewarding process in the long run. You may realize you didn't even need your cube to be pointy somewhere in the middle of this process.
+
+The reason I highly recommend dropping the context from your question is because it gives you a better chance at finding the answer. This also teaches you that a question rarely has a single direct answer. Get use to starting broad and narrowing the specificity with each piece of knowledge you find. You will be surprised how much you learn that way.
+
+### Relevant specificity
+
+Including a name of the library, a browser version, or a particular option name is extremely likely to narrow the investigation scope and bring you closer to the answer. There is one important thing in providing such technical specificity: **you must know what is relevant**.
+
+Take a look at this question:
+
+> Axios fails on a POST request in `componendDidMount`.
+
+Evaluating the usefulness of those technical details is entirely impossible, as they may be both relevant and irrelevant, depending on the particular use case. It becomes your responsibility to know what to include and what to omit in your question. Truth be told, that is one of the things that makes it difficult to ask the right questions, and one of the skills you acquire with time and practice.
+
+<Quote>
+  When including technical details, you must know what is relevant and what is
+  not.
+</Quote>
+
+Unfortunately, mentioning irrelevant details may lead your investigation effort astray. Fortunately, if the person you asked it familiar with the topic, they may help you filter those details by relevancy.
+
+As the time goes by and you keep asking questions, you will begin to notice how certain technical details shine for you, while others fade away. There is no other master-advice I can give you on this, just to encourage you to keep asking questions!
+
+## The 15 Minutes Rule
+
+When asking questions one should be careful not to develop a habit of delegating one's problems to somebody else. Reaching out for help in a dire situation is a rightful thing to do, yet none of us truly enjoys the struggle, so it's natural that we experience satisfaction and joy when the long-awaited help arrives. For that help to last longer try to learn to evaluate the situation before asking, which would prevent occassionally unnecessary questions and give you the sense of standalone accomplishment.
+
+<Quote>
+  In the end, expect the quality of the answer to be proportionate to the time
+  you were willing to spend finding it.
+</Quote>
+
+What helped me during my career is adopting the 15 minutes rule. Whenever I find myself in a struggle, I dedicate 15 minutes of highly focused time to solve the matter at hand by myself. By the end of that time I check if the question I had is still relevant, and if it's not I tackle the next question that arose with another 15 minutes. Only when my effort proves unfruitful I raise a question to a colleague or a fellow developer.
+
+This rule is extremely useful, because it brings value to your question. Often you may learn a thing or two while attempting to solve the issue, if not find the answer. The knowledge you acquire and the approaches you try may help your future advisor to tackle your question more precisely, and the effort you put into looking into it acts as a solid foundation for compassionate and emphathetic response.
+
+## Be patient
+
+Software engineering can be stressful: a customer losing their revenue due to an issue, a manager enraged over a missed deadline—we've all been there. Getting stressed doesn't really solve those situations, neither will it find the answer to your question.
+
+Remember that explaining is equally difficult as asking the right question, and a person that put down their time to help you may struggle to find the right way to bring it to you. Patience and kindness go a long way.
+
+## Help others
+
+No matter how inexperienced you may think you are, there is always a person one step behind you. That person is following a similar journey, but may not have got their head around certain concepts or patterns as you did. Keep that in mind next time you see somebody confused over a topic you find utterly clear. Offer them help.
+
+<Quote>Offering help is just as useful as asking for one.</Quote>
+
+Altruism isn't the only reason to offer others help. Explaining is perhaps the best way to ensure your understanding. As we all think and remember things differently, at first it will be challenging to broadcast your thoughts to the person in need. Sometimes it would require you to validate the material you've learned, lest you give a false or incomplete answer. It may help you locate a few blind spots in your own knowledge!
+
+## Draw a conclusion
+
+Getting the answer is sure thing rewarding, yet try to keep it in your head for a while. A problem isn't a burning furnace, and throwing one answer after another won't do any good, as the purpose of asking is to learn. Getting a valuable information from the answer may require to look back at the original problem and draw a conclusion. What caused the problem? What was the solution? Did the solution affect the cause directly or indirectly? Is there any supplimentary knowledge that could have helped in solving this problem?
+
+Believe me or not, learning is a skill of its own, as we all learn, remember, and explain things in a drastically different manner. So while at it, why not to boost another skill when the answer is already in your hands? Experiment and find the way of learning that works the best for you, be it drawing a diagram, writing a small documentation, or hoarding useful links in your bookmarks. Next time a question pops out, your learning vault is a great place to start with the 15 minutes rule!
