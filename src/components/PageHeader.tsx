@@ -81,7 +81,7 @@ const Header: React.FC<HeaderProps> = ({ siteTitle }) => {
                 gap={0.5}
               >
                 <ArrowLeft width={16} />
-                <CategoryName>Back</CategoryName>
+                <CategoryName>Home</CategoryName>
               </Composition>
             )}
           </Box>
