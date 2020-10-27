@@ -102,30 +102,32 @@ export const HeroPostItem: React.FC<PostItemProps> = ({
       <PostLink to={url}>
         <Thumbnail fluid={image} alt={title} />
       </PostLink>
-      <Composition gap={1} align="center">
+      <Composition gap={0.5} align="center">
         <Composition
           as="header"
           inline
           templateColsMd="auto 1fr"
           alignItems="baseline"
           gapMd={1.5}
-          marginBottomSmDown="2px"
+          marginBottom={1}
         >
           <CategoryName>{category}</CategoryName>
           <Label>{date}</Label>
         </Composition>
-        <PostLink to={url}>
+        <Box as={PostLink} to={url}>
           <PostTitle>{title}</PostTitle>
-        </PostLink>
+        </Box>
         <PostExcerpt>{excerpt}</PostExcerpt>
-        <Author
-          name="Artem Zakharchenko"
-          imageUrl="/images/authors/kettanaito.jpg"
-          description="Software engineer"
-          githubHandle="kettanaito"
-          twitterHandle="kettanaito"
-          linkedInHandle="artem-zakharchenko"
-        />
+        <Box marginTop={1}>
+          <Author
+            name="Artem Zakharchenko"
+            imageUrl="/images/authors/kettanaito.jpg"
+            description="Software engineer"
+            githubHandle="kettanaito"
+            twitterHandle="kettanaito"
+            linkedInHandle="artem-zakharchenko"
+          />
+        </Box>
       </Composition>
     </Composition>
   )
