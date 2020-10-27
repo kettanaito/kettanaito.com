@@ -34,12 +34,14 @@ const PostLink = styled(Link)`
   text-decoration: none;
 `
 
-const PostTitle = styled.p`
+const PostTitle = styled.h3`
+  margin: 0;
   color: ${({ theme }) => theme.colors.grayDark};
-  font-size: 1.375rem;
+  font-size: 1.5rem;
   font-weight: bold;
   line-height: 1.36;
   letter-spacing: -0.17px;
+  font-family: inherit;
 `
 
 const PostExcerpt = styled.p`
@@ -59,7 +61,7 @@ export const PostItem: React.FC<PostItemProps> = ({
       <PostLink to={url}>
         <Thumbnail fluid={image} alt={title} />
       </PostLink>
-      <Composition as={InnerGrid} gap={1} marginTop={2} paddingHorizontal={1}>
+      <Composition as={InnerGrid} marginTop={2} paddingHorizontal={1}>
         <Box
           as="header"
           flex
@@ -67,14 +69,14 @@ export const PostItem: React.FC<PostItemProps> = ({
           alignItems="flex-start"
           alignItemsSm="center"
           justifyContent="space-between"
-          marginBottom="2px"
+          marginBottom={1.5}
         >
           <CategoryName>{category}</CategoryName>
           <Label>{date}</Label>
         </Box>
-        <PostLink to={url}>
+        <Box as={PostLink} to={url} marginBottom={0.5}>
           <PostTitle>{title}</PostTitle>
-        </PostLink>
+        </Box>
         <PostExcerpt>{excerpt}</PostExcerpt>
       </Composition>
     </PostContainer>
