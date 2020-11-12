@@ -26,6 +26,7 @@ const GlobalStyle = createGlobalStyle`
   body {
   --color-primary: ${({ theme }) => theme.colors.primary};
   --color-gray: ${({ theme }) => theme.colors.gray};
+  --color-gray-light: ${({ theme }) => theme.colors.grayLight};
     background-color: ${({ theme }) => theme.styles.body.bgColor};
     color: ${({ theme }) => theme.styles.body.color};
     transition: background-color .1s ease;

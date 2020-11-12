@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Playfair+Display:500,500i,700,700i&display=swap');
 
 ::selection {
-  background-color: hsla(1, 65%, 50%, 0.25);
+  background-color: var(--color-gray-light);
 }
 
 html {
