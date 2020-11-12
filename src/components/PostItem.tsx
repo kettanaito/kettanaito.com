@@ -42,6 +42,7 @@ const PostTitle = styled.h3`
   line-height: 1.36;
   letter-spacing: -0.17px;
   font-family: inherit;
+  text-transform: capitalize;
 `
 
 const PostExcerpt = styled.p`

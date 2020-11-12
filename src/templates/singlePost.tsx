@@ -27,6 +27,8 @@ import { useLocalStorage } from '../hooks/useLocalStorage'
 import { usePostViews } from '../hooks/usePostViews'
 
 const PostTitle = styled.h1`
+  text-transform: capitalize;
+
   @media (min-width: ${AtomicLayout.breakpoints.sm.minWidth}) {
     text-align: center;
   }
