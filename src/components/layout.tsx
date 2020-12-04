@@ -61,6 +61,10 @@ const GlobalStyle = createGlobalStyle`
     background-color: ${({ theme }) =>
       theme.styles.rangeInput.runnableTrackBgColor};
   }
+
+  .line-number-focused {
+    background-color: ${({ theme }) => theme.styles.code.focusedLineBgColor};
+  }
 `
 
 export const Layout: React.FC = ({ children }) => {

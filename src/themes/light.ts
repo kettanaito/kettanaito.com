@@ -36,8 +36,9 @@ export default {
       linkColor: '#000',
     },
     code: {
-      bgColor: 'hsla(50, 100%, 70%, 0.2)',
-      borderColor: 'hsla(50, 70%, 60%, 0.4)',
+      bgColor: 'rgb(246, 248, 250)',
+      borderColor: colors.grayLight,
+      focusedLineBgColor: '#fff',
     },
     table: {
       borderColor: colors.grayLight,

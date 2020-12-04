@@ -5,6 +5,8 @@
 }
 
 html {
+  --border-radius: 1ch;
+
   font-family: Inter, sans-serif;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
@@ -355,7 +357,7 @@ dl {
   padding-right: 0;
   padding-top: 0;
   line-height: 1.8;
-  margin-bottom: 1.45rem;
+  margin-bottom: 1.5rem;
 }
 dd {
   margin-left: 0;
@@ -365,7 +367,7 @@ dd {
   padding-left: 0;
   padding-right: 0;
   padding-top: 0;
-  margin-bottom: 1.45rem;
+  margin-bottom: 1.5rem;
 }
 p {
   margin-left: 0;
@@ -375,7 +377,7 @@ p {
   padding-left: 0;
   padding-right: 0;
   padding-top: 0;
-  margin-bottom: 1.45rem;
+  margin-bottom: 1.5rem;
 }
 figure {
   margin-left: 0;
@@ -385,7 +387,7 @@ figure {
   padding-left: 0;
   padding-right: 0;
   padding-top: 0;
-  margin-bottom: 1.45rem;
+  margin-bottom: 1.5rem;
 }
 pre {
   margin: 2rem 0;
@@ -393,7 +395,7 @@ pre {
   line-height: 1.42;
   font-family: 'Source Code Pro', Menlo, Monaco, monospace;
   font-size: 1rem;
-  border-radius: 3px;
+  border-radius: var(--border-radius);
   word-wrap: normal;
 }
 table {
@@ -492,7 +494,7 @@ th {
   font-weight: bold;
 }
 li {
-  margin-bottom: calc(1.45rem / 2);
+  margin-bottom: 0.5rem;
 }
 ol li {
   padding-left: 0;
@@ -577,7 +579,7 @@ td:last-child {
 }
 tt,
 code {
-  border-radius: 3px;
+  border-radius: calc(var(--border-radius) / 2);
   font-family: 'Source Code Pro', Consolas, 'Roboto Mono', 'Droid Sans Mono',
     'Liberation Mono', Menlo, Courier, monospace;
   padding: 0 0.2em;
