@@ -11,7 +11,7 @@ const StyledContainer = styled.a`
     theme.utils.alpha(theme.colors.primary, 0.16)};
 
   border: 1px solid ${({ theme }) => theme.colors.primary};
-  border-radius: 3px;
+  border-radius: var(--border-radius);
   box-shadow: 0 0 0 4px var(--box-shadow-color);
   text-decoration: none;
   transition: box-shadow 0.1s ease;

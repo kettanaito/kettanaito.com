@@ -15,8 +15,10 @@ interface ShareComponentProps {
 }
 
 const SOCIAL_ICON_PROPS = {
-  borderRadius: 3,
   size: 64,
+  style: {
+    borderRadius: 'var(--border-radius)',
+  },
 }
 
 const GeneralIcon = styled(Box)``

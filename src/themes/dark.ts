@@ -41,6 +41,7 @@ export default mergeDeepRight<
     code: {
       bgColor: 'rgba(255,255,255,0.03)',
       borderColor: colors.grayLight,
+      focusedLineBgColor: 'rgba(255,255,255,0.05)',
     },
     table: {
       borderColor: colors.grayGhost,
