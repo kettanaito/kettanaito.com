@@ -166,18 +166,14 @@ function PostDetail({ location, data }) {
           </Container>
 
           {/* Social sharing */}
-          <Box marginVertical={1}>
-            <PostShare
-              id={frontmatter.id}
-              url={location.href}
-              title={`"${frontmatter.title}" by ${site.siteMetadata.author}`}
-              hashtags={frontmatter.hashtags}
-            />
-          </Box>
+          <PostShare
+            id={frontmatter.id}
+            url={location.href}
+            title={`"${frontmatter.title}" by ${site.siteMetadata.author}`}
+            hashtags={frontmatter.hashtags}
+          />
 
-          <Box marginVertical={4}>
-            <TwitterWidget />
-          </Box>
+          <TwitterWidget />
 
           {/* Similar posts */}
           {similarPosts?.edges?.length > 0 && (
