@@ -97,9 +97,6 @@ export const PostShare: React.FC<PostShareProps> = ({
             <ShareInReddit url={url} title={title} />
           </Composition>
         </Composition>
-        <InnerGrid>
-          <Separator />
-        </InnerGrid>
       </PostGrid>
     </Container>
   )

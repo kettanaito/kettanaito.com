@@ -1,9 +1,15 @@
 import React, { useEffect } from 'react'
-import { Composition } from 'atomic-layout'
+import styled from 'styled-components'
+import { Box, Composition } from 'atomic-layout'
 import { Container } from './Container'
 import { PostGrid } from './PostGrid'
 import { Text } from './Text'
 import { Avatar } from './Avatar'
+
+const StyledContainer = styled(Box)`
+  background-color: ${({ theme }) => theme.styles.footer.bgColor};
+  border-top: 1px solid ${({ theme }) => theme.colors.grayGhost};
+`
 
 export const TwitterWidget = () => {
   useEffect(() => {
@@ -24,46 +30,48 @@ export const TwitterWidget = () => {
   }, [])
 
   return (
-    <Container>
-      <PostGrid>
-        <Composition
-          templateColsMd="auto 1fr"
-          gap={2}
-          alignItems="start"
-          justifyItemsSmDown="center"
-          maxWidthSmDown="500px"
-          marginHorizontal="auto"
-        >
-          <a
-            href="https://twitter.com/kettanaito"
-            target="_blank"
-            rel="noopener noreferrer"
+    <StyledContainer paddingVertical={4}>
+      <Container>
+        <PostGrid>
+          <Composition
+            templateColsMd="auto 1fr"
+            gap={2}
+            alignItems="start"
+            justifyItemsSmDown="center"
+            maxWidthSmDown="500px"
+            marginHorizontal="auto"
           >
-            <Avatar
-              src="/images/authors/kettanaito.jpg"
-              alt="Artem Zakharchenko"
-              size={100}
-            />
-          </a>
-          <div>
-            <Text sizeVariant="lead" marginBottom={0}>
-              <strong>Artem Zakharchenko</strong>
-            </Text>
-            <Text colorVariant="muted">@kettanaito</Text>
-            <p>
-              Hi! My name is Artem and I am a Full-stack JavaScript engineer,
-              rock-n-roll musician and medical doctor.
-            </p>
-            <p>
-              If you like my material, please consider{' '}
-              <strong>following me on Twitter</strong> to get notified when new
-              posts are published, ask me a question and stay in touch.
-            </p>
+            <a
+              href="https://twitter.com/kettanaito"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Avatar
+                src="/images/authors/kettanaito.jpg"
+                alt="Artem Zakharchenko"
+                size={100}
+              />
+            </a>
+            <div>
+              <Text size="lead" marginBottom={0}>
+                <strong>Artem Zakharchenko</strong>
+              </Text>
+              <Text color="var(--color-gray)">@kettanaito</Text>
+              <p>
+                Hi! My name is Artem and I am a Full-stack JavaScript engineer,
+                rock-n-roll musician and medical doctor.
+              </p>
+              <p>
+                If you like my material, please consider{' '}
+                <strong>following me on Twitter</strong> to get notified when
+                new posts are published, ask me a question and stay in touch.
+              </p>
 
-            <div className="twitter-embed" />
-          </div>
-        </Composition>
-      </PostGrid>
-    </Container>
+              <div className="twitter-embed" />
+            </div>
+          </Composition>
+        </PostGrid>
+      </Container>
+    </StyledContainer>
   )
 }

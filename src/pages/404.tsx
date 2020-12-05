@@ -22,7 +22,7 @@ const NotFoundPage: React.FC<PageProps<{ latestPosts: any }>> = ({
       <Container paddingVertical={4}>
         <Box marginBottom={4}>
           <h1>Page not found</h1>
-          <Text sizeVariant="lead">
+          <Text size="lead">
             It appears that <code>{location.pathname}</code> page does not
             exist.
           </Text>

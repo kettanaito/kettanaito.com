@@ -73,7 +73,7 @@ export const GitHubRepo: React.FC<GitHubRepoProps> = ({ owner, repo }) => {
                 <RepoName>
                   {data.owner.login}/<strong>{data.name}</strong>
                 </RepoName>
-                <Text as={Label} sizeVariant="small">
+                <Text as={Label} size="small">
                   {data.description}
                 </Text>
               </>
