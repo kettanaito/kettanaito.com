@@ -7,6 +7,20 @@ p + ul {
   margin-top: 0.5rem;
 }
 
+blockquote .code {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  filter: grayscale(100%);
+}
+
+blockquote .code:last-child {
+  margin-bottom: 1rem;
+}
+
+blockquote:hover .code {
+  filter: grayscale(0);
+}
+
 button {
   padding: 0.25em 0.75em;
 
