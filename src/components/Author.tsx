@@ -65,7 +65,7 @@ export const Author: React.FC<AuthorProps> = ({
     >
       <AvatarConatiner>
         <Avatar src={imageUrl} alt={name} size={imageSize} />
-        <StyledHalfCircle as={HalfCircle} height={imageSize} />
+        {/* <StyledHalfCircle as={HalfCircle} height={imageSize} /> */}
       </AvatarConatiner>
       <div>
         <AuthorName>{name}</AuthorName>
