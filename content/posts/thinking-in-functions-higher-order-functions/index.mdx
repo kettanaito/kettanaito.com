@@ -1,59 +1,61 @@
 ---
 id: 35db4a2a-0750-4699-a405-3996a6d99a99
-date: 2021-03-04
+date: 2021-03-07
 category: Engineering
 title: 'Thinking in Functions, Part II: Higher-order functions'
-description: Understanding and applying higher-order functions is the essential skill of any software engineer. Let's take a dive into what "higher-order" functions are, how and when to use them, and what problems they solve.
+description: Let's take a dive into what "higher-order" functions are, what problems they solve, and learn how to use them in practice.
 image: ./thumbnail.jpg
 ---
 
-In the [previous article](/blog/thinking-in-functions) we have covered the importance and usefulness of the "input/output" pattern when writing functions. Today I'd like to continue the topic and talk about one of the most powerful concepts of functional programming—higher-order function.
+In the previous article, we have learned about the [Input/Output pattern](/blog/thinking-in-functions) and how to use it when writing functions Today I'd like to continue the series by talking about one of the most powerful concepts of functional programming—higher-order functions.
 
 ---
 
 ## Higher-order function
 
-A _higher order function_ is a function that accepts another function as an argument or returns a function. Or both.
+A _higher-order function_ is a function that accepts another function as an argument or returns a function. Or both.
 
 Here's an example of a higher-order function:
 
 ```js
-// Function `fn` accepts function `a` as an argument,
-function fn(a) {
+// Function `fn` accepts `anotherFn` as an argument,
+function fn(anotherFn) {
   // ...and calls it with `x` to get the value of `y`.
-  const y = a(x)
+  const y = anotherFn(x)
 }
 ```
 
-While that example is rather abstract, there are other illustrations of higher-order functions that you may already be using on a daily basis. In JavaScript, a lot of prototype methods of native classes are higher-order functions. Such methods include:
+While this example is rather abstract and may look unfamiliar, there are multiple higher-order functions that you're already using on a daily basis. In JavaScript, a lot of standard data types methods are higher-order functions. For example:
 
 - [`Array.prototype.map`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map)
 - [`String.prototype.replace`](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/String/replace)
 - [`Array.prototype.reduce`](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce)
 
-All those functions accept another function as an argument and that makes them higher-order functions. Let's analyze what that means taking `Array.prototype.map` as an example:
+All those functions accept another function as an argument and that makes them higher-order functions. Let's analyze what that means by taking a closer look at `Array.prototype.map`:
 
 ```js
 const numbers = [1, 2, 3]
 
 // Go through each number in the `numbers` array
-// and multiple it by 2.
+// and multiply it by 2.
 numbers.map((number) => number * 2) // [2, 4, 6]
 ```
 
-You are familiar that the `map` function goes through each array member and executes some logic on it. While it iterates over the array members without us explicitly instructing how (the way we would do with a `for` loop), the `map` function delegates what logic to execute to us by accepting a mapping function as an argument. That way it separates its concerns: iteration is hidden away, but the mapping logic gets exposed publicly and is defined upon usage.
+You know that the `.map()` method goes (iterates) through each array member and applies some transformation to it. Notice how you never see the "goes through each array member" logic while using this method, you only describe the transformation to apply. That's because `.map()` is responsible for iteration, and when it comes to the point to map each value, it executes the function accepted as an argument.
+
+This is the key principle of higher-order functions: _logic encapsulation_.
 
 <Quote>
   Higher-order functions encapsulate certain behavior, delegating the other
-  behavior to the function they accept as an argument.
+  behavior to the function(s) they accept as an argument.
 </Quote>
 
-The contract a higher-order function establishes is true on the given terms:
+By doing so, the `.map()` function establishes a usage contract with us. As with any contract, there are some terms to make it work:
 
 - A higher-order function controls when to call a passed function;
 - A higher-order function controls what arguments are to the accepted function.
 
-Both those requirements derive from the fact that higher-order functions accept a _function definition_, in other words: instruction for the action. The given function definition is accessed by the higher-order function as an argument, making it in charge of when and how to call a given function.
+Both those requirements are related to the fact that higher-order functions accept a _function definition_, in other words: instruction for the action. The given function definition is accessed by the higher-order function as an argument, making it in charge of when and how to call a given function.
 
 To better understand this concept, let's build our own `map` function.
 
@@ -96,20 +98,20 @@ const mappedValue = mapFn(member)
   Higher-order functions control when and how to call an argument function.
 </Quote>
 
-The point of our `map` function is that it can do much more than the multiplication of numbers. In fact, as it accepts a function that controls what to do with each array member, I dare say our `map` function can do _anything_.
+The point of our `map` function is that it can do much more than the multiplication of numbers. In fact, as it accepts a function that controls what to do with each array member, I dare say our `map` function can do anything!
 
 ```js showLineNumbers=false
-map(['hello', 'world'], (word) => word.toUpperCase())
-// ["HELLO", "WORLD"]
+map(['buy', 'gold'], (word) => word.toUpperCase())
+// ["BUY", "GOLD"]
 ```
 
-The power of higher-order functions goes beyond transforming array members. It's more about delegating an action (i.e. `(number) => number * 2`) to a different execution context.
+But why this function is so powerful? Because it encapsulates the _how_ (iteration) and accepts the _what_ (transformation). It keeps the logic that's a part of its contract hidden, but provides a way to customize a certain behavior via arguments to remain versatile.
 
 ### Returning a function
 
-A higher-order function may also return a function. In that case, it acts opposite: instead of being in charge over when and how to call a given function, it generates a function and makes you in charge of when and how that function is called.
+A higher-order function may also return a function. In that case, it acts opposite: instead of being in charge of when and how to call a given function, it generates a function and makes _you_ in charge of when and how that function is called.
 
-Let's use the same `map` function we've written earlier, but now rewrite it to return a function:
+Let's use the same `map` function we've written earlier, but now rewrite it so it returns a function:
 
 ```js focusedLines=2,4
 // Instead of accepting the array straight away,
@@ -130,7 +132,7 @@ function map(mapFn) {
 }
 ```
 
-Since the `map` no longer accepts two argument but one, calling it becomes slightly different:
+Since the `map` now accepts only one argument, we need to change the way we call it:
 
 ```js showLineNumbers=false
 map((number) => number * 2)([1, 2, 3])
@@ -138,13 +140,13 @@ map((number) => number * 2)([1, 2, 3])
 
 The `fn(x)(y)` call signature is not common in JavaScript. Moreover, it's rather confusing.
 
-> **History digression:** Not a long time ago such call signature was used in [React](https://reactjs.org/) to describe higher-order components, so it may ring some distant hook-less bells.
+> **History digression:** Not a long time ago such, call signature was used in [React](https://reactjs.org/) to describe higher-order components, so it may ring some distant hook-less bells.
 >
 > ```js showLineNumbers={false}
 > export default connect(options)(MyComponent)
 > ```
 
-If you break down that `map` function call into two separate functions things will get a little more clear:
+Don't worry, we don't have to abide by this unusual call signature. Instead, let's break that `map` function call into two separate functions.
 
 ```js
 // Calling `map` now returns a new function.
@@ -161,20 +163,20 @@ multiplyByTwo([1, 2, 3]) // [2, 4, 6]
 multiplyByTwo([4, 5, 6]) // [8, 10, 12]
 ```
 
-Our `map` function doesn't do any iteration anymore, yet it _generates_ another function that remembers what transformations it should do and returns that generated function to be called with the actual data sometime later.
+Our `map` function doesn't do any iteration on its own anymore, yet it _generates_ another function (`multiplyByTwo`) that _remembers_ what transformations to do, only waiting for us to provide it with data.
 
 ---
 
-## Application
+## Applications
 
-A higher-order function is a great instrument to use when designing functions. The point of higher-order functions is to encapsulate logic. That encapsulation serves one or multiple of these purposes:
+A higher-order function is a great instrument to use when designing functions. The point of higher-order functions is to encapsulate logic. That encapsulation may solve one or more purposes:
 
-1. Abstract implementation details in favor of declarative code.
-1. Control what logic executes now and what gets delegated for later execution.
+- Abstract implementation details in favor of declarative code.
+- Encapsulate logic for versatile reuse.
 
-### Logic abstraction
+### Abstract logic
 
-The most basic example is when you need to repeat a certain action N amount of times. A functional abstraction can come in handy compared to a lengthy `for` loop. Of course, it would still be using the loop internally, abstracting the iteration as it matters not on the usage surface.
+The most basic example is when you need to repeat a certain action N amount of times. Functional abstractions can come in handy compared to a lengthy `for` loop. Of course, it would still be using the loop internally, abstracting the iteration as it matters not when you use the function.
 
 ```js
 function repeat(fn, times) {
@@ -183,12 +185,16 @@ function repeat(fn, times) {
   }
 }
 
+// Where are not concerned with "how" (iteration),
+// but focus on the "what" (declaration), making
+// this function declarative.
 repeat(() => console.log('Hello'), 3)
 ```
 
-By moving the imperative code to the implementation details of a higher-order function, we often gain improved code readability, making our logic easier to reason about. Compare these two examples, one with imperative code and another with declarative higher-order function:
+By moving the imperative code to the implementation details of a higher-order function, we often gain improved code readability, making our logic easier to reason about. Compare these two examples: one with imperative code and another with declarative higher-order function:
 
 ```js
+// Imperative
 const letters = ['a', 'b', 'c']
 const nextLetters = []
 
@@ -198,11 +204,12 @@ for (let i = 0; i < letters.length; i++) {
 ```
 
 ```js
+// Declarative
 const letters = ['a', 'b', 'c']
 const nextLetters = map(letters, (letter) => letter.toUpperCase())
 ```
 
-While both snippets above convert each letter in an Array to upper case, you spend much less cognitive function to decipher that intention when reading the second code example.
+While both examples map Array letters to upper case, you need much less cognitive effort to understand that intention behind the second example.
 
 <Quote>
   It's not about the amount of code, but about the code that describes
@@ -217,36 +224,101 @@ map(users, toPosts)
 reduce(posts, toTotalLikes)
 ```
 
-### Execution control
+### Encapsulate logic
 
-Whenever a function is called its body is executed straight away, here and now. Sometimes it's beneficial to control what logic gets executed immediately and what is delegated for future use.
-
-Let's say we have an `expensiveLogic` function that, as the name suggests, performs some CPU-heavy computations:
+Let's say we have a `sort` function in our application:
 
 ```js
-function expensiveLogic(data) {
-  // Compute the expensive data.
-  return (user) => {
-    // apply already computed data.
+function sort(comparator, array) {
+  array.sort(comparator)
+}
+```
+
+We are using this function to sort multiple things by rating: products, books, users.
+
+```js
+sort((left, right) => left.rating - right.rating, products)
+sort((left, right) => left.rating - right.rating, books)
+sort((left, right) => left.rating - right.rating, users)
+```
+
+You can see how the comparator function is the same for each call, regardless of what data we're working with. We sort by rating _a lot_ in our app, so let's abstract that comparator into its own function and reuse it:
+
+```js focusedLines=1-3
+function byRating(left, right) {
+  return left.rating - right.rating
+}
+
+sort(byRating, products)
+sort(byRating, books)
+sort(byRating, users)
+```
+
+That's better! Our sorting calls, however, still operate on the criteria-agnostic `sort` function. It's a minor thing, but we also have to import two functions (`sort` and `byRating`) anywhere we need to sort by rating.
+
+Let's take the comparator out of the equation and lock it in a `sortByRating` function that sorts a given array by rating straight away:
+
+```js
+function sortByRating(array) {
+  sort(byRating, array)
+}
+
+sortByRating(products)
+```
+
+Now the rating comparator is built-in into the `sortByRating` function and we can reuse it anywhere we sort by rating. It's a single function, it's short, it's great. Case closed.
+
+Our application grows in size and requirements, and we find ourselves sorting not only by rating, but also by reviews and downloads. If we follow the same abstraction strategy further, we'll stumble upon a problem:
+
+```js focusedLines=2,6,10
+function sortByRating(array) {
+  sort(byRating, array)
+}
+
+function sortByReviews(array) {
+  sort(byReviews, array)
+}
+
+function sortByDownloads(array) {
+  sort(byDownloads, array)
+}
+```
+
+Because we've moved out the comparator from the `sortBy*` arguments, whenever we need to encapsulate a different comparison logic, we inevitably create a new function. By doing so, we're introducing a different kind of problem: neither of the `sortBy*` functions above _share_ the intention of sorting an array, instead they repeat the implementation (`sort`) all over the place.
+
+We can approach this abstraction task with higher-order functions, which would allow us to create exactly _one_ concise and deterministic function to satisfy our requirements.
+
+```js
+function sort(comparator) {
+  return (array) => {
+    array.sort(comparator)
   }
 }
 ```
 
-```js
-const transformUser = expensiveTransformation({...})
+The `sort` function accepts a `comparator` and returns an applicator function that does the sorting. Notice how the nature of `comparator` and `array` are variative, coming from arguments, yet the function's intention (`array.sort`) does not repeat despite that dynamic nature.
 
-fetch('/user').then((user) => {
-  transformUser(user)
-})
+Now we can create multiple sorting functions encapsulating different criteria like so:
+
+```js
+const sortByRating = sort(byRating)
+const sortByReviews = sort(byReviews)
+const sortByDownloads = sort(byDownloads)
+
+sortByRating(products)
+sortByReviews(books)
+sortByDownloads(songs)
 ```
 
-### Fundamental
+This is a great example of logic encapsulation and reuse. It's _beautiful_ also.
 
-Higher-order functions are also fundamental to _partial application_ and _currying_—two techniques that are irreplaceable in functional programming. These may sound alien to you at the moment, but I would be glad to make you more familiar with these concepts in the next chapters of this series.
+### Mention: Currying
+
+Higher-order functions are also fundamental to _partial application_ and _currying_—two techniques that are irreplaceable in functional programming. Don't worry if they sound alien to you, we are going to talk about them in the future chapters of this series.
 
 ---
 
-## Writing a higher-order function
+## Putting it into practice
 
 Just as with any other function, applying the [Input/Output pattern](/blog/thinking-in-functions) is a great place to start when writing a higher-order function. With that, there are a few additional questions to ask yourself:
 
@@ -263,7 +335,7 @@ It's crucial to establish a clear separation between the responsibilities of a h
 > filter([1, 3, 5], (number) => number > 2) // [3, 5]
 > ```
 >
-> Refer to the `map` function we've created in this article for help.
+> Use the `map` function we've created earlier in this article as a reference.
 
 ---
 
@@ -367,6 +439,6 @@ test('handles error gracefully', async () => {
 
 ## Afterword
 
-High-order functions may be a hard concept to grasp at first, but give it some time, apply it in practice, and the understanding will come. It's a crucial part of functional programming and a great step to start thinking in functions. I hope this article has contributed to your knowledge and you feel an extra tool in your arsenal now.
+High-order functions may be a hard concept to grasp at first, but give it some time, apply it in practice, and the understanding will come. It's a crucial part of functional programming and a great step towards thinking in functions. I hope this article has contributed to your knowledge, and you feel an extra tool in your arsenal now.
 
 Looking forward to seeing you in the next part of the "Thinking in Functions" series!
