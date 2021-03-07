@@ -11,6 +11,7 @@ const getFontSize = R.cond([
 
 const getLineHeight = R.cond([
   [R.equals('small'), R.always('1.5')],
+  [R.equals('lead'), R.always('1.2')],
   [R.T, R.always('inherit')],
 ])
 

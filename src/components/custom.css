@@ -7,6 +7,10 @@ p + ul {
   margin-top: 0.5rem;
 }
 
+ul:first-child {
+  margin-top: 0;
+}
+
 blockquote .code {
   margin-left: 0 !important;
   margin-right: 0 !important;
