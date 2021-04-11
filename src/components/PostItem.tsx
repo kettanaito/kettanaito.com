@@ -126,7 +126,6 @@ export const HeroPostItem: React.FC<PostItemProps> = ({
             description="Software engineer"
             githubHandle="kettanaito"
             twitterHandle="kettanaito"
-            linkedInHandle="artem-zakharchenko"
           />
         </Box>
       </Composition>
