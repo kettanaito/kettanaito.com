@@ -4,7 +4,6 @@ import { Box, Composition } from 'atomic-layout'
 import { IoLogoTwitter, IoLogoGithub, IoLogoLinkedin } from 'react-icons/io'
 import { Avatar } from './Avatar'
 import { ExternalLink } from './ExternalLink'
-import { ReactComponent as HalfCircle } from '../images/icons/half-circle.svg'
 
 interface AuthorProps {
   name: string
@@ -12,7 +11,6 @@ interface AuthorProps {
   imageUrl: string
   githubHandle: string
   twitterHandle?: string
-  linkedInHandle?: string
   imageSize?: number
 }
 
@@ -28,12 +26,6 @@ const AuthorContainer = styled.div`
 
 const AvatarConatiner = styled.div`
   position: relative;
-`
-
-const StyledHalfCircle = styled.svg`
-  position: absolute;
-  top: -6px;
-  left: -6px;
 `
 
 const AuthorName = styled.p`
@@ -53,7 +45,6 @@ export const Author: React.FC<AuthorProps> = ({
   imageUrl,
   githubHandle,
   twitterHandle,
-  linkedInHandle,
   imageSize,
 }) => {
   return (
@@ -95,17 +86,6 @@ export const Author: React.FC<AuthorProps> = ({
                 <IoLogoGithub role="img" size={20} />
               </ExternalLink>
             </Box>
-            {linkedInHandle && (
-              <Box flex>
-                <ExternalLink
-                  to={`https://linkedin.com/in/${linkedInHandle}`}
-                  focusSize={0.75}
-                  aria-label="LinkedIn profile"
-                >
-                  <IoLogoLinkedin role="img" size={20} />
-                </ExternalLink>
-              </Box>
-            )}
           </Box>
         </Box>
       </div>
