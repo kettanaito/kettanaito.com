@@ -145,7 +145,7 @@ module.exports = function (source) {
 
   // Finally, emit the imported audio file's "source"
   // in the webpack's build directory using a built-in
-  // "emilFile" method.
+  // "emitFile" method.
   this.emitFile(filename, source, null, assetInfo)
 
   // For now, return the mp3 binary as-is.
@@ -159,6 +159,8 @@ Now the imported audio file will be emitted alongside our JavaScript modules. Le
 
 ```js
 // src/mp3-loader.js
+const path = require('path')
+
 module.exports = function (source) {
   const filename = path.basename(this.resourcePath)
   const assetInfo = { sourceFilename: filename }
