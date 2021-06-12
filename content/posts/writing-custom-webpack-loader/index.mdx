@@ -117,7 +117,7 @@ module.exports = function (source) {
 
 At the current state, your loader is going to return the imported source (MP3 file binary) as-is.
 
-We will be using the [`<audio>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/audio) HTML element to play an imported audio file. For that, we need to know the path of the imported MP3 file, emit it in the webpack's build directory, and provide as the `src` attrbiute of the `<audio>` element.
+We will be using the [`<audio>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/audio) HTML element to play an imported audio file. For that, we need to know the path of the imported MP3 file, emit it in the webpack's build directory, and provide that file path as the `src` attrbiute of the `<audio>` element.
 
 We can get an absolute path of the imported module by accessing the `this.resourcePath` property in a loader's context. For example, given the following import:
 
