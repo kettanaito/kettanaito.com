@@ -1,6 +1,4 @@
-import React from 'react'
-import styled from 'styled-components'
-import { Box } from 'atomic-layout'
+import * as React from 'react'
 import {
   FacebookShareButton,
   FacebookIcon,
@@ -14,65 +12,53 @@ interface ShareComponentProps {
   url: string
 }
 
-const SOCIAL_ICON_PROPS = {
-  size: 64,
-  style: {
-    borderRadius: 'var(--border-radius)',
-  },
-}
-
-const GeneralIcon = styled(Box)``
-
-GeneralIcon.defaultProps = {
-  minWidth: '32px',
-  maxWidth: '100%',
-}
-
-export const ShareInFacebook: React.FC<ShareComponentProps> = ({ url }) => {
+export function ShareOnFacebook({ url }: ShareComponentProps): JSX.Element {
   return (
-    <Box flex as={FacebookShareButton} url={url} aria-label="Share on Facebook">
-      <GeneralIcon as={FacebookIcon} {...SOCIAL_ICON_PROPS} />
-    </Box>
+    <FacebookShareButton
+      url={url}
+      aria-label="Share on Facebook"
+      className="flex max-w-full"
+    >
+      <FacebookIcon size={48} />
+    </FacebookShareButton>
   )
 }
 
-export const ShareInTwitter: React.FC<
+export const ShareOnTwitter: React.FC<
   ShareComponentProps & {
     title: string
     hashtags?: string[]
   }
 > = (props) => {
   return (
-    <Box
-      flex
-      as={TwitterShareButton}
+    <TwitterShareButton
       {...props}
       hashtags={props.hashtags || []}
       aria-label="Share on Twitter"
+      className="flex max-w-full"
     >
-      <GeneralIcon as={TwitterIcon} {...SOCIAL_ICON_PROPS} />
-    </Box>
+      <TwitterIcon size={48} />
+    </TwitterShareButton>
   )
 }
 
-ShareInTwitter.defaultProps = {
+ShareOnTwitter.defaultProps = {
   hashtags: [],
 }
 
-export const ShareInReddit: React.FC<
+export const ShareOnReddit: React.FC<
   ShareComponentProps & {
     title: string
   }
 > = ({ url, title }) => {
   return (
-    <Box
-      flex
-      as={RedditShareButton}
+    <RedditShareButton
       title={title}
       url={url}
       aria-label="Share on Reddit"
+      className="flex max-w-full"
     >
-      <GeneralIcon as={RedditIcon} {...SOCIAL_ICON_PROPS} />
-    </Box>
+      <RedditIcon size={48} />
+    </RedditShareButton>
   )
 }

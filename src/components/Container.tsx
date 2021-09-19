@@ -1,14 +1,19 @@
-import React from 'react'
-import { Box } from 'atomic-layout'
-import { BoxProps } from '@atomic-layout/core'
+import * as React from 'react'
 
-export const Container: React.FC<BoxProps> = (props) => (
-  <Box
-    width="1400px"
-    marginHorizontal="auto"
-    paddingHorizontal={1}
-    paddingHorizontalSm={2}
-    maxWidth="100%"
-    {...props}
-  />
-)
+export function Container({
+  children,
+  className,
+}: {
+  children: React.ReactNode
+  className?: string
+}): JSX.Element {
+  return (
+    <div
+      className={['mx-auto max-w-7xl px-6', className]
+        .filter(Boolean)
+        .join(' ')}
+    >
+      {children}
+    </div>
+  )
+}

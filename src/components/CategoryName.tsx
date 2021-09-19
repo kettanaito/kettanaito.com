@@ -1,10 +1,18 @@
-import styled from 'styled-components'
+import * as React from 'react'
 
-export const CategoryName = styled.span`
-  color: ${({ theme }) => theme.colors.primary};
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  line-height: 1.5;
-`
+export function CategoryName(
+  props: React.DetailedHTMLProps<
+    React.HTMLAttributes<HTMLSpanElement>,
+    HTMLSpanElement
+  >
+): JSX.Element {
+  return (
+    <span
+      {...props}
+      className={[
+        'font-semibold uppercase tracking-widest',
+        props.className,
+      ].join(' ')}
+    />
+  )
+}

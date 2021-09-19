@@ -1,17 +1,10 @@
 import React, { useEffect } from 'react'
-import styled from 'styled-components'
-import { Box, Composition } from 'atomic-layout'
 import { Container } from './Container'
 import { PostGrid } from './PostGrid'
-import { Text } from './Text'
 import { Avatar } from './Avatar'
+import { ExternalLink } from './ExternalLink'
 
-const StyledContainer = styled(Box)`
-  background-color: ${({ theme }) => theme.styles.footer.bgColor};
-  border-top: 1px solid ${({ theme }) => theme.colors.grayGhost};
-`
-
-export const TwitterWidget = () => {
+export function TwitterWidget(): JSX.Element {
   useEffect(() => {
     const anchor = document.createElement('a')
     anchor.setAttribute('class', 'twitter-follow-button')
@@ -30,48 +23,39 @@ export const TwitterWidget = () => {
   }, [])
 
   return (
-    <StyledContainer paddingVertical={4}>
+    <section className="py-20 border-t bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
       <Container>
         <PostGrid>
-          <Composition
-            templateColsMd="auto 1fr"
-            gap={2}
-            alignItems="start"
-            justifyItemsSmDown="center"
-            maxWidthSmDown="500px"
-            marginHorizontal="auto"
-          >
-            <a
-              href="https://twitter.com/kettanaito"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+          <div className="grid items-start gap-8 md:grid-flow-col-dense">
+            <ExternalLink to="https://twitter.com/kettanaito">
               <Avatar
-                src="/images/authors/kettanaito.jpg"
+                src="https://github.com/kettanaito.png"
                 alt="Artem Zakharchenko"
-                size={100}
+                size={32}
+                className="rounded-lg shadow-lg"
               />
-            </a>
+            </ExternalLink>
             <div>
-              <Text size="lead" marginBottom={0}>
-                <strong>Artem Zakharchenko</strong>
-              </Text>
-              <Text color="var(--color-gray)">@kettanaito</Text>
-              <p>
-                Hi! My name is Artem and I am a Full-stack JavaScript engineer,
-                rock-n-roll musician and medical doctor.
-              </p>
-              <p>
-                If you like my material, please consider{' '}
-                <strong>following me on Twitter</strong> to get notified when
-                new posts are published, ask me a question and stay in touch.
-              </p>
-
-              <div className="twitter-embed" />
+              <header className="mb-4">
+                <p className="text-xl font-bold">Artem Zakharchenko</p>
+                <p className="text-muted">@kettanaito</p>
+              </header>
+              <main>
+                <p>
+                  Hi! My name is Artem and I am a Full-stack JavaScript
+                  engineer, rock-n-roll musician and medical doctor. If you like
+                  my material, please consider{' '}
+                  <strong>following me on Twitter</strong> to get notified when
+                  new posts are published, ask me a question and stay in touch.
+                </p>
+                <footer className="mt-6">
+                  <div className="twitter-embed" />
+                </footer>
+              </main>
             </div>
-          </Composition>
+          </div>
         </PostGrid>
       </Container>
-    </StyledContainer>
+    </section>
   )
 }

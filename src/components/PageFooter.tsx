@@ -1,83 +1,84 @@
-import React from 'react'
-import styled from 'styled-components'
-import { Box } from 'atomic-layout'
+import * as React from 'react'
 import { Link } from 'gatsby'
 
 import { Container } from './Container'
-import { Text } from './Text'
 import { ExternalLink } from './ExternalLink'
 
-const StyledFooter = styled.footer`
-  background-color: ${({ theme }) => theme.styles.footer.bgColor};
-  border-top: 1px solid ${({ theme }) => theme.colors.grayGhost};
-  font-size: 14px;
-  color: ${({ theme }) => theme.colors.gray};
-  line-height: 1.4;
+function Delimiter(): JSX.Element {
+  return <span className="inline-block mx-2 select-none">·</span>
+}
 
-  a {
-    color: ${({ theme }) => theme.styles.footer.linkColor};
-    text-decoration: none;
+function FooterLink(
+  props: React.DetailedHTMLProps<
+    React.AnchorHTMLAttributes<HTMLAnchorElement>,
+    HTMLAnchorElement
+  >
+): JSX.Element {
+  return <a className="text-black dark:text-white" {...props} />
+}
 
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-`
+const Footer = (): JSX.Element => {
+  return (
+    <footer>
+      <Container>
+        <div className="grid items-start gap-4 py-8 border-t text-muted dark:border-gray-700 lg:grid-cols-2">
+          <div>
+            <p className="mb-1 font-semibold">
+              © {new Date().getFullYear()} Redd Developer.
+            </p>
+            <p>
+              Made by{' '}
+              <ExternalLink
+                className="text-black dark:text-white"
+                to="https://github.com/kettanaito"
+              >
+                kettanaito
+              </ExternalLink>
+              . Built with
+              {` `}
+              <ExternalLink
+                className="text-black dark:text-white"
+                to="https://www.gatsbyjs.org"
+              >
+                Gatsby
+              </ExternalLink>{' '}
+              on{' '}
+              <ExternalLink
+                className="text-black dark:text-white"
+                to="https://www.netlify.com/"
+              >
+                Netlify
+              </ExternalLink>
+              .
+            </p>
+          </div>
 
-const FooterLink = styled(ExternalLink)`
-  text-decoration: none;
-`
-
-const Delimiter = () => (
-  <Box as="span" inline marginHorizontal="8px">
-    ·
-  </Box>
-)
-
-const Footer = () => (
-  <Box as={StyledFooter} paddingVertical={1}>
-    <Container>
-      <Box
-        flex
-        alignItems="center"
-        flexDirection="column"
-        flexDirectionLg="row"
-        justifyContent="space-between"
-        paddingVertical={1}
-      >
-        <Text marginBottomLg={0}>
-          © {new Date().getFullYear()}. Made by{' '}
-          <FooterLink to="https://github.com/kettanaito">kettanaito</FooterLink>
-          . Built with
-          {` `}
-          <FooterLink to="https://www.gatsbyjs.org">Gatsby</FooterLink>.
-          Deployed with{' '}
-          <FooterLink to="https://www.netlify.com/">Netlify</FooterLink>.
-        </Text>
-
-        <Text>
-          Licensed under{' '}
-          <a
-            href="https://creativecommons.org/licenses/by-nc/4.0/"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            CC BY-NC
-          </a>
-          <Delimiter />
-          <a
-            href="https://github.com/Redd-Developer/redd.one"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            GitHub
-          </a>
-          <Delimiter />
-          <Link to="/privacy">Privacy policy</Link>
-        </Text>
-      </Box>
-    </Container>
-  </Box>
-)
+          <p className="lg:justify-self-end">
+            Licensed under{' '}
+            <FooterLink
+              href="https://creativecommons.org/licenses/by-nc/4.0/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              CC BY-NC
+            </FooterLink>
+            <Delimiter />
+            <Link className="text-black dark:text-white" to="/privacy">
+              Privacy policy
+            </Link>
+            <Delimiter />
+            <FooterLink
+              href="https://github.com/Redd-Developer/redd.one"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              GitHub
+            </FooterLink>
+          </p>
+        </div>
+      </Container>
+    </footer>
+  )
+}
 
 export default Footer

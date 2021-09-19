@@ -1,10 +1,9 @@
-import React from 'react'
+import * as React from 'react'
 import { PageProps } from 'gatsby'
 
 import { SEO } from '../components/seo'
 import { Layout } from '../components/layout'
 import { Container } from '../components/Container'
-import { Text } from '../components/Text'
 import { PostGrid } from '../components/PostGrid'
 import { Separator } from '../components/Separator'
 
@@ -15,7 +14,7 @@ const PrivacyPolicy: React.FC<PageProps> = () => (
       useTitleTemplate
       description="Open letter regarding privacy on the Redd Developer site."
     />
-    <Container paddingVertical={2} paddingVerticalMd={4}>
+    <Container className="py-16 prose">
       <PostGrid>
         <h1>Privacy policy</h1>
         <p>
@@ -44,9 +43,11 @@ const PrivacyPolicy: React.FC<PageProps> = () => (
 
         <Separator />
 
-        <Text marginTop={2}>
-          By continuing to use this resource you agree to its Privacy Policy.
-        </Text>
+        <p>
+          <strong>
+            By continuing to use this resource you agree to its Privacy Policy.
+          </strong>
+        </p>
       </PostGrid>
     </Container>
   </Layout>

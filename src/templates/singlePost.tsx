@@ -1,11 +1,9 @@
 import React, { useEffect } from 'react'
 import { graphql, navigate } from 'gatsby'
-import Image from 'gatsby-image'
 import { MDXRenderer } from 'gatsby-plugin-mdx'
 import { trackCustomEvent } from 'gatsby-plugin-google-analytics'
-import styled, { useTheme } from 'styled-components'
-import AtomicLayout, { Box, Composition, Only } from 'atomic-layout'
-import { ReactComponent as HeartIcon } from 'heroicons/dist/outline-md/md-heart.svg'
+import { useTheme } from 'styled-components'
+import { HeartIcon } from '@heroicons/react/outline'
 
 import { Layout } from '../components/layout'
 import { MdxProvider } from '../components/MdxProvider'
@@ -25,97 +23,54 @@ import { GhostButton } from '../components/GhostButton'
 import { PostContext } from '../components/PostContext'
 import { useLocalStorage } from '../hooks/useLocalStorage'
 import { usePostViews } from '../hooks/usePostViews'
-
-const PostTitle = styled.h1`
-  text-transform: capitalize;
-
-  @media (min-width: ${AtomicLayout.breakpoints.sm.minWidth}) {
-    text-align: center;
-  }
-`
-
-const MetaInfo = styled.aside`
-  color: ${({ theme }) => theme.colors.gray};
-  line-height: 1.2;
-  font-weight: 500;
-`
-
-const MetaItemDelimiter = styled(Box)`
-  opacity: 0.5;
-
-  &:before {
-    content: '/';
-  }
-`
+import { Author } from '../components/Author'
 
 const Heart = (props) => {
   return <HeartIcon width="1.25em" {...props} />
 }
 
-const PostHeader = ({ post }) => {
+const PostHeader = ({ post }): JSX.Element => {
   const { frontmatter, timeToRead } = post
   const theme = useTheme()
   const { likesCount, hasLike, addLike } = useLikes(frontmatter.id)
 
   return (
-    <Box
-      as="header"
-      flexDirection="column"
-      alignItems="center"
-      marginBottom={2.5}
-      marginBottomMd={3.5}
-    >
-      <Box
-        flex
-        as={CategoryName}
-        justifyContent="center"
-        marginBottom={2}
-        marginBottomMd={3}
-      >
+    <header className="mb-16">
+      <CategoryName className="block mb-10 text-red-600 md:text-center">
         {frontmatter.category}
-      </Box>
-      <PostTitle>{frontmatter.title}</PostTitle>
+      </CategoryName>
 
-      <Composition
-        as={MetaInfo}
-        alignItems="center"
-        justifyContent="center"
-        template={`
-          date date
-          meta likes
-          / auto 1fr
-        `}
-        templateSm="date meta likes"
-        gap={0.5}
-        gapSm={1}
-      >
-        {(Areas) => (
-          <>
-            <Areas.Date>
-              <Label>{frontmatter.date}</Label>
-            </Areas.Date>
-            <Areas.Meta flex alignItems="center">
-              <Only as={MetaItemDelimiter} from="sm" marginRight={1} />
-              <Label>{timeToRead} min. read</Label>
-            </Areas.Meta>
-            <Areas.Likes flex alignItems="center">
-              <MetaItemDelimiter marginRight={0.5} marginRightSm={1} />
-              {likesCount > 0 && <Label marginRight="4px">{likesCount}</Label>}
-              {hasLike ? (
-                <Heart
-                  stroke={theme.colors.primary}
-                  fill={theme.colors.primary}
-                />
-              ) : (
-                <GhostButton aria-label="Like this post" onClick={addLike}>
-                  <Heart stroke={theme.colors.primary} />
-                </GhostButton>
-              )}
-            </Areas.Likes>
-          </>
-        )}
-      </Composition>
-    </Box>
+      <h1 className="mb-5 text-6xl font-black tracking-tight md:text-center">
+        {frontmatter.title}
+      </h1>
+
+      <div className="flex items-center space-x-3 font-semibold text-gray-500 dark:text-gray-400 md:space-x-5 md:justify-center">
+        <Label>{frontmatter.date}</Label>
+        <span className="text-sm select-none text-muted">{'/'}</span>
+        <Label>{timeToRead} min. read</Label>
+        <span className="text-sm select-none text-muted">{'/'}</span>
+        <div className="flex items-center">
+          {likesCount > 0 ? <span className="mr-1">{likesCount}</span> : null}
+          {hasLike ? (
+            <Heart stroke={theme.colors.primary} fill="text-red-200" />
+          ) : (
+            <GhostButton aria-label="Like this post" onClick={addLike}>
+              <Heart stroke={theme.colors.primary} />
+            </GhostButton>
+          )}
+        </div>
+      </div>
+
+      <div className="flex mt-16 md:justify-center">
+        <Author
+          name="Artem Zakharchenko"
+          imageUrl="https://github.com/kettanaito.png"
+          description="Software engineer"
+          githubHandle="kettanaito"
+          twitterHandle="kettanaito"
+        />
+      </div>
+    </header>
   )
 }
 
@@ -146,22 +101,21 @@ function PostDetail({ location, data }) {
             markLiked: () => setLikeState('true'),
           }}
         >
-          <Container paddingVertical={2} paddingVerticalMd={4}>
+          <Container className="py-20">
             <PostGrid>
               <PostHeader post={post} />
 
-              <Box marginBottom={2}>
+              <div className="mb-16">
                 <Thumbnail
-                  as={Image}
                   fluid={frontmatter.image.childImageSharp.fluid}
                   alt={frontmatter.title}
                 />
-              </Box>
+              </div>
 
               {/* Post content */}
-              <Box as={InnerGrid}>
+              <InnerGrid className="leading-7 prose content max-w-none prose-red dark:text-gray-300">
                 <MDXRenderer>{post.body}</MDXRenderer>
-              </Box>
+              </InnerGrid>
             </PostGrid>
           </Container>
 
@@ -179,13 +133,11 @@ function PostDetail({ location, data }) {
           {similarPosts?.edges?.length > 0 && (
             <>
               <Separator />
-              <Container marginVertical={4}>
-                <Box as="h3" flex justifyContent="center">
+              <Container className="py-20">
+                <h2 className="mt-0 font-extrabold text-center mb-14">
                   Articles You May Enjoy
-                </Box>
-                <Box marginTop={3}>
-                  <PostList posts={similarPosts.edges} />
-                </Box>
+                </h2>
+                <PostList posts={similarPosts.edges} />
               </Container>
             </>
           )}

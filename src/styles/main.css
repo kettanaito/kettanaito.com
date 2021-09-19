@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import './components.css';
+
+::selection {
+  @apply bg-red-500;
+  @apply bg-opacity-30;
+
+  @apply dark:bg-red-500;
+  @apply dark:bg-opacity-30;
+}
+
+body {
+  @apply dark:bg-gray-900;
+  @apply dark:text-gray-100;
+}
+
+.text-muted {
+  @apply text-gray-500;
+  @apply dark:text-gray-400;
+}

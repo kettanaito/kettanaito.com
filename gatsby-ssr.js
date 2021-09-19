@@ -5,5 +5,3 @@
  */
 require('dotenv').config()
 require('firebase/database')
-
-exports.onPreRenderHTML = require('./gatsby/gatsby-ssr/onPreRenderHTML').onPreRenderHTML

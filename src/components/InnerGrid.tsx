@@ -1,10 +1,10 @@
-import React from 'react'
-import { Box } from 'atomic-layout'
+import * as React from 'react'
 
-export const InnerGrid: React.FC = ({ children, ...props }) => {
-  return (
-    <Box paddingHorizontalSm={1} paddingHorizontalMd={2} {...props}>
-      {children}
-    </Box>
-  )
+export function InnerGrid(
+  props: React.DetailedHTMLProps<
+    React.HTMLAttributes<HTMLDivElement>,
+    HTMLDivElement
+  >
+): JSX.Element {
+  return <div className="px-4" {...props} />
 }

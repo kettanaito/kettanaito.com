@@ -1,23 +1,25 @@
-import React from 'react'
-import styled from 'styled-components'
-import { GoLinkExternal } from 'react-icons/go'
+import * as React from 'react'
+import { ExternalLinkIcon, DocumentTextIcon } from '@heroicons/react/solid'
 
-const Icon = styled(GoLinkExternal)`
-  margin-left: 0.2em;
-  vertical-align: middle;
-`
+interface LinkProps
+  extends React.DetailedHTMLProps<
+    React.AnchorHTMLAttributes<HTMLAnchorElement>,
+    HTMLAnchorElement
+  > {}
 
-type LinkProps = React.DetailedHTMLProps<
-  React.AnchorHTMLAttributes<HTMLAnchorElement>,
-  HTMLAnchorElement
->
-
-export const Link: React.FC<LinkProps> = (props) => {
+export function Link(props: LinkProps): JSX.Element {
   const isExternal = /^https?:\/\//.test(props.href)
+  const isLocalArticle = props.href.startsWith('/blog')
+
   return (
-    <a {...props} target={isExternal && '_blank'}>
+    <a {...props} target={isExternal ? '_blank' : undefined}>
+      {isLocalArticle && (
+        <DocumentTextIcon className="inline w-4 align-text-bottom" />
+      )}
       {props.children}
-      {isExternal && <Icon size={14} />}
+      {isExternal && (
+        <ExternalLinkIcon className="inline ml-0.5 w-4 align-text-bottom" />
+      )}
     </a>
   )
 }

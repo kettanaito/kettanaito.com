@@ -1,0 +1,55 @@
+h1 {
+  @apply capitalize;
+}
+
+.content a {
+  @apply text-red-600;
+  @apply font-medium;
+}
+
+.prose .lead-blockquote {
+  @apply my-16;
+  @apply px-0;
+  @apply pb-2;
+  @apply text-2xl;
+  @apply italic;
+  @apply font-medium;
+  @apply leading-9;
+  @apply tracking-tight;
+  @apply border-none;
+  @apply text-center;
+
+  @apply md:px-10;
+}
+
+.prose .lead-blockquote::after {
+  @apply block;
+  @apply rounded-full;
+  @apply bg-red-600;
+  @apply w-32;
+  @apply mx-auto;
+  @apply mt-8;
+
+  content: '';
+  height: 2px;
+}
+
+.content .github-repo {
+  @apply flex;
+  @apply items-start;
+  @apply gap-2;
+  @apply px-4;
+  @apply py-6;
+  @apply no-underline;
+  @apply transition-colors;
+  @apply rounded-lg;
+  @apply bg-gray-900;
+  @apply text-gray-300;
+  @apply hover:bg-gray-700;
+}
+
+.content .github-repo p:first-child {
+  @apply mt-0;
+  @apply mb-1;
+  @apply text-white;
+}

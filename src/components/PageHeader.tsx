@@ -1,101 +1,48 @@
-import React from 'react'
+import * as React from 'react'
 import { Link } from 'gatsby'
 import { useLocation } from '@reach/router'
-import styled from 'styled-components'
-import { Composition, Box } from 'atomic-layout'
 import { Container } from './Container'
-import { CategoryName } from './CategoryName'
-import { ReactComponent as ArrowLeft } from 'heroicons/dist/outline-md/md-arrow-left.svg'
+import { ArrowLeftIcon } from '@heroicons/react/outline'
 import LogoIcon from '../images/logo.svg'
 import { ThemeSwitch } from './ThemeSwitch'
-
-const HeaderContainer = styled.header`
-  background-color: ${({ theme }) => theme.colors.grayDim};
-  border-bottom: 1px solid ${({ theme }) => theme.colors.grayGhost};
-  color: ${({ theme }) => theme.styles.header.color};
-  z-index: 10;
-
-  a {
-    color: ${({ theme }) => theme.styles.header.linkColor};
-    text-decoration: none;
-  }
-
-  ${CategoryName} {
-    color: inherit;
-  }
-`
-
-const NavBackLink = styled(Link)`
-  svg {
-    fill: currentColor;
-    transition: transform 0.2s ease;
-  }
-
-  &:hover svg {
-    transform: translateX(-5px);
-  }
-`
-
-const LogoImage = styled.img`
-  display: block;
-  margin: 0;
-  height: auto;
-  width: 48px;
-  transition: opacity 0.2s, transform 0.2s ease;
-  user-select: none;
-
-  &:hover {
-    opacity: 0.75;
-  }
-
-  &:active {
-    transform: scale(0.9);
-  }
-`
 
 interface HeaderProps {
   siteTitle?: string
 }
 
-const Header: React.FC<HeaderProps> = ({ siteTitle }) => {
+function Header({ siteTitle }: HeaderProps): JSX.Element {
   const location = useLocation()
-  const isPostPage = location.pathname.startsWith('/blog/')
+  const isPostDetailPage = location.pathname.startsWith('/blog/')
 
   return (
-    <HeaderContainer>
-      <Container>
-        <Composition
-          templateCols="repeat(3, 1fr)"
-          alignItems="center"
-          justifyContent="space-between"
-          paddingVertical={1}
-        >
-          <Box flex alignItems="center">
-            {isPostPage && (
-              <Composition
-                as={NavBackLink}
-                to="/"
-                inline
-                templateCols="auto 1fr"
-                alignItems="center"
-                gap={0.5}
-              >
-                <ArrowLeft width={16} />
-                <CategoryName>Home</CategoryName>
-              </Composition>
-            )}
-          </Box>
-          <Box justify="center">
-            <Link to="/">
-              <LogoImage src={LogoIcon} alt={siteTitle} />
+    <header className="sticky top-0 z-10 border-b bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+      <Container className="grid items-center grid-cols-3 py-4 text-gray-500 dark:text-gray-400">
+        <div>
+          {isPostDetailPage ? (
+            <Link
+              to="/"
+              className="inline-flex items-center gap-2 text-sm text-gray-500 group dark:text-gray-400 hover:text-black dark:hover:text-white"
+            >
+              <ArrowLeftIcon
+                width={14}
+                className="transition-transform transform group-hover:-translate-x-1"
+              />
+              <p className="font-semibold tracking-widest uppercase">Home</p>
             </Link>
-          </Box>
-          <Box flex justify="flex-end">
-            <ThemeSwitch />
-          </Box>
-        </Composition>
+          ) : null}
+        </div>
+        <Link to="/" className="justify-self-center">
+          <img
+            src={LogoIcon}
+            alt={siteTitle}
+            className="w-10 transition-transform transform hover:shadow-lg hover:-translate-y-1 active:translate-y-0 active:shadow-md"
+          />
+        </Link>
+        <div className="justify-self-end">
+          <ThemeSwitch />
+        </div>
       </Container>
-    </HeaderContainer>
+    </header>
   )
 }
 

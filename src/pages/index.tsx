@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react'
-import { Composition } from 'atomic-layout'
 import { PageProps, graphql } from 'gatsby'
 
 import { Layout } from '../components/layout'
@@ -10,7 +9,7 @@ import { HeroPostItem } from '../components/PostItem'
 import { PageShare } from '../components/PageShare'
 import { Separator } from '../components/Separator'
 
-const IndexPage: React.FC<PageProps<{ postList: any }>> = ({ data }) => {
+const FrontPage: React.FC<PageProps<{ postList: any }>> = ({ data }) => {
   const { edges } = data.postList
 
   const [firstPost, restPosts] = useMemo(() => {
@@ -32,8 +31,8 @@ const IndexPage: React.FC<PageProps<{ postList: any }>> = ({ data }) => {
           'blog',
         ]}
       />
-      <Container paddingVertical={4}>
-        <Composition gap={5}>
+      <Container className="py-20">
+        <div className="space-y-16">
           <HeroPostItem
             url={firstPost.node.fields.url}
             title={firstPost.node.frontmatter.title}
@@ -44,9 +43,9 @@ const IndexPage: React.FC<PageProps<{ postList: any }>> = ({ data }) => {
           />
           <Separator />
           <PostList posts={restPosts} />
-        </Composition>
+        </div>
       </Container>
-      <PageShare url="foo" />
+      <PageShare />
     </Layout>
   )
 }
@@ -66,4 +65,4 @@ export const query = graphql`
   }
 `
 
-export default IndexPage
+export default FrontPage

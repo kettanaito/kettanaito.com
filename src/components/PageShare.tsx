@@ -1,13 +1,10 @@
-import React from 'react'
+import * as React from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
-import styled from 'styled-components'
-import { Composition } from 'atomic-layout'
 import { Container } from './Container'
-import { Text } from './Text'
-import { ShareInFacebook, ShareInTwitter, ShareInReddit } from './SocialLinks'
+import { ShareOnFacebook, ShareOnTwitter, ShareOnReddit } from './SocialLinks'
 
-const GET_WEBSITE_DETAILS = graphql`
-  query GetWebsiteDetails {
+const GET_SITE_METADATA = graphql`
+  query GetSiteMetadata {
     site {
       siteMetadata {
         siteUrl
@@ -18,56 +15,33 @@ const GET_WEBSITE_DETAILS = graphql`
   }
 `
 
-const PageShareContainer = styled.section`
-  border-top: 1px solid ${({ theme }) => theme.colors.grayLight};
-`
-
-const Heading = styled.h2`
-  margin-top: 0;
-`
-
-interface PageShareProps {
-  url: string
-}
-
-export const PageShare: React.FC<PageShareProps> = ({ url }) => {
-  const data = useStaticQuery(GET_WEBSITE_DETAILS)
+export function PageShare(): JSX.Element {
+  const data = useStaticQuery(GET_SITE_METADATA)
   const { siteUrl, title, author } = data.site.siteMetadata
 
   return (
-    <PageShareContainer>
+    <section className="border-t dark:border-gray-700">
       <Container>
-        <Composition
-          templateColsMd="repeat(2, 1fr)"
-          alignItems="center"
-          paddingVertical={4}
-          gap={4}
-        >
-          <div>
-            <Heading>Enjoyed reading?</Heading>
-            <Text sizeVariant="lead">
+        <div className="grid items-center gap-10 py-20 md:grid-cols-2">
+          <aside>
+            <h3 className="mt-0">Enjoyed reading?</h3>
+            <p className="text-lg text-muted">
               This is an uncommercial blog. The only goal it has is spreading
-              knowledge. Please, consider sharing this with your friends.{' '}
-              <strong>Thank you</strong>.
-            </Text>
-          </div>
-          <Composition
-            inline
-            templateCols="repeat(3, 64px)"
-            gap={1.5}
-            justifyContent="flex-end"
-            justifyMdDown="center"
-          >
-            <ShareInTwitter
+              knowledge. Please, consider{' '}
+              <strong>sharing this with your friends</strong>. Thank you.
+            </p>
+          </aside>
+          <div className="flex items-center gap-4 md:justify-end">
+            <ShareOnTwitter
               url={siteUrl}
-              title={`So I've found this blog and it's awesome! Check out Redd Developer by ${author}`}
-              hashtags={['redd', 'blog', 'javascript', 'programming']}
+              title={`Check out the Redd Developer blog by ${author}!`}
+              hashtags={['javascript', 'programming', 'blog']}
             />
-            <ShareInFacebook url={siteUrl} />
-            <ShareInReddit url={siteUrl} title={title} />
-          </Composition>
-        </Composition>
+            <ShareOnFacebook url={siteUrl} />
+            <ShareOnReddit url={siteUrl} title={title} />
+          </div>
+        </div>
       </Container>
-    </PageShareContainer>
+    </section>
   )
 }

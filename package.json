@@ -21,9 +21,11 @@
     }
   },
   "dependencies": {
+    "@heroicons/react": "^1.0.4",
     "@mdx-js/mdx": "^1.5.7",
     "@mdx-js/react": "^1.5.7",
     "@svgr/webpack": "^5.3.0",
+    "@tailwindcss/typography": "^0.4.1",
     "atomic-layout": "^0.13.0",
     "babel-plugin-styled-components": "^1.10.7",
     "expo-cli": "^3.17.15",
@@ -45,7 +47,6 @@
     "gatsby-remark-prismjs": "^3.4.1",
     "gatsby-source-filesystem": "^2.2.2",
     "gatsby-transformer-sharp": "^2.4.2",
-    "heroicons": "^0.1.0",
     "prismjs": "^1.19.0",
     "prop-types": "^15.7.2",
     "ramda": "^0.27.0",
@@ -63,12 +64,16 @@
     "@types/react": "^16.9.25",
     "@types/react-dom": "^16.9.5",
     "@types/styled-components": "^5.0.1",
+    "autoprefixer": "^10.3.4",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
+    "gatsby-plugin-postcss": "^4.14.0",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.11",
+    "postcss": "^8.3.6",
     "prettier": "^2.0.2",
     "recompose": "^0.30.0",
+    "tailwindcss": "^2.2.15",
     "ts-node": "^8.8.1",
     "typescript": "^3.8.3"
   }

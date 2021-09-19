@@ -1,6 +1,5 @@
-import React from 'react'
+import * as React from 'react'
 import { graphql } from 'gatsby'
-import { Composition } from 'atomic-layout'
 
 import { PostItem } from './PostItem'
 
@@ -26,20 +25,10 @@ export const PostPreviewFragment = graphql`
   }
 `
 
-export const PostList = ({ posts }) => {
+export function PostList({ posts }) {
   return (
-    <Composition
-      templateCols="1fr"
-      templateColsMd="repeat(2, 1fr)"
-      templateColsXl="repeat(3, 1fr)"
-      justifyContent="center"
-      gap={4}
-      gapMdOnly={2}
-      widthSmOnly="500px"
-      maxWidth="100%"
-      marginHorizontalSmDown="auto"
-    >
-      {posts.map(({ node }, index) => (
+    <div className="grid max-w-lg mx-auto md:grid-cols-2 lg:grid-cols-3 gap-x-6 xl:gap-x-10 gap-y-20 md:max-w-full">
+      {posts.map(({ node }) => (
         <PostItem
           key={node.id}
           url={node.fields.url}
@@ -50,6 +39,6 @@ export const PostList = ({ posts }) => {
           date={node.frontmatter.date}
         />
       ))}
-    </Composition>
+    </div>
   )
 }

@@ -1,17 +1,18 @@
-import styled from 'styled-components'
+import * as React from 'react'
 
-interface AvatarProps {
-  size?: number
-}
-
-export const Avatar = styled.img<AvatarProps>`
-  display: flex;
-  margin: 0;
-  border-radius: 50%;
-  height: ${({ size }) => size}px;
-  width: ${({ size }) => size}px;
-`
-
-Avatar.defaultProps = {
-  size: 60,
+export function Avatar({
+  size = 50,
+  ...props
+}: React.DetailedHTMLProps<
+  React.ImgHTMLAttributes<HTMLImageElement>,
+  HTMLImageElement
+> & { size?: number }): JSX.Element {
+  return (
+    <img
+      {...props}
+      className={[`flex m-0 w-${size} h-${size}`, props.className]
+        .filter(Boolean)
+        .join(' ')}
+    />
+  )
 }

@@ -78,5 +78,6 @@ module.exports = {
     `gatsby-plugin-offline`,
     `gatsby-plugin-typescript`,
     `gatsby-plugin-svgr`,
+    `gatsby-plugin-postcss`,
   ],
 }

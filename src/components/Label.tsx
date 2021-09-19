@@ -1,13 +1,10 @@
-import styled from 'styled-components'
-import { Box } from 'atomic-layout'
-import { BoxProps } from '@atomic-layout/core'
+import * as React from 'react'
 
-export const Label: React.FC<BoxProps> = styled(Box)`
-  font-weight: 500;
-  color: ${({ theme }) => theme.colors.gray};
-  line-height: 1.4;
-`
-
-Label.defaultProps = {
-  as: 'span',
+export function Label(
+  props: React.DetailedHTMLProps<
+    React.HTMLAttributes<HTMLSpanElement>,
+    HTMLSpanElement
+  >
+): JSX.Element {
+  return <span {...props} />
 }

@@ -1,4 +1,16 @@
 require('firebase/database')
-const setUpLayout = require('./setUpLayout')
+require('./src/styles/main.css')
 
-setUpLayout()
+function initDarkMode() {
+  const localPreference = localStorage.getItem('theme-mode')
+  if (
+    localPreference === 'dark' ||
+    (!('theme' in localStorage) &&
+      window.matchMedia('(prefers-color-scheme: dark)').matches)
+  ) {
+    document.documentElement.classList.add('dark')
+  } else {
+    document.documentElement.classList.remove('dark')
+  }
+}
+initDarkMode()

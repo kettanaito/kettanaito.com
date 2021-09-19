@@ -1,12 +1,11 @@
-import React from 'react'
+import * as React from 'react'
 import styled, { css } from 'styled-components'
-import { Composition } from 'atomic-layout'
-import { ReactComponent as Heart } from 'heroicons/dist/outline-md/md-heart.svg'
+import { HeartIcon } from '@heroicons/react/outline'
 import { Container } from './Container'
 import { InnerGrid } from './InnerGrid'
 import { PostGrid } from './PostGrid'
 import { Separator } from './Separator'
-import { ShareInTwitter, ShareInFacebook, ShareInReddit } from './SocialLinks'
+import { ShareOnTwitter, ShareOnFacebook, ShareOnReddit } from './SocialLinks'
 import { useLikes } from '../hooks/useLikes'
 
 interface PostShareProps {
@@ -16,17 +15,7 @@ interface PostShareProps {
   hashtags?: string[]
 }
 
-const LikeButton = styled.button`
-  background-color: ${({ theme }) => theme.colors.primary};
-  color: #fff;
-  width: 100%;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`
-
-const HeartIcon = styled(Heart)<{ isLiked: boolean }>`
+const StyledHeartIcon = styled(HeartIcon)<{ isLiked: boolean }>`
   ${({ isLiked }) =>
     isLiked &&
     css`
@@ -55,14 +44,17 @@ const HeartIcon = styled(Heart)<{ isLiked: boolean }>`
 
 const PostLikeButton: React.FC<{ postId: string; postTitle: string }> = ({
   postId,
-  postTitle,
 }) => {
-  const { hasLike, addLike } = useLikes(postId, postTitle)
+  const { hasLike, addLike } = useLikes(postId)
 
   return (
-    <LikeButton aria-label="Like this post" onClick={addLike}>
-      <HeartIcon isLiked={hasLike} width={32} stroke="currentColor" />
-    </LikeButton>
+    <button
+      className="flex items-center justify-center w-full h-12 text-white bg-red-600"
+      aria-label="Like this post"
+      onClick={addLike}
+    >
+      <StyledHeartIcon isLiked={hasLike} width={32} stroke="currentColor" />
+    </button>
   )
 }
 
@@ -78,25 +70,20 @@ export const PostShare: React.FC<PostShareProps> = ({
         <InnerGrid>
           <Separator />
         </InnerGrid>
-        <Composition
-          templateCols="repeat(3, 1fr)"
-          templateRowsDown="repeat(2, 1fr)"
-          templateColsSm="1fr repeat(3, auto)"
-          gap={1.5}
-          paddingVertical={2}
-          paddingVerticalMd={4}
-        >
-          <Composition colDown="1 / span 3">
+        <div className="flex flex-wrap justify-between w-full gap-5 py-16">
+          <div className="flex-grow min-w-full sm:min-w-min">
             <PostLikeButton postId={id} postTitle={title} />
-          </Composition>
-          <ShareInTwitter url={url} title={title} hashtags={hashtags} />
-          <Composition justifyDown="center">
-            <ShareInFacebook url={url} />
-          </Composition>
-          <Composition justifyDown="flex-end">
-            <ShareInReddit url={url} title={title} />
-          </Composition>
-        </Composition>
+          </div>
+          <div className="col-span-4 md:col-span-1">
+            <ShareOnTwitter url={url} title={title} hashtags={hashtags} />
+          </div>
+          <div className="col-span-4 md:col-span-1 justify-self-center">
+            <ShareOnFacebook url={url} />
+          </div>
+          <div className="col-span-4 md:col-span-1 justify-self-end">
+            <ShareOnReddit url={url} title={title} />
+          </div>
+        </div>
       </PostGrid>
     </Container>
   )

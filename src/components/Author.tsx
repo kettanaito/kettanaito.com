@@ -1,7 +1,5 @@
-import React from 'react'
-import styled from 'styled-components'
-import { Box, Composition } from 'atomic-layout'
-import { IoLogoTwitter, IoLogoGithub, IoLogoLinkedin } from 'react-icons/io'
+import * as React from 'react'
+import { IoLogoTwitter, IoLogoGithub } from 'react-icons/io'
 import { Avatar } from './Avatar'
 import { ExternalLink } from './ExternalLink'
 
@@ -11,84 +9,43 @@ interface AuthorProps {
   imageUrl: string
   githubHandle: string
   twitterHandle?: string
-  imageSize?: number
 }
 
-const AuthorContainer = styled.div`
-  a {
-    color: ${({ theme }) => theme.colors.gray};
-  }
-
-  a:hover {
-    color: ${({ theme }) => theme.colors.grayDark};
-  }
-`
-
-const AvatarConatiner = styled.div`
-  position: relative;
-`
-
-const AuthorName = styled.p`
-  margin: 0;
-  font-weight: bold;
-`
-
-const AuthorDescription = styled.div`
-  color: ${({ theme }) => theme.colors.gray};
-  font-size: 14px;
-  line-height: 1.25;
-`
-
-export const Author: React.FC<AuthorProps> = ({
+export function Author({
   name,
   description,
   imageUrl,
   githubHandle,
   twitterHandle,
-  imageSize,
-}) => {
+}: AuthorProps) {
   return (
-    <Composition
-      as={AuthorContainer}
-      templateCols="auto 1fr"
-      alignItems="center"
-      gap={12 / 16}
-    >
-      <AvatarConatiner>
-        <Avatar src={imageUrl} alt={name} size={imageSize} />
-        {/* <StyledHalfCircle as={HalfCircle} height={imageSize} /> */}
-      </AvatarConatiner>
+    <div className="flex items-center gap-3">
+      <Avatar src={imageUrl} alt={name} size={10} className="shadow-md" />
       <div>
-        <AuthorName>{name}</AuthorName>
-        <Box as={AuthorDescription} flex alignItems="center" marginTop="-6px">
+        <p className="font-bold">{name}</p>
+        <div className="flex items-center text-sm text-muted">
           <span>{description}</span>
-          <Box as="span" marginLeft={1} marginRight={0.25}>
-            ·
-          </Box>
-          <Box flex alignItems="center">
+          <span className="mx-3">·</span>
+          <div className="flex items-center space-x-2.5">
+            <ExternalLink
+              to={`https://github.com/${githubHandle}`}
+              aria-label="GitHub profile"
+              className="hover:text-black dark:hover:text-white"
+            >
+              <IoLogoGithub role="img" size={20} />
+            </ExternalLink>
             {twitterHandle && (
-              <Box flex>
-                <ExternalLink
-                  to="https://twitter.com/kettanaito"
-                  focusSize={0.75}
-                  aria-label="Twitter profile"
-                >
-                  <IoLogoTwitter role="img" size={20} />
-                </ExternalLink>
-              </Box>
-            )}
-            <Box flex>
               <ExternalLink
-                to={`https://github.com/${githubHandle}`}
-                focusSize={0.75}
-                aria-label="GitHub profile"
+                to="https://twitter.com/kettanaito"
+                aria-label="Twitter profile"
+                className="hover:text-black dark:hover:text-white"
               >
-                <IoLogoGithub role="img" size={20} />
+                <IoLogoTwitter role="img" size={20} />
               </ExternalLink>
-            </Box>
-          </Box>
-        </Box>
+            )}
+          </div>
+        </div>
       </div>
-    </Composition>
+    </div>
   )
 }
