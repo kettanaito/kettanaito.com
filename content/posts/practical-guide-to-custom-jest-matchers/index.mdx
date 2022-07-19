@@ -122,10 +122,14 @@ expect(5).not.toBeWithinRange([3, 5])
 
 For our matcher, `5` is indeed within the given range of `[3, 5]`, so it will return `{ pass: true }`. But it's the `.not.` chain that makes this assertion inverted, flipping it upside down. Jest knows that inverse matches must return `{ pass: false }`, and whenever that's not the case, it will print the `message` that we've defined for that case. And that is why we still return a message when the matcher passes, and why that message says that "the number must _not_ be within range".
 
-The final touch is to let TypeScript know that we've just extended a globally exposed function of a third-party library. To do that, create a `jest.d.ts` file and extend `jest.Matchers` there:
+The final touch is to let TypeScript know that we've just extended a globally exposed function of a third-party library. To do that, create a `jest.d.ts` file and extend `jest.Matchers` and `jest.ExpectExtendMap` interfaces there:
 
 ```ts
-import { MatcherFunction } from 'expect'
+type OwnMatcher<Params extends unknown[]> = (
+  this: jest.MatcherContext,
+  actual: unknown,
+  ...params: Params
+) => jest.CustomMatcherResult
 
 declare global {
   namespace jest {
@@ -137,15 +141,13 @@ declare global {
     }
 
     interface ExpectExtendMap {
-		// Here, we're describing the call signature of our
+      // Here, we're describing the call signature of our
       // matcher for the "expect.extend()" call.
-      toBeWithinRange: MatcherFunction<[min: number, max: number]>
-	  }
+      toBeWithinRange: OwnMatcher<[min: number, max: number]>
+    }
   }
 }
 ```
-
-There's a handy `MatcherFunction` type exported from the "expect" package (this is the actual "expect" Jest exposes for us globally) that simplifies annotation of custom matcher declarations. The type itself is a generic that accepts a list of custom matcher's arguments. In the example above, we've described our matcher as a function that has two arguments: `min` and `max`—both of type `number`.
 
 Also, let's make sure that this definition is included in `tsconfig.json`:
 
