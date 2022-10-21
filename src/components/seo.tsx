@@ -58,6 +58,12 @@ export const SEO: React.FC<SEOProps> = ({
               <meta name="keywords" content={keywords.join()} />
             )}
             {isDraft && <meta name="robots" content="noindex,nofollow" />}
+            <link
+              rel="alternate"
+              href="/rss.xml"
+              type="application/rss+xml"
+              title={`${data.site.siteMetadata.title} RSS Feed`}
+            />
 
             {/* OpenGraph */}
             <meta property="og:type" content={type} />

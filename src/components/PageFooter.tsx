@@ -74,6 +74,8 @@ const Footer = () => (
           </a>
           <Delimiter />
           <Link to="/privacy">Privacy policy</Link>
+          <Delimiter />
+          <Link to="/rss.xml">RSS</Link>
         </Text>
       </Box>
     </Container>
