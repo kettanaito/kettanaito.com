@@ -25,8 +25,15 @@ export default function About({ featuredPosts }: Props): JSX.Element {
     <>
       <Seo
         title="Redd"
-        description="Artem Zakharchenko's personal blog"
-        keywords={['redd', 'kettanaito', 'blog']}
+        description="Artem Zakharchenko's personal blog."
+        keywords={[
+          'redd',
+          'kettanaito',
+          'blog',
+          'engineering',
+          'articles',
+          'learning',
+        ]}
       />
 
       <Container className="my-20 lg:my-32">
