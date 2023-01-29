@@ -5,24 +5,6 @@ import { Header } from '../components/header'
 import { Footer } from '../components/footer'
 import { TransitionContainer } from '../components/transitionContainer'
 
-async function pruneWorkers() {
-  const worker = await navigator.serviceWorker.getRegistration()
-
-  if (worker) {
-    await worker.unregister()
-    location.reload()
-  }
-}
-
-/**
- * Prune any residual worker registrations because I used to
- * use Gatsby's PWA plugin and it left a worker behind,
- * loading the stale version of the website.
- */
-if (typeof window !== 'undefined') {
-  pruneWorkers()
-}
-
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
