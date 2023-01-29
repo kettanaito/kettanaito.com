@@ -11,6 +11,7 @@
 
 - [Next.js](https://nextjs.org/) as the front-end framework;
 - [MDX](https://mdxjs.com/) for post content.
+- [Tailwind](https://tailwindcss.com/) for styling.
 
 ## About the author
 
