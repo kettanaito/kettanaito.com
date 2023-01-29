@@ -1,0 +1,221 @@
+@font-face {
+  font-family: 'Mono Lisa';
+  font-style: italic;
+  src: url('/fonts/MonoLisaVariableItalic.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Mono Lisa';
+  font-style: normal;
+  src: url('/fonts/MonoLisaVariableNormal.woff2') format('woff2');
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+::selection {
+  @apply bg-gray-300 text-black;
+}
+
+.pattern {
+  position: absolute;
+  background: url('/pattern.png') repeat;
+  background-size: 25px;
+  top: 0;
+}
+
+html {
+  @apply bg-white overflow-x-hidden text-gray-800;
+}
+
+/* Typography */
+h1 {
+  @apply tracking-tight;
+}
+h2 {
+  @apply mb-6 text-3xl font-bold tracking-tight;
+}
+
+h3 {
+  @apply mb-4 text-2xl font-bold tracking-tight;
+}
+
+h4 {
+  @apply mb-2 text-xl font-bold;
+}
+
+main p {
+  @apply text-gray-700;
+}
+
+main p + p {
+  @apply mt-6;
+}
+
+main h2 {
+  @apply mt-16;
+}
+
+main h3 {
+  @apply mt-12;
+}
+
+main ul {
+  @apply my-6;
+  list-style: none;
+  list-style-position: inside;
+}
+.post-content ul li::marker {
+  content: '—\00a0\00a0';
+  @apply text-gray-400;
+}
+
+.post-content li + li {
+  @apply mt-2.5;
+}
+
+main ol {
+  @apply my-6;
+  list-style: decimal;
+  list-style-position: inside;
+}
+main ol li::marker {
+  @apply text-gray-400;
+}
+
+.post-content img {
+  @apply my-10;
+}
+
+.post-content a {
+  @apply text-black underline font-medium hover:text-slate-600;
+}
+
+hr {
+  @apply my-16 border-slate-200;
+}
+
+a code {
+  @apply border-b-gray-400;
+  @apply hover:bg-black hover:text-white hover:border-black;
+}
+
+.button {
+  @apply inline-block bg-gray-900 text-white rounded-full font-medium text-lg hover:bg-gray-700 transition-colors select-none;
+}
+
+.button-base {
+  @apply px-4 py-2;
+}
+
+/* Blockquote */
+blockquote {
+  @apply my-5 pl-5 py-2 text-gray-500 font-medium border-l-4 border-black overflow-x-auto;
+}
+
+blockquote p {
+  color: inherit;
+}
+
+.blockquote {
+  @apply relative text-3xl font-semibold my-16 p-5 lg:p-16 lg:text-right leading-10;
+}
+
+.blockquote:after {
+  position: absolute;
+  content: '';
+  background: url('/pattern.png') repeat;
+  top: 0;
+  right: 0;
+  width: 100px;
+  height: 100%;
+  opacity: 0.15;
+}
+
+.blockquote figcaption {
+  @apply inline-block mt-8 text-xl font-medium text-gray-500;
+}
+.blockquote figcaption::before {
+  content: '— ';
+  @apply text-gray-300;
+}
+.blockquote cite {
+  @apply inline-block text-xl font-medium;
+}
+.blockquote cite::before {
+  content: ', ';
+}
+
+.table-wrapper {
+  @apply my-8 border border-slate-200 rounded-lg overflow-x-auto;
+}
+
+table {
+  @apply overflow-x-auto w-full border-spacing-0 whitespace-nowrap;
+}
+
+table thead {
+  @apply bg-slate-50 text-left text-slate-600 border-b border-slate-200;
+}
+
+table th,
+table td {
+  @apply px-4 py-2;
+}
+
+table tr:not(:last-of-type) {
+  @apply border-b border-slate-100;
+}
+
+table tr:nth-child(2n) {
+  @apply bg-slate-50 bg-opacity-50;
+}
+
+/* Code */
+code {
+  @apply px-1 border border-slate-200 bg-gray-50 rounded-lg whitespace-nowrap;
+}
+.code {
+  @apply my-8 border border-slate-200 rounded-lg text-base font-normal overflow-auto;
+}
+h2 + .code {
+  @apply mt-6;
+}
+.code .line {
+  @apply pr-5 leading-6;
+}
+.code .line .line-number {
+  @apply inline-block mr-4 bg-slate-50 pl-5 pr-3 text-right text-slate-400 select-none;
+  width: 5ch;
+}
+.code .line:first-child .line-number,
+.code .line:first-child .line-content {
+  @apply pt-3;
+}
+.code .line:last-child .line-number,
+.code .line:last-child .line-content {
+  @apply pb-3;
+}
+.code .token.keyword {
+  @apply text-red-600;
+}
+.code .token.function,
+.code .token.selector {
+  @apply text-violet-600;
+}
+.code .token.boolean {
+  @apply text-green-600;
+}
+.code .token.comment {
+  @apply text-gray-500;
+}
+.code .token.string,
+.code .token.property {
+  @apply text-blue-600;
+}
+
+/* Repo component */
+.repo a {
+  @apply no-underline;
+}

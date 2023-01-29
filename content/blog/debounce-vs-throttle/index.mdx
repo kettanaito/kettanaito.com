@@ -1,0 +1,283 @@
+---
+title: 'Debounce vs Throttle: Definitive Visual Guide'
+description: A complete guide to learn the difference between debounce and throttle using visual examples. Never confuse the two again.
+category: Engineering
+date: 2019-12-23
+keywords:
+  - debounce
+  - throttle
+  - javascript
+  - event
+  - events handling
+  - response rate
+  - ball machine
+  - ball vending machine
+  - interactive example
+  - definitive guide
+hashtags:
+  - javascript
+  - debounce
+  - tips
+---
+
+## Introduction
+
+When it comes to debounce and throttle developers often confuse the two. Choosing the right one is, however, crucial, as they bear a different effect. If you are a visual learner as myself, you will find this interactive guide useful to differentiate between `throttle` and `debounce` and better understand when to use each.
+
+## The basics
+
+Throttling and debouncing are two ways to optimize event handling. Before we begin, let's take a moment to briefly revise the basics of events. In this article I'm going to use JavaScript in all examples, yet the concepts they illustrate are not bound to any specific language.
+
+Event is an action that occurs in the system. In front-end development that system is usually a browser. For example, when you resize a browser window the "resize" event is fired, and when you click on a button the "click" event is. We are interested in events to attach our own logic to them. That logic is represented as a function that is called a handler function (because it handles the event). Such handler functions may handle a UI element update on resize, display a modal window upon a button click, or execute an arbitrary logic in response to any event.
+
+In JavaScript you can react to events using event listeners. _Event listener_ is a function that listens to the given event on a DOM element and executes a handler function whenever that event occurs. To add an event listener to an element (target) you should use the [`addEventListener`](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener) function:
+
+```js
+element.addEventListener(eventName, listener, options)
+```
+
+## Let's throw a ball!
+
+Let's build a ball throwing machine. Our machine would have a button that, when pushed, throws a ball. To describe this cause-and-effect relation between the button click and a ball throw we can use `addEventListener` on our button element:
+
+```js
+// Find a button element on the page.
+const button = document.getElementById('button')
+
+// And react to its click event.
+button.addEventListener('click', function () {
+  throwBall()
+})
+```
+
+This reads as: _whenever the button is clicked, execute the `throwBall()` function_. The details of `throwBall` function are not important, as it represents _any logic_ bound to an event.
+
+Hinges are tightened and the screws are steady, let's put our ingenious invention to test!
+
+import { DefaultEvents } from './components/DefaultEvents'
+
+<DefaultEvents />
+
+Whenever we press the button we produce the "click" event, to which the event listener reacts by calling our `throwBall()` function. In other words, one button click results into one handler function call and one ball being thrown.
+
+<Quote>
+  By default, event listener executes with 1-1 ratio to the event call.
+</Quote>
+
+There are cases, however, when such a direct proportion may become undesired. For instance, what if throwing a ball was an expensive operation, or we couldn't afford to throw more than 1 ball in half a second? In those cases we would have to limit the amount of times our listener is being called.
+
+**Throttling** and **debouncing** are two most common ways to control a listener response rate to an event. Let's analyze each of them more closely by tweaking our ball machine.
+
+---
+
+## Throttle
+
+_Throttling_ is the action of reducing the number of times a function can be called over time to exactly _one_.
+
+For example, if we throttle a function by 500ms, it means that it cannot be called more than once per 500ms time frame. Any additional function calls within the specified time interval are simply ignored.
+
+### Implementing throttle
+
+```js
+function throttle(func, duration) {
+  let shouldWait = false
+
+  return function (...args) {
+    if (!shouldWait) {
+      func.apply(this, args)
+      shouldWait = true
+
+      setTimeout(function () {
+        shouldWait = false
+      }, duration)
+    }
+  }
+}
+```
+
+> Depending on the use case, this simplified implementation may not be enough. I highly recommend looking into [`lodash.throttle`](https://www.npmjs.com/package/lodash.throttle) and [`_.throttle`](https://underscorejs.org/#throttle) packages then.
+
+The `throttle` function accepts two arguments: `func`, which is a function to throttle, and `duration`, which is the duration (in ms) of the throttling interval. It returns a _throttled function_. There are implementations that also accept the `leading` and `trailing` parameters that control the first (leading) and the last (trailing) function calls, but I'm going to skip those to keep the example simple.
+
+To throttle our machine's button click we need to pass the event handler function as the first argument to `throttle`, and specify a throttling interval as the second argument:
+
+```js focusedLines=3,5
+button.addEventListener(
+  'click',
+  throttle(function () {
+    throwBall()
+  }, 500)
+)
+```
+
+Here's how our patched ball machine would work with the throttling applied:
+
+import { ThrottledEvents } from './components/ThrottledEvents'
+
+<ThrottledEvents />
+
+No matter how often we press the button a ball won't be thrown more than once per throttled interval (500ms in our case). That's a great way to keep our ball machine from overheating during the busy hours!
+
+<Quote>
+  Throttle is a spring that throws balls: after a ball flies out, it needs some
+  time to shrink back, so it cannot throw any more balls unless it's ready.
+</Quote>
+
+### When to use throttle?
+
+Use throttling to _consistently_ react to a frequent event.
+
+This technique ensures consistent function execution within a given time interval. Since throttle is bound to a fixed time frame, the event listener should be ready to accept an intermediate state of the event.
+
+**Common use cases for throttling include:**
+
+- Any consistent UI update after window `resize`;
+- Performance-heavy operations on the server or client.
+
+---
+
+## Debounce
+
+A debounced function is called after _N_ amount of time passes since its last call. It reacts to a seemingly resolved state and implies a delay between the event and the handler function call.
+
+### Implementing debounce
+
+```js
+function debounce(func, duration) {
+  let timeout
+
+  return function (...args) {
+    const effect = () => {
+      timeout = null
+      return func.apply(this, args)
+    }
+
+    clearTimeout(timeout)
+    timeout = setTimeout(effect, duration)
+  }
+}
+```
+
+> For more complicated scenarios consider [`lodash.debounce`](https://www.npmjs.com/package/lodash.debounce) and [`_.debounce` ](https://underscorejs.org/#debounce) packages then.
+
+The `debounce` function accepts two arguments: `func`, which is a function to debounce, and `duration`, which is the amount of time (in ms) to pass from the last function call. It returns a _debounced function_.
+
+To apply debouncing to our example we would have to wrap the button click handler in the `debounce`:
+
+```js focusedLines=3,5
+button.addEventListener(
+  'click',
+  debounce(function () {
+    throwBall()
+  }, 500)
+)
+```
+
+While the call signature of `debounce` is often similar to the one in `throttle`, it produces a much different effect when applied. Let's see how our machine will behave if its button clicks are debounced:
+
+import { DebouncedEvents } from './components/DebouncedEvents'
+
+<DebouncedEvents />
+
+If we keep pressing the button fast enough no balls will be thrown at all, unless a debounce duration (500ms) passes since the last click. It is if our machine treats any amount of button clicks within a defined time period as _a single event_ and handles it respectively.
+
+<Quote>
+  Debounce is an overloaded waiter: if you keep asking him, your requests will
+  be ignored until you stop and give him some time to think about your latest
+  inquiry.
+</Quote>
+
+### When to use debounce?
+
+Use debounce to _eventually_ react to a frequent event.
+
+Debounce is useful when you don't need an intermediate state and wish to respond to the end state of the event. That being said, you need to take into account an inevitable delay between the event and the response to it when using `debounce`.
+
+**Common use cases for a debounced function:**
+
+- Asynchronous search suggestions;
+- Updates batching on the server.
+
+---
+
+## Common problems
+
+### Re-declaring debounced/throttled function
+
+One of the most common mistakes when working with these rate limiting functions is _repeatedly re-declaring them_. You see, both `debounce` and `throttle` work due to _the same (debounced/throttled) function reference_ being called. It is absolutely necessary to ensure you declare your debounced/throttled function only once.
+
+Allow me to illustrate this pitfall. Take a look at this click event handler:
+
+```js
+button.addEventListener('click', function handleButtonClick() {
+  return debounce(throwBall, 500)
+})
+```
+
+It may look fine at first, but in fact nothing is going to be debounced. That is because the `handleButtonClick` function is not debounced, but instead we debounce the `throwBall` function.
+
+Instead, we should debounce an entire `handleButtonClick` function:
+
+```js focusedLines=3,5
+button.addEventListener(
+  'click',
+  debounce(function handleButtonClick() {
+    return throwBall()
+  }, 500)
+)
+```
+
+<Quote>
+  Remeber that the event handler function must be debounced/throttled only once.
+  The returned function must be provided to any event listeners.
+</Quote>
+
+#### React example
+
+If you are familiar with [React](https://reactjs.org) you may also recognize the following declaration as being invalid:
+
+```jsx focusedLines=8
+class MyComponent extends React.Component {
+  handleButtonClick = () => {
+    console.log('The button was clicked')
+  }
+
+  render() {
+    return (
+      <button onClick={debounce(this.handleButtonClick, 500)}>
+        Click the button
+      </button>
+    )
+  }
+}
+```
+
+Since `debounce` is called during the render, each MyComponent's re-render will produce a new instance of a debounced `handleButtonClick` function, resulting into no effect being applied.
+
+Instead, the `handleButtonClick` _declaration_ should be debounced:
+
+```jsx focusedLines=2,7
+class MyComponent extends React.Component {
+  handleButtonClick = debounce(() => {
+    console.log('The button was clickeds')
+  }, 500)
+
+  render() {
+    return <button onClick={this.handleButtonClick}>Click the button</button>
+  }
+}
+```
+
+### Finding optimal duration
+
+With both `debounce` and `throttle` finding a duration time optimal for UX _and_ performance is important. Choosing a fast interval will not have impact on performance, and picking a too long interval will make your UI feel sluggish.
+
+The truth is, there is no magical number to this, as time interval will differ for each use case. The best advice I can give you is to not copy any intervals blindly, but test what works the best for your application/users/server. You may want to conduct A/B testing to find that.
+
+---
+
+## Afterword
+
+Thank you for reading through this guide! Of course, there's much more to events handling, and throttling and debouncing are not the only techniques you may use in practice. Let me know if you liked this article by reposting or retweeting it.
+
+> Special thanks to [Alexander Fernandes](https://codepen.io/AlexRA96) for "Ball Bouncing Physics" project used for balls physics in the vending machine example.

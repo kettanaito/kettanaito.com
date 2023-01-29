@@ -1,0 +1,248 @@
+---
+title: Practical Guide to Custom Jest Matchers
+description: Learn how to create custom Jest matchers to reduce the repetition in your tests and make them more readable.
+category: Engineering
+date: 2022-06-22
+keywords:
+  - jest
+  - matcher
+  - symmetric
+  - asymmetric
+  - extend
+  - custom
+---
+
+## What is a matcher?
+
+In [Jest](https://jestjs.io/), functions like `.toEqual()` or `.toHaveProperty()` are called _matchers_. While Jest comes with an extensive amount of default matchers, you can also create your own to encapsulate repetitive assertions in your tests.
+
+## Symmetric and Asymmetric matchers
+
+There are two types of matchers in Jest: symmetric and asymmetric.
+
+A _symmetric matcher_ is the one that asserts data in its entirety. In other words, it's a strict comparison matcher. Here's an example:
+
+```ts
+expect(myObject).toEqual({ id: 123 })
+```
+
+In this assertion, the `myObject` must equal to the `{ id: 123 }` object. If it doesn't have the required "id" property or has additional properties that are not present in the expected object, the assertion will fail. In that regard, this matcher is symmetric because it reflects the expected value in its entirety.
+
+An _asymmetric matcher_ is a kind of a matcher that asserts data partially. Here's the same object assertion as above but using an asymmetric matcher now:
+
+```ts
+expect(myObject).toEqual(
+  expect.objectContaining({
+    id: 123,
+  })
+)
+```
+
+The symmetric `.toEqual` matcher remains but you may notice that instead of accepting an object as its argument, it now accepts the call to `expect.objectContaining()` function. The latter is the asymmetric matcher, as it describes a subset of properties that must exist on `myObject`, ignoring any additional properties.
+
+## Creating a custom matcher
+
+Jest provides the `expect.extend()` API to implement both custom symmetric and asymmetric matchers. This API accepts an object where keys represent matcher names, and values stand for custom matcher implementations.
+
+Extending the default `expect` function can be done as a part of the testing setup. Make sure you have your Jest configuration file created and pointing to the custom setup file:
+
+```ts
+export default {
+  // Let Jest know that there's an additional setup
+  // before the tests are run (i.e. matcher extensions).
+  setupFilesAfterEnv: ['./jest.setup.ts'],
+}
+```
+
+Let's start by implementing a custom symmetric matcher.
+
+## Custom symmetric matcher
+
+In our application, we often assert that a number lies within the range of numbers. To reduce the repetition and make tests reflect the intention, let's implement a custom `.toBeWithinRange()` matcher.
+
+```ts
+// jest.setup.ts
+expect.extend({
+  toBeWithinRange(actual, min, max) {
+    if (typeof actual !== 'number') {
+      throw new Error('Actual value must be a number')
+    }
+    const pass = actual >= min && actual <= max
+  },
+})
+```
+
+Here, we've extended the Jest's `expect` global function with a new function called `toBeWithinRange`. Jest will always provide our matchers with the actual data as the first argument, and we can utilize the remaining arguments for the matcher to accept additional input (for example, the allowed range of numbers).
+
+Since anything can be passed to the `expect()` in the test run, don't forget to check for the `actual` type. In this matcher, we ensure that the provided `actual` value is a number.
+
+We are checking whether the `actual` number is within the `min` and `max` range, and writing the result to the `pass` variable. Now we need to let Jest know how to respect that variable and mark assertions as passed or failed based on its value.
+
+To do that, custom matchers must return an object of the following shape:
+
+```ts
+{
+  pass: boolean
+  message(): string
+}
+```
+
+Let's do just that:
+
+```ts
+// jest.setup.ts
+expect.extend({
+  toBeWithinRange(actual, min, max) {
+    if (typeof actual !== 'number') {
+      throw new Error('Actual value must be a number')
+    }
+    const pass = actual >= min && actual <= max
+    return {
+      pass,
+      message: pass
+        ? () => `expected ${actual} not to be within range (${min}..${max})`
+        : () => `expected ${actual} to be within range (${min}..${max})`,
+    }
+  },
+})
+```
+
+Now, whenever our matcher returns `{ pass: false }`, the test assertion will fail, and Jest will communicate the failure to us as it usually does.
+
+Notice how we're returning a conditional `message` value, even if the matcher has passed. That is done due to _inverse matches_, with which you are also very likely familiar:
+
+```ts
+expect(5).not.toBeWithinRange([3, 5])
+```
+
+For our matcher, `5` is indeed within the given range of `[3, 5]`, so it will return `{ pass: true }`. But it's the `.not.` chain that makes this assertion inverted, flipping it upside down. Jest knows that inverse matches must return `{ pass: false }`, and whenever that's not the case, it will print the `message` that we've defined for that case. And that is why we still return a message when the matcher passes, and why that message says that "the number must _not_ be within range".
+
+The final touch is to let TypeScript know that we've just extended a globally exposed function of a third-party library. To do that, create a `jest.d.ts` file and extend `jest.Matchers` and `jest.ExpectExtendMap` interfaces there:
+
+```ts
+type OwnMatcher<Params extends unknown[]> = (
+  this: jest.MatcherContext,
+  actual: unknown,
+  ...params: Params
+) => jest.CustomMatcherResult
+declare global {
+  namespace jest {
+    interface Matchers<R, T> {
+      // Note that we are defining a public call signature
+      // for our matcher here (how it will be used):
+      // expect(5).toBeInRange(3, 7)
+      toBeWithinRange(min: number, max: number): T
+    }
+    interface ExpectExtendMap {
+      // Here, we're describing the call signature of our
+      // matcher for the "expect.extend()" call.
+      toBeWithinRange: OwnMatcher<[min: number, max: number]>
+    }
+  }
+}
+```
+
+Also, let's make sure that this definition is included in `tsconfig.json`:
+
+```json
+{
+  "include": ["jest.d.ts"]
+}
+```
+
+We can now use our custom matcher in tests:
+
+```ts
+it('asserts the number is within range', () => {
+  expect(5).toBeWithinRange(3, 5) // ✅
+  expect(3).toBeWithinRange(10, 20) // ❌
+})
+it('asserts the number is not within range', () => {
+  expect(10).not.toBeWithinRange([3, 5]) // ✅
+  expect(5).not.toBeWithinRange([1, 10]) // ❌
+})
+```
+
+## Custom asymmetric matcher
+
+Similar to symmetric matchers, asymmetric ones are defined via `expect.extend()` in your test setup file.
+
+Let's create a custom asymmetric matcher that asserts that a given `Set` has a subset of values.
+
+```ts
+// jest.setup.ts
+expect.extend({
+  // ...any other custom matchers.
+  setContaining(actual, expected) {
+    if (!(actual instanceof Set)) {
+      throw new Error('Actual value must be a Set')
+    }
+    const pass = expected.every((item) => actual.has(item))
+    return {
+      pass,
+      message: pass
+        ? () => `expected Set not to contain ${expected.join(', ')}`
+        : () => `expected Set to contain ${expected.join(', ')}`,
+    }
+  },
+})
+```
+
+Since the `setContaining` matcher is asymmetric, it should be exposed as `expect.setContaining()` and not `expect(x).setContaining()`. Let's make sure we extend the `jest.Expect` type with our asymmetric matcher instead of extending the `jest.Matchers` type like we did with `toBeWithinRange`.
+
+```ts
+// jest.d.ts
+import { MatcherFunction } from 'expect'
+declare global {
+  namespace jest {
+    // ...any other extensions, like "Matchers".
+    interface Expect {
+      // Once again, here we describe how our matcher
+      // will be used in our tests:
+      // expect.setContaining(['john'])
+      setContaining<T extends unknown>(expected: Set<T>): Set<T>
+    }
+    interface ExpectExtendMap {
+      // Let's keep our extension signature type-safe.
+      setContaining: MatcherFunction<[expected: unknown[]]>
+      // ...any other matcher definitions.
+      toBeWithinRange: MatcherFunction<[min: number, max: number]>
+    }
+  }
+}
+```
+
+Once this is done, we can use our custom asymmetric matcher in tests:
+
+```ts
+it('asserts a subset of the given Set values', () => {
+  expect({ friends: new Set(['john', 'kate']) }).toEqual({
+    friends: expect.setContaining(['kate']), // ✅
+  })
+  // Annotating the actual data will give us type-safety
+  // down to each individual asymmetric matcher.
+  interface User {
+    friends: Set<string>
+  }
+  expect(user).toEqual<User>({
+    friends: expect.setContaining([5]),
+    // TypeError: "number" is not assignable to type "string".
+  })
+})
+```
+
+> You may have noticed that the `expect.extend()` part is identical for both types of matchers. In fact, even our asymmetric matcher will be exposed as `expect(v).setContaining(subset)` during test runtime. However, to preserve semantic names, I highly recommend describing symmetric matchers by extending `jest.Matchers`, and the asymmetric ones by extending `jest.Expect` separately. It's a type limitation only but it will produce more consistent test matcher semantics.
+
+## Conclusion
+
+And that's how you extend Jest with both symmetric and asymmetric matchers while preserving the type-safety of your tests. Custom matchers are certainly not a beginner-friendly topic but they are indispensable when it comes to designing a custom testing vocabulary in somewhat larger projects.
+
+You can browse through the source code from this article in this repository:
+
+<Repo owner="kettanaito" repo="jest-custom-matchers" />
+
+As a cherry on top, here are a few resources that can expand your knowledge about Jest matchers:
+
+- [`expect`](https://jestjs.io/docs/expect)
+- [Custom asymmetric matchers](https://jestjs.io/blog/2018/05/29/jest-23-blazing-fast-delightful-testing#custom-asymmetric-matchers)
+- [Example of `.toBeWithinRange()` from Jest](https://github.com/facebook/jest/blob/bb0956589f9dbddcc13db0f42b2d4d9ff642b2cd/examples/expect-extend/toBeWithinRange.ts#L11)

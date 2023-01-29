@@ -1,18 +1,16 @@
 <p align="center">
-  <img alt="Redd Developer" src="src/images/logo.svg" width="100" />
+  <img alt="Redd Developer" src="public/favicon.svg" width="80" />
 </p>
 <h1 align="center">
   Redd Developer
 </h1>
 
-<p align="center">Personal non-commercial software engineering blog.</p>
+<p align="center">My personal blog.</p>
 
 ## Technologies
 
-- [Gatsby](https://www.gatsbyjs.org/) as a framework
-- [MDX](https://mdxjs.com/) for post content
-- [Firebase](https://firebase.google.com/) for persistent post views
-- [Google Analytics](https://analytics.google.com/) for anonymous website analytics
+- [Next.js](https://nextjs.org/) as the front-end framework;
+- [MDX](https://mdxjs.com/) for post content.
 
 ## About the author
 

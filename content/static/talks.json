@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Dissecting Complexity in Tests",
+    "watchUrl": "https://portal.gitnation.org/contents/dissecting-complexity-in-tests",
+    "venue": "TestJS Summit 2022",
+    "description": "The most common sources of complexity in tests and practical tips on how to approach them."
+  },
+  {
+    "name": "Beyond API Mocking",
+    "watchUrl": "https://youtube.com/watch?v=76yEzm07Kfk",
+    "venue": "TestJS Summit 2021",
+    "description": "Using Service Worker API to mock responses and why it's incredible."
+  },
+  {
+    "name": "The Future of Layout",
+    "watchUrl": "https://www.youtube.com/watch?v=_HrXUB97xQs",
+    "venue": "React Finland 2019",
+    "description": "Utilizing CSS Grid to achieve Atomic Design in practice in React."
+  }
+]

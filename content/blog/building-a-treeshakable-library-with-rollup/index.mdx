@@ -1,0 +1,193 @@
+---
+title: Building a Tree-shakable Library with Rollup
+description: A missing guideline for JavaScript library authors on building and distributing a tree-shakable library using RollupJS.
+category: Engineering
+date: 2020-06-28
+keywords:
+  - rollup
+  - bundler
+  - tutorial
+---
+
+There are multiple reason to pick [Rollup](https://rollupjs.org) as your bundler of choice when creating a JavaScript library: a minimalistic configuration, built-in way to compile into various formats, and extensive tree-shaking support. Today we are going to look at tree-shaking from the perspective of a library author, rathen than a consumer.
+
+---
+
+## What is tree-shaking?
+
+_Tree-shaking_ (also known as _dead code elimination_) is a bundling technique that allows to remove an unused code from the build. The unused code is the one nothing else depends on. That dependency relation is determined by a bundler/compiler on build time, making tree-shaking a build technique.
+
+Tree-shaking is often approached on a consumer's level, meaning that our _built application_ does not ship an unused code. While this is a perfectly valid concern, those third-party tools (i.e. open source libraries) we use must support tree-shaking as well, otherwise there's nothing we can do about a dead code.
+
+> This article will refer to any JavaScript application using a library as a _consumer_.
+
+### What do we want?
+
+Let's say we are writing a library called `my-lib` that exports two functions: `funcA` and `funcB`. Neither of those can be tree-shaken when building our library, because we don't know which functions the constumer will require. However, we need to bundle our library the way that everything that the consumer doesn't use gets dropped.
+
+Here's an example of what we expect from the source and built code of the consumer:
+
+```js
+// consumer/src/index.js
+// Although "my-lib" exports both "funcA" and "funcB",
+// since we only rely on "funcA", we expect "funcB"
+// to get tree-shaken (removed) from our application's build.
+import { funcA } from "my-lib";
+
+funcA();
+```
+
+```js
+// consumer/build/index.js
+(function (factory) {
+  typeof define === "function" && define.amd ? define(factory) : factory();
+})(function () {
+  "use strict";
+  function funcA() {
+    console.log("Hello from the module A!");
+  }
+
+  funcA();
+});
+```
+
+> Notice how the `funcB` is nowhere to be found in the application's build. _That_ is our end goal.
+
+As natural as it may look, this is not the default behavior, and it requires a certain setup on both the library's and consumer's sides. So what do we, library authors, need to do in order to ship a tree-shaking support to our users?
+
+---
+
+## Build format
+
+First of all, we need to bundle our library using a proper build format.
+
+Choosing a proper format is crucial, because certain formats make our library's dependencies impossible to statically analyze. For example, if we ship a library in a CommonJS format, a consumer won't be able to figure out which modules can be tree-shaken, because their dependnecies may change on runtime.
+
+```js
+// my-lib/build/cjs/index.js
+function funcA(moduleName) {
+  // Impossible to analyze what "funcA" depends on,
+  // because the "require" statement below will change
+  // depending on the "moduleName" argument.
+  require(`./utils/${moduleName}`);
+}
+
+module.exports = { funcA };
+```
+
+When a bundler (i.e. webpack or Rollup) transforms our library's code, it must meet _static import statements_ (`import`) to determine which modules can be safely removed. Static import statements are such that cannot change on runtime (thus, "static").
+
+<Quote>
+  In order for our library to be tree-shakable, it must preserve static import
+  statements.
+</Quote>
+
+To preserve those imports we need to distribute our library using **ESM** format. ESM (ECMAScript Module) format comes with a [static module structure](https://exploringjs.com/es6/ch_modules.html#static-module-structure), which means that a module's dependencies can be determined by looking at the code, without having to run it.
+
+We can use a `format` output option in the Rollup configuration to build our library into ESM:
+
+```js focusedLines=6,7
+// my-lib/rollup.config.js
+module.exports = {
+  // ...,
+  output: [
+    {
+      dir: "library/build",
+      format: "esm",
+    },
+  ],
+};
+```
+
+However, a right format is not enough for our library to become fully tree-shakable. We also need to specify a proper relation between the modules in our library by configuring its entry points.
+
+## Entry points
+
+It's often for a code to be reused between the parts of a library. If such code comes from a module that you would want to tree-shake, it may get problematic. Consider this:
+
+```js
+// my-lib/src/a.js
+// Here we are importing a helper function from the module B,
+// making it a dependency of the module A (current module).
+import { print } from "./b";
+
+export function funcA() {
+  print("Hello from module A!");
+}
+```
+
+```js
+// my-lib/src/b.js
+// A helper function that semantically belongs to module B,
+// but can be imported and used in other modules as well.
+export function print(message) {
+  console.log(message);
+}
+
+export const funcB = () => {
+  print("Hello from module B!");
+};
+```
+
+With the `a.js` module importing the `print` function from `b.js`, the latter effectively becomes its dependency. Now, even if our consumer doesn't use `funcB`, they would still import and ship the entire `b.js`, because `a.js` relies on its helper function.
+
+Surely, we can isolate the `print` function into its own module and reuse it between any other pieces of the library. However, this delegates dependency management into our hands, which makes it prone to mistakes. Instead, we can configure our library's entry points, so that Rollup figures out the cross-module dependencies for us.
+
+To set multiple entries we need to provide a Rollup config with the `input` option that has a list of modules.
+
+```js focusedLines=3
+// my-lib/rollup.config.js
+module.exports = {
+  input: ["src/index.js", "src/a.js", "src/b.js"],
+  // ...
+};
+```
+
+Such build configuration will not only generate separate chunks for each given input, but can also figure out their dependency between each other, putting a shared code into common chunks.
+
+With the entry points configured, our build folder structure may look as follows:
+
+```bash focusedLines=4
+└─build
+  └─esm
+    ├─a.js
+    ├─a-deps.js # `print` from `src/b.js` would be here
+    └─b.js
+```
+
+Now, if the `b.js` module is never used by the consumer, it will get tree-shaken, because neither consumer, nor internal library's modules rely on it.
+
+## Distribution
+
+Although ESM is the future of the modules distribution, we are not quite ready for that future yet. With that in mind, it's not a good decision to specify the ESM bundle as the `main` entry of your package. Instead, there's a dedicated `module` property in `package.json` that modern tools, like webpack and Rollup, can pick up and use.
+
+Provide the path to your ESM build in the `module` property of your library's `package.json`:
+
+```json focusedLines=7
+// my-lib/package.json
+{
+  // CommonJS build as default
+  "main": "lib/cjs/index.js",
+
+  // ESM build for modern bundlers
+  "module": "lib/esm/index.js"
+}
+```
+
+---
+
+## Summary
+
+Building a tree-shakable library with RollupJS consists of these steps:
+
+1. Choose a proper build target format (ESM);
+1. Specify the library's entry points (to analyze their inter-dependencies);
+1. Provide the ESM build path as the `module` property of the library's `package.json`.
+
+Below you can find a GitHub repository that contains a library setup and the example of a consumer application that is using that library. Follow the instructions in this repository to see the tree-shaking for yourself:
+
+<Repo owner="Redd-Developer" repo="rollup-tree-shakable-library" />
+
+## Afterword
+
+Thanks for reading through! I hope you've learned a thing of two about JS modules and tree-shaking, and wish you to ship awesome libraries to your users!
