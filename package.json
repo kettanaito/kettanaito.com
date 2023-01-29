@@ -11,7 +11,7 @@
     "dev": "next dev",
     "start": "next start",
     "lint": "next lint",
-    "build": "pnpm rss && pnpm og && next build",
+    "build": "pnpm rss && next build",
     "rss": "ts-node scripts/rss.ts",
     "og": "ts-node scripts/og-image.ts"
   },
