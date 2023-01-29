@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
+import { Container } from '../components/grid'
 
 async function pruneServiceWorker() {
   const worker = await navigator.serviceWorker.getRegistration()
@@ -24,5 +25,11 @@ export default function WorkerRefreshPage() {
     })
   }, [router])
 
-  return <p>Redirecting to homepage...</p>
+  return (
+    <Container>
+      <p className="py-16 text-gray-600 text-center">
+        Preparing a new experience...
+      </p>
+    </Container>
+  )
 }
