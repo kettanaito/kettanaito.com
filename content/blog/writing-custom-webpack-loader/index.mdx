@@ -1,0 +1,452 @@
+---
+title: Writing a Custom Webpack Loader
+description: Learn how to write custom webpack loaders with this example that transforms MP3 file imports into interactive audio players.
+category: Engineering
+date: 2021-06-06
+keywords:
+  - webpack
+  - custom
+  - loader
+  - source
+  - module
+  - audio
+  - mp3-loader
+---
+
+## Introduction
+
+> This article uses the latest webpack version, which at the moment of writing is **webpack v5**.
+> [webpack](https://webpack.js.org/) is a backbone that powers most of the modern frontend tooling: Create React App, NextJS, Gatsby, —the list can go on and on. Over the years webpack had grown a reputation of being hard to configure, which is rather unfortunate, because no matter how abstracted webpack is in your setup, you can always benefit from knowing how to customize it.
+
+Today I'd like to speak about one specific way of customizing webpack: writing a custom loader. I'm surprised to find this topic rather undocumented, so most of the information you read in this article is a result of reverse-engineering multiple existing loaders to let you and me learn.
+
+---
+
+## Basics
+
+A [_loader_](https://webpack.js.org/concepts/loaders/) in webpack is a function that transforms a source code of imported modules.
+
+Think of a loader as a function of a module's content that creates or augments that module's export:
+
+```js showLineNumbers=false
+const styles = cssLoader(require('./styles.css'))
+```
+
+Loaders are the heart and soul of how webpack compiles TypeScript to JavaScript, turns SASS into CSS, and JSX into `React.createElement` calls. In fact, webpack doesn't really do all that, loaders do! Meanwhile, webpack is responsible for establishing a transformation chain for your source code and making sure that the loaders are executed at the right stage of the build process.
+
+Here's how you apply loaders to files in a webpack configuration:
+
+```js
+// webpack.config.js
+module.exports = {
+  module: {
+    rules: [
+      {
+        // Capture all "*.js" imports,
+        test: /\.js$/,
+        // ...and transform them via "babel-loader".
+        use: ['babel-loader'],
+      },
+      {
+        // Capture all the "*.css" imports,
+        test: /\.css$/
+        // ...and transform them via "css-loader".
+        use: ['css-loader']
+      }
+    ],
+  },
+}
+```
+
+In the configuration above, all `*.js` files that you import are passed through the `babel-loader`, while all `*.css` files are transformed via the `css-loader`. You can provide a list of loaders for the same subset of modules, in which case the loaders are applied from **right to left**:
+
+```js
+{
+  test: /\.ext$/
+  use: ['third-loader', 'second-loader', 'first-loader']
+}
+```
+
+This makes more sense once you look at a loader as a function that passes its result (transformed code) to the next loader in the chain:
+
+```js showLineNumbers=false
+third(second(first(source)))
+```
+
+## Limitations
+
+Loaders are designed to transform code. Unlike plugins, loaders cannot affect the build process, but rather transform individual imported modules during the build.
+
+Generally, anything that lies outside of processing and generating code can be achieved through [plugins](https://webpack.js.org/concepts/#plugins). At the same time, one thing that a plugin shouldn't do is transform code, making the boundary between a loader and a plugin rather clear.
+
+For example, here are some of the use-cases to write a custom loader:
+
+- Support imports of a custom file format (i.e. `*.graphql` or `*.prisma`);
+- Append meta data to the transformed files (i.e. inject frontmatter to `*.mdx` files).
+- Transform imported modules (i.e. auto-prefix imported `*.css` files).
+
+---
+
+## Writing a custom loader
+
+In this article we're going to write an MP3 loader that would turn any `*.mp3` import into a [React](https://reactjs.org/) component for playing that audio file.
+
+```jsx
+import AudioPlayer from './audio.mp3'
+
+function MyComponent {
+  return (
+    <AudioPlayer />
+  )
+}
+```
+
+### Declaration
+
+A loader is a function that accepts a source code and returns a transformed source code. Let's start from that: create a `mp3-loader.js` file and declare a new function in there:
+
+```js
+// src/mp3-loader.js
+module.exports = function (source) {
+  return source
+}
+```
+
+At the current state, your loader is going to return the imported source (MP3 file binary) as-is.
+
+We will be using the [`<audio>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/audio) HTML element to play an imported audio file. For that, we need to know the path of the imported MP3 file, emit it in the webpack's build directory, and provide that file path as the `src` attrbiute of the `<audio>` element.
+
+We can get an absolute path of the imported module by accessing the `this.resourcePath` property in a loader's context. For example, given the following import:
+
+```js showLineNumbers=false
+import AudioPlayer from './audio.mp3'
+```
+
+The `this.resourcePath` will contain the absolute path to the `./audio.mp3` file. Knowing this, let's emit an mp3 file with the same name:
+
+```js
+// src/mp3-loader.js
+const path = require('path')
+
+module.exports = function (source) {
+  // webpack exposes an absolute path to the imported module
+  // under the "this.resourcePath" property. Get the file name
+  // of the imported module. For example:
+  // "/User/admin/audio.mp3" (this.resourcePath) -> "audio.mp3".
+  const filename = path.basename(this.resourcePath)
+
+  // Next, create an asset info object.
+  // webpack uses this object when outputting the build's stats,
+  // so you could see info about the emitted asset.
+  const assetInfo = { sourceFilename: filename }
+
+  // Finally, emit the imported audio file's "source"
+  // in the webpack's build directory using a built-in
+  // "emitFile" method.
+  this.emitFile(filename, source, null, assetInfo)
+
+  // For now, return the mp3 binary as-is.
+  return source
+}
+```
+
+> Note that you need to remain in the webpack's context in order to access `this.resourcePath` and `this.emitFile`. Ensure your loader is _not_ an arrow function, because that's going to re-assign the loader's context and you'll lose access to the properties and methods that webpack exposes to your loader.
+> Now the imported audio file will be emitted alongside our JavaScript modules. Let's proceed to the next step—returning a React component in our loader.
+
+```js
+// src/mp3-loader.js
+const path = require('path')
+
+module.exports = function (source) {
+  const filename = path.basename(this.resourcePath)
+  const assetInfo = { sourceFilename: filename }
+  this.emitFile(filename, source, null, assetInfo)
+
+  return `
+import React from 'react'
+export default function Player(props) {
+  return <audio controls src="${filename}" />
+}
+  `
+}
+
+// Mark the loader as raw so that the emitted audio binary
+// does not get processed in any way.
+module.exports.raw = true
+```
+
+> Keep the imports that your loader needs in the loader's scope, while the imports that your _transformed code_ needs in its scope, inlined. Everything that a loader imports and does is an implementation detail of the build, and won't be accessible in the compiled bundle.
+> Both input and output of a loader's function must be a _string_. That's why we declare a new `Player` React component in a string, including all the necessary imports inside it. Now, whenever our application imports an MP3 file, instead of importing its binary, it'll import the `Player` component that the loader generated.
+
+Congratulations! You've just written a custom webpack loader that turns MP3 files into interactive audio players. Now let's configure your webpack configuration to apply that loader to all the `*.mp3` files.
+
+## Using a custom loader
+
+There are two ways to use a loader: tell webpack to resolve it from a local file, or publish it and install as a regular dependency. Unless your loader's purpose is generic, or you plan to reuse it across multiple projects, I strongly recommend using the loader from a local file.
+
+### From a local file
+
+To use a local webpack loader you need to alias it in the `resolveLoader` property in your webpack configuration:
+
+```js
+// webpack.config.js
+const path = require('path')
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.mp3$/,
+        // Reference the loader by the same name
+        // that you aliased in "resolveLoader.alias" below.
+        use: ['babel-loader', 'mp3-loader'],
+      },
+    ],
+  },
+  resolveLoader: {
+    alias: {
+      'mp3-loader': path.resolve(__dirname, 'src/mp3-loader.js'),
+    },
+  },
+}
+```
+
+> Since we've returne JSX from our loader, we need to tell webpack to transform it into regular JavaScript. That's why we've included `babel-loader` as the next loader to apply after our `mp3-loader` is done (remember loaders are applied from right to left).
+
+### From a package
+
+If you decide to distribute your loader as a node module, you can use it just as any other Node.js dependency.
+
+> It's a common convention to distribute loaders in the `[name]-loader` format. Consider this when publishing your loader.
+> Let's say you've published your loader under a `mp3-loader` package on NPM. This is how you would use it in your project:
+
+```bash showLineNumbers=false
+npm install mp3-loader
+```
+
+```js
+// webpack.config.js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.mp3$/,
+        use: ['babel-loader', 'mp3-loader'],
+      },
+    ],
+  },
+}
+```
+
+> Notice that you don't have to import your loader, webpack will resolve it from `node_modules` automatically.
+
+## Trying your loader
+
+To see the `mp3-loader` in action, run the `webpack` CLI command, given you've configured your `webpack.config.js` to use the custom loader:
+
+```bash showLineNumbers=false
+$ npx webpack
+asset audio.mp3 2.38 MiB [compared for emit] [from: src/audio.mp3] (auxiliary name: main)
+asset main.js 858 KiB [compared for emit] (name: main)
+webpack 5.37.0 compiled successfully in 1347 ms
+```
+
+You can inspect the end result of the `mp3-loader` in this example repository:
+
+<Repo owner="redd-developer" repo="webpack-custom-loader" />
+
+## Testing your loader
+
+Since loaders depend on the compilation context, I recommend testing them as a part of webpack's compilation, making such tests integration tests. Your tests' expectations will depend on what your loader does, so make sure to model them accordingly.
+
+In the case of our `mp3-loader` we expect two things to happen:
+
+- Imported audio file must be emitted in the build assets;
+- Compiled code must create an `<audio>` React component.
+
+Let's reflect those expectations in a test:
+
+```js
+// test/mp3-loader.test.js
+const path = require('path')
+const webpack = require('webpack')
+const { createFsFromVolume, Volume } = require('memfs')
+
+// A custom wrapper to promisify webpack compilation.
+function compileAsync(compiler) {
+  return new Promise((resolve, reject) => {
+    compiler.run((error, stats) => {
+      if (error || stats.hasErrors()) {
+        const resolvedError = error || stats.toJson('errors-only')[0]
+        reject(resolvedError.message)
+      }
+
+      resolve(stats)
+    })
+  })
+}
+
+it('converts "*.mp3" import into an audio player', async () => {
+  // Configure a webpack compiler.
+  const compiler = webpack({
+    mode: 'development',
+    entry: path.resolve(__dirname, '../src/index.js'),
+    output: {
+      filename: 'index.js',
+    },
+    module: {
+      rules: [
+        {
+          test: /\.mp3$/,
+          use: ['babel-loader', require.resolve('../src/mp3-loader.js')],
+        },
+        {
+          test: /\.js$/,
+          use: ['babel-loader'],
+        },
+      ],
+    },
+  })
+
+  // Create an in-memory file system so that the build assets
+  // are not emitted to disk during test runs.
+  const memoryFs = createFsFromVolume(new Volume())
+  compiler.outputFileSystem = memoryFs
+
+  // Compile the bundle.
+  await compileAsync(compiler)
+
+  // Expect the imported audio file to be emitted alongside the build.
+  expect(compiler.outputFileSystem.existsSync('dist/audio.mp3')).toEqual(true)
+
+  // Expect the compiled code to create an "audio" element in React.
+  const compiledCode = compiler.outputFileSystem.readFileSync(
+    'dist/index.js',
+    'utf8'
+  )
+  expect(compiledCode).toContain('.createElement(\\"audio\\"')
+})
+```
+
+---
+
+## Recipes
+
+### Loader options
+
+Loaders can accept options to change their behavior.
+
+You can pass options to a loader in the webpack configuration:
+
+```js
+// webpack.config.js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.mp3$/,
+        use: [
+          {
+            loader: 'mp3-loader',
+            options: {
+              maxSizeBytes: 1000000,
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+```
+
+Above, we've created a custom `maxSizeBytes` option for the loader. The `options` object can later be accessed in the loader by calling `this.getOptions()`:
+
+```js
+// src/mp3-loader.js
+module.exports = function (source) {
+  const options = this.getOptions()
+  console.log(options.maxSizeBytes)
+  // ...parametrize your loader's behavior.
+}
+```
+
+#### Validating options
+
+It's a good tone to validate your loader's options to prevent improper usage and narrow down issues.
+
+webpack comes with a `schema-utils` dependency installed, which you can use to validate your loader's options:
+
+```js focusedLines=4-11,16-17
+// src/mp3-loader.js
+const { validate } = require('schema-utils')
+
+// Describe your loader's options in a JSON Schema.
+const schema = {
+  properties: {
+    maxSizeBytes: {
+      type: 'number',
+    },
+  },
+}
+
+module.exports = function (source) {
+  const options = this.getOptions()
+
+  // Validate the options early in your loader.
+  validate(schema, options)
+
+  // ...the rest of your loader.
+}
+```
+
+> The `schema` object is defined using the [JSON Schema](https://json-schema.org/) format.
+
+### Logger
+
+Here's an example of how we can take the custom `maxSizeBytes` [loader option](#loader-options) into account, and produce a warning if the imported audio file exceeds the maximum allowed size:
+
+```js focusedLines=6,10
+// src/mp3-loader.js
+const fs = require('fs')
+
+module.exports = function (source) {
+  const options = this.getOptions()
+  const logger = this.getLogger()
+  const assetStats = fs.statSync(this.resourcePath)
+
+  if (assetStats.size > options.maxSizeBytes) {
+    logger.warn('Imported MP3 file is too large!')
+  }
+}
+```
+
+> Learn more about the webpack's [logger interface](https://webpack.js.org/api/logging/).
+
+### Context properties
+
+| Property            | Description                                                                         |
+| ------------------- | ----------------------------------------------------------------------------------- |
+| `this.resourcePath` | Absolute path to the imported module.                                               |
+| `this.rootContext`  | Compilation [context](https://webpack.js.org/configuration/entry-context/#context). |
+
+> See all the available properties by inspecting `this` in your loader.
+
+### Context methods
+
+| Method               | Description                                                                         |
+| -------------------- | ----------------------------------------------------------------------------------- |
+| `this.emitFile()`    | Emits a file to the build directory.                                                |
+| `this.getLogger()`   | Returns an internal webpack [logger instance](https://webpack.js.org/api/logging/). |
+| `this.emitWarning()` | Emits a warning during the compilation.                                             |
+| `this.getOptions()`  | Returns the loader's options.                                                       |
+
+> See all the available methods by inspecting `this` in your loader.
+
+---
+
+## References
+
+The topic of webpack customization is rather undocumented and difficult to scout for. When learning about writing webpack loaders, I've referred to multiple existing loaders that I've used in the past to see how they work. Below you can find the list of such loaders to reference yourself:
+
+- [**Featured webpack loaders**](https://webpack.js.org/loaders/)
+- [file-loader](https://github.com/webpack-contrib/file-loader/)
+- [css-loader](https://github.com/webpack-contrib/css-loader)

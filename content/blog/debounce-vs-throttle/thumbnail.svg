@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="499px" height="665px" viewBox="0 0 499 665" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>thumbnail</title>
+    <defs>
+        <linearGradient x1="100%" y1="50%" x2="0%" y2="50%" id="linearGradient-1">
+            <stop stop-color="#FFFFFF" stop-opacity="0" offset="0%"></stop>
+            <stop stop-color="#95A2B8" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="93.4036474%" y1="50%" x2="0%" y2="50%" id="linearGradient-2">
+            <stop stop-color="#FFFFFF" stop-opacity="0" offset="0%"></stop>
+            <stop stop-color="#485569" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="thumbnail" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-5" transform="translate(249.750000, 332.250000) rotate(90.000000) translate(-249.750000, -332.250000) translate(21.000000, 240.000000)">
+            <path d="M92.1747965,0.5 C119.538983,0.5 144.118126,12.4015715 160.999613,31.3014158 C146.473831,47.5617385 137.647696,69.0020968 137.647696,92.5 C137.647696,115.997903 146.473831,137.438261 160.997676,153.698584 C144.118126,172.598429 119.538983,184.5 92.1747965,184.5 C41.2680621,184.5 0,143.310197 0,92.5 C0,41.689803 41.2680621,0.5 92.1747965,0.5 Z" id="Combined-Shape" fill="url(#linearGradient-1)"></path>
+            <circle id="Oval-Copy-2" fill="url(#linearGradient-2)" cx="228.5" cy="92" r="92"></circle>
+            <circle id="Oval-Copy-3" fill="#1D293B" cx="365.5" cy="92" r="92"></circle>
+        </g>
+    </g>
+</svg>

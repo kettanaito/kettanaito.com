@@ -1,0 +1,106 @@
+---
+title: "Thinking in Functions, Part I: The Input/Output Pattern"
+description: Function is a synonym for action. It's good when your actions have purpose, and their intent is clear. But how to write such functions?
+category: Engineering
+date: 2019-09-09
+keywords:
+  - function
+  - thinking
+  - input output
+  - compose
+  - functional programming
+---
+
+## Introduction
+
+I was lucky to work with some great minds in the industry. Once I’ve befriended a brilliant Java developer and we spent a decent amount of lunches chatting over patterns and approaches in programming. At that time I was working on a schema design for the forms validation in my project, which involved a lot of functional heavy-lifting. Each time we discussed a particular problem I was fascinated by the way he approached functional design. I’ve adopted one of his thinking patterns during the process, and it has changed the way I comprehend functions since then.
+
+If you are coming from a functional programming background the things I’m about to say may bear no novelty for you. However, I know there are developers who are not accustomed to strong types and Hindley-Milner’s notation isn’t exactly the first thing that pops up in their heads when they think of a function. I address this article to those people.
+
+---
+
+## The Input/Output pattern
+
+We know that a function accepts arguments and returns a value. What we sometimes overlook is that this characteristic is an incredibly powerful design pattern we can use to write better functions.
+
+Try to write any function by answering these two questions first:
+
+1. **What is this function’s input (what arguments it accepts)?**
+1. **What is this function’s output (what data it returns)?**
+
+Doing so allows you to put technical details aside and focus on a function as an input/output operation, which, in fact, it is. The answers you give may hint certain implementational details, but, most importantly, they define clear constrains over a function’s responsibilities long before any actual code is being written.
+
+> You may use abstract types for your answers. For example, a function may accept a list of apples and return a happy fox. Such type abstractions detach the call signature from the implementation even further.
+
+Let’s put this into practice. Say, you need to write a function that validates a form field. There are myriad of things that can affect a field’s validation, but you can leave those aside and answer the Input/Output questions first:
+
+1. My function accepts a _field_;
+1. My function returns a _validation verdict_ (`boolean`).
+
+When written down, these answers represent the function’s call signature:
+
+```ts
+function validate(field: Field): boolean;
+```
+
+You may have no idea what the `Field` type may be at this point, but you know what it represents. The same can be said about the `validate` function in total: no matter which factors affect a field’s validity, you have to resolve to the boolean verdict in the end. Defined input and output act as a restriction that prevents our function from becoming too smart along the deadline-driven development. That ensures that the logic we write lies within the function’s responsibility and remains simple, satisfying both single responsibility and KISS principles.
+
+Adopting this pattern doesn’t mean you should immediately rewrite your code in [TypeScript](https://www.typescriptlang.org/) or any other strongly-typed language. First of all, it is the way of thinking about your functions. It’s fine to keep the input and output noted in a JSDoc block or in your sketchbook. Start from changing the way you think, and the tools will follow.
+
+<Quote>
+  Similar to how you put the user’s needs first before making proper UX
+  decisions, you think about what data your function accepts and returns in
+  order to establish the boundaries of its future implementation.
+</Quote>
+
+### Pattern at scale
+
+Thinking of functions using this pattern is great, but what about real-world operations that often consist of multiple functions and represent more complex logic?
+
+The truth is, even the most complex function can be written as a set of consecutively executing smaller functions. When you approach the task this way you can focus on designing each individual function at a time. However, keeping functions in isolation is dangerous, as you may end up with multiple puzzle pieces that don’t fit together. There is a rule of functional composition to avoid that problem:
+
+> Two functions are composable if the output of one can serve as the input to another.
+
+Knowing that, let’s implement a fairly complex operation that accepts a user and returns the amount of likes under all of their posts. To prevent the complexity, we can describe this operation as a sequence of steps:
+
+> Get a user → get user’s posts → get the amount of post’s likes
+
+Each of these steps is a function, and we can apply the Input/Output pattern to design its call signature, keeping in mind the composition principle.
+
+```ts
+const getUser = (id: string) => User
+const getPosts = (user: User) => Post[]
+const getTotalLikes = (posts: Post[]) => number
+```
+
+Such high-level overview of a functional chain allows you to follow the data flow without distractions and highlight potential problems in the logic. Moreover, it is just a fun exercise to do.
+
+<Quote>
+  In the end, functions are about transforming the data, so use all means
+  available to ensure that transformation is coherent and efficient.
+</Quote>
+
+### One more thing!
+
+There is one more hidden gem about the Input/Output approach. Let’s say you answer those primary questions with "_my function accepts a list of strings and returns a number_". Congratulations, you have just written a unit test for your function!
+
+```ts
+expect(myFunc(["a", "b"])).toEqual(2);
+```
+
+The result of this pattern may be reflected in a test scenario, backing up function design decisions with an actual unit test. This encourages TDD (test-driven development) and BDD (behavior-driven development), since we express our function’s intent by describing its input and output.
+
+---
+
+## Summary
+
+Focusing on a function’s input and output types defines a concise specification of that function:
+
+1. A function’s call signature;
+1. A minimal unit test for that function.
+
+Implementing things according to the specification is a pleasant and safe experience I absolutely recommend you to get accustomed to.
+
+## Afterword
+
+I hope this pattern helps you next time you decide to write a function. Let me know if you would like to know more practical patterns and approaches to functional design by liking this post and letting me know in the comments.

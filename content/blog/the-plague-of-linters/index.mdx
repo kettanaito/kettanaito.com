@@ -1,0 +1,115 @@
+---
+title: The Plague of Linters
+description: If you ever had a debate about which linting rule to use, you must read this.
+category: Culture
+date: 2020-07-10
+keywords:
+  - lint
+  - linter
+  - rules
+  - mistakes
+  - config
+hashtags:
+  - javascript
+  - code
+  - lessonsLearned
+---
+
+You have a project and you want to maintain its code style, prevent typos and other mistakes to land in your repository, and get suggestions that can occassionally improve your application's logic. Most likely, you use linters for that task.
+
+> Linter is a program that analyzes your code against a set of defined rules. One of the most popular linters in JavaScript is [ESLint](https://eslint.org).
+
+With tools like JSHint, JSLint and ESLint, checking (linting) our JavaScript code became possible and widespread. Unfortunately, its popularity was followed by what I call the Plague of Linters.
+
+Today I would like to discuss with you the purpose of linting, go through the most common mistakes people make when setting up a linter in their projects, and spread a few thoughts that I wish were more present in our ever-evolving ecosystem.
+
+---
+
+## If you like it, then you shoulda `Ctrl+C` on it
+
+The biggest and most dreadiest mistake developers make when introducing and maintaining their linter is copy-pasting a linting configuration from another projects. Let me elaborate.
+
+Imagine you're bootstrapping a new app, and you want to have code consistency and basic quality assurance at place. You reach for your favorite linter and, while installing it, your fingers subconsciously type:
+
+```bash
+npm install eslint-config-airbnb
+```
+
+_"Well, why shouldn't I use AirBnB's linting setup?"_ you stop for a moment, _"They are a world-known successful company, they must know something about code quality, and I want to use their experience!"_
+
+There is one issue, though: you are not AirBnB. Adopting their linter configuration doesn't make you AirBnB, and doesn't automatically make your code better and your project successful. All you are doing by using their configuration is blindly copying the result of their journey without taking one of your own.
+
+Settle with the idea that each project may require a different set of linting rules, and that's perfectly fine. Moreover, it's much more preferable and thoughtful than copy-pasting code in general.
+
+---
+
+## Choose what works best for you
+
+What I'm about to say may bring you into a state of shock, but bear with me:
+
+<Quote>
+  Go through <u>each</u> ESLint rule and configure it so it works for{" "}
+  <u>your</u> team.
+</Quote>
+
+_"What?! That's going to take forever! Why should I waste my time on this?"_ I hear you exclaim in fury. But wait, you already spend time on configuring your CI pipeline, API clients, or state management. Why do you think that spending time on a tool that ensures the overall code consistency is not worth of your time? Having a set of rules that support your code style is an absolute must to establish a solid and pleasant developer experience.
+
+If time is your main concern, organize this as a team activity. In the end, all developers will be using these rules on a daily basis, so they should participate in deciding what would suit them. Overall, [revisiting each rule](https://eslint.org/docs/rules/) and making a choice won't take you more than 1 hour, but will inevitably ensure your developer comfort and code consistency for years.
+
+The best part is that once you're settled on the rules, you can try them out and abstract those that work into your own ESLint configuration (just like AirBnb did!). This would give you a solid linting foundation and minimize the bootstrapping time of the next project. You don't really want to adopt dramatically different coding style across projects, as that would be against the concistency that you strive towards.
+
+---
+
+## It's not written in stone
+
+Here's another totally crazy statement:
+
+<Quote>If a linting rule doesn't help you—remove it.</Quote>
+
+The only purpose of a linter is to make your life as a developer easier and help you develop with confidence. However, in reality it's often the contrary: developers treat their linting rules like a law, no matter how obscure, rejoicing that it can be occassionally broken with `/* eslint-disable */`.
+
+The rules you configure are for you. If you, or your team, struggle because of a certain linting rule, discuss it and disable it, if necessary. You are **not** compromising on code's quality by disabling linting rules. The harm an obscure rule can do is tenfold higher than any implications of removing it.
+
+Staying objective and respectful of your team's previous choices is crucial when discussing linting rules that you struggle with. Certain decisions have a history behind them, and you can get used to them (or even adopt them yourself) through time. That being said, if you do struggle, voice that and provide some meaningful arguments to why you find a specific rule obstructing in your work.
+
+<Quote>
+  Developers don't have time to think about user experience if their developer
+  experience suffers.
+</Quote>
+
+> This point is especially critical when there is no code formatting tool to support your stylistic choices. The fact that I need to think whether I've added a semicolon, removed a trailing comma, or forgot to put a shorthand object property first—that's a time waste. This time can be spent on getting a linting config that works, or even better—getting the work done.
+>
+> Generally, I highly recommend using tools like [Prettier](https://prettier.io) to format your code and forget about stylistic choices altogether. It will feel weird at first, but you will thank me later.
+
+Try to understand and encourage that linting is something configured by you, maintained by you, and aimed to help you. There are no such things as conventions, good, or bad practices in the automatic code checks. There are no bad decisions in linting rules, apart from those blindly copied and those that obscure and block your working process.
+
+---
+
+## Iterate, iterate!
+
+Imagine that one day you've decided to start brewing coffee at home. You had no idea how to do that, so you looked up some articles, watched some videos, and the overall idea of the brewing process has shapened up in your head. Although you wouldn't call the first few times ideal, you can feel how it slowly begins to click for you with each next try. A couple of months pass and you can make your favorite espresso in a matter of minutes, almost effortless! You also noticed that you've slightly adjusted the initial process to your specific needs. That adjustment, that adaptation, is an important part of any learning process.
+
+There's a notion amongst developers that a linting configuration is something written once and never touched again. I don't know where it comes from, but let my demystify it once and for all:
+
+<Quote>
+  Linting rules is about your choice. Your choices change as you evolve. Let
+  your linter reflect that.
+</Quote>
+
+It is only by iterating over your configuration that you prove your choices with time, and filter out those that are not relevant anymore, or didn't last. As a developer, don't hesitate to express your unease with linting. Remember, linter is here to help you, not the other way around.
+
+---
+
+## Summary
+
+- Configure a set of rules that work for your/your team;
+- Iterate on your config: replace or remove rules that block the process, or add the rules that could've saved you;
+- Isolate common rules into your custom configuration preset;
+- Set up `pre-commit`/`pre-push` Git hooks to lint your code automatically (invalid code must never be committed to Git);
+- Get a feedback from your team on the linting setup.
+
+## Afterword
+
+Thanks for reading through this article! I hope I managed to show you how important it is to treat your linting setup a something you have control over. Share these tips with your team and have a great developer experience when working on amazing products.
+
+Let me know on [Twitter](https://twitter.com/kettanaito) if you would like to read more insights on efficient linting setup, or how to use Git hooks to bring linting to the next level. I'd love to know if this resonates with you. Thanks.

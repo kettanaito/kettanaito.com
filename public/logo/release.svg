@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="256px" height="256px" viewBox="0 0 256 256" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>logos/release</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="release-gh" transform="translate(-100.000000, -192.000000)">
+            <g id="Group" transform="translate(100.000000, 192.000000)">
+                <rect id="Rectangle" fill="#0A0A0A" x="0" y="0" width="256" height="256" rx="32"></rect>
+                <g transform="translate(74.000000, 60.000000)">
+                    <polygon id="Rectangle-Copy" fill="#A5FF00" style="mix-blend-mode: hard-light;" points="54.5 0 109 109.6 0 109.6"></polygon>
+                    <polygon id="Path-Copy" fill="#4BFF00" points="25.952381 137 67.4761905 137 67.4761905 123.952381 32.4404762 123.952381"></polygon>
+                    <polygon id="Path-2-Copy" fill="#4BFF00" points="83.6964286 31.3142857 83.047619 18.2666667 96.0238095 41.752381 88.8869048 41.752381"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
