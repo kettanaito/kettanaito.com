@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { Container } from '../components/grid'
+import { Seo } from '../components/seo'
 
 async function pruneServiceWorker() {
   const worker = await navigator.serviceWorker.getRegistration()
@@ -27,9 +28,22 @@ export default function WorkerRefreshPage() {
 
   return (
     <Container>
-      <p className="py-16 text-gray-600 text-center">
-        Preparing a new experience...
-      </p>
+      <Seo
+        title="Redd"
+        description={`Artem Zakharchenko's personal blog.`}
+        robots={['noindex', 'nofollow']}
+      />
+      <div className="max-w-md mx-auto">
+        <p className="py-16 text-center">Preparing a new experience...</p>
+        <noscript>
+          <p className="mt-5 text-red-600">
+            <strong>
+              Please enable JavaScript in your browser so Redd.one could
+              correctly clear previously installed Service Worker. Thank you.
+            </strong>
+          </p>
+        </noscript>
+      </div>
     </Container>
   )
 }
