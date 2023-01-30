@@ -33,8 +33,8 @@ export default function WorkerRefreshPage() {
         description={`Artem Zakharchenko's personal blog.`}
         robots={['noindex', 'nofollow']}
       />
-      <div className="max-w-md mx-auto">
-        <p className="py-16 text-center">Preparing a new experience...</p>
+      <div className="py-16 max-w-md mx-auto">
+        <p className="text-center">Preparing a new experience...</p>
         <noscript>
           <p className="mt-5 text-red-600">
             <strong>
