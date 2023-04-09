@@ -109,31 +109,6 @@ export default function About({ featuredPosts }: Props): JSX.Element {
                     and taught, broken and fixed, but most importantly, had a
                     chance to meet so many wonderful people along my journey.
                   </p>
-                  <p>
-                    Now, I&apos;m a{' '}
-                    <strong>
-                      Software Engineer at{' '}
-                      <span className="whitespace-nowrap">
-                        <img
-                          src="/logo/codesandbox.png"
-                          alt="CodeSandbox"
-                          className="inline align-baseline -mb-[0.5ch] ml-1 h-7 w-7 rounded-md"
-                        />{' '}
-                        CodeSandbox
-                      </span>
-                    </strong>{' '}
-                    working on pushing the boundaries of remote web development
-                    further in our{' '}
-                    <a
-                      href="https://codesandbox.io"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-gray-500 underline hover:text-black"
-                    >
-                      new editor experience
-                    </a>
-                    .
-                  </p>
                 </div>
               </div>
             </div>
