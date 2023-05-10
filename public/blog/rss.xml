@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title><![CDATA[Redd]]></title>
+        <description><![CDATA[kettanaito's blog]]></description>
+        <link>https://redd.one</link>
+        <generator>RSS for Node</generator>
+        <lastBuildDate>Tue, 09 May 2023 14:25:39 GMT</lastBuildDate>
+        <atom:link href="https://redd.one/rss.xml" rel="self" type="application/rss+xml"/>
+        <pubDate>Tue, 09 May 2023 14:25:38 GMT</pubDate>
+        <copyright><![CDATA[All rights reserved © 2023 Artem Zakharchenko]]></copyright>
+        <language><![CDATA[en-us]]></language>
+        <ttl>40</ttl>
+        <item>
+            <title><![CDATA[A Total Mess Behind GitHub Accelerator]]></title>
+            <description><![CDATA[GitHub Accelerator is a life-changing program on paper. In reality, it turned out a bit differently.]]></description>
+            <link>https://redd.one/blog/a-total-mess-behind-github-accelerator</link>
+            <guid isPermaLink="false">https://redd.one/blog/a-total-mess-behind-github-accelerator</guid>
+            <category><![CDATA[Culture]]></category>
+            <pubDate>Wed, 05 Apr 2023 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Advanced forms in React made easy]]></title>
+            <description><![CDATA[Learn how to create clean and performant forms using React Advanced Form package.]]></description>
+            <link>https://redd.one/blog/advanced-forms-in-react-made-easy</link>
+            <guid isPermaLink="false">https://redd.one/blog/advanced-forms-in-react-made-easy</guid>
+            <category><![CDATA[Engineering]]></category>
+            <pubDate>Mon, 14 May 2018 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Building a Tree-shakable Library with Rollup]]></title>
+            <description><![CDATA[A missing guideline for JavaScript library authors on building and distributing a tree-shakable library using RollupJS.]]></description>
+            <link>https://redd.one/blog/building-a-treeshakable-library-with-rollup</link>
+            <guid isPermaLink="false">https://redd.one/blog/building-a-treeshakable-library-with-rollup</guid>
+            <category><![CDATA[Engineering]]></category>
+            <pubDate>Sun, 28 Jun 2020 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Debounce vs Throttle: Definitive Visual Guide]]></title>
+            <description><![CDATA[A complete guide to learn the difference between debounce and throttle using visual examples. Never confuse the two again.]]></description>
+            <link>https://redd.one/blog/debounce-vs-throttle</link>
+            <guid isPermaLink="false">https://redd.one/blog/debounce-vs-throttle</guid>
+            <category><![CDATA[Engineering]]></category>
+            <pubDate>Mon, 23 Dec 2019 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Efficient CircleCI debugging with SSH]]></title>
+            <description><![CDATA[Stop wasting hours on debugging failed CI jobs, when you can go to the very remote machine that run your tests, open its state, and solve the issue spot-on.]]></description>
+            <link>https://redd.one/blog/efficient-circleci-debugging-with-ssh</link>
+            <guid isPermaLink="false">https://redd.one/blog/efficient-circleci-debugging-with-ssh</guid>
+            <category><![CDATA[Engineering]]></category>
+            <pubDate>Mon, 11 May 2020 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[How To Ask Questions?]]></title>
+            <description><![CDATA[Asking the right questions in engineering is hard. This article makes it a bit easier.]]></description>
+            <link>https://redd.one/blog/how-to-ask-questions</link>
+            <guid isPermaLink="false">https://redd.one/blog/how-to-ask-questions</guid>
+            <category><![CDATA[Culture]]></category>
+            <pubDate>Fri, 04 Sep 2020 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[My Struggle With Remix]]></title>
+            <description><![CDATA[Remix is a fantastic framework but it's not without its issues. Here are some of my struggles after building a few different projects with it.]]></description>
+            <link>https://redd.one/blog/my-struggle-with-remix</link>
+            <guid isPermaLink="false">https://redd.one/blog/my-struggle-with-remix</guid>
+            <category><![CDATA[Engineering]]></category>
+            <pubDate>Tue, 09 May 2023 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Practical Guide to Custom Jest Matchers]]></title>
+            <description><![CDATA[Learn how to create custom Jest matchers to reduce the repetition in your tests and make them more readable.]]></description>
+            <link>https://redd.one/blog/practical-guide-to-custom-jest-matchers</link>
+            <guid isPermaLink="false">https://redd.one/blog/practical-guide-to-custom-jest-matchers</guid>
+            <category><![CDATA[Engineering]]></category>
+            <pubDate>Wed, 22 Jun 2022 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[The Art of Code Review]]></title>
+            <description><![CDATA[Lessons learned from reviewing a team of 15 people throughout 2,5 years.]]></description>
+            <link>https://redd.one/blog/the-art-of-code-review</link>
+            <guid isPermaLink="false">https://redd.one/blog/the-art-of-code-review</guid>
+            <category><![CDATA[Culture]]></category>
+            <pubDate>Thu, 27 Dec 2018 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[The Dark Side of Open Source]]></title>
+            <description><![CDATA[Drawing from personal experience how open source can be a double-edged sword.]]></description>
+            <link>https://redd.one/blog/the-dark-side-of-open-source</link>
+            <guid isPermaLink="false">https://redd.one/blog/the-dark-side-of-open-source</guid>
+            <category><![CDATA[Culture]]></category>
+            <pubDate>Mon, 13 Jun 2022 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[The Plague of Linters]]></title>
+            <description><![CDATA[If you ever had a debate about which linting rule to use, you must read this.]]></description>
+            <link>https://redd.one/blog/the-plague-of-linters</link>
+            <guid isPermaLink="false">https://redd.one/blog/the-plague-of-linters</guid>
+            <category><![CDATA[Culture]]></category>
+            <pubDate>Fri, 10 Jul 2020 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Thinking in Functions, Part II: Higher-order Functions]]></title>
+            <description><![CDATA[Let's take a dive into what "higher-order" functions are, what problems they solve, and learn how to use them in practice.]]></description>
+            <link>https://redd.one/blog/thinking-in-functions-higher-order-functions</link>
+            <guid isPermaLink="false">https://redd.one/blog/thinking-in-functions-higher-order-functions</guid>
+            <category><![CDATA[Engineering]]></category>
+            <pubDate>Sun, 07 Mar 2021 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Thinking in Functions, Part I: The Input/Output Pattern]]></title>
+            <description><![CDATA[Function is a synonym for action. It's good when your actions have purpose, and their intent is clear. But how to write such functions?]]></description>
+            <link>https://redd.one/blog/thinking-in-functions</link>
+            <guid isPermaLink="false">https://redd.one/blog/thinking-in-functions</guid>
+            <category><![CDATA[Engineering]]></category>
+            <pubDate>Mon, 09 Sep 2019 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Why I Wouldn't Want to Have an Engineering Degree]]></title>
+            <description><![CDATA[Coming from a non-technical background is challenging. Yet I wouldn't want to have studied software engineering regardless because it would've taken one little but incredibly important thing from me.]]></description>
+            <link>https://redd.one/blog/why-i-wouldnt-want-to-have-an-engineering-degree</link>
+            <guid isPermaLink="false">https://redd.one/blog/why-i-wouldnt-want-to-have-an-engineering-degree</guid>
+            <category><![CDATA[Culture]]></category>
+            <pubDate>Mon, 23 Aug 2021 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Writing a Custom Webpack Loader]]></title>
+            <description><![CDATA[Learn how to write custom webpack loaders with this example that transforms MP3 file imports into interactive audio players.]]></description>
+            <link>https://redd.one/blog/writing-custom-webpack-loader</link>
+            <guid isPermaLink="false">https://redd.one/blog/writing-custom-webpack-loader</guid>
+            <category><![CDATA[Engineering]]></category>
+            <pubDate>Sun, 06 Jun 2021 00:00:00 GMT</pubDate>
+        </item>
+    </channel>
+</rss>
