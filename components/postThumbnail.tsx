@@ -7,7 +7,6 @@ interface Props {
   thumbnailSvg: string
   date: Date
   className?: string
-  scroll?: boolean
 }
 
 export function PostThumbnail({
@@ -17,11 +16,10 @@ export function PostThumbnail({
   thumbnailSvg,
   date,
   className,
-  scroll = false,
 }: Props): JSX.Element {
   return (
     <article className={['group max-w-md'].concat(className || '').join(' ')}>
-      <Link href={url} scroll={scroll}>
+      <Link href={url}>
         <figure className="aspect-[3/4] flex items-center justify-center overflow-hidden rounded-xl from-transparent to-gray-100 bg-gradient-to-t">
           <div
             dangerouslySetInnerHTML={{ __html: thumbnailSvg }}
@@ -35,7 +33,7 @@ export function PostThumbnail({
           <span className="mx-3 text-gray-300">—</span>
           <span>{date.toLocaleDateString('en-GB')}</span>
         </p>
-        <Link href={url} className="hover:underline" scroll={scroll}>
+        <Link href={url} className="hover:underline">
           <p className="font-bold text-2xl">{title}</p>
         </Link>
       </div>

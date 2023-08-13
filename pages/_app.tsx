@@ -3,7 +3,6 @@ import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import { Header } from '../components/header'
 import { Footer } from '../components/footer'
-import { TransitionContainer } from '../components/transitionContainer'
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -15,15 +14,11 @@ export default function App({ Component, pageProps }: AppProps) {
         <link rel="manifest" href="/manifest.webmanifest" />
       </Head>
       {pageProps.hideLayout ? (
-        <TransitionContainer>
-          <Component {...pageProps} />
-        </TransitionContainer>
+        <Component {...pageProps} />
       ) : (
         <>
           <Header />
-          <TransitionContainer>
-            <Component {...pageProps} />
-          </TransitionContainer>
+          <Component {...pageProps} />
           <Footer />
         </>
       )}
