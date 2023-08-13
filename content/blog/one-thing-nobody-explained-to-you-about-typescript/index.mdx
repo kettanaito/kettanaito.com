@@ -1,0 +1,245 @@
+---
+title: One Thing Nobody Explained To You About TypeScript
+category: Engineering
+date: 2023-08-30
+keywords:
+  - typescript
+  - configuration
+  - tsconfig
+  - multiple
+  - test
+  - wrong
+---
+
+[TypeScript](https://www.typescriptlang.org/) is a fantastic tool for application development, and it has helped me ship better code more times than I can count. Prototyping in interfaces and function declarations before I write any code gives me the speed to try things out before committing to tests and implementation intricacies. I've been using TypeScript at work, in my open-source projects, for snippets of code in my notes, and, sometimes, even when structuring my thoughts on topics unrelated to engineering altogether. It's been a great experience through and through!
+
+As years go by, I dare say I grew proficient in TypeScript. I nailed the difference between `type` and `interface`, fell madly in love with discriminated union types, function overloads, generics, conditional types, type testing... I thought I got it all.
+
+Until I didn't. See, there's one thing about TypeScript that I utterly failed to understand. I read the docs about it, I used it countless of times, and still I managed to get it totally wrong.
+
+**It's `tsconfig.json`.**
+
+No, I'm not talking about `target` and `module`, which I can only tell apart after a good while. And I'm not talking about advanced options either, like `customConditions` or `tsBuildInfoFile`. It's both simpler and more complicated than that.
+
+It's about the configuration file itself. Yes, the `tsconfig.json` file you've created hundreds of times in every TypeScript project you worked on. The same `tsconfig.json` where you write `"exclude": ["node_modules"]` and `"moduleResolution": "node"` every time. That's the one.
+
+> Full disclosure: I've spent a fair share of time in TypeScript documentation but I don't live there. I think, neither do you. There a decent chance things I'm about to write were addressed, covered, or elaborated upon. There's also a chance they weren't, and this will be the first time you hear about them.
+
+## Preamble
+
+So what's the deal with `tsconfig.json`? Let me show you.
+
+Let's write a simple frontend application. I mean, a _very_ simple one.
+
+```ts
+// src/app.ts
+const greetingText = document.createElement('p')
+greetingText.innerText = 'Hello, John!'
+
+document.body.appendChild(greetingText)
+```
+
+It creates a paragraph, sets its text to greet John, and appends it to the document's body. So far so good.
+
+But where does the `document` come from exactly? You can say it's a global variable in JavaScript, and you would be right! That is, if we were in the browser, but we aren't in the browser, not yet, at least. For now, we are staring at the source code in the IDE, contemplating our engineering genius. And, somehow, the IDE knows about the `document`, and its body, and that it has the `appendChild()` method and that we used it correctly. How does that happen?
+
+Well, TypeScript, duh. Yes, but _how_?
+
+We get the intellisense on that standard API because TypeScript loads a default _type definition library_ for DOM, which includes `document` and a bunch of other types. You can check it yourself by holding <kbd>CMD</kbd> and clicking on any of those global variables. Suddenly, you are swept off your seat and taken to the marvelous world of `lib.dom.d.ts`. Mystery solved.
+
+Our application looks ambitious, so how about we add some tests for it?
+
+One install command later, and we've got ourself Vitest. We want that nice type-safety in our tests too, and Vitest comes with type definitions baked-in, that's just splendid. And so we put together our first test:
+
+```ts
+// src/app.test.ts
+it('greets John', async () => {
+  await import('./app')
+  const greetingText = document.querySelector('p')
+  expect(greetingText).toHaveText('Hello, John!')
+})
+```
+
+But once we type that in, TypeScript gets angry with us:
+
+```txt
+Cannot find name 'it'. Do you need to install type definitions for a test runner?
+```
+
+Hmm. Well, I guess the compiler has a point. Where would `it` come from? It's not a standard browser API, and TypeScript doesn't seem to know anything about it. It comes from `vitest/config`, which we need to add to our project by following a neatly present suggestion from the docs:
+
+```json
+// tsconfig.json
+{
+  "compilerOptions": {
+    // Using the "types" option we let TypeScript know that
+    // we want to load in additional types from Vitest,
+    // like "it", "expect", "beforeAll", etc.
+    "types": ["vitest/globals"]
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"]
+}
+```
+
+We slam that right into our TypeScript configuration, hit save, and have the tests valid and running, and the type validation happy. Coincidentally, this is also the point where I begin to feel particularly good about myself and strongly typed languages in general.
+
+## The problem
+
+Let me ask you this: what happens if you reference non-existing code in your TypeScript module? Yep, a wavy red line and the `Cannot find name` type error. Well, we just saw that ourselves when calling `it()` in a test, right?
+
+For a moment, let's jump back to `app.ts` and type a global, non-existing variable called `test`:
+
+```ts
+// src/app.ts
+// ...application's code.
+
+test
+```
+
+It's not a browser global, it doesn't belong to any default TypeScript libraries. It's a bug, a mistake, it has to go red.
+
+Only, it doesn't. Not only does it not produce a type error, TypeScript tries to be helpful and suggest us to type it, saying it comes from some `TestApi` namespace. But that's a Vitest type... Would this code compile? Sure. Would it work in the browser? No, it will throw. This is a type definition that describes something that's simply not there, to which I only find appropriate to refer to as a "ghostly definition".
+
+But how did that happen? Isn't the whole purpose of TypeScript to guard us against mistakes like this?
+
+Don't blame the tool here, blame yourself. What we did just now—setting up the app files and the tests—was entirely and completely incorrect. All we've got it a sense of false security and a confused compiler.
+
+## (Not) one to rule them all
+
+What, in your opinion, does `tsconfig.json` do? It configures TypeScript, we know that much, controls what files to include and exclude from the compilation, provides the compilation options, let's us add global namespaces... It configures TypeScript!
+
+It does, it's not a trick question. But the way if configures TypeScript is not what you expect. Once again, a demonstration.
+
+Move your `app.test.ts` file from `./src` to a newly-created `./test` directory. Open it. Wait, is that a type error on `it()` again? Didn't we fix that by `vitest/globals` already?
+
+The thing is, TypeScript doesn't know what to do with the `./test` directory, it doesn't even know it exists. Because it only handles the `files` you `include`:
+
+```json
+// tsconfig.json
+{
+  "include": ["src"]
+}
+```
+
+In this case, it doesn't compile or validate anything outside of the `./src` directory.
+
+Easy. Just shove a `"test"` into that array and have the gears spinning again.
+
+That's where most of the people get it wrong.
+
+<Quote>
+  You aren't supposed to have just _one_ `tsconfig.json` in your application.
+</Quote>
+
+How many then? What, should I create `tsconfig.json` for source, and for test, and then for every other directory I have?
+
+Well, actually, yeah. That's precisely how you configure TypeScript correctly. It has to do with where and how your modules are meant to run.
+
+## Separation of concerns
+
+Behind-the-scenes of a modern web application is a salad of modules. The immediate source of your app is meant to be compiled, minified, code-split, bundled, and shipped to your users. Then there are tests, which are TypeScript modules also, never to be compiled or shipped to anyone. There may also be Storybook stories, Playwright tests, maybe a custom `*.ts` script or two to automate things—all helpful, all having different intentions and running in different environments.
+
+But what we write our modules _for_ matters. It matters for TypeScript too. Why do you think it gives you the `Document` type by default? Because it knows you're likely developing a web app. Developing a Node.js server instead? Be so kind to state that intention, to install `@types/node`. The compiler cannot guess for you, you need to _tell it what you want_.
+
+Your way of communication with TypeScript is through `tsconfig.json`. But not just the root-level one. TypeScript is fine if you've got multiple directories with modules meant for different things, it will understand. All you have to do is tell it.
+
+You do so by strategically placing multiple `tsconfig.json` files around your project. Here's an example:
+
+```bash
+- /e2e
+  - tsconfig.json # specific to E2E tests
+  - Login.test.ts
+- /src
+  - tsconfig.json # specific to the source
+  - App.tsx
+  - util.ts
+- /test
+  - tsconfig.json # specific to the tests
+  - App.test.tsx
+- tsconfig.json # common options
+```
+
+Woah, that's a lot of configs! That's a lot of files and intentions too, all different, all meant to be type-safe. You achieve that separation through extending the base config and narrowing down the scope of each individual `tsconfig.json` files.
+
+For example, this is what the TypeScript configuration for the source files may look like:
+
+```json
+// src/tsconfig.json
+{
+  // Extend the root-level config to reuse common options.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    // Compile to the code that runs in the browser.
+    "target": "es2015",
+    "module": "esnext",
+    // Support JSX, we're running React here.
+    "jsx": "react"
+  },
+  // Apply this config only to the source files.
+  "include": ["src"],
+  "exclude": ["node_modules"]
+}
+```
+
+In contrast, a configuration for the integration tests in `./test`:
+
+```json
+// test/tsconfig.json
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    // No transpiling here, let's stay on the edge.
+    "target": "esnext",
+    "module": "esnext",
+    // Integration tests run in Node.js.
+    // Let's also add those test runner's globals.
+    "types": ["@types/node", "vitest/globals"]
+  },
+  // We care only about the test files here.
+  "include": ["**/*.test.ts"]
+}
+```
+
+And, of course, the root-level configuration is there to let us reuse common TypeScript options but also provude us with sensible defaults whenever we create a module outside of any defined directories in the future.
+
+<Quote>
+  You should have as many TypeScript configurations as there are layers in your
+  project: source code, Node.js testing, in-browser testing, third-party
+  tooling, etc.
+</Quote>
+
+TypeScript will automatically pick up the `tsconfig.json` closest to the module it type-checks, giving you the ability to extend while deviating where necessary.
+
+Now, a moment about why this is a big deal.
+
+## The bigger picture
+
+The better you tailor TypeScript to the context of the module you are working on, the better type-checking experience you are going to get. Not only that, but that's also how you prevent those "ghostly types" and otherwise impossible states that result in runtime errors but should've been caught at build time. One good example of that kind of impossible states are conditional exports.
+
+[Conditional exports](https://nodejs.org/api/packages.html#conditional-exports) is what allows libraries to load different code under the same import path based on the environment that code is being imported. Simply put, the same `import 'foo'` can resolve to `foo.node.js` in Node.js and `foo.browser.js` in the browser. But there's more. As we learned, the type definitions (including the default libraries) are different across those environments. Conditional exports account for that too, since TypeScript picks up the type definition that matches the module name automatically (e.g. `foo.browser.d.ts` for `foo.browser.js`) to guanratee you're looking at the correct picture in your IDE.
+
+I get it, you likely never heard about conditional exports before and won't be using them directly anyway. Except, they are shipping right now, and they are a great (albeit a bit complex) addition to Node.js. But they will only be as great as _you_ describe your modules, which means telling TypeScript what environment that module is destined for.
+
+```json
+{
+  "compilerOptions": {
+    // Prioritize "browser" export conditions
+    // because our app is meant to run in the browser.
+    "customConditions": ["browser"]
+  },
+  "includes": ["src"]
+}
+```
+
+This becomes much more important for "universal" tooling that can export functionality that can run only in specific environments. I don't have to go far for an example. `@mswjs/interceptors`, the library that powers Node.js request interception for Mock Service Worker, has interceptors that you can only import in Node.js, and some that you can only use in the browser. Mixing the interceptor/environment will
+
+---
+
+- Differet import conditions! let the browser code be truly browser code.
+- Proper type checking (and even faster)!
+
+---
+
+- Moderns apps are many things: modules that get compiled, minified, and shipped to your users; then tests, which are also TS; then maybe Storybook and Playwright.
+- Different modules are meant to run in different environments. Your integration test with Vitest doesn't run in the browser, so _tell TypeScript about it_.
