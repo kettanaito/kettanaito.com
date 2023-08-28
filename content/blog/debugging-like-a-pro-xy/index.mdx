@@ -54,11 +54,11 @@ This example wraps the `user` object in a proxy that has a `set` method defined.
 
 > That `Reflect.set()` part at the end of the `set` method translates to "perform the set operation as-is".
 
-That's proxies in their essence—they allow you to listen to certain operations performed on the object. You can listen to a variety things too, like `set`, `get`, `apply`, `construct`, and many others. This becomes extremely powerful once you recall that almost everything in JavaScript is an object (arrays are objects, classes are objects, functions are objects, even literals like strings and numbers are, technically, objects).
+That's proxies in their essence—they allow you to listen to certain operations performed on the object. You can listen to a variety of things too, like `set`, `get`, `apply`, `construct`, and many others. This becomes extremely powerful once you recall that almost everything in JavaScript is an object: arrays are objects, classes are objects, functions are objects, even literals like strings and numbers are, technically, objects.
 
 ## Who read the request body?
 
-I had access to when a problematic request instance was created but I had to know what and why read its body. To be honest, the first thing I tried is simply stubbing the body reading methods of that request:
+I had access to when a problematic request instance was created but I had to know what and why read its body. To be honest, the first thing I tried was simply stubbing the body reading methods of that request:
 
 ```js
 request.text = async () => {
@@ -68,9 +68,9 @@ request.text = async () => {
 
 > `console.trace()` is like `console.log()` only it prints a stack trace to that console call. Handy!
 
-But I grew to dislike stubs over the years. Stubs _replace_ the functionality, disrupt the normal program flow, and always require you to go an extra step or two if you wish for the stub to perform things as-is (such as storing the reference to the original `request.text` to then calling it in the stub). They bring little value for a big price. I avoid stubs.
+But I grew to dislike stubs over the years. Stubs _replace_ the functionality, disrupt the normal program flow, and always require you to go an extra step or two if you wish for the stub to perform things as-is (such as storing the reference to the original `request.text` to then call it in the stub). They bring little value for a big price. I avoid stubs.
 
-And—you guessed it—that stub just refused to work. I wasn't quite in the mood to figure out why, I was rather to focus my mental capacity on the actual problem at hand.
+On top of it, that stub just refused to work. I wasn't quite in the mood to figure out why, and I decided to focus my mental capacity on the actual problem at hand.
 
 Proxies are a much better solution to that problem. Naturally, here's what I did next:
 
@@ -88,5 +88,7 @@ bodyReadingMethods.forEach((methodName) => {
 ```
 
 > This snippet establishes a `Proxy` for each body reading method on the request and prints a stack trace whenever something calls one of those methods.
+
+The main reason I love proxies is that they are "transparent" (excuse me for the lack of a better word). They don't re-assign object methods, but instead wrap them in a coat of sorts. You can tap into the default behavior of any wrapped method with `Reflect.*` at any point of time, but you can also break out from that behavior as well.
 
 And that was it. I ran the code, it found an unexpected `request.json()` call, and the stack trace brought me to the pulp of it. It turned out to be the GraphQL request parsing logic that applied to all intercepted requests, where I forgot to clone the request before reading it! Silly of me, amazing of proxies.
