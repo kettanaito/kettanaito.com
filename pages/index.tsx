@@ -113,7 +113,10 @@ export default function About({ featuredPosts }: Props): JSX.Element {
                     Today, I&apos;m a{' '}
                     <strong>
                       Developer Experience Engineer at{' '}
-                      <a href="https://artillery.io" className="whitespace-nowrap hover:text-gray-500 hover:underline">
+                      <a
+                        href="https://artillery.io"
+                        className="whitespace-nowrap hover:text-gray-500 hover:underline"
+                      >
                         <span className="inline-block h-6 w-6 bg-gray-800 rounded-sm align-text-top">
                           <img src="/logo/artillery.svg" alt="Artillery" />
                         </span>{' '}
@@ -162,7 +165,7 @@ export default function About({ featuredPosts }: Props): JSX.Element {
               })}
             </Grid>
             <footer className="text-center mt-16">
-              <Link href="/blog" className="button px-14 py-2" scroll={false}>
+              <Link href="/blog" className="button px-14 py-2">
                 See more posts
               </Link>
             </footer>

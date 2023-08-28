@@ -169,7 +169,6 @@ export default function BlogPost({
                     category={post.frontmatter.category}
                     date={new Date(post.frontmatter.date)}
                     thumbnailSvg={post.thumbnailSvg}
-                    scroll={true}
                     className="w-full col-span-2"
                   />
                 )
