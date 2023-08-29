@@ -1,0 +1,94 @@
+---
+title: Debugging Like A Pro-xy
+description: Learn how to use Proxies to debug tricky issues in JavaScript.
+category: Engineering
+date: 2023-08-29
+keywords:
+  - proxy
+  - debugging
+  - spy
+  - object
+  - inspect
+  - request
+---
+
+The [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy) API is a powerful feature in JavaScript. You can think of it as a spy on objects but that description alone doesn't do it justice. I've noticed I've been using it a lot lately, specifically when it comes to debugging rather tricky issues. Today, I will show you how.
+
+## The context
+
+Here I was, trying [Mock Service Worker](https://github.com/mswjs/msw) with the bleeding-edge version of Remix when I stumbled upon a peculiar issue. Right when Remix starts its development server, it does a heartbeat HTTP request to check whether it's up. For some strange reason, that request failed consistently when MSW was enabled for the server-side request interception in Remix. What stroke me as strange is that there were no request handlers that could have affected that heartbeat request. In fact, I've removed all the handlers completely but the issue persisted.
+
+See, the heartbeat request was failing because something kept reading its body prematurely. Down along the chain, if another actor tries to clone that request instance, the Fetch API (or, in Remix's case `@remix-run/web-fetch` package that polyfills it in Node.js) will throw an error:
+
+```bash
+Error: cannot clone body after it is used
+```
+
+This is a rather nasty kind of issue when you know _what_ is wrong but have zero clue as to _when_ that happens. Unfortunately, the error stack is seldom useful in cases like this, when a cascade of libraries is involved and the context is often disrupted, unclear, and, as a result, unknown to the thrown error.
+
+I managed to pin-point the request instance to a moment in time where its `bodyUsed` property suddenly transitioned from `false` to `true`. That was the closest I got but it was not nearly close enough to get to the bottom of it. I had to employ a different debugging strategy.
+
+> I love `debugger`, by the way. I use `debugger` a lot. It's great when you want to see what happens to a resource step-by-step. But it's also an extremely detailed way to debug. You may not need all of that detail in some cases, and until conditional breakpoints become a lesser pain to work with, I don't reach for a debugger in certain situations.
+
+## Using Proxies
+
+First, a bit of introduction. Here's a basic example of using a `Proxy` in your code:
+
+```js
+const user = {
+  name: 'John',
+}
+
+const userProxy = new Proxy(user, {
+  set(target, property, nextValue) {
+    console.log(`setting "${property}" to "${nextValue}"`)
+    return Reflect.set(target, property, nextValue)
+  },
+})
+
+userProxy.name = 'Johnatan'
+// `setting "name" to "Johnatan"`
+```
+
+This example wraps the `user` object in a proxy that has a `set` method defined. Whenever any property on the wrapped object is _set_ to the next value, that method gets called. This allows you to A) spy on the setters; B) prevent a value change, if you want to.
+
+> That `Reflect.set()` part at the end of the `set` method translates to "perform the set operation as-is".
+
+That's proxies in their essence—they allow you to listen to certain operations performed on the object. You can listen to a variety of things too, like `set`, `get`, `apply`, `construct`, and many others. This becomes extremely powerful once you recall that almost everything in JavaScript is an object: arrays are objects, classes are objects, functions are objects, even literals like strings and numbers are, technically, objects.
+
+## Who read the request body?
+
+I had access to when a problematic request instance was created but I had to know what and why read its body. To be honest, the first thing I tried was simply stubbing the body reading methods of that request:
+
+```js
+request.text = async () => {
+  console.trace('Request body is being read!')
+}
+```
+
+> `console.trace()` is like `console.log()` only it prints a stack trace to that console call. Handy!
+
+But I grew to dislike stubs over the years. Stubs _replace_ the functionality, disrupt the normal program flow, and always require you to go an extra step or two if you wish for the stub to perform things as-is (such as storing the reference to the original `request.text` to then call it in the stub). They bring little value for a big price. I avoid stubs.
+
+On top of it, that stub just refused to work. I wasn't quite in the mood to figure out why, and I decided to focus my mental capacity on the actual problem at hand.
+
+Proxies are a much better solution to that problem. Naturally, here's what I did next:
+
+```js
+const bodyReadingMethods = ['arrayBuffer', 'blob', 'formData', 'text', 'json']
+
+bodyReadingMethods.forEach((methodName) => {
+  request[methodName] = new Proxy(request[methodName], {
+    apply(...args) {
+      console.trace(`Premature "request.${methodName}" call!`)
+      return Reflect.apply(...args)
+    },
+  })
+})
+```
+
+> This snippet establishes a `Proxy` for each body reading method on the request and prints a stack trace whenever something calls one of those methods.
+
+The main reason I love proxies is that they are "transparent" (excuse me for the lack of a better word). They don't re-assign object methods, but instead wrap them in a coat of sorts. You can tap into the default behavior of any wrapped method with `Reflect.*` at any point of time, but you can also break out from that behavior as well.
+
+And that was it. I ran the code, it found an unexpected `request.json()` call, and the stack trace brought me to the pulp of it. It turned out to be the GraphQL request parsing logic that applied to all intercepted requests, where I forgot to clone the request before reading it! Silly of me, amazing of proxies.

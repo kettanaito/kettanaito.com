@@ -6,7 +6,7 @@ export function Header(): JSX.Element {
   return (
     <header className="sticky h-18 top-0 border-b border-gray-200 py-4 bg-gray-100 bg-opacity-80 backdrop-blur-md font-medium z-10">
       <Container className="flex items-center justify-between gap-10">
-        <Link href="/" className="" scroll={false}>
+        <Link href="/">
           <img
             src="/favicon.svg"
             alt="Redd logo"
@@ -21,7 +21,6 @@ export function Header(): JSX.Element {
                 className="p-3 text-gray-500 hover:text-black"
                 activeClassName="text-gray-900"
                 exact={true}
-                scroll={false}
               >
                 About me
               </NavLink>
@@ -31,7 +30,6 @@ export function Header(): JSX.Element {
                 href="/blog"
                 className="p-3 text-gray-500 hover:text-black"
                 activeClassName="text-gray-900"
-                scroll={false}
               >
                 Blog
               </NavLink>

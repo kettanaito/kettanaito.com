@@ -53,7 +53,7 @@ export default function BlogPost({
       />
 
       <div className="from-white to-gray-100 bg-gradient-to-t">
-        <Container className="pt-0 mb-20 lg:pt-48 lg:mb-48">
+        <Container className="mb-20 lg:pt-10">
           <div className="relative max-w-3xl mx-auto">
             <div className="hidden lg:block pattern -left-16 -translate-x-full bottom-[25%] opacity-20 w-[300px]" />
             <div className="hidden lg:block pattern -right-16 translate-x-full bottom-[25%] opacity-20 w-[300px]" />
@@ -63,7 +63,7 @@ export default function BlogPost({
               transition={{ duration: 0.8 }}
             >
               <div
-                className="w-64 mx-auto pb-5 lg:pb-16 drop-shadow-2xl"
+                className="w-60 mx-auto pb-5 lg:pb-10 drop-shadow-2xl"
                 dangerouslySetInnerHTML={{ __html: post.thumbnailSvg }}
               />
             </motion.div>
@@ -169,7 +169,6 @@ export default function BlogPost({
                     category={post.frontmatter.category}
                     date={new Date(post.frontmatter.date)}
                     thumbnailSvg={post.thumbnailSvg}
-                    scroll={true}
                     className="w-full col-span-2"
                   />
                 )

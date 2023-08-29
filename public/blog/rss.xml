@@ -4,9 +4,9 @@
         <description><![CDATA[kettanaito's blog]]></description>
         <link>https://redd.one</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Tue, 09 May 2023 14:25:39 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 28 Aug 2023 16:54:55 GMT</lastBuildDate>
         <atom:link href="https://redd.one/rss.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Tue, 09 May 2023 14:25:38 GMT</pubDate>
+        <pubDate>Mon, 28 Aug 2023 16:54:54 GMT</pubDate>
         <copyright><![CDATA[All rights reserved © 2023 Artem Zakharchenko]]></copyright>
         <language><![CDATA[en-us]]></language>
         <ttl>40</ttl>
@@ -43,6 +43,14 @@
             <pubDate>Mon, 23 Dec 2019 00:00:00 GMT</pubDate>
         </item>
         <item>
+            <title><![CDATA[Debugging Like A Pro-xy]]></title>
+            <description><![CDATA[Learn how to use Proxies to debug tricky issues in JavaScript.]]></description>
+            <link>https://redd.one/blog/debugging-like-a-pro-xy</link>
+            <guid isPermaLink="false">https://redd.one/blog/debugging-like-a-pro-xy</guid>
+            <category><![CDATA[Engineering]]></category>
+            <pubDate>Mon, 28 Aug 2023 00:00:00 GMT</pubDate>
+        </item>
+        <item>
             <title><![CDATA[Efficient CircleCI debugging with SSH]]></title>
             <description><![CDATA[Stop wasting hours on debugging failed CI jobs, when you can go to the very remote machine that run your tests, open its state, and solve the issue spot-on.]]></description>
             <link>https://redd.one/blog/efficient-circleci-debugging-with-ssh</link>
@@ -59,12 +67,20 @@
             <pubDate>Fri, 04 Sep 2020 00:00:00 GMT</pubDate>
         </item>
         <item>
+            <title><![CDATA[My Next Journey]]></title>
+            <description><![CDATA[I am extremely excited to announce the next chapter in my engineering journey!]]></description>
+            <link>https://redd.one/blog/my-next-journey</link>
+            <guid isPermaLink="false">https://redd.one/blog/my-next-journey</guid>
+            <category><![CDATA[Culture]]></category>
+            <pubDate>Mon, 03 Jul 2023 00:00:00 GMT</pubDate>
+        </item>
+        <item>
             <title><![CDATA[My Struggle With Remix]]></title>
             <description><![CDATA[Remix is a fantastic framework but it's not without its issues. Here are some of my struggles after building a few different projects with it.]]></description>
             <link>https://redd.one/blog/my-struggle-with-remix</link>
             <guid isPermaLink="false">https://redd.one/blog/my-struggle-with-remix</guid>
             <category><![CDATA[Engineering]]></category>
-            <pubDate>Tue, 09 May 2023 00:00:00 GMT</pubDate>
+            <pubDate>Wed, 10 May 2023 00:00:00 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[Practical Guide to Custom Jest Matchers]]></title>
