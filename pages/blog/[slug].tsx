@@ -63,7 +63,7 @@ export default function BlogPost({
               transition={{ duration: 0.8 }}
             >
               <div
-                className="w-60 mx-auto pb-5 lg:pb-10 drop-shadow-2xl"
+                className="w-48 mx-auto pb-5 lg:pb-10 drop-shadow-2xl"
                 dangerouslySetInnerHTML={{ __html: post.thumbnailSvg }}
               />
             </motion.div>
