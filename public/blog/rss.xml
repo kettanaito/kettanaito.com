@@ -4,9 +4,9 @@
         <description><![CDATA[kettanaito's blog]]></description>
         <link>https://redd.one</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Mon, 28 Aug 2023 16:54:55 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 18 Sep 2023 17:18:01 GMT</lastBuildDate>
         <atom:link href="https://redd.one/rss.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Mon, 28 Aug 2023 16:54:54 GMT</pubDate>
+        <pubDate>Mon, 18 Sep 2023 17:18:01 GMT</pubDate>
         <copyright><![CDATA[All rights reserved © 2023 Artem Zakharchenko]]></copyright>
         <language><![CDATA[en-us]]></language>
         <ttl>40</ttl>
@@ -48,7 +48,7 @@
             <link>https://redd.one/blog/debugging-like-a-pro-xy</link>
             <guid isPermaLink="false">https://redd.one/blog/debugging-like-a-pro-xy</guid>
             <category><![CDATA[Engineering]]></category>
-            <pubDate>Mon, 28 Aug 2023 00:00:00 GMT</pubDate>
+            <pubDate>Tue, 29 Aug 2023 00:00:00 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[Efficient CircleCI debugging with SSH]]></title>
@@ -67,20 +67,20 @@
             <pubDate>Fri, 04 Sep 2020 00:00:00 GMT</pubDate>
         </item>
         <item>
-            <title><![CDATA[My Next Journey]]></title>
-            <description><![CDATA[I am extremely excited to announce the next chapter in my engineering journey!]]></description>
-            <link>https://redd.one/blog/my-next-journey</link>
-            <guid isPermaLink="false">https://redd.one/blog/my-next-journey</guid>
-            <category><![CDATA[Culture]]></category>
-            <pubDate>Mon, 03 Jul 2023 00:00:00 GMT</pubDate>
-        </item>
-        <item>
             <title><![CDATA[My Struggle With Remix]]></title>
             <description><![CDATA[Remix is a fantastic framework but it's not without its issues. Here are some of my struggles after building a few different projects with it.]]></description>
             <link>https://redd.one/blog/my-struggle-with-remix</link>
             <guid isPermaLink="false">https://redd.one/blog/my-struggle-with-remix</guid>
             <category><![CDATA[Engineering]]></category>
             <pubDate>Wed, 10 May 2023 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[One Thing Nobody Explained To You About TypeScript]]></title>
+            <description><![CDATA[One of the most common mistakes in configuring TypeScript.]]></description>
+            <link>https://redd.one/blog/one-thing-nobody-explained-to-you-about-typescript</link>
+            <guid isPermaLink="false">https://redd.one/blog/one-thing-nobody-explained-to-you-about-typescript</guid>
+            <category><![CDATA[Engineering]]></category>
+            <pubDate>Mon, 18 Sep 2023 00:00:00 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[Practical Guide to Custom Jest Matchers]]></title>
