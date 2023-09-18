@@ -7,7 +7,6 @@ interface Props {
   thumbnailSvg: string
   date: Date
   className?: string
-  scroll?: boolean
 }
 
 export function PostThumbnail({
@@ -17,7 +16,6 @@ export function PostThumbnail({
   thumbnailSvg,
   date,
   className,
-  scroll = false,
 }: Props): JSX.Element {
   return (
     <article className={['group max-w-md'].concat(className || '').join(' ')}>

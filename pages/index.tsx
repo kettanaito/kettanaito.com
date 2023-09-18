@@ -1,5 +1,6 @@
 import { GetStaticProps } from 'next'
 import Link from 'next/link'
+import Image from 'next/image'
 import {
   SiTwitter as TwitterIcon,
   SiGithub as GitHubIcon,
@@ -13,7 +14,6 @@ import { PageHeader } from '../components/pageHeader'
 import { PostThumbnail } from '../components/postThumbnail'
 import { getPostContent, Post, sortPostsByDate } from '../utils/mdx'
 import { TwitterFollowBlock } from '../components/twitterFollowBlock'
-import Image from 'next/image'
 import { Seo } from '../components/seo'
 
 interface Props {
@@ -136,10 +136,10 @@ export default function About({ featuredPosts }: Props): JSX.Element {
                 return (
                   <PostThumbnail
                     key={post.id}
+                    url={post.url}
                     title={post.frontmatter.title}
                     category={post.frontmatter.category}
                     thumbnailSvg={post.thumbnailSvg}
-                    url={post.url}
                     date={new Date(post.frontmatter.date)}
                     className="col-span-1 lg:col-span-2"
                   />
@@ -408,32 +408,6 @@ function OpenSourceProject({
         <p className="text-gray-500">{description}</p>
       </a>
     </article>
-  )
-}
-
-function _OpenSourceProject({
-  href,
-  title,
-  text,
-  imageUrl,
-}: {
-  href: string
-  title: string
-  text: string
-  imageUrl: string
-}): JSX.Element {
-  return (
-    <a href={href} className="flex gap-4 py-8">
-      <img
-        src={imageUrl}
-        className="w-12 h-12 rounded-lg flex-shrink-0 transition"
-        alt={title}
-      />
-      <div>
-        <h3 className="mt-0 mb-1 text-xl font-semibold">{title}</h3>
-        <p className="text-gray-500">{text}</p>
-      </div>
-    </a>
   )
 }
 
