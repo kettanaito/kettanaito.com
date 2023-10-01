@@ -8,7 +8,7 @@ export default function PageNotFound(): JSX.Element {
   return (
     <>
       <Seo
-        title="Page Not Found - Redd"
+        title="Page Not Found - kettanaito.com"
         description="There's nothing at this page."
         robots={['noindex', 'nofollow']}
       />

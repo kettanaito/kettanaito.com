@@ -1,9 +1,9 @@
 {
-  "name": "redd",
+  "name": "kettanaito.com",
   "version": "2.0.0",
   "private": true,
   "type": "module",
-  "homepage": "https://redd.one",
+  "homepage": "https://kettanaito.com",
   "author": {
     "name": "Artem Zakharchenko"
   },

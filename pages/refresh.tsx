@@ -29,7 +29,7 @@ export default function WorkerRefreshPage() {
   return (
     <Container>
       <Seo
-        title="Redd"
+        title="kettanaitl.com"
         description={`Artem Zakharchenko's personal blog.`}
         robots={['noindex', 'nofollow']}
       />
@@ -38,7 +38,7 @@ export default function WorkerRefreshPage() {
         <noscript>
           <p className="mt-5 text-red-600">
             <strong>
-              Please enable JavaScript in your browser so Redd.one could
+              Please enable JavaScript in your browser so kettanaito.com could
               correctly clear previously installed Service Worker. Thank you.
             </strong>
           </p>

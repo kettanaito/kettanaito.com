@@ -1,8 +1,8 @@
 <p align="center">
-  <img alt="Redd Developer" src="public/favicon.svg" width="80" />
+  <img alt="kettanaito.com" src="public/favicon.svg" width="80" />
 </p>
 <h1 align="center">
-  Redd Developer
+  kettanaito.com
 </h1>
 
 <p align="center">My personal blog.</p>
@@ -22,6 +22,6 @@ Hi! My name is Artem and I am a self-taught software engineer. I am curating thi
 
 ## License
 
-> Although the source code of this blog is open sourced, it's not permitted to base another websites based on Redd Developer identity and visual style. The source code of this blog does not allow any modifications, and must serve solely for educational purposes.
+> Although the source code of this blog is open sourced, it's not permitted to base another websites based on this site's identity and visual style. The source code of this blog does not allow any modifications, and must serve solely for educational purposes.
 
 The content of this blog is licensed under [CC BY-NC](https://creativecommons.org/licenses/by-nc/4.0/). You can mention, quote, and reference the content according to the aforementioned license.
