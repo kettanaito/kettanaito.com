@@ -2,7 +2,7 @@ import { SiTwitter as TwitterIcon } from 'react-icons/si'
 import { Grid } from './grid'
 
 const twitterFollowUrl = new URL('https://twitter.com/intent/follow')
-twitterFollowUrl.searchParams.set('original_referer', 'https://redd.one')
+twitterFollowUrl.searchParams.set('original_referer', 'https://kettanaito.com')
 twitterFollowUrl.searchParams.set('twgr', 'kettanaito')
 twitterFollowUrl.searchParams.set('screen_name', 'kettanaito')
 twitterFollowUrl.searchParams.set('twterm', 'follow')

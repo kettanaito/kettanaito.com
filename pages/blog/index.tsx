@@ -49,13 +49,12 @@ export default function Blog({ posts, categories }: Props): JSX.Element {
   return (
     <>
       <Seo
-        title="Blog - Redd"
+        title="Blog - kettanaito.com"
         ogTitle="Blog"
         description="I write about topics I wish to hear more about."
         keywords={[
           'blog',
           'posts',
-          'redd',
           'kettanaito',
           'writing',
           'engineering',

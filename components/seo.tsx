@@ -41,7 +41,7 @@ export function Seo(props: SeoProps): JSX.Element {
         content={props.ogImage || DEFAULT_OG_IMAGE_URL}
       />
       <meta property="og:type" content="website" />
-      <meta property="og:site_name" content="Redd" />
+      <meta property="og:site_name" content="kettanaito.com" />
 
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />

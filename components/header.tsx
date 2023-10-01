@@ -9,7 +9,7 @@ export function Header(): JSX.Element {
         <Link href="/">
           <img
             src="/favicon.svg"
-            alt="Redd logo"
+            alt="kettanaito.com"
             className="inline-block h-10 rounded-sm hover:opacity-80"
           />
         </Link>

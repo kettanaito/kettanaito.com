@@ -13,8 +13,8 @@ const siteUrl = packageJson.homepage
 
 async function generateFeed() {
   const feed = new RSS({
-    title: 'Redd',
-    description: `kettanaito's blog`,
+    title: 'kettanaito.com',
+    description: `Artem Zakharchenko's blog`,
     ttl: 40,
     language: 'en-us',
     site_url: siteUrl,

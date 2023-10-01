@@ -44,7 +44,7 @@ export default function BlogPost({
   return (
     <>
       <Seo
-        title={`${post.frontmatter.title} - Redd`}
+        title={`${post.frontmatter.title} - kettanaito.com`}
         ogTitle={post.frontmatter.title}
         ogImage={ogImageUrl.href}
         description={post.frontmatter.description}
