@@ -29,7 +29,7 @@ export default function WorkerRefreshPage() {
   return (
     <Container>
       <Seo
-        title="kettanaitl.com"
+        title="kettanaito.com"
         description={`Artem Zakharchenko's personal blog.`}
         robots={['noindex', 'nofollow']}
       />
