@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="499px" height="665px" viewBox="0 0 499 665" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>thumbnail</title>
+    <defs>
+        <polygon id="path-1" points="99.5 0 199 49.6398892 199 174.360111 99.5 224 0 174.360111 0 49.6398892"></polygon>
+        <polygon id="path-3" points="99.5 0 199 49.6398892 199 174.360111 99.5 224 0 174.360111 0 49.6398892"></polygon>
+    </defs>
+    <g id="thumbnail" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-2" transform="translate(0.000000, 151.000000)">
+            <g id="box" transform="translate(100.000000, 0.000000)">
+                <polygon id="left" fill="#B3B3B3" points="-1.76941795e-14 74.4598338 150 148.919668 150 336 -1.76941795e-14 261.540166"></polygon>
+                <polygon id="right" fill="#6D6D6D" transform="translate(225.000000, 205.229917) scale(-1, 1) translate(-225.000000, -205.229917) " points="150 74.4598338 300 148.919668 300 336 150 261.540166"></polygon>
+                <polygon id="top" fill-opacity="0.8" fill="#808080" points="150 0 300 74.4598338 150 148.919668 1.67946465e-12 74.4598338"></polygon>
+                <polygon id="color" fill="#9CB0FF" style="mix-blend-mode: color;" points="150 0 300 74.4598338 300 261.540166 150 336 1.67946465e-12 261.540166 1.67946465e-12 74.4598338"></polygon>
+            </g>
+            <polygon id="color" fill="#FFA600" style="mix-blend-mode: hard-light;" points="249.5 55 349 104.639889 349 229.360111 249.5 279 150 229.360111 150 104.639889"></polygon>
+            <g id="Group" style="mix-blend-mode: hard-light;" transform="translate(0.000000, 130.000000)">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <use id="color-copy" fill="#7AFF00" xlink:href="#path-1"></use>
+                <polygon id="top" fill-opacity="0.16" fill="#808080" mask="url(#mask-2)" points="99.5 -46.6666667 249.214953 28 99.5 102.666667 -50.2149533 28"></polygon>
+            </g>
+            <g id="Group-Copy" style="mix-blend-mode: hard-light;" transform="translate(300.000000, 130.000000)">
+                <mask id="mask-4" fill="white">
+                    <use xlink:href="#path-3"></use>
+                </mask>
+                <use id="color-copy" fill-opacity="0.500273164" fill="#FF0000" xlink:href="#path-3"></use>
+                <polygon id="top" fill-opacity="0.16" fill="#B3B3B3" mask="url(#mask-4)" points="99.5 -46.6666667 249.214953 28 99.5 102.666667 -50.2149533 28"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>
