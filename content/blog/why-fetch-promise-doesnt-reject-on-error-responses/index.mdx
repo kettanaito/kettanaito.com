@@ -1,0 +1,104 @@
+---
+title: Why Fetch Promise Doesn't Reject on Error Responses
+description: The fetch Promise doesn't reject on error responses and that's entirely correct! Here's why.
+category: Engineering
+date: 2023-10-12
+keywords:
+  - fetch
+  - reject
+  - error
+  - request
+  - response
+---
+
+## The problem
+
+If you've been using the `fetch()` function in the browser or modern versions of Node.js, you know that it returns a Promise.
+
+```js
+fetch(request).then((response) => {
+  // Handle the response.
+})
+```
+
+You also know that promises in JavaScript _reject_ if there's been an error while resolving them. But, for some obscure reason, the Promise returned from `fetch()` _never rejects when we get an error response_. Not only is that confusing but it also forces you to explicitly check the response status before handling the response further:
+
+```js
+fetch(request).then((response) => {
+  if (!response.ok) {
+    throw new Error(`Server responded with ${response.statusCode}`)
+  }
+
+  return response.json()
+})
+```
+
+Okay, before you add this behavior to the list of JavaScript oddities, let me assure you that it's **entirely correct**. You think of it as unexpected simply because the fetch Promise doesn's stand for what you think it does. Let me explain.
+
+## The promise
+
+Naturally, when a request returns a promise we expect its fulfillment state to reflect the state of that request:
+
+- The promise _resolves_ if the request is successful;
+- The promise _rejects_ if it the request is not successful (i.e. failed).
+
+And that's precisely what happens! With the exception that you're likely misinterpreting what a "successful request" actually is from the network code's perspective.
+
+### The network code
+
+Here's a request/response transaction represented in a somewhat simplified list of steps:
+
+0. A request is triggered in your code;
+1. Request headers are sent to the server. Keep in mind, I'm talking about the HTTP message headers, which is this:
+
+```bash
+GET https://kettanaito.com HTTP/1.0
+accept: text/html;charset=UTF-8
+# ...the rest of the request headers, excluding the body.
+```
+
+2. Request body starts streaming to the server.
+1. **Request body finishes streaming.**
+1. The server sends the response headers.
+1. Response body finishes streaming to the client.
+
+From the network code's perspective, the request is successful _once it has been successfully sent to the server in its entirety_ (passed #3 in the list above). Although it's a bit counter-intuitive, request's success has nothing to do with the kind of response you get from the server.
+
+<Quote>
+  As long as the outgoing request was successfully parsed and sent to the
+  server, it is considered successful.
+</Quote>
+
+**This means that the Promise returned by the `fetch()` function is, in fact, a _request_ Promise**, and it will only reject if the request itself failed.
+
+## Error responses
+
+Bear in mind that error responses do not indicate failed requests. For your application to get an error from the server, it must _reach_ that server, which means it must successfully send a request and get something back.
+
+This is, once again, a confusion of intentions. As developers, our intention when making a request is to get a "happy path" resolution for that request. If we fetch `GET /puppies`, we expect to get the list of puppies. Anything else is considered unexpected, an error.
+
+**But `fetch()` cannot really assume that**. Consider the case when we actually expect an error response instead of `200 OK`. Suddenly, our expectations toward the response are context-dependent and aren't something fetch should concerns itself with.
+
+## The rejections
+
+Despite popular belief, the `fetch()` Promise does reject, and here's when:
+
+- Incorrectly constructed request;
+- A network error (e.g. DNS lookup failures, unreachable network);
+- The request has been aborted.
+
+And these are precisely the cases you should handle in the `.catch()` closure of your request Promise:
+
+```js
+fetch(request)
+  .then((response) => {
+    // Handle the response.
+  })
+  .catch((error) => {
+    // Handle request errors.
+  })
+```
+
+Wait, but this is actually pretty neat! If the request has been succesful, we proceed with handling its response (whatever it is) in the `.then()` callback, and if the request itself failed, we can capture and handle that error in the `.catch()` callback.
+
+The Fetch API is one of the well-designed APIs on the web, and it's the details like this that show it. Remember that before you think something odd, try diving a bit deeper to understand it and, perhaps, the oddities of the past will become the discoveries of the future.
