@@ -4,9 +4,9 @@
         <description><![CDATA[Artem Zakharchenko's blog]]></description>
         <link>https://kettanaito.com</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Mon, 09 Oct 2023 13:46:00 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 12 Oct 2023 14:22:27 GMT</lastBuildDate>
         <atom:link href="https://kettanaito.com/rss.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Mon, 09 Oct 2023 13:45:59 GMT</pubDate>
+        <pubDate>Thu, 12 Oct 2023 14:22:27 GMT</pubDate>
         <copyright><![CDATA[All rights reserved © 2023 Artem Zakharchenko]]></copyright>
         <language><![CDATA[en-us]]></language>
         <ttl>40</ttl>
@@ -129,6 +129,14 @@
             <guid isPermaLink="false">https://kettanaito.com/blog/thinking-in-functions</guid>
             <category><![CDATA[Engineering]]></category>
             <pubDate>Mon, 09 Sep 2019 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Why Fetch Promise Doesn't Reject on Error Responses]]></title>
+            <description><![CDATA[The fetch Promise doesn't reject on error responses and that's entirely correct! Here's why.]]></description>
+            <link>https://kettanaito.com/blog/why-fetch-promise-doesnt-reject-on-error-responses</link>
+            <guid isPermaLink="false">https://kettanaito.com/blog/why-fetch-promise-doesnt-reject-on-error-responses</guid>
+            <category><![CDATA[Engineering]]></category>
+            <pubDate>Thu, 12 Oct 2023 00:00:00 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[Why I Wouldn't Want to Have an Engineering Degree]]></title>
