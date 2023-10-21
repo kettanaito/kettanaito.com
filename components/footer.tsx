@@ -53,6 +53,16 @@ export function Footer(): JSX.Element {
           <ul className="space-y-1 lg:text-right">
             <li>
               <a
+                href={socialLinks.discord}
+                target="_blank"
+                rel="noreferrer"
+                className="py-1 inline-block hover:text-black hover:underline"
+              >
+                Discord
+              </a>
+            </li>
+            <li>
+              <a
                 href={socialLinks.twitter}
                 target="_blank"
                 rel="noreferrer"

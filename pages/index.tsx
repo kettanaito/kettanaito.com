@@ -5,6 +5,7 @@ import {
   SiTwitter as TwitterIcon,
   SiGithub as GitHubIcon,
   SiYoutube as YouTubeIcon,
+  SiDiscord as DiscordIcon,
 } from 'react-icons/si'
 import { HiPlay as PlayIcon } from 'react-icons/hi'
 import socialLinks from '../content/static/social-links.json'
@@ -39,6 +40,16 @@ export default function About({ featuredPosts }: Props): JSX.Element {
           }
         >
           <ul className="-mr-5 flex items-center gap-2 text-4xl">
+            <li>
+              <a
+                href={socialLinks.discord}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-block p-5 hover:text-gray-800"
+              >
+                <DiscordIcon />
+              </a>
+            </li>
             <li>
               <a
                 href={socialLinks.twitter}
