@@ -42,7 +42,7 @@ h3 {
 }
 
 h4 {
-  @apply mb-2 text-xl font-bold;
+  @apply mt-8 mb-2 text-xl font-bold;
 }
 
 main p {
