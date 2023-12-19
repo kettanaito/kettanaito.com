@@ -195,59 +195,69 @@ export async function getRecommendedPosts(
   post: Post,
   maxCount: number
 ): Promise<Array<Post>> {
+  // Fetch all posts chronologically.
   const allPosts = await getAllPosts()
-  const allCategories = Array.from(
-    allPosts.reduce((categories, otherPost) => {
-      return categories.add(otherPost.frontmatter.category)
-    }, new Set<string>())
-  )
-  const otherCategories = allCategories.filter((category) => {
-    return category !== post.frontmatter.category
+  sortPostsByDate(allPosts)
+
+  const recommendations: Set<Post> = new Set()
+
+  recommendations.add = new Proxy(recommendations.add, {
+    apply(target, context, args) {
+      const postIndex = allPosts.findIndex((post) => post.slug === args[0].slug)
+
+      // Always remove the post we are adding to the recommendations
+      // from the list of all posts to prevent duplicates.
+      allPosts.splice(postIndex, 1)
+
+      return Reflect.apply(target, context, args)
+    },
   })
 
-  const recommendedPosts = allPosts
-    .filter((otherPost) => {
-      const hasSameCategory =
-        otherPost.frontmatter.category === post.frontmatter.category
-      const uniquePost = otherPost.frontmatter.title !== post.frontmatter.title
-
-      return hasSameCategory && uniquePost
-    })
-    .map((otherPost) => {
-      const keywordsIntersection = post.frontmatter.keywords?.filter(
-        (keyword) => {
-          return otherPost.frontmatter.keywords?.includes(keyword)
-        }
-      )
-
-      return {
-        post: otherPost,
-        score: keywordsIntersection?.length ?? 0,
-      }
-    })
-
-    .sort((left, right) => {
-      return right.score - left.score
-    })
-    .map(({ post }) => post)
-
-  let result: Array<Post> = []
-
-  const recommendedFromAnotherCategory =
-    otherCategories.length > 0
-      ? allPosts.find((otherPost) => {
-          return otherPost.frontmatter.category === otherCategories[0]
-        })
-      : undefined
-
-  if (recommendedFromAnotherCategory) {
-    result = [
-      ...recommendedPosts.slice(0, maxCount - 1),
-      recommendedFromAnotherCategory,
-    ]
+  const hasSameSlug = (otherPost: Post) => {
+    return otherPost.slug === post.slug
   }
 
-  sortPostsByDate(result)
+  const currentPostIndex = allPosts.findIndex(hasSameSlug)
 
-  return result.slice(0, maxCount)
+  // Find the latest published post, excluding this one (if it's the latest).
+  // Mutate the posts array so the same post across different criteria
+  // will never be included twice.
+  const latestPostIndex = currentPostIndex === 0 ? 1 : 0
+  recommendations.add(allPosts[latestPostIndex])
+
+  // Find posts preceeding the current post by the date of publishing.
+  // Slice the array of all posts to create a copy so the indixes don't
+  // shift while adding posts to the recommendations.
+  const postsBeforeCurrent = allPosts.slice(currentPostIndex)
+  const previousPosts: Array<Post> = []
+
+  for (const otherPost of postsBeforeCurrent) {
+    if (previousPosts.length === maxCount - 1) {
+      break
+    }
+
+    if (hasSameSlug(otherPost) || recommendations.has(otherPost)) {
+      continue
+    }
+
+    // Don't push to the recommendations directly because
+    // we want precisely N - 1 previous posts.
+    previousPosts.push(otherPost)
+  }
+
+  previousPosts.forEach((post) => recommendations.add(post))
+
+  // At this point, there may be not enough posts.
+  // For example, when viewing the last post, it won't have
+  // any posts published before it. In that case, grab
+  // the latest posts to fill the gap.
+  const missingPosts = maxCount - recommendations.size
+  for (let i = 0; i < missingPosts; i++) {
+    recommendations.add(allPosts[i])
+  }
+
+  const recommendationsArray = Array.from(recommendations)
+  sortPostsByDate(recommendationsArray)
+
+  return recommendationsArray.slice(0, maxCount)
 }
