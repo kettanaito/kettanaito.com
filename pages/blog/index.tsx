@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { GetStaticProps } from 'next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -23,10 +23,31 @@ export default function Blog({ posts, categories }: Props): JSX.Element {
   const params = new URLSearchParams(search)
 
   const categorySectionRef = useRef<HTMLDivElement>(null)
+  const categoryListRef = useRef<HTMLDivElement>(null)
 
   const [categoryFilter, setCategoryFilter] = useState<string>(() => {
     return params.get('category') || ''
   })
+
+  const scrollActiveCategoryLinkIntoView = useCallback(() => {
+    if (categoryListRef.current) {
+      const activeCategoryLink = categoryListRef.current.querySelector(
+        '.active-category-link'
+      )
+
+      if (activeCategoryLink) {
+        console.log(activeCategoryLink)
+
+        categoryListRef.current.scroll({
+          left: activeCategoryLink.clientLeft + activeCategoryLink.clientWidth,
+        })
+      }
+    }
+  }, [categoryListRef])
+
+  useEffect(() => {
+    scrollActiveCategoryLinkIntoView()
+  }, [])
 
   const handleCategoryClick = (slug: string) => {
     return () => {
@@ -42,6 +63,8 @@ export default function Blog({ posts, categories }: Props): JSX.Element {
           // Web is a truly strange place.
           behavior: 'smooth',
         })
+
+        scrollActiveCategoryLinkIntoView()
       }
     }
   }
@@ -81,7 +104,10 @@ export default function Blog({ posts, categories }: Props): JSX.Element {
           </ul>
         </PageHeader>
         <div ref={categorySectionRef}>
-          <section className="sticky top-[73px] my-5 py-5 bg-white text-lg font-medium flex items-center gap-4 z-10 bg-opacity-80 backdrop-blur-md">
+          <section
+            ref={categoryListRef}
+            className="sticky top-[73px] my-5 py-5 bg-white text-lg font-medium flex items-center gap-4 z-10 bg-opacity-80 backdrop-blur-md overflow-x-auto"
+          >
             <CategoryLink
               slug=""
               href="/blog"
@@ -155,6 +181,7 @@ function CategoryLink({
       href={href || `?category=${slug}`}
       className={['relative px-4 py-1 transition-colors duration-500']
         .concat(isActive ? 'text-white' : 'hover:text-gray-500')
+        .concat(isActive ? 'active-category-link' : '')
         .join(' ')}
       onClick={() => onClick?.(slug)}
       scroll={false}
