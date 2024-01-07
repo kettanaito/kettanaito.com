@@ -301,8 +301,8 @@ export default function About({ featuredPosts }: Props): JSX.Element {
                     <Image
                       src="/talk-msw-2.0.jpg"
                       alt={conferenceTalks[0].name}
-                      width={1456 / 2}
-                      height={956 / 2}
+                      width={1280}
+                      height={720}
                       className="my-0"
                     />
                     <a
