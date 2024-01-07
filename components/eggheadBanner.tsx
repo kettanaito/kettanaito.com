@@ -4,7 +4,7 @@ export function EggheadBanner() {
       href="https://egghead.io/courses/mock-rest-and-graphql-apis-with-mock-service-worker-8d471ece"
       target="_blank"
       rel="noopener noreferrer"
-      className="group relative block p-8 bg-gradient-to-t from-transparent to-gray-100 rounded-xl hover:to-[#ff6a3332]"
+      className="group relative block p-8 bg-gradient-to-t from-transparent to-gray-100 rounded-xl hover:to-gray-300"
     >
       <img
         src="/egghead-course.png"
