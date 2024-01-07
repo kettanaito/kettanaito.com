@@ -299,10 +299,10 @@ export default function About({ featuredPosts }: Props): JSX.Element {
                 <article>
                   <div className="relative rounded-tr-xl rounded-tl-xl overflow-hidden">
                     <Image
-                      src="/talk-test-complexity.jpg"
-                      alt="Dissecting Complexity in Tests"
-                      width={1456 / 2}
-                      height={956 / 2}
+                      src="/talk-msw-2.0.jpg"
+                      alt={conferenceTalks[0].name}
+                      width={1280}
+                      height={720}
                       className="my-0"
                     />
                     <a
