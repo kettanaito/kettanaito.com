@@ -66,6 +66,9 @@ main ul {
   list-style: none;
   list-style-position: inside;
 }
+main ul:last-child {
+  @apply mb-0;
+}
 .post-content ul li::marker {
   content: '—\00a0\00a0';
   @apply text-gray-400;
