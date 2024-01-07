@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="264px" height="325px" viewBox="0 0 264 325" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>thumbnail</title>
+    <defs>
+        <path d="M137,150 C178.421356,150 212,116.421356 212,75 C212,33.5786438 178.421356,0 137,0 C95.5786438,0 62,33.5786438 62,75 C62,116.421356 95.5786438,150 137,150 Z" id="path-1"></path>
+        <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="150" height="150" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+    </defs>
+    <g id="thumbnail" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" fill-opacity="0.4">
+        <g id="Group-2" transform="translate(26, 57)" fill="#A5B4FC" stroke="#6366F1">
+            <circle id="Oval" stroke-width="22" cx="75" cy="137" r="64"></circle>
+            <use id="Oval-Copy" mask="url(#mask-2)" stroke-width="44" stroke-linejoin="round" stroke-dasharray="30" xlink:href="#path-1"></use>
+        </g>
+    </g>
+</svg>

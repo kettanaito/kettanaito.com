@@ -1,0 +1,88 @@
+---
+title: The Difference Between Null and Undefined
+description: In JavaScript, null and undefined cannot be more different. Here's why.
+category: Engineering
+date: 2024-01-07
+keywords:
+  - 'null'
+  - 'undefined'
+  - difference
+  - javascript
+  - typeof
+---
+
+You might have heard how `null` and `undefined` are, practically, the same thing in JavaScript. Today, you will learn how they are completely different syntax-, semantics-, and runtime-wise.
+
+## Syntax
+
+This one is the easiest one to explain. Look:
+
+```js
+// This is null:
+null
+
+// This is undefined:
+undefined
+```
+
+The two use completely different syntax constructs and that is because they represent two different things.
+
+## Semantics
+
+Everything in a programming language exists for a reason. There aren't two things that are identical. If you think they are, perhaps you are not considering the use cases that led to their conception and design.
+
+The two in question today are no exception. It helps to think of `null` and `undefined` semantic value as follows:
+
+- `undefined` is an **implicit** absence of value;
+- `null` is an **expiclit** absence of value.
+
+The best way to explain this is to give an example. I will shamelessly steal the one written by [Ryan Florence](https://twitter.com/ryanflorence/status/1685390417448284160):
+
+> Are my keys on the counter?
+>
+> - `undefined`: I don't know, I didn't look.
+> - `null`: I checked, there are no keys.
+
+In more programmatic terms, `undefined` points to a space in memory that has been assigned but doesn't yet have any value. `null`, on the other hand, points to the allocated pointed in memory that represents invalid memory access.
+
+> Stephen Curtis has written a [fantastic article](https://medium.com/@stephenthecurt/a-brief-history-of-null-and-undefined-in-javascript-c283caab662e) on the topic. I highly recommend you read it.
+
+In more practical terms, `undefined` is used to describe the absence of value because we _don't know if it exists_, while `null` describes the absence of value because _we know it's not there_. The `user` is `undefined` until we fetch them, and the `user` becomes `null` if the server returned no user.
+
+## Runtime
+
+And, of course, the two behave quite differently on runtime.
+
+`undefined` is a literal type. That's why you check `typeof thing === 'undefined'` to know if the type of `thing` is not defined at all.
+
+`null` is an object. If you find that wierd, the next sentence will rock your world upside down.
+
+**Everything in JavaScript is an object.**
+
+Strings are objects, numbers are objects, arrays are objects, and objects are, well, objects. Everything that points to a value is an object. The types of some pointers are narrowed down for convenience, such as `typeof 'foo'` is a string, not an object. Since you've just learned that `null` is a pointer, consider what type it may be.
+
+> This is also the reason why `null` and `undefined` don't match using the strict equality operator `===` (which includes their types into comparison) but do match when using a loose equality operator `==` (which disregards the type).
+
+On runtime, the difference between an implicit and explicit lack of value can help you handle different scenarios. Though, it's often the value we are after, not the reason why it's missing, which likely leads to the misconceptions such as the one I'm demystifying right now.
+
+The runtime behavior also confirms the semantic difference here.
+
+```js
+const user = { name: undefined }
+
+// Referencing the existing key that
+// equals to undefined...
+user.name // undefined
+
+// ...yields the same value and type
+// as referencing a non-existing key.
+user.address // undefined
+```
+
+Object keys that equal to `undefined` are considered missing. Keys that are equal to `null` remain present. See for yourself:
+
+```js
+JSON.stringify({ a: undefined, b: null })
+```
+
+Hope this settles this question for you. Feel free to share this article with the folk who still mistake `null` and `undefined` to be the same.
