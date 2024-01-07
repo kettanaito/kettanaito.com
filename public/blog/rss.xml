@@ -4,10 +4,10 @@
         <description><![CDATA[Artem Zakharchenko's blog]]></description>
         <link>https://kettanaito.com</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Tue, 19 Dec 2023 11:33:57 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 07 Jan 2024 12:59:33 GMT</lastBuildDate>
         <atom:link href="https://kettanaito.com/rss.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Tue, 19 Dec 2023 11:33:56 GMT</pubDate>
-        <copyright><![CDATA[All rights reserved © 2023 Artem Zakharchenko]]></copyright>
+        <pubDate>Sun, 07 Jan 2024 12:59:32 GMT</pubDate>
+        <copyright><![CDATA[All rights reserved © 2024 Artem Zakharchenko]]></copyright>
         <language><![CDATA[en-us]]></language>
         <ttl>40</ttl>
         <item>
@@ -121,6 +121,14 @@
             <guid isPermaLink="false">https://kettanaito.com/blog/the-dark-side-of-open-source</guid>
             <category><![CDATA[Culture]]></category>
             <pubDate>Mon, 13 Jun 2022 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[The Difference Between Null and Undefined]]></title>
+            <description><![CDATA[In JavaScript, null and undefined cannot be more different. Here's why.]]></description>
+            <link>https://kettanaito.com/blog/the-difference-between-null-and-undefined</link>
+            <guid isPermaLink="false">https://kettanaito.com/blog/the-difference-between-null-and-undefined</guid>
+            <category><![CDATA[Engineering]]></category>
+            <pubDate>Sun, 07 Jan 2024 00:00:00 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[The Plague of Linters]]></title>
