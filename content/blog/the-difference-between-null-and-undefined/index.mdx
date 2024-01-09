@@ -43,7 +43,7 @@ The best way to explain this is to give an example. I will shamelessly steal the
 > - `undefined`: I don't know, I didn't look.
 > - `null`: I checked, there are no keys.
 
-In more programmatic terms, `undefined` points to a space in memory that has been assigned but doesn't yet have any value. `null`, on the other hand, points to the allocated pointed in memory that represents invalid memory access.
+In more programmatic terms, `undefined` points to a space in memory that has been assigned but doesn't yet have any value. `null`, on the other hand, points to the allocated pointer in memory that represents invalid memory access.
 
 > Stephen Curtis has written a [fantastic article](https://medium.com/@stephenthecurt/a-brief-history-of-null-and-undefined-in-javascript-c283caab662e) on the topic. I highly recommend you read it.
 
@@ -59,11 +59,11 @@ And, of course, the two behave quite differently on runtime.
 
 **Everything in JavaScript is an object.**
 
-Strings are objects, numbers are objects, arrays are objects, and objects are, well, objects. Everything that points to a value is an object. The types of some pointers are narrowed down for convenience, such as `typeof 'foo'` is a string, not an object. Since you've just learned that `null` is a pointer, consider what type it may be.
+Strings are objects, numbers are objects, arrays are objects, classes are objects, and objects are, well, objects. Everything that points to a value is an object. The types of some pointers are narrowed down for convenience, such as `typeof 'foo'` is a string, not an object. Since you've just learned that `null` is a pointer, consider what type it may be.
 
-> This is also the reason why `null` and `undefined` don't match using the strict equality operator `===` (which includes their types into comparison) but do match when using a loose equality operator `==` (which disregards the type).
+> This is also the reason why `null` and `undefined` don't match using the strict equality operator `===` (which includes their types into comparison) but do match when using a loose equality operator `==` (which disregards the type and focuses on the value, which is missing for both of them).
 
-On runtime, the difference between an implicit and explicit lack of value can help you handle different scenarios. Though, it's often the value we are after, not the reason why it's missing, which likely leads to the misconceptions such as the one I'm demystifying right now.
+On runtime, the difference between an implicit and explicit lack of value can help you handle different scenarios. Though, it's often the value we are after, not the reason why it's missing, which likely leads to the misconceptions such as the one about `null` and `undefined` being the same thing.
 
 The runtime behavior also confirms the semantic difference here.
 
@@ -83,6 +83,7 @@ Object keys that equal to `undefined` are considered missing. Keys that are equa
 
 ```js
 JSON.stringify({ a: undefined, b: null })
+// {"b":null}
 ```
 
 Hope this settles this question for you. Feel free to share this article with the folk who still mistake `null` and `undefined` to be the same.
