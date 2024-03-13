@@ -30,6 +30,19 @@ html {
 }
 
 /* Typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+dt,
+blockquote,
+figcaption {
+  text-wrap: balance;
+  max-inline-size: 25ch;
+}
+
 h1 {
   @apply tracking-tight;
 }
@@ -47,6 +60,8 @@ h4 {
 
 main p {
   @apply text-gray-700;
+  text-wrap: pretty;
+  max-inline-size: 60ch;
 }
 
 main p + p {
