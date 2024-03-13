@@ -4,9 +4,9 @@
         <description><![CDATA[Artem Zakharchenko's blog]]></description>
         <link>https://kettanaito.com</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Wed, 13 Mar 2024 08:22:03 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 13 Mar 2024 08:41:55 GMT</lastBuildDate>
         <atom:link href="https://kettanaito.com/rss.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Wed, 13 Mar 2024 08:22:01 GMT</pubDate>
+        <pubDate>Wed, 13 Mar 2024 08:41:53 GMT</pubDate>
         <copyright><![CDATA[All rights reserved © 2024 Artem Zakharchenko]]></copyright>
         <language><![CDATA[en-us]]></language>
         <ttl>40</ttl>
@@ -161,13 +161,6 @@
             <guid isPermaLink="false">https://kettanaito.com/blog/why-fetch-promise-doesnt-reject-on-error-responses</guid>
             <category><![CDATA[Engineering]]></category>
             <pubDate>Thu, 12 Oct 2023 00:00:00 GMT</pubDate>
-        </item>
-        <item>
-            <title><![CDATA[Why I Won't Use JSDOM]]></title>
-            <link>https://kettanaito.com/blog/why-i-wont-use-jsdom</link>
-            <guid isPermaLink="false">https://kettanaito.com/blog/why-i-wont-use-jsdom</guid>
-            <category><![CDATA[Engineering]]></category>
-            <pubDate>Tue, 20 Feb 2024 00:00:00 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[Why I Wouldn't Want to Have an Engineering Degree]]></title>
