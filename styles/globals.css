@@ -37,7 +37,6 @@ h4,
 h5,
 h6,
 dt,
-blockquote,
 figcaption {
   text-wrap: balance;
   max-inline-size: 25ch;
@@ -130,6 +129,7 @@ a code {
 /* Blockquote */
 blockquote {
   @apply my-5 pl-5 py-2 text-gray-500 font-medium border-l-4 border-black overflow-x-auto;
+  text-wrap: balance;
 }
 
 blockquote p {
