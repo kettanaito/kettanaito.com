@@ -28,6 +28,10 @@ async function generateFeed() {
   // Populate the RSS feed with posts.
   const allPosts = await getAllPosts()
   for (const post of allPosts) {
+    if (post.frontmatter.draft) {
+      continue
+    }
+
     const postUrl = new URL(post.url, siteUrl).toString()
 
     feed.item({

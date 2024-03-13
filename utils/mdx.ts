@@ -43,6 +43,7 @@ export interface Post {
   url: string
   thumbnailSvg: string
   frontmatter: {
+    draft?: boolean
     title: string
     description: string
     category: string
