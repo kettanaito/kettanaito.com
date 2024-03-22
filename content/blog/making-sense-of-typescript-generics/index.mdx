@@ -23,7 +23,7 @@ Today, I'd like to share one of those special moments when I realized that gener
 
 - [Generics • TypeScript documentation](https://www.typescriptlang.org/docs/handbook/2/generics.html)
 
-In TypeScript, you can annotate about anything by assigning a type to it. For example, let's create a `print()` function that accepts a `message` and annotate that message as a string:
+In TypeScript, you can annotate almost anything by assigning a type to it. For example, let's create a `print()` function that accepts a `message` and annotate that message as a string:
 
 ```ts
 function print(message: string) {}
@@ -31,7 +31,7 @@ function print(message: string) {}
 
 Here, we are telling TypeScript that the `message` argument must be of type `string`. So far so good.
 
-If we want for our `print()` function to also support printing numbers, we can turn the type of the `message` into a union, which is a combination of types.
+If we want for our `print()` function to also support printing numbers, we can turn the type of the `message` into a union, which represents a combination of types.
 
 ```ts
 function print(message: string | number) {}
@@ -47,7 +47,7 @@ If we try to use the same union type approach though, we won't get far.
 function print(message: string | number): string | number {}
 ```
 
-The function can now indeed return either a string or a number but that return type _has no connection_ with the type of the `message` we pass in. We can pass a string and the return type of `print()` will still be `string | number` when it should really be just `string`.
+The function can now indeed return either a string or a number but then return type _has no connection_ with the type of the `message` we pass in. We can pass a string and the return type of `print()` will still be `string | number` when it should really be just `string`.
 
 To derive the return type of `print()`, we need to use a _generic_ that looks somehow like this:
 
@@ -123,7 +123,7 @@ This should help you visualize generics as variables for types that get assigned
 
 - [Conditional types • TypeScript documentation](https://www.typescriptlang.org/docs/handbook/2/conditional-types.html)
 
-Since we can store types using a generic, we can create different type behaviors based on that generic's value.
+Since we can store types using generics, we can create different type behaviors based on those generics' values.
 
 For example, let's only return the string messages and if the `number` is passed as a message, return nothing. To describe this behavior on a type level, we need to check the actual type of the `MessageType` generic and make the return type for the `print()` function _conditional_:
 
