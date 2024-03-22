@@ -1,0 +1,150 @@
+---
+title: Making Sense of TypeScript Generics
+description: "Here's what you need to understand about generics in TypeScript."
+category: Engineering
+date: 2024-03-22
+keywords:
+  - typescript
+  - generic
+  - type
+  - inference
+  - conditional
+  - constraint
+  - print
+---
+
+TypeScript is a powerful programming language. It helps me catch silly bugs, design and iterate on the software faster, and simply write better code.
+
+That being said, I can't say I fully understand TypeScript. And that's not a bad thing. One of the joys of using a language is exploration and getting to know its behaviors, quirks, and hidden gems as you go along.
+
+Today, I'd like to share one of those special moments when I realized that generics weren't what I thought they were.
+
+## Generics
+
+- [Generics • TypeScript documentation](https://www.typescriptlang.org/docs/handbook/2/generics.html)
+
+In TypeScript, you can annotate almost anything by assigning a type to it. For example, let's create a `print()` function that accepts a `message` and annotate that message as a string:
+
+```ts
+function print(message: string) {}
+```
+
+Here, we are telling TypeScript that the `message` argument must be of type `string`. So far so good.
+
+If we want for our `print()` function to also support printing numbers, we can turn the type of the `message` into a union, which represents a combination of types.
+
+```ts
+function print(message: string | number) {}
+```
+
+Now the `message` is a union of `string` and `number`, which means it can be either.
+
+In addition to printing the given message, we would like to also _return_ it from the `print()` function. So if we pass a string, it returns a string type, and if we pass a number, the return type of `print()` should be number.
+
+If we try to use the same union type approach though, we won't get far.
+
+```ts
+function print(message: string | number): string | number {}
+```
+
+The function can now indeed return either a string or a number but then return type _has no connection_ with the type of the `message` we pass in. We can pass a string and the return type of `print()` will still be `string | number` when it should really be just `string`.
+
+To derive the return type of `print()`, we need to use a _generic_ that looks somehow like this:
+
+```ts
+function print<MessageType>(message: MessageType): MessageType {}
+```
+
+Here's where things gets a bit tangled.
+
+Unlike assigning a type to an argument with a simple `message: string | number` notation, using a generic doesn't really affect the type of the `message`. Not in the way you'd think, at least.
+
+## Inference
+
+What struck me the most is the realization that the type "flow" when using generics is _reversed_.
+
+```ts
+//                  ↓──────────(1)────────┐
+function print<MessageType>(message: MessageType): MessageType {}
+//                  └─────────────────(2)───────────────↑
+```
+
+> (1) The literal type of `message` is assigned as the type of `MessageType` generic;
+> (2) The inferred `MessageType` generic type is used to annotate the return type of `print()`.
+
+Instead of saying "now the `message` is of type `MessageType`", the `MessageType` generic _stores_ whichever literal type is passed as the `message` argument in a "variable" called `MessageType`.
+
+<Quote>Generics are like variables for types.</Quote>
+
+So, if we pass a string message, the value of the `MessageType` generic will be `string`:
+
+```ts
+print('hello')
+// print<'hello'>(message: 'hello'): 'hello'
+```
+
+This ability of generics to "store" the literal types is called _inference_. If you were paying attention, you've noticed that the inferred `MessageType` wasn't a plain string type but the literal `'hello'`. That's another neat feature of generics—they will infer the narrowest type possible (`'hello'` is a narrower type of string).
+
+> _But how does TypeScript know?_
+>
+> TypeScript uses a compiler (`tsc`) to compute the types based on your code. Much like you don't know the actual value of the `message` argument until you call the `print()` function, TypeScript doesn't know the type of the `MessageType` generic untill, well, you call the `print()` function!
+
+Okay, you may be wondering: generics don't describe but infer the types. So how do I annotate the `message` to be either a string or a number?
+
+## Generic Constraints
+
+- [Generic Constraints • TypeScript documentation](https://www.typescriptlang.org/docs/handbook/2/generics.html#generic-constraints)
+
+Much like how you can describe allowed types for an argument, you can describe the allowed types for a generic. Those descriptions are called "constraints", and they use a special `extends` keyword next to the generic's definition:
+
+```ts focusedLines=3
+// The "MessageType" generic can be either a string or a number.
+// If it's anything else, that's a type error.
+function print<MessageType extends string | number>(
+  message: MessageType
+): MessageType {}
+```
+
+If I had to "unwrap" this code, I'd describe it like this (**beware, a pseudocode ahead!**):
+
+```ts
+// Declare a generic called "MessageType" that is
+// of type string or number.
+generic MessageType = string | number
+
+// Assign the actual type of "message" as the value
+// of the "MessageType" generic.
+function print(message: InferAs<MessageType>): MessageType {}
+```
+
+This should help you visualize generics as variables for types that get assigned later on when you provide actual values to your functions, classes, objects, interfaces, etc.
+
+## Conditional types
+
+- [Conditional types • TypeScript documentation](https://www.typescriptlang.org/docs/handbook/2/conditional-types.html)
+
+Since we can store types using generics, we can create different type behaviors based on those generics' values.
+
+For example, let's only return the string messages and if the `number` is passed as a message, return nothing. To describe this behavior on a type level, we need to check the actual type of the `MessageType` generic and make the return type for the `print()` function _conditional_:
+
+```ts
+function print<MessageType extends string | number>(
+  message: MessageType
+): MessageType extends string ? MessageType : void {}
+```
+
+This is a conditional type:
+
+```ts
+// If "MessageType" is a string, then return it as-is.
+// Else, return "void".
+MessageType extends string ? MessageType : void
+```
+
+This is a type expression that you cannot just read and say "okay, this is type X." Because the value of this expression will differ based on the `MessageType` value (which, in turn, depends on the literal type of the `message` argument).
+
+## Conclusion
+
+I hope you learned today that generics in TypeScript are, basically, variables for types. You can infer their values from the actual types in your code, narrow them down using the constraint types, and even write conditional type logic based on those values.
+
+Generics are [awesome](https://github.com/mswjs/data/blob/313d9213f0bdf18b48ff1d36b513aaf1acf8f02d/src/glossary.ts#L217-L248)!

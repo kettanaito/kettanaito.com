@@ -4,9 +4,9 @@
         <description><![CDATA[Artem Zakharchenko's blog]]></description>
         <link>https://kettanaito.com</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Wed, 13 Mar 2024 08:41:55 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 22 Mar 2024 12:23:00 GMT</lastBuildDate>
         <atom:link href="https://kettanaito.com/rss.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Wed, 13 Mar 2024 08:41:53 GMT</pubDate>
+        <pubDate>Fri, 22 Mar 2024 12:22:59 GMT</pubDate>
         <copyright><![CDATA[All rights reserved © 2024 Artem Zakharchenko]]></copyright>
         <language><![CDATA[en-us]]></language>
         <ttl>40</ttl>
@@ -81,6 +81,14 @@
             <guid isPermaLink="false">https://kettanaito.com/blog/looking-for-a-job-as-an-open-source-maintainer</guid>
             <category><![CDATA[Culture]]></category>
             <pubDate>Wed, 06 Dec 2023 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Making Sense of TypeScript Generics]]></title>
+            <description><![CDATA[Here's what you need to understand about generics in TypeScript.]]></description>
+            <link>https://kettanaito.com/blog/making-sense-of-typescript-generics</link>
+            <guid isPermaLink="false">https://kettanaito.com/blog/making-sense-of-typescript-generics</guid>
+            <category><![CDATA[Engineering]]></category>
+            <pubDate>Fri, 22 Mar 2024 00:00:00 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[My Struggle With Remix]]></title>
