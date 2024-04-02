@@ -88,7 +88,7 @@ export default function Blog({ posts, categories }: Props): JSX.Element {
       <Container className="my-20">
         <PageHeader
           title="Blog"
-          subtitle="I write about topics I wish to hear more about."
+          subtitle="I write about topics I wish to read more about."
         >
           <ul className="-mr-5 flex items-center gap-2 text-4xl">
             <li>

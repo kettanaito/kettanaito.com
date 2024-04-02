@@ -114,7 +114,26 @@ export default function About({ featuredPosts }: Props): JSX.Element {
                     engineer in digital agencies, large corporations, and
                     startups of various stages of acquisition. I&apos;ve learned
                     and taught, broken and fixed, but most importantly, had a
-                    chance to meet so many wonderful people along my journey.
+                    chance to meet so many wonderful people along the way.
+                  </p>
+                  <p>
+                    Now, I&apos;ve joined{' '}
+                    <a
+                      href="https://epicweb.dev"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-black hover:underline"
+                    >
+                      <span className="-mt-1 p-1 inline-block align-middle bg-[#0D111A] rounded-md">
+                        <img
+                          src="/logo/epicweb.svg"
+                          alt="EpicWeb"
+                          className="h-4 w-4"
+                        />
+                      </span>{' '}
+                      <strong>EpicWeb</strong>
+                    </a>{' '}
+                    to teach the world about automated testing!
                   </p>
                 </div>
               </div>
@@ -188,7 +207,7 @@ export default function About({ featuredPosts }: Props): JSX.Element {
                   />
                   <div>
                     <h3 className="mt-0">Mock Service Worker</h3>
-                    <p className="text-gray-500">
+                    <p className="text-yellow-900 text-opacity-80">
                       Seamless API mocking library for browser and Node.js.
                     </p>
                     <p className="space-x-5 font-medium text-gray-500">
@@ -222,7 +241,7 @@ export default function About({ featuredPosts }: Props): JSX.Element {
                   />
                   <div>
                     <h3 className="mt-0">Deferred Promise</h3>
-                    <p className="text-gray-500">
+                    <p className="text-green-900 text-opacity-80">
                       Type-safe A+ Promise implementation with deferred
                       resolution.
                     </p>
