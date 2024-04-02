@@ -206,7 +206,7 @@ export default function About({ featuredPosts }: Props): JSX.Element {
                   />
                   <div>
                     <h3 className="mt-0">Mock Service Worker</h3>
-                    <p className="text-gray-500">
+                    <p className="text-yellow-900 text-opacity-80">
                       Seamless API mocking library for browser and Node.js.
                     </p>
                     <p className="space-x-5 font-medium text-gray-500">
@@ -240,7 +240,7 @@ export default function About({ featuredPosts }: Props): JSX.Element {
                   />
                   <div>
                     <h3 className="mt-0">Deferred Promise</h3>
-                    <p className="text-gray-500">
+                    <p className="text-green-900 text-opacity-80">
                       Type-safe A+ Promise implementation with deferred
                       resolution.
                     </p>
