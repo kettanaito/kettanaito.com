@@ -117,10 +117,11 @@ export default function About({ featuredPosts }: Props): JSX.Element {
                     chance to meet so many wonderful people along the way.
                   </p>
                   <p>
-                    Now, I've joined{' '}
+                    Now, I&apos;ve joined{' '}
                     <a
                       href="https://epicweb.dev"
                       target="_blank"
+                      rel="noreferrer"
                       className="text-black hover:underline"
                     >
                       <span className="-mt-1 p-1 inline-block align-middle bg-[#0D111A] rounded-md">

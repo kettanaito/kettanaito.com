@@ -13,7 +13,7 @@ export function EggheadBanner() {
       />
       <div className="pt-24 sm:pt-0 sm:pl-[156px] text-lg">
         <p className="mb-2 text-xl font-bold">
-          I've released an Egghead course! 🎉
+          I&apos;ve released an Egghead course! 🎉
         </p>
         <p className="text-gray-600">
           Learn how to mock REST and GraphQL APIs like with Mock Service Worker.
