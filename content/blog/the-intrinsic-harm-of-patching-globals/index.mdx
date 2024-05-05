@@ -242,7 +242,7 @@ Do you see how a simple change made this API better? I'll give it to you, it's l
 Since the ball is already rolling, let's refactor the APIs from React and Next.js as well. This is going to be mostly boring because we will apply the same pattern to all of them, ridding them of the same problems and reaping the same benefits.
 
 ```js
-import { useCache } from 'react'
+import { dedupe } from 'react'
 
 // There's no reason to couple the data fetching
 // function with React. By leaving it generic, it
@@ -256,7 +256,7 @@ export async function UserProfile() {
   // Instead, make caching (request deduplication)
   // an explicit choice where we actually need it—
   // when fetching the data for our component.
-  const profile = useCache(await getUser())
+  const profile = dedupe(await getUser())
 
   return <p>Hello, {profile.name}!</p>
 }
