@@ -112,7 +112,7 @@ fetch('https://kettanaito.com', {
 })
 ```
 
-Will this same request be cached in Svelte? In Remix? In plain JavaScript, maybe? Not really. The caching part happened to be a Next.js-specific API leaking through the global `fetch`. It's a custom API disguised as a global, which drives its predictability to the ground.
+Will this request behave the same in Svelte? In Remix? In plain JavaScript, maybe? Not really. The revalidating part happened to be a Next.js-specific API leaking through the global `fetch`. It's a custom API disguised as a global, which drives its predictability to the ground.
 
 > I'm intentionally not giving examples of the standard behaviors of `fetch` working differently across runtimes. Those exist too, but there is also an effort to bridge the gaps and improve specification-compliance. Patching, on the other hand, pulls the rope in the opposite direction entirely.
 
