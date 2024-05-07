@@ -286,9 +286,7 @@ fetch(withCache(request, { revalidate: 10 }))
 
 > It speaks volumes that both React and Next.js are already in a process of migrating away from patching `fetch` by introducing their [`cache`](https://react.dev/reference/react/cache) and [`unstable_cache`](https://nextjs.org/docs/app/api-reference/functions/unstable_cache) APIs, respectivelly.
 
-The suggestions I'm proposing are also less invasive, as they operate on existing globals and behaviors as opposed to modifying them. Look, I've made a picture to illustrate how my mind perceives the explicit APIs vs those that patch globals:
-
-> TODO Picture.
+The suggestions I'm proposing are also less invasive, as they operate on existing globals and behaviors as opposed to modifying them.
 
 ## Common counter-arguments
 
