@@ -440,7 +440,7 @@ function OpenSourceProject({
 export const getStaticProps: GetStaticProps<Props> = async () => {
   const featuredPostsSlugs = [
     'my-struggle-with-remix',
-    'the-dark-side-of-open-source',
+    'why-patching-globals-is-harmful',
     'debounce-vs-throttle',
   ]
   const featuredPosts = await Promise.all(
