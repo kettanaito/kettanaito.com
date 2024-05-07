@@ -60,7 +60,6 @@ h4 {
 main p {
   @apply text-gray-700;
   text-wrap: pretty;
-  max-inline-size: 60ch;
 }
 
 main p + p {

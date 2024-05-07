@@ -34,7 +34,7 @@ export function PostThumbnail({
           <span>{date.toLocaleDateString('en-GB')}</span>
         </p>
         <Link href={url} className="hover:underline">
-          <p className="font-bold text-2xl">{title}</p>
+          <p className="font-bold text-2xl text-pretty">{title}</p>
         </Link>
       </div>
     </article>
