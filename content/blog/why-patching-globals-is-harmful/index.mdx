@@ -266,7 +266,7 @@ export async function UserProfile() {
   // Instead, make caching (request deduplication)
   // an explicit choice where we actually need it—
   // when fetching the data for our component.
-  const profile = dedupe(await getUser())
+  const profile = cache(await getUser())
 
   return <p>Hello, {profile.name}!</p>
 }
