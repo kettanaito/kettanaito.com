@@ -1,8 +1,8 @@
 ---
-title: The Intrinsic Harm of Patching Globals
-description: "Apparent and hidden harms of patching the things you don't own."
+title: Why Patching Globals Is Harmful
+description: Why I believe patching globals is a bad API design.
 category: Engineering
-date: 2024-05-03
+date: 2024-05-07
 keywords:
   - patch
   - monkey-patch
@@ -12,15 +12,15 @@ keywords:
   - mootools
 ---
 
-The history. The history never changes. Like a ruthless spiral of actions and consequences, it's always doomed to repeat itself. It seems that 2024 is the year we rediscover the egregious rabbit hole which is patching of globals in JavaScript. Allow me to take the torch and give that spiral another swirl, reminding you about the dangers and the harm you bring when meddling with the things you do not own.
+Honestly, I'd never thought I'd be writing about this, but the matter of patching globals turned out to be one of those topics that a lot of engineers seem to misunderstand. Most of us don't do monkey-patching, and even fewer stay around those implementations long enough to witness their impact. All the more reason to talk about it.
 
-> Throughout the next few thousands of words, I will be referring to modifications of global APIs as "patching". You take the code you don't own, you modify its behavior, you _patch_ it. I hope we are clear on semantics.
+Throughout the next few thousands of words, I will be referring to modifications of global APIs as "patching". You take the code you don't own, you modify its behavior, you _patch_ it. I hope we are clear on semantics.
 
 I am using React, Next.js, and Bun as examples in this article because they have introduced features built on top of patched globals in the past months, which was met with a sizeable backlash from the community. This piece is not a part of that backlash. If you came here to bolster your dislike toward those projects or the companies behind them, I kindly encourage you to close this tab and go on your way. I have voiced my concerns about the matter publicly and saw firsthand how deserved criticism is muddied with blind hatred, and I wish to contribute to that kind of discourse no longer.
 
-I love API design. All of the said companies have featured excellent design choices in the past. Today, I will go into detail on why patching globals is never such a choice, despite its reasoning and appeal (which we will also discuss).
+I love API design. All of the said companies have featured excellent design choices in the past. Today, you will learn why patching globals is never such a choice, despite its reasoning and appeal, which we will also discuss.
 
-## First signs
+## Background
 
 I first came upon the "patching issue" when I heard the announcement of the new [Caching API](https://nextjs.org/docs/app/building-your-application/caching) in Next.js. While the feature itself is a great addition the developer and user experience, the proposed public API was rather . . . unusual.
 
@@ -34,7 +34,7 @@ fetch('https://kettanaito.com', {
 })
 ```
 
-After looking more into this, I've soon discovered that React itself was [patching the global `fetch` function](https://github.com/facebook/react/issues/25573) to cache server-side responses in their in-progress React Server Component model. This was one of the most used JavaScript frameworks and one of the most used JavaScript meta-frameworks introducing what I thought we had collectively concluded to be a harfmul design pattern.
+After looking more into this, I've soon discovered that React itself was [patching the global `fetch` function](https://github.com/facebook/react/issues/25573) to cache server-side responses in their in-progress React Server Component model. This was one of the most used JavaScript frameworks and one of the most used JavaScript meta-frameworks introducing what I find to be a rather harmful design pattern.
 
 A few days ago, I stumbled upon a [tweet from Bun](https://twitter.com/bunjavascript/status/1785615815838175658), reminding its users about a convenient way to proxy HTTP requests. All it takes is to give any `fetch` request a `proxy` option:
 
@@ -46,13 +46,9 @@ fetch('https://redd.one', {
 })
 ```
 
-> The `proxy` option is not a valid option of `RequestInit`.
+At this point, it was the third time a major framework (or, in this case, a runtime) introduced a feature that relied on modifying an existing global API. I did (and still do) assumed the good intention from the authors, yet I couldn't help but worry that it was an oversight, an accidental spark of a flint that, if not doused, would shroud our whole dear forest in fire.
 
-At this point, it's the third time a major framework (or, in this case, a runtime) found no better way to introduce a feature but to modify an existing global API they did not define or own. "Third time's a charm!" as they say, but in this case, it was the third example of a bad and openly harmful API design that thousands of developers would have to use.
-
-I refused to believe that was a consious, weighed choise a group of engineers had made in the best interest of their users. That had to be an oversight, an accidental spark of a flint that, if not doused, would shroud our whole dear forest in fire.
-
-**But why is it bad? What is harmful about those APIs?**
+**But why I think those APIs are bad? What is so harmful about them?**
 
 Answering these questions without understanding the reason behind those design decisions first would be simply improper.
 
@@ -60,25 +56,35 @@ Answering these questions without understanding the reason behind those design d
 
 It's not an easy thing to come up with a good API. Even more so, with an API that would be used by thousands of people. It has to be intuitive, concise, solve the problem it sets off to solve all while being efficient about it. There's a lot of boxes to check, with some of them pulling your judgment in opposite directions.
 
-Luckily, all three examples we have today happened to concern `fetch`. It's a global function to make HTTP requests on the web, and it's known and used by a lot of people out there. You call `fetch` when you want a request to happen. Isn't that the perfect place to say you want that request cached too? Maybe proxied elsewhere? And because it's a global, it doesn't even have to be imported! We are checking off those boxes so fast we are grinding pencils to stomps here.
+Luckily, all three examples we have today happened to concern `fetch`. It's a global function to make HTTP requests on the web, and it's known and used by a lot of people out there. You call `fetch` when you want a request to happen. Isn't that the perfect place to say you want that request cached too? Maybe proxied elsewhere? And because it's a global, it doesn't even have to be imported! We are checking off those boxes so fast we are grinding pencils to stumps here.
 
 In the end, why should anyone go through the trouble of inventing custom functions and methods for something the platform should have had, to begin with?
 
-And I do get this appeal, I truly do. Sadly, the end does not justify the means, and patching globals is about the worst developer experience you can possibly ship as a framework author. Now, finally, to the why's.
+And I do get this appeal, I truly do. There is, however, a cost to every decision, and patching globals doesn't just have a cost that affects both users the maintainers, but also actively harms otherwise great APIs and the ecosystem around them. Now, to the concretics.
 
 ## Harm #1: Maintenance
 
-I would like to intentionally start easy. For once, because empathy is an extremely hard skill to cultivate, and since this article is primarily written for the people walking into the footgun which is global patching, I'd start with the harm it imposes on themselves.
+When you patch a global, you modify something you do not own. Maintaining the things you do not own is hard. That is why you should always strive toward making the experiences you ship apparent and explicit. Like so:
 
-When you patch a global, you modify something you do not own. Maintaining the things you do not own is hard. You should always strive toward owning the code you ship to your users. That simple act alone helps you assess the blast radius of any change you decide to make to your framework.
+```js
+import { experience } from 'your-thing'
+```
 
-See, the globals are just that—_global_. The only thing worse than thinking you can predict all the possible ways the global is used in the wild both by your users _and_ other frameworks and libraries, is to optimistically assume you can accomodate for it. You can take my word for it (Hi 👋 I do global patching [for a living](https://github.com/mswjs/interceptors)) or you can wait for your users to tell you how meddling with globals breaks their applcations and what an excrutiating pain they had to suffer to discover that.
+That will also help you assess the blast radius of any change you decide to make to your framework in the future.
 
-You threw a bear trap into the source code and someone's got caught. At least, it won't cost them hours of their lives and sanity to fix the issue. But it will cost you.
+See, the globals are precisely that—_global_. The only thing worse than thinking you can predict all the possible ways the global is used in the wild both by your users _and_ other tools, is to assume you can accomodate for it.
 
-Using a more concrete example, imagine your framework patches the global `fetch` function to dedupe requests. That works really well for the immediate consumers of `fetch`—your users. Now, what would happen if they rely on a third-party SDK that _also has a deduplication mechanism built-in_? The two behaviors are now conflicting, causing all sorts of weird issues that are virtually impossible to debug.
+> Context: Hi 👋 I patch globals [for a living](https://github.com/mswjs/interceptors). I don't enjoy that. I actually hate that, and I'd move away from that instantly had I had a choice (and I did, moving the network interception to a [Service Worker](https://mswjs.io) the moment it clicked). Sadly, the nature of what I do doesn't give me much choice. Luckily, all the frameworks I bring up as an example today _do_ have that choice, and I will even show an alternative design to their APIs later in this article.
+>
+> But not before we are done discussing the harms of patching globals.
 
-That is your best case scenario. The worst case scenario is that the third-party was also patching `fetch` and relying on that patch to execute, which your framework successfully throws out of the window by introducing its own patch. A magnificent manifestation of hack-driven development at its finest.
+You can take my word for it or you can wait for your users to tell you how meddling with globals breaks their applcations and what an excrutiating pain they had to suffer to discover that.
+
+You have thrown a bear trap into the source code and someone's got caught. At least, it won't cost them hours of their lives and sanity to fix the issue. But it will cost you.
+
+Using a more concrete example, imagine your framework patches the global `fetch` function to dedupe requests. That works really well for the immediate consumers of `fetch`—your users. Now, what would happen if they rely on a third-party SDK that _also has a deduplication mechanism built-in_? The two behaviors would clash, causing all sorts of weird issues that are virtually impossible to debug.
+
+That is your best case scenario. The worst case scenario is that the third-party was also patching `fetch` and relying on that patch to exist, which your framework successfully undoes by introducing its own patch. A magnificent manifestation of hack-driven development at its finest.
 
 ## Harm #2: Predictability
 
@@ -102,13 +108,13 @@ Here's a request that will be cached forever in Next.js:
 ```js
 fetch('https://kettanaito.com', {
   cache: 'force-cache',
-  next: { revalidate: false },
+  next: { revalidate: 10 },
 })
 ```
 
 Will this same request be cached in Svelte? In Remix? In plain JavaScript, maybe? Not really. The caching part happened to be a Next.js-specific API leaking through the global `fetch`. It's a custom API disguised as a global, which drives its predictability to the ground.
 
-> Note that I'm intentionally not giving examples of the standard behaviors of `fetch` working differently across runtimes. Those exist too, but there is also an effort to bridge the gaps and improve specification-compliance. Patching, on the other hand, pulls the rope in the opposite direction entirely.
+> I'm intentionally not giving examples of the standard behaviors of `fetch` working differently across runtimes. Those exist too, but there is also an effort to bridge the gaps and improve specification-compliance. Patching, on the other hand, pulls the rope in the opposite direction entirely.
 
 ## Harm #3: Learning
 
@@ -152,9 +158,9 @@ fetch('https://kettanaito', {
 
 Well, for once, that requests _can_ be cached and that there's a standard [`cache`](https://fetch.spec.whatwg.org/#ref-for-dom-request-cache%E2%91%A1) property that controls how the browser caches that request. So far so good! But that's the standard teaching me, not Next.js.
 
-The `next.revalidate` part is entirely contrived. Even if I looked it up in the Next.js docs, I don't know what exactly it abstracts over. I don't learn how caching is done on the web, only in Next.js. I can only assume that it roughly translates to the [`max-age`](https://httpwg.org/specs/rfc9111.html#cache-request-directive.max-age) request directive of the standard `Cache-Control` HTTP header.
+The `next.revalidate` part is entirely contrived. Even if I looked it up in the Next.js docs, I wouldn't know what exactly it abstracts over. Does it control cache revalidation or does it do something else entirely? It certainly doesn't teach me about the [`max-age`](https://httpwg.org/specs/rfc9111.html#cache-request-directive.max-age) request directive of the standard `Cache-Control` HTTP header.
 
-So can I write the same logic using plain `fetch`?
+But most importantly, can I write the same logic using plain `fetch`?
 
 ```js
 fetch('https://kettanaito', {
@@ -165,11 +171,11 @@ fetch('https://kettanaito', {
 })
 ```
 
-> I genuinely didn't know. That's why I've reached out to [Lee](https://twitter.com/leeerob) for help. He kindly agreed and explained to me that `next.revalidate` does more than just `max-age` because it can also be used for [Incremental Static Regeneration](https://nextjs.org/docs/pages/building-your-application/data-fetching/incremental-static-regeneration) (ISR). Given how tightly that concept is integrated with Next.js, I doubt I can even represent the `next.revalidate` behavior outside of Next.js.
+> I genuinely didn't know. That's why I've reached out to [Lee](https://twitter.com/leeerob) for help. He kindly explained to me that `next.revalidate` focuses on [Incremental Static Regeneration](https://nextjs.org/docs/pages/building-your-application/data-fetching/incremental-static-regeneration) (ISR), not just caching. So no, I cannot translate it to a plain `fetch` call. Seeing how tightly it integrates with Next.js, I believe it belongs to `RequestInit` even less.
 
-As powerful as `next.revalidate` is, it focuses on making me a better Next.js user. I wish it made me a better engineer as well, telling me more about what caching is and giving me the building blocks I can apply even outside of Next.js.
+As powerful as `next.revalidate` is, I wish it taught me more about what exactly it does so I would get better at understanding caching and ISR. Ideally, while also relying on the existing standards that I can apply outside of Next.js too.
 
-### Lock-in
+## Harm #4: Lock-in
 
 The more sugar your framework sprinkles on top of standard APIs, the harder it is to move away from that framework.
 
@@ -185,7 +191,7 @@ fetch('https://redd.one', {
 
 You took a thing you don't own, you modified it on the premise of convenience, and now it doesn't work anywhere else but in your own little universe. If that is not the definition of vendor lock-in, I don't know what is.
 
-### Stalling the progress
+## Harm #5: Hurting the progress
 
 What appears like a pioneering of innovation ends up being one big spike in the wheel of progress. A really, really big spike.
 
@@ -204,9 +210,13 @@ Let me make this abundantly clear:
   addicted to a convenience library that modified things it didn't own.
 </Quote>
 
+> MooTools has also spawned a [Smoosh controversy](https://developer.chrome.com/blog/smooshgate), causing a newly added `Array.prototype.flatten` to break the web and forcing the TC39 folks to rename a perfectly valid method name to `flat`.
+
 MooTools has passed into history, but its impact on JavaScript remained. So next time you choose to support short-sighted convenience, please do not complain if the WHATWG introduces a `proxyTarget` and `proxyOptions` properties to the `fetch` API instead of a single `proxy`.
 
-And you know the truly laughable part? None of these costs and harms would even be relevant if one approached convenience with more thought. It's only proper we looked at alternatives to patching globals (I can't believe I had to write this sentence).
+> I admit, I don't know the details on why MooTools chose prototype patching as their design direction. I will give them the benefit of the doubt, assuming they thought it the best way for their features to feel like the extension of the language instead of a vendor library. Perhaps they simply didn't know better and there was no other example to learn from. I am thankful they have become one for the rest of us.
+
+A truly fascinating part here is that none of these costs and harms would even be relevant if one approached convenience with a bit more thought and precaution. It's only proper we looked at alternatives to patching globals (I can't believe I had to write this sentence).
 
 ## Alternatives
 
@@ -220,7 +230,7 @@ I am all hands for convenience and yet I hate whenever frameworks patch globals.
 
 But there is one thing I hate even more. Complaining without proposing solutions.
 
-There are a ton of solutions to any API problem better than patching globals, the quintessential part of which is **being explicit**. Abandon the magical, cast aside the pretense that you own `fetch` and it is only through modifying it that you can achieve that golden DX you dream about. That DX is fundamentally and irreversibly flawed, and I've just given you five extremely detailed reasons above as to why.
+There are a ton of solutions to any API problem better than patching globals, and the quintessential part of any of them is **being explicit**. Abandon the magical, cast aside the pretense that you own `fetch` and it is only through modifying it that you can achieve that golden DX you dream about. That DX is fundamentally and irreversibly flawed, and I've just given you five extremely detailed reasons above as to why.
 
 Let's take Bun's `proxy` API as an example and make it explicit:
 
@@ -242,7 +252,7 @@ Do you see how a simple change made this API better? I'll give it to you, it's l
 Since the ball is already rolling, let's refactor the APIs from React and Next.js as well. This is going to be mostly boring because we will apply the same pattern to all of them, ridding them of the same problems and reaping the same benefits.
 
 ```js
-import { dedupe } from 'react'
+import { cache } from 'react'
 
 // There's no reason to couple the data fetching
 // function with React. By leaving it generic, it
@@ -262,8 +272,6 @@ export async function UserProfile() {
 }
 ```
 
-> A mandatory reminder that these are APIs I've just made up!
-
 ```js
 import { withCache } from 'next'
 
@@ -276,7 +284,9 @@ const request = new Request('https://kettanaito.com')
 fetch(withCache(request, { revalidate: 10 }))
 ```
 
-Both suggestions are also less invasive, as they operate on existing globals and behaviors as opposed to modifying them. Look, I've made a picture to illustrate how my mind perceives the explicit APIs vs those that patch globals:
+> It speaks volumes that both React and Next.js are already in a process of migrating away from patching `fetch` by introducing their [`cache`](https://react.dev/reference/react/cache) and [`unstable_cache`](https://nextjs.org/docs/app/api-reference/functions/unstable_cache) APIs, respectivelly.
+
+The suggestions I'm proposing are also less invasive, as they operate on existing globals and behaviors as opposed to modifying them. Look, I've made a picture to illustrate how my mind perceives the explicit APIs vs those that patch globals:
 
 > TODO Picture.
 
@@ -306,12 +316,32 @@ Global `fetch` API exists in Node.js since 2022 (introduced as experimental in v
 
 ### But these frameworks know better!
 
-Do you think that's why they are [backing](https://twitter.com/leeerob/status/1733154383410684148) [off](https://github.com/facebook/react/pull/28896) from their decision to patch globals?
+They likely do! But in some cases, it takes them time and the feedback from the community to arrive at that "better".
 
-No amount of experience, skill, or credibility make you immune to making a mistake. Today, we looked at three such mistakes, two of which are already being rolled back.
+As I've mentioned before, React and Next.js are moving away from patching `fetch` in favor of more explicit APIs. When I asked Lee Robinson to provide more context behind that switch, he shared with me the following:
+
+> _In theory, community packages could publish their own code that used `fetch`, and set these caching policies on their own. And we started to do that a bit, but it was very opaque and hard to tell why something was cached. So we decided **we want to be more explicit**_.
+> — Lee Robinson, VP of Product at Vercel.
+
+Perhaps we will even see Bun reconsider their direction of patching globals, which would immediately make it a more mature runtime, at least in my eyes.
+
+The bottom line is, there isn't enough amount of experience, skill, or credibility that would render you immune to making a mistake. The only thing that matters is having the strength to admit one and the wisdom to resolve it.
 
 ---
 
 ## Conclusion
 
 I hope this article was able to shed some light on the dangers of apparently "controversial" practice of patching globals. It's a footgun we have already fired, and seems we needed a due reminder that the feet we have are just two.
+
+> Huge thanks to [Lee Robinson](https://twitter.com/leeerob) and [Jordan Harband](https://twitter.com/ljharb) for proofreading this piece! Your feedback helped me ensure my example were accurate and my tone welcoming. I'm truly honored to have had your eyes on this one.
+
+## Resources
+
+There are a lot of great writing on this topic. I encourage you to read these:
+
+- [Monkey-Patching in JavaScript](https://www.audero.it/blog/2016/12/05/monkey-patching-javascript) by Aurelio De Rosa;
+- [The Case Against Monkey-Patching](https://shopify.engineering/the-case-against-monkey-patching) by Eileen Uchitelle;
+- [That Time Monkey-Patching Took 2 Days Off My Life](https://swizec.com/blog/that-time-monkey-patching-took-2-days-off-my-life) by Swizec Teller;
+- [Maintainable JavaScript: Don't modify objects you don't own](https://humanwhocodes.com/blog/2010/03/02/maintainable-javascript-dont-modify-objects-you-down-own) by Nicholas C. Zakas.
+
+You are also most welcome to share _this_ article any time you notice a framework is reaching toward patching a global. If it helps to prevent that, I know I will be glad.
