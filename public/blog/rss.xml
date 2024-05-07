@@ -4,9 +4,9 @@
         <description><![CDATA[Artem Zakharchenko's blog]]></description>
         <link>https://kettanaito.com</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Fri, 22 Mar 2024 12:23:00 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 07 May 2024 16:43:29 GMT</lastBuildDate>
         <atom:link href="https://kettanaito.com/rss.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Fri, 22 Mar 2024 12:22:59 GMT</pubDate>
+        <pubDate>Tue, 07 May 2024 16:43:27 GMT</pubDate>
         <copyright><![CDATA[All rights reserved © 2024 Artem Zakharchenko]]></copyright>
         <language><![CDATA[en-us]]></language>
         <ttl>40</ttl>
@@ -177,6 +177,14 @@
             <guid isPermaLink="false">https://kettanaito.com/blog/why-i-wouldnt-want-to-have-an-engineering-degree</guid>
             <category><![CDATA[Culture]]></category>
             <pubDate>Mon, 23 Aug 2021 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Why Patching Globals Is Harmful]]></title>
+            <description><![CDATA[Why I believe patching globals is a bad API design.]]></description>
+            <link>https://kettanaito.com/blog/why-patching-globals-is-harmful</link>
+            <guid isPermaLink="false">https://kettanaito.com/blog/why-patching-globals-is-harmful</guid>
+            <category><![CDATA[Engineering]]></category>
+            <pubDate>Tue, 07 May 2024 00:00:00 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[Writing a Custom Webpack Loader]]></title>
