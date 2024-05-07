@@ -60,7 +60,7 @@ Luckily, all three examples we have today happened to concern `fetch`. It's a gl
 
 In the end, why should anyone go through the trouble of inventing custom functions and methods for something the platform should have had, to begin with?
 
-And I do get this appeal, I truly do. There is, however, a cost to every decision, and patching globals doesn't just have a cost that affects both users the maintainers, but also actively harms otherwise great APIs and the ecosystem around them. Now, to the concretics.
+And I do get this appeal, I truly do. There is, however, a cost to every decision, and patching globals doesn't just have a cost that affects both users and maintainers, but also actively harms otherwise great APIs and even the language itself. Now, to the specifics.
 
 ## Harm #1: Maintenance
 
@@ -97,13 +97,13 @@ There's hardly anything more satisfying in engineering that knowing how a thing 
 
 If you've been building for web long enough, I'm sure you have your own barrage of oddities, quirks, and behaviors of questionable sanity corked in memories you never wish to revisit. Remember how `display: flex` used to work only in some browsers? What about negative lookbehind in Safari? And all those joyful hours spent begging IE to render your page correctly, if at all?
 
-That's the chaos that happens when multiple agent implement the same thing differently.
+That's the chaos that happens when multiple agents implement the same thing differently.
 
 It makes me appreciate the present even more. Cross-browser compatibility has never been higher. Even cross-environment compatibility is showing incredible progress, with Node.js shipping `fetch`, `ReadableStream`, `WebSocket`, and a dozen of other browser APIs. That didn't happen by accident. We, as an industry, came to the conclusion that nobody wants to waste money and time on compatibility issues. We invested into specifications, we deprecated old and gave way to the new.
 
 And now we have come a full circle. We are back at the stage where multiple agents implement the same thing differently.
 
-Here's a request that will be cached forever in Next.js:
+Here's a request that will be cached and then revalidated after 10 seconds in Next.js:
 
 ```js
 fetch('https://kettanaito.com', {
