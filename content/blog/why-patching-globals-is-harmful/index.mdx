@@ -14,7 +14,7 @@ keywords:
 
 Honestly, I'd never thought I'd be writing about this, but the matter of patching globals turned out to be one of those topics that a lot of engineers seem to misunderstand. Most of us don't do monkey-patching, and even fewer stay around those implementations long enough to witness their impact. All the more reason to talk about it.
 
-Throughout the next few thousands of words, I will be referring to modifications of global APIs as "patching". You take the code you don't own, you modify its behavior, you _patch_ it. I hope we are clear on semantics.
+Throughout the next few thousand words, I will be referring to modifications of global APIs as "patching". You take the code you don't own, you modify its behavior, you _patch_ it. I hope we are clear on semantics.
 
 I am using React, Next.js, and Bun as examples in this article because they have introduced features built on top of patched globals in the past months, which was met with a sizeable backlash from the community. This piece is not a part of that backlash. If you came here to bolster your dislike toward those projects or the companies behind them, I kindly encourage you to close this tab and go on your way. I have voiced my concerns about the matter publicly and saw firsthand how deserved criticism is muddied with blind hatred, and I wish to contribute to that kind of discourse no longer.
 
@@ -48,7 +48,7 @@ fetch('https://redd.one', {
 
 At this point, it was the third time a major framework (or, in this case, a runtime) introduced a feature that relied on modifying an existing global API. I did (and still do) assumed the good intention from the authors, yet I couldn't help but worry that it was an oversight, an accidental spark of a flint that, if not doused, would shroud our whole dear forest in fire.
 
-**But why I think those APIs are bad? What is so harmful about them?**
+**But why do I think those APIs are bad? What is so harmful about them?**
 
 Answering these questions without understanding the reason behind those design decisions first would be simply improper.
 
@@ -72,13 +72,13 @@ import { experience } from 'your-thing'
 
 That will also help you assess the blast radius of any change you decide to make to your framework in the future.
 
-See, the globals are precisely that—_global_. The only thing worse than thinking you can predict all the possible ways the global is used in the wild both by your users _and_ other tools, is to assume you can accomodate for it.
+See, the globals are precisely that—_global_. The only thing worse than thinking you can predict all the possible ways the global is used in the wild both by your users _and_ other tools, is to assume you can accommodate for it.
 
 > Context: Hi 👋 I patch globals [for a living](https://github.com/mswjs/interceptors). I don't enjoy that. I actually hate that, and I'd move away from that instantly had I had a choice (and I did, moving the network interception to a [Service Worker](https://mswjs.io) the moment it clicked). Sadly, the nature of what I do doesn't give me much choice. Luckily, all the frameworks I bring up as an example today _do_ have that choice, and I will even show an alternative design to their APIs later in this article.
 >
 > But not before we are done discussing the harms of patching globals.
 
-You can take my word for it or you can wait for your users to tell you how meddling with globals breaks their applications and what an excrutiating pain they had to suffer to discover that.
+You can take my word for it, or you can wait for your users to tell you how meddling with globals breaks their applications and what an excruciating pain they had to suffer to discover that.
 
 You have thrown a bear trap into the source code and someone's got caught. At least, it won't cost them hours of their lives and sanity to fix the issue. But it will cost you.
 
@@ -88,10 +88,10 @@ That is your best case scenario. The worst case scenario is that the third-party
 
 ## Harm #2: Predictability
 
-There's hardly anything more satisfying in engineering that knowing how a thing behaves. If you use `console.log()`, you know it will print a message to the console. Now, it may be the browser's DevTools protocol that does it, or Node.js writing to `process.stdout`, but you _know_ what's going to happen. You can predict the behavior.
+There's hardly anything more satisfying in engineering than knowing how a thing behaves. If you use `console.log()`, you know it will print a message to the console. Now, it may be the browser's DevTools protocol that does it, or Node.js writing to `process.stdout`, but you _know_ what's going to happen. You can predict the behavior.
 
 <Quote>
-  There's hardly anything more irritating in engineering that having the same
+  There's hardly anything more irritating in engineering than having the same
   thing behave differently.
 </Quote>
 
@@ -120,7 +120,7 @@ Will this request behave the same in Svelte? In Remix? In plain JavaScript, mayb
 
 A software that disregards the learning experience it creates is a tool destined to fail.
 
-As a library author, I know firsthand how impactful the decisions I make can be for my users. There's already a lot of things a good API must accomplish: achieve the task at hand, provide an intuitive, versatile means to do so, align with the established philosophy and best practices, be extendable and maintainable and transferrable. But there's one more thing, the most imporatnt thing it must do.
+As a library author, I know firsthand how impactful the decisions I make can be for my users. There's already a lot of things a good API must accomplish: achieve the task at hand, provide an intuitive, versatile means to do so, align with the established philosophy and best practices, be extendable and maintainable and transferrable. But there's one more thing, the most important thing it must do.
 
 **An API must educate**.
 
@@ -129,7 +129,7 @@ As a library author, I know firsthand how impactful the decisions I make can be 
   <br />A bad tool teaches you itself.
 </Quote>
 
-Every time a user reaches for your tool, they have a problem to solve. And the solution you provide them is always twofold: the immedite one and the lasting one.
+Every time a user reaches for your tool, they have a problem to solve. And the solution you provide them is always twofold: the immediate one and the lasting one.
 
 For the lack of a better example, I will shamelessly use one from my experience. I spent the last year making MSW more [specification-compliant](https://mswjs.io/blog/introducing-msw-2.0). The goal was to facilitate the standard Fetch API so the developer would interface with it more often. It was a challenge and a limitation I imposed on myself, knowing that the gains would be tremendous.
 
@@ -230,7 +230,7 @@ I am all hands for convenience and yet I hate whenever frameworks patch globals.
 
 But there is one thing I hate even more. Complaining without proposing solutions.
 
-There are a ton of solutions to any API problem better than patching globals, and the quintessential part of any of them is **being explicit**. Abandon the magical, cast aside the pretense that you own `fetch` and it is only through modifying it that you can achieve that golden DX you dream about. That DX is fundamentally and irreversibly flawed, and I've just given you five extremely detailed reasons above as to why.
+There are a ton of solutions to any API problem better than patching globals, and the quintessential part of any of them is **being explicit**. Abandon the magical, cast aside the pretence that you own `fetch` and it is only through modifying it that you can achieve that golden DX you dream about. That DX is fundamentally and irreversibly flawed, and I've just given you five extremely detailed reasons above as to why.
 
 Let's take Bun's `proxy` API as an example and make it explicit:
 
@@ -241,7 +241,7 @@ const proxiedRequest = proxy(proxyUrl, new Request(url, options))
 await fetch(proxiedRequest)
 ```
 
-With this change, the proxying functionality no longer appears from a thin air. It has to be imported from `bun` explicitly. Nobody will confuse it with a standard JavaScript behavior. In fact, developers will be reminded on every import that it is Bun who's making proxying easier. Here's your developer-oriented marketing as a side effect of a good API design!
+With this change, the proxying functionality no longer appears from thin air. It has to be imported from `bun` explicitly. Nobody will confuse it with a standard JavaScript behavior. In fact, developers will be reminded on every import that it is Bun who's making proxying easier. Here's your developer-oriented marketing as a side effect of a good API design!
 
 But we can no longer shove it into `fetch` so we have to be smarter about our `proxy` function. We want to proxy a request, right? So, maybe, let's accept _any request instance_ as an argument and return a proxied request? It doesn't interfere with how a `Request` is constructed or a `fetch` call is made all the while achieving the same proxying functionality? Get out of here.
 
