@@ -191,10 +191,10 @@ table tr:nth-child(2n) {
 
 /* Code */
 code {
-  @apply px-1 border text-base border-slate-200 bg-gray-50 rounded-lg whitespace-nowrap;
+  @apply px-1 border text-[0.8em] border-slate-200 bg-gray-50 rounded-lg whitespace-nowrap;
 }
 .code {
-  @apply my-8 border border-slate-200 rounded-lg text-base font-normal overflow-auto;
+  @apply my-8 border border-slate-200 rounded-lg text-sm font-normal overflow-auto;
 }
 h2 + .code {
   @apply mt-6;
