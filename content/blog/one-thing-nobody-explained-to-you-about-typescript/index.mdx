@@ -155,94 +155,102 @@ But what we write our modules _for_ matters. It matters for TypeScript too. Why 
 
 And you communicate that intention through `tsconfig.json`. But not just the root-level one. TypeScript can handle nested configurations remarkably well. Because it was _designed to do that_. All you have to do is be explicit about your intentions.
 
-You do so by strategically placing the `tsconfig.json` files across your project. Here's an example:
-
 ```bash
-# The root-level configuration to list the common options.
-# All the other configurations will extend from it.
-# We want to set "noEmit": true and "declarations": false,
-# as well as "skipLibCheck": true in this one.
+# The root-level configuration to apply TypeScript
+# across the entire project. This mostly contains only references.
 - tsconfig.json
 
-# The root-level configuration for the actual application build.
-# This is where we want to emit modules and type declarations.
+# The base configuration that all the other configurations
+# extend upon. Describe the shared options here.
+- tsconfig.base.json
+
+# The source files configuration.
+- tsconfig.src.json
+
+# The build configuration.
 - tsconfig.build.json
 
-- /e2e
-  # A configuration for end-to-end test files
-  # that are meant to either run in or describe the browser
-  # runtime. We'd want the "lib" library here, and perhaps
-  # additional types, like "dom.iterable".
-  - tsconfig.json
-  - Login.test.ts
+# Configuratin for integration tests.
+- tsconfig.test.json
 
-- /src
-  # Another config, this time for the source code.
-  # This can be skipped it the default configuration
-  # covers the source, but the source may require additional
-  # types in certain situations.
-  - App.tsx
-  - util.ts
-
-- /test
-  # TypeScript configuration for test files. This is where
-  # we add things like "vitest/globals", Node.js globals,
-  # and other, test-related types.
-  - tsconfig.json
-  - App.test.tsx
-
+# Configuration for end-to-end tests.
+- tsconfig.e2e.test.json
 ```
 
-Woah, that's a lot of configs! Well, that's a lot of intentions as well: from the source files to various testing levels to the production build. All meant to be type-safe. And you make them type-safe by introducing directory-scoped configurations that extend the base `./tsconfig.json` at the root.
+Woah, that's a lot of configs! Well, that's a lot of intentions as well: from the source files to various testing levels to the production build. All meant to be type-safe. And you make them type-safe by using the [`references`](https://www.typescriptlang.org/docs/handbook/project-references.html) property of your TypeScript configuration!
 
-For example, this is what the TypeScript configuration for the `src` files may look like:
+The magic starts at the root-level `tsconfig.json`. Rest assured, _this is the only configuration TypeScript will pick up_. All the other configurations become _references_ of the root-level config, applying themselves only to the files matching their `include`.
+
+This is how the root-level `tsconfig.json` looks like:
 
 ```json
-// src/tsconfig.json
+// tsconfig.json
 {
-  // Extend the root-level config to reuse common options.
+  "references": [
+    // Source files (e.g. everything under "./src").
+    { "path": "./tsconfig.src.json" },
+    // Integration tests (e.g. everything under "./tests").
+    { "path": "./tsconfig.test.json" },
+    // E2E tests (e.g. everything under "./e2e").
+    { "path": "./tsconfig.e2e.test.json" }
+  ]
+}
+```
+
+Since you are using the `references` field, all the referenced configurations must set `compilerOptions.composite` to `true`. Here's an example of `tsconfig.src.json` for the source files:
+
+```json
+// tsconfig.src.json
+{
+  // Inherit the reused options.
   "extends": "./tsconfig.json",
+  // Apply this configuration only to the files
+  // under the "./src" directory.
+  "include": ["./src"],
   "compilerOptions": {
-    // Compile to the code that runs in the browser.
+    "composite": true,
     "target": "es2015",
     "module": "esnext",
-    // Support JSX, we're running React here.
+    // Support JSX for React applications.
     "jsx": "react"
-  },
-  // Apply this config only to the source files.
-  "include": ["src"],
-  "exclude": ["node_modules"]
+  }
 }
 ```
 
-In contrast, here's a configuration for the integration tests in the `test` directory:
+> You use a separate configuration for source files and for the build because configurations with `compilerOptions.composite` cannot be run directly. You point `tsc` to the specific `-p tsconfig.build.json` for builds.
 
-```json
-// test/tsconfig.json
+It gets a little trickier for configurations that intersect, like the one for integration tests, which should apply only to the files under `./tests` while still allowing you to import the tested source code. And for that you once again utilize the `references` property!
+
+```json focusedLines=5
+// tsconfig.test.json
 {
-  "extends": "../tsconfig.json",
+  "extends": "./tsconfig.json",
+  "include": ["./tests"],
+  "references": [{ "path": "./tsconfig.src.json" }],
   "compilerOptions": {
-    // No transpiling here, let's stay on the edge.
+    "composite": true,
     "target": "esnext",
     "module": "esnext",
-    // Integration tests run in Node.js.
-    // Let's also add those test runner's globals.
+    // Include test-specific types.
     "types": ["@types/node", "vitest/globals"]
-  },
-  // We care only about the test files here.
-  "include": ["**/*.test.ts"]
+  }
 }
 ```
 
-When writing TypeScript configurations, remember this:
-
 <Quote>
-  You should have as many TypeScript configurations as there are layers in your
-  project: source code, Node.js testing, in-browser testing, third-party
-  tooling, etc.
+  The `references` property tells TypeScript to include the given configuration
+  in type-checking without letting the current configuration affect the included
+  files.
 </Quote>
 
-TypeScript will automatically pick up the `tsconfig.json` closest to the module it type-checks, giving you the ability to extend while deviating where necessary.
+## `include` vs `references`
+
+Both `include` and `references` properties involve the files "visible" for TypeScript but they do so in different ways. Let's recap that difference.
+
+- `include`, controls which files are _affected_ by this configuration;
+- `references`, controls which files are _visible_ to this configuration but not affected by it.
+
+The integration test configuration (`tsconfig.test.json`) illustrates that difference perfectly. You want for that configuration to apply only to the test files under the `./tests` directory, so that's the one you provide in `include`. But you also want to be able to import the tested source code in those files, which means TypeScript has to know about that code. You _reference_ the configuration for source files (`tsconfig.src.json`) in `references`, which transitively expands TypeScript's eye to the files included there without affecting them by the integration tests configuration.
 
 ## The practical aspect
 
