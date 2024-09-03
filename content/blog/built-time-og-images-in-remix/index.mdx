@@ -193,12 +193,12 @@ npm i remix-og-image --save-dev
 
 ```js
 // vite.config.ts
-import { openGraphImages } from 'remix-og-image/plugin'
+import { openGraphImage } from 'remix-og-image/plugin'
 
 export default defineConfig({
   // ...your regular Vite plugins here.
 
-  openGraphImages({
+  openGraphImage({
     elementSelector: '#og-image',
     outputDirectory: './og',
     format: 'webp'
