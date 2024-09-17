@@ -152,23 +152,22 @@ If any of the abort signals provided to the `AbortSignal.any()` dispatch the abo
 
 ### Streams
 
+You can use `AbortController` and `AbortSignal` to cancel streams as well.
+
 ```ts
-import fs from 'node:fs'
-import { addAbortSignal } from 'node:stream'
+const stream = new WritableStream({
+  write(chunk, controller) {
+    controller.signal.addEventListener('abort', () => {
+      // Handle stream abort here.
+    })
+  },
+})
 
-const controller = new AbortController()
-
-// Create a readable stream that reads the given file.
-const readStream = fs.createReadStream('large.json')
-
-// Wrap the readable stream in `addAbortSignal`,
-// which associates the `controller.signal` with it.
-const cancelableReadStream = addAbortSignal(controller.signal, readStream)
+const writer = stream.getWriter()
+await writer.abort()
 ```
 
-> The `AbortSignal` you provide as the first argument to the `addAbortSignal` function can be _any_ abort signal instance, including those created via static methods like `AbortSignal.timeout()` or `AbortSignal.any()`.
-
-Above, I am making a readable stream in Node.js cancelable by wrapping it in the `addAbortSignal` function and providing it the `controller.signal` reference. This means I can abort (i.e. destroy) that stream whenever I want by calling `controller.abort()`.
+The `WritableStream` controller exposes the `signal` property, which is the same old `AbortSignal`. That way, I can call `writer.abort()`, which will bubble up to the abort event on `controller.signal` in the `write()` method in the stream.
 
 ## Making anything abortable
 
@@ -180,11 +179,11 @@ Let's add the `AbortController` to [Drizzle ORM](https://orm.drizzle.team/) tran
 
 ```ts
 function makeCancelableTransaction(db) {
-  return async (callback, { signal }: { signal?: AbortSignal }) => {
-    await db.transaction((tx) => {
-      // Rollback this transaction once the abort event is dispatched.
-      signal?.addEventListener('abort', async () => {
-        await tx.rollback()
+  return (callback, options = {}) => {
+    return db.transaction((tx) => {
+      // Rollback this transaction if the abort event is dispatched.
+      options.signal?.addEventListener('abort', async () => {
+        tx.rollback()
       })
 
       return callback.call(this, tx)
