@@ -15,7 +15,7 @@ Today, I'd like to talk about one of the standard JavaScript APIs you are likely
 
 ## What is `AbortController`?
 
-`AbortController` is a global class in JavaScript that you can use to abort, well, anything!
+[`AbortController`](https://developer.mozilla.org/en-US/docs/Web/API/AbortController) is a global class in JavaScript that you can use to abort, well, anything!
 
 Here's how you use it:
 
@@ -28,7 +28,7 @@ controller.abort()
 
 Once you create a controller instance, you get two things:
 
-- The `signal` property, which is an instance of `AbortSignal`. This is a pluggable part you can provide to any API to react to an abort even, and implement it accordingly. For example, providing it to a `fetch()` request will abort the request;
+- The `signal` property, which is an instance of [`AbortSignal`](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignals). This is a pluggable part you can provide to any API to react to an abort even, and implement it accordingly. For example, providing it to a `fetch()` request will abort the request;
 - The `.abort()` method that, when called, triggers the abort event.
 
 So far so good. But where is the actual _abort logic_? That's the beauty—it's defined by the consumer. The abort handling comes down to listening to the `abort` event and implementing the abort in whichever way is suitable for the logic in question:
