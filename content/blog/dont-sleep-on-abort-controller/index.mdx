@@ -107,8 +107,7 @@ function uploadFile(file: File) {
   // so it can be aborted anytime be calling `controller.abort()`.
   const response = fetch(
     '/upload',
-    { method: 'POST', body: file },
-    { signal: controller.signal }
+    { method: 'POST', body: file, signal: controller.signal }
   )
 
   return { response, controller }
