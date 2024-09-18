@@ -178,23 +178,27 @@ With such a superpower at your fingertips, not only you can ship better experien
 Let's add the `AbortController` to [Drizzle ORM](https://orm.drizzle.team/) transactions so we are able to cancel multiple transactions at once.
 
 ```ts
+import { TransactionRollbackError } from 'drizzle-orm'
+
 function makeCancelableTransaction(db) {
   return (callback, options = {}) => {
     return db.transaction((tx) => {
-      // Rollback this transaction if the abort event is dispatched.
-      options.signal?.addEventListener('abort', async () => {
-        tx.rollback()
-      })
+      return new Promise((resolve, reject) => {
+        // Rollback this transaction if the abort event is dispatched.
+        options.signal?.addEventListener('abort', async () => {
+          reject(new TransactionRollbackError())
+        })
 
-      return callback.call(this, tx)
+        return Promise.resolve(callback.call(this, tx)).then(resolve, reject)
+      })
     })
   }
 }
 ```
 
-The `makeCancelableTransaction()` function accepts a database instance and returns a higher-order transaction function that now accepts a `signal` to be provided in the second argument.
+The `makeCancelableTransaction()` function accepts a database instance and returns a higher-order transaction function that now accepts an abort `signal` as an argument.
 
-In order to know when the abort happened, I am adding the event listener for the "abort" event on the `signal` instance. That event listener will be called whenever the abort event is emitted, i.e. when `controller.abort()` is called. So when that happens, I can call `tx.rollback()` to rollback the entire transaction context.
+In order to know when the abort happened, I am adding the event listener for the "abort" event on the `signal` instance. That event listener will be called whenever the abort event is emitted, i.e. when `controller.abort()` is called. So when that happens, I can reject the transaction promise with a `TransactionRollbackError` error to rollback that entire transaction (this is synonymous to calling `tx.rollback()` that throws the same error).
 
 Now, let's use it with Drizzle.
 
