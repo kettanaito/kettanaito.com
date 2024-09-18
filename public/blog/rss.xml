@@ -4,9 +4,9 @@
         <description><![CDATA[Artem Zakharchenko's blog]]></description>
         <link>https://kettanaito.com</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Tue, 07 May 2024 16:43:29 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 17 Sep 2024 19:12:15 GMT</lastBuildDate>
         <atom:link href="https://kettanaito.com/rss.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Tue, 07 May 2024 16:43:27 GMT</pubDate>
+        <pubDate>Tue, 17 Sep 2024 19:12:14 GMT</pubDate>
         <copyright><![CDATA[All rights reserved © 2024 Artem Zakharchenko]]></copyright>
         <language><![CDATA[en-us]]></language>
         <ttl>40</ttl>
@@ -57,6 +57,14 @@
             <guid isPermaLink="false">https://kettanaito.com/blog/debugging-like-a-pro-xy</guid>
             <category><![CDATA[Engineering]]></category>
             <pubDate>Tue, 29 Aug 2023 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Don't Sleep on AbortController]]></title>
+            <description><![CDATA[Learn how to make anything abortable in JavaScript.]]></description>
+            <link>https://kettanaito.com/blog/dont-sleep-on-abort-controller</link>
+            <guid isPermaLink="false">https://kettanaito.com/blog/dont-sleep-on-abort-controller</guid>
+            <category><![CDATA[Engineering]]></category>
+            <pubDate>Wed, 18 Sep 2024 00:00:00 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[Efficient CircleCI debugging with SSH]]></title>

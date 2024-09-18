@@ -1,0 +1,253 @@
+---
+title: "Don't Sleep on AbortController"
+description: Learn how to make anything abortable in JavaScript.
+category: Engineering
+date: 2024-09-18
+keywords:
+  - abort
+  - controller
+  - signal
+  - listener
+  - transaction
+---
+
+Today, I'd like to talk about one of the standard JavaScript APIs you are likely sleeping on. It's called `AbortController`.
+
+## What is `AbortController`?
+
+[`AbortController`](https://developer.mozilla.org/en-US/docs/Web/API/AbortController) is a global class in JavaScript that you can use to abort, well, anything!
+
+Here's how you use it:
+
+```ts
+const controller = new AbortController()
+
+controller.signal
+controller.abort()
+```
+
+Once you create a controller instance, you get two things:
+
+- The `signal` property, which is an instance of [`AbortSignal`](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal). This is a pluggable part you can provide to any API to react to an abort even, and implement it accordingly. For example, providing it to a `fetch()` request will abort the request;
+- The `.abort()` method that, when called, triggers the abort event on the `signal`. It also updates the signal to be marked as aborted.
+
+So far so good. But where is the actual _abort logic_? That's the beauty—it's defined by the consumer. The abort handling comes down to listening to the `abort` event and implementing the abort in whichever way is suitable for the logic in question:
+
+```ts
+controller.signal.addEventListener('abort', () => {
+  // Implement the abort logic.
+})
+```
+
+Let's explore the standard JavaScript APIs that support `AbortSignal` out of the box.
+
+## Usage
+
+### Event listeners
+
+You can provide an abort `signal` when adding an event listener for it to be automatically removed once the abort happens.
+
+```ts
+const controller = new AbortController()
+
+window.addEventListener('resize', listener, { signal: controller.signal })
+
+controller.abort()
+```
+
+Calling `controller.abort()` removes the `resize` listener from the window. That is an extremely elegant way of handling event listeners because you no longer need to abstract the listener function just so you can provide it to `.removeEventListener()`.
+
+```ts
+// const listener = () => {}
+// window.addEventListener('resize', listener)
+// window.removeEventListener('resize', listener)
+
+const controller = new AbortController()
+window.addEventListener('resize', () => {}, { signal: controller.signal })
+controller.abort()
+```
+
+An `AbortController` instance is also much nicer to pass around if a different part of your application is responsible for removing the listener.
+
+A great "aha" moment for me was when I realized you can use _a single `signal`_ to remove _multiple_ event listeners!
+
+```ts
+useEffect(() => {
+  const controller = new AbortController()
+
+  window.addEventListener('resize', handleResize, {
+    signal: controller.signal,
+  })
+  window.addEventListener('hashchange', handleHashChange, {
+    signal: controller.signal,
+  })
+  window.addEventListener('storage', handleStorageChange, {
+    signal: controller.signal,
+  })
+
+  return () => {
+    // Calling `.abort()` removes ALL event listeners
+    // associated with `controller.signal`. Gone!
+    controller.abort()
+  }
+}, [])
+```
+
+In the example above, I'm adding a `useEffect()` hook in React that introduces a bunch of event listeners with different purpose and logic. Notice how in the clean up function I can remove _all of the added listeners_ by calling `controller.abort()` _once_. Neat!
+
+### Fetch requests
+
+The `fetch()` function supports `AbortSignal` as well! When provided, the `abort` event`. Once the `abort`event is emitted, the request promise returned from the`fetch()` function will reject, representing the aborted request.
+
+```ts
+function uploadFile(file: File) {
+  const controller = new AbortController()
+
+  // Provide the abort signal to this fetch request
+  // so it can be aborted anytime be calling `controller.abort()`.
+  const response = fetch(
+    '/upload',
+    { method: 'POST', body: file },
+    { signal: controller.signal }
+  )
+
+  return { response, controller }
+}
+```
+
+Here, the `uploadFile()` function initiates a `POST /upload` request, returning the associated `response` promise but also a `controller` reference to abort that request at any point. This is handy if I need to cancel that pending upload, for example, when the user clicks on a "Cancel" button.
+
+> Requests issued by the `http` module in Node.js also support the `signal` property!
+
+The `AbortSignal` class also comes with a few static methods to simplify request handling in JavaScript.
+
+#### `AbortSignal.timeout`
+
+You can use the `AbortSignal.timeout()` static method as a shorthand to create a signal that dispatches the abort event after a certain timeout duration has passed. No need to create an `AbortController` if all you want is to cancel a request after it exceeds a timeout:
+
+```ts
+fetch(url, {
+  // Abort this request automatically if it takes
+  // more than 3000ms to complete.
+  signal: AbortSignal.timeout(3000),
+})
+```
+
+#### `AbortSignal.any`
+
+Similar to how you can use `Promise.race()` to handle multiple promises on a first-come-first-served basis, you can utilize the `AbortSignal.any()` static method to group multiple abort signals into one.
+
+```ts
+const publicController = new AbortController()
+const internalController = new AbortController()
+
+channel.addEventListener('message', handleMessage, {
+  signal: Abort.any([publicController.signal, internalController.signal]),
+})
+```
+
+In the example above, I am introducing _two_ abort controllers. The public one is exposed to the consumer of my code, allowing them to trigger aborts, resulting in the `message` event listener being removed. The internal one, however, allows _me_ to also remove that listener without interfering with the public abort controller.
+
+If any of the abort signals provided to the `AbortSignal.any()` dispatch the abort event, that parent signal will also dispatch the abort event. Any other abort events past that point are ignored.
+
+### Streams
+
+You can use `AbortController` and `AbortSignal` to cancel streams as well.
+
+```ts
+const stream = new WritableStream({
+  write(chunk, controller) {
+    controller.signal.addEventListener('abort', () => {
+      // Handle stream abort here.
+    })
+  },
+})
+
+const writer = stream.getWriter()
+await writer.abort()
+```
+
+The `WritableStream` controller exposes the `signal` property, which is the same old `AbortSignal`. That way, I can call `writer.abort()`, which will bubble up to the abort event on `controller.signal` in the `write()` method in the stream.
+
+## Making anything abortable
+
+My favorite part about the `AbortController` API is that it's extremely versatile. So much so, that you can teach your any logic to become abortable!
+
+With such a superpower at your fingertips, not only you can ship better experiences yourself, but also enhance how your are using third-party libraries that don't support aborts/cancellations natively. In fact, let's do just that.
+
+Let's add the `AbortController` to [Drizzle ORM](https://orm.drizzle.team/) transactions so we are able to cancel multiple transactions at once.
+
+```ts
+import { TransactionRollbackError } from 'drizzle-orm'
+
+function makeCancelableTransaction(db) {
+  return (callback, options = {}) => {
+    return db.transaction((tx) => {
+      return new Promise((resolve, reject) => {
+        // Rollback this transaction if the abort event is dispatched.
+        options.signal?.addEventListener('abort', async () => {
+          reject(new TransactionRollbackError())
+        })
+
+        return Promise.resolve(callback.call(this, tx)).then(resolve, reject)
+      })
+    })
+  }
+}
+```
+
+The `makeCancelableTransaction()` function accepts a database instance and returns a higher-order transaction function that now accepts an abort `signal` as an argument.
+
+In order to know when the abort happened, I am adding the event listener for the "abort" event on the `signal` instance. That event listener will be called whenever the abort event is emitted, i.e. when `controller.abort()` is called. So when that happens, I can reject the transaction promise with a `TransactionRollbackError` error to rollback that entire transaction (this is synonymous to calling `tx.rollback()` that throws the same error).
+
+Now, let's use it with Drizzle.
+
+```ts
+const db = drizzle(options)
+
+const controller = new AbortController()
+const transaction = makeCancelableTransaction(db)
+
+await transaction(
+  async (tx) => {
+    await tx
+      .update(accounts)
+      .set({ balance: sql`${accounts.balance} - 100.00` })
+      .where(eq(users.name, 'Dan'))
+    await tx
+      .update(accounts)
+      .set({ balance: sql`${accounts.balance} + 100.00` })
+      .where(eq(users.name, 'Andrew'))
+  },
+  { signal: controller.signal }
+)
+```
+
+I am calling the `makeCancelableTransaction()` utility function with the `db` instance to create a custom abortable `transaction`. From this point on, I can use my custom `transaction` as I normally would in Drizzle, performing multiple database operations, but I can also provide it with an abort `signal` to cancel all of them at once.
+
+### Abort error handling
+
+Every abort event is accompanied with the reason for that abort. That yields even more customizability as you can react to different abort reasons differently.
+
+The abort reason is an optional argument to the `controller.abort()` method. You can access the abort reason in the `reason` property of any `AbortSignal` instance.
+
+```ts
+const controller = new AbortController()
+
+controller.signal.addEventListener('abort', () => {
+  console.log(controller.signal.reason) // "user cancellation"
+})
+
+// Provide a custom reason to this abort.
+controller.abort('user cancellation')
+```
+
+> The `reason` argument can be any JavaScript value so you can pass strings, errors, or even objects.
+
+## Conclusion
+
+If you are creating libraries in JavaScript where aborting or cancelling operations makes sense, I highly encourage you to look no further than the `AbortController` API. It's incredible! And if you are building applications, you can utilize the abort controller to a great effect when you need to cancel requests, remove event listeners, abort streams, or teach any logic to be abortable.
+
+## Afterword
+
+Special thanks to [Oleg Isonen](https://x.com/oleg008) for proofreading this piece!
