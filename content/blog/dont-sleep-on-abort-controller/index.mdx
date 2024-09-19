@@ -97,7 +97,7 @@ In the example above, I'm adding a `useEffect()` hook in React that introduces a
 
 ### Fetch requests
 
-The `fetch()` function supports `AbortSignal` as well! When provided, the `abort` event. Once the `abort`event is emitted, the request promise returned from the`fetch()` function will reject, representing the aborted request.
+The `fetch()` function supports `AbortSignal` as well! Once the `abort` event on the signal is emitted, the request promise returned from the `fetch()` function will reject, aborting the pending request.
 
 ```ts
 function uploadFile(file: File) {
@@ -142,7 +142,7 @@ const publicController = new AbortController()
 const internalController = new AbortController()
 
 channel.addEventListener('message', handleMessage, {
-  signal: Abort.any([publicController.signal, internalController.signal]),
+  signal: AbortSignal.any([publicController.signal, internalController.signal]),
 })
 ```
 
