@@ -23,7 +23,7 @@ export default function App({ Component, pageProps }: AppProps) {
               🤯 Get absurdly good at mocking with my new self-paced workshop!{' '}
               <a
                 href="https://www.epicweb.dev/workshops/mocking-techniques-in-vitest"
-                className="text-red-400 hover:underline"
+                className="inline-block text-red-400 hover:underline break-words"
                 target="_blank"
                 rel="noopener noreferrer"
               >
