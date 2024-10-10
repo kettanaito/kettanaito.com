@@ -3,6 +3,7 @@ import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import { Header } from '../components/header'
 import { Footer } from '../components/footer'
+import { AnnouncementBanner } from '../components/announcementBanner'
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -17,6 +18,20 @@ export default function App({ Component, pageProps }: AppProps) {
         <Component {...pageProps} />
       ) : (
         <>
+          <AnnouncementBanner>
+            <p>
+              🤯 Get absurdly good at mocking with my new self-paced workshop!{' '}
+              <a
+                href="https://www.epicweb.dev/workshops/mocking-techniques-in-vitest"
+                className="text-red-400 hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Learn more
+              </a>
+            </p>
+          </AnnouncementBanner>
+
           <Header />
           <Component {...pageProps} />
           <Footer />
