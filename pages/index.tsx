@@ -16,7 +16,6 @@ import { PostThumbnail } from '../components/postThumbnail'
 import { getPostContent, Post, sortPostsByDate } from '../utils/mdx'
 import { TwitterFollowBlock } from '../components/twitterFollowBlock'
 import { Seo } from '../components/seo'
-import { EggheadBanner } from '../components/eggheadBanner'
 
 interface Props {
   featuredPosts: Array<Post>
@@ -32,8 +31,6 @@ export default function About({ featuredPosts }: Props): JSX.Element {
       />
 
       <Container className="my-20 lg:my-32">
-        <EggheadBanner />
-
         <PageHeader
           title={
             <>
