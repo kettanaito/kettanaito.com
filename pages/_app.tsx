@@ -20,14 +20,14 @@ export default function App({ Component, pageProps }: AppProps) {
         <>
           <AnnouncementBanner>
             <p>
-              🤯 Get absurdly good at mocking with my new self-paced workshop!{' '}
+              Level up your testing skills by learning directly from me!{' '}
               <a
-                href="https://www.epicweb.dev/workshops/mocking-techniques-in-vitest"
+                href="https://www.epicweb.dev/testing"
                 className="inline-block text-red-400 hover:underline break-words"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Learn more
+                Read more
               </a>
             </p>
           </AnnouncementBanner>
