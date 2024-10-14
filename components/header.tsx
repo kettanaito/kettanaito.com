@@ -27,6 +27,15 @@ export function Header(): JSX.Element {
             </li>
             <li>
               <NavLink
+                href="/teaching"
+                className="p-3 text-gray-500 hover:text-black"
+                activeClassName="text-gray-900"
+              >
+                Teaching
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
                 href="/blog"
                 className="p-3 text-gray-500 hover:text-black"
                 activeClassName="text-gray-900"
