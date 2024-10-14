@@ -95,7 +95,7 @@ function LearningItem({
         .filter(Boolean)
         .join(' ')}
     >
-      <a href={url} target="_blank" rel="noreferer noopener">
+      <a href={url} target="_blank" rel="noreferrer noopener">
         <figure className="aspect-[3/4] relative flex items-center justify-center overflow-hidden rounded-xl from-gray-800 to-gray-900 bg-gradient-to-tr">
           <img
             src={imageUrl}
@@ -113,7 +113,7 @@ function LearningItem({
         <a
           href={url}
           target="_blank"
-          rel="noreferer noopener"
+          rel="noreferrer noopener"
           className="font-bold text-2xl text-pretty hover:underline"
         >
           {title}
