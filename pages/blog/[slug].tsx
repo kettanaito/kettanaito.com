@@ -4,10 +4,7 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
 import { getMDXComponent } from 'mdx-bundler/client'
 import { motion } from 'framer-motion'
-import {
-  SiTwitter as TwitterIcon,
-  SiGithub as GitHubIcon,
-} from 'react-icons/si'
+import { SiX as TwitterIcon, SiGithub as GitHubIcon } from 'react-icons/si'
 import {
   getAllPaths,
   getPostContent,

@@ -1,4 +1,4 @@
-import { SiTwitter as TwitterIcon } from 'react-icons/si'
+import { SiX as TwitterIcon } from 'react-icons/si'
 import { Grid } from './grid'
 
 const twitterFollowUrl = new URL('https://twitter.com/intent/follow')
