@@ -4,10 +4,8 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
 import { getMDXComponent } from 'mdx-bundler/client'
 import { motion } from 'framer-motion'
-import {
-  SiTwitter as TwitterIcon,
-  SiGithub as GitHubIcon,
-} from 'react-icons/si'
+import { SiX as TwitterIcon, SiBluesky as BlueskyIcon } from 'react-icons/si'
+import socialLinks from '../../content/static/social-links.json'
 import {
   getAllPaths,
   getPostContent,
@@ -82,12 +80,13 @@ export default function BlogPost({
               <div className="inline-grid grid-cols-[2fr_1fr_auto_1fr_2fr] items-center gap-5 text-gray-500 mt-16 font-medium text-2xl">
                 <hr className="border border-gray-200" />
                 <a
-                  href="https://twitter.com/kettanaito"
+                  href={socialLinks.bluesky}
                   rel="noreferrer"
                   target="_blank"
                   className="p-5 hover:text-black"
+                  aria-label='Follow me on "Bluesky"'
                 >
-                  <TwitterIcon />
+                  <BlueskyIcon />
                 </a>
                 <img
                   src="https://github.com/kettanaito.png"
@@ -95,12 +94,13 @@ export default function BlogPost({
                   className="h-12 w-12 rounded-full shadow-lg"
                 />
                 <a
-                  href="https://github.com/kettanaito"
+                  href={socialLinks.twitter}
                   rel="noreferrer"
                   target="_blank"
                   className="p-5 hover:text-black"
+                  aria-label='Follow me on "Twitter"'
                 >
-                  <GitHubIcon />
+                  <TwitterIcon />
                 </a>
                 <hr className="border border-gray-200" />
               </div>

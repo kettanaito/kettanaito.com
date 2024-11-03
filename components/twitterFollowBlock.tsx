@@ -1,4 +1,4 @@
-import { SiTwitter as TwitterIcon } from 'react-icons/si'
+import { SiX as TwitterIcon } from 'react-icons/si'
 import { Grid } from './grid'
 
 const twitterFollowUrl = new URL('https://twitter.com/intent/follow')
@@ -27,12 +27,13 @@ export function TwitterFollowBlock({
             different engineering topics together.
           </p>
         </div>
-        <div className="col-span-full lg:col-span-2 self-center lg:justify-self-center">
+        <div className="col-span-full lg:col-span-2 self-center">
           <a
             href={twitterFollowUrl.toString()}
             target="_blank"
             rel="noreferrer"
-            className="button text-center w-full md:w-auto px-12 py-2 whitespace-nowrap"
+            className="button flex items-center text-center w-full px-4 py-2"
+            aria-label="Follow me on Twitter"
           >
             <TwitterIcon className="inline-block -mb-[0.25ch] mr-2 align-baseline" />
             <span>Follow me</span>
