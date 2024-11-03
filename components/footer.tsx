@@ -68,17 +68,17 @@ export function Footer(): JSX.Element {
                 rel="noreferrer"
                 className="py-1 inline-block hover:text-black hover:underline"
               >
-                Twitter
+                Twitter (X)
               </a>
             </li>
             <li>
               <a
-                href={socialLinks.github}
+                href={socialLinks.bluesky}
                 target="_blank"
                 rel="noreferrer"
                 className="py-1 inline-block hover:text-black hover:underline"
               >
-                GitHub
+                Bluesky
               </a>
             </li>
             <li>

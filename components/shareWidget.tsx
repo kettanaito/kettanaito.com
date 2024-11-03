@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import {
-  SiTwitter as TwitterIcon,
+  SiX as TwitterIcon,
   SiFacebook as FacebookIcon,
   SiReddit as RedditIcon,
 } from 'react-icons/si'

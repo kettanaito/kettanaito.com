@@ -36,8 +36,8 @@ dependencies:
     specifier: 18.2.0
     version: 18.2.0(react@18.2.0)
   react-icons:
-    specifier: 4.6.0
-    version: 4.6.0(react@18.2.0)
+    specifier: 5.3.0
+    version: 5.3.0(react@18.2.0)
   react-share:
     specifier: 4.4.1
     version: 4.4.1(react@18.2.0)
@@ -4066,8 +4066,8 @@ packages:
       scheduler: 0.23.0
     dev: false
 
-  /react-icons@4.6.0(react@18.2.0):
-    resolution: {integrity: sha512-rR/L9m9340yO8yv1QT1QurxWQvWpbNHqVX0fzMln2HEb9TEIrQRGsqiNFQfiv9/JEUbyHmHPlNTB2LWm2Ttz0g==}
+  /react-icons@5.3.0(react@18.2.0):
+    resolution: {integrity: sha512-DnUk8aFbTyQPSkCfF8dbX6kQjXA9DktMeJqfjrg6cK9vwQVMxmcA3BfP4QoiztVmEHtwlTgLFsPuH2NskKT6eg==}
     peerDependencies:
       react: '*'
     dependencies:
