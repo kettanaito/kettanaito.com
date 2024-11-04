@@ -4,9 +4,9 @@
         <description><![CDATA[Artem Zakharchenko's blog]]></description>
         <link>https://kettanaito.com</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Sun, 03 Nov 2024 19:34:54 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 04 Nov 2024 10:37:14 GMT</lastBuildDate>
         <atom:link href="https://kettanaito.com/rss.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Sun, 03 Nov 2024 19:34:51 GMT</pubDate>
+        <pubDate>Mon, 04 Nov 2024 10:37:12 GMT</pubDate>
         <copyright><![CDATA[All rights reserved © 2024 Artem Zakharchenko]]></copyright>
         <language><![CDATA[en-us]]></language>
         <ttl>40</ttl>
@@ -169,6 +169,14 @@
             <guid isPermaLink="false">https://kettanaito.com/blog/thinking-in-functions</guid>
             <category><![CDATA[Engineering]]></category>
             <pubDate>Mon, 09 Sep 2019 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Thirty Years and Counting]]></title>
+            <description><![CDATA[Listen as I reminisce about the past ten years of my life.]]></description>
+            <link>https://kettanaito.com/blog/thirty-years-and-counting</link>
+            <guid isPermaLink="false">https://kettanaito.com/blog/thirty-years-and-counting</guid>
+            <category><![CDATA[Personal]]></category>
+            <pubDate>Mon, 04 Nov 2024 00:00:00 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[Why Fetch Promise Doesn't Reject on Error Responses]]></title>

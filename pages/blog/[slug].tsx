@@ -50,7 +50,7 @@ export default function BlogPost({
         keywords={post.frontmatter.keywords}
       />
 
-      <div className="from-white to-gray-100 bg-gradient-to-t">
+      <div className="from-white to-gray-100 bg-gradient-to-t overflow-hidden">
         <Container className="mb-20 lg:pt-10">
           <div className="relative max-w-3xl mx-auto">
             <div className="hidden lg:block pattern -left-16 -translate-x-full bottom-[25%] opacity-20 w-[300px]" />

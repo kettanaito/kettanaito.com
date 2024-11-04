@@ -39,7 +39,6 @@ h6,
 dt,
 figcaption {
   text-wrap: balance;
-  max-inline-size: 25ch;
 }
 
 h1 {
@@ -81,6 +80,10 @@ main ul {
 }
 main ul:last-child {
   @apply mb-0;
+}
+
+.post-content {
+  @apply leading-8;
 }
 .post-content ul li::marker {
   content: '—\00a0\00a0';
