@@ -33,7 +33,7 @@ export default function TeachingPage() {
           <LearningItem
             title="Mocking Techniques in Vitest"
             url="https://epicweb.dev/workshops/mocking-techniques-in-vitest"
-            imageUrl="https://www.epicweb.dev/_next/image?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fi1a93n76%2Fproduction%2F4a502c2a85828d8dfc0be93302167671b2c4ea8e-1200x1200.png&w=640&q=100"
+            imageUrl="https://www.epicweb.dev/_next/image?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fi1a93n76%2Fproduction%2F4a502c2a85828d8dfc0be93302167671b2c4ea8e-1200x1200.png&w=640&q=80"
             summary="Learn how to mock anything: from functions and globals, to date and time and the network."
             platformName="epicweb"
             className="lg:col-span-2 w-full mx-auto"
@@ -41,7 +41,7 @@ export default function TeachingPage() {
           <LearningItem
             title="Testing Fundamentals"
             url="https://epicweb.dev/workshops/testing-fundamentals"
-            imageUrl="https://www.epicweb.dev/_next/image?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fi1a93n76%2Fproduction%2F6609bf0bf84c5870898f457e067e725ce5662c84-1000x1000.png&w=3840&q=100"
+            imageUrl="https://www.epicweb.dev/_next/image?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fi1a93n76%2Fproduction%2F6609bf0bf84c5870898f457e067e725ce5662c84-1000x1000.png&w=640&q=80"
             summary="Get started with automated testing by building your own testing framework from scratch."
             platformName="epicweb"
             className="lg:col-span-2 w-full mx-auto"
@@ -61,9 +61,17 @@ export default function TeachingPage() {
         </Grid>
         <Grid>
           <LearningItem
+            title="Mocking WebSocket APIs with Mock Service Worker"
+            url="https://egghead.io/courses/mocking-websocket-apis-with-mock-service-worker-9933b7f5"
+            imageUrl="https://egghead.io/_next/image?url=https%3A%2F%2Fres.cloudinary.com%2Fdg3gyk0gu%2Fimage%2Fupload%2Fv1732122601%2Fmsw-logo-badge.png&w=640&q=80"
+            summary="Explore WebSocket mocking by building and testing a chat application."
+            platformName="egghead"
+            className="lg:col-span-2 w-full mx-auto"
+          />
+          <LearningItem
             title="Mocking REST and GraphQL APIs with Mock Service Worker"
             url="https://egghead.io/courses/mock-rest-and-graphql-apis-with-mock-service-worker-8d471ece"
-            imageUrl="https://egghead.io/_next/image?url=https%3A%2F%2Fd2eip9sf3oo6c2.cloudfront.net%2Fplaylists%2Fsquare_covers%2F001%2F143%2F364%2Ffull%2Fegh_mswjs_2000.png&w=1080&q=100"
+            imageUrl="https://egghead.io/_next/image?url=https%3A%2F%2Fd2eip9sf3oo6c2.cloudfront.net%2Fplaylists%2Fsquare_covers%2F001%2F143%2F364%2Ffull%2Fegh_mswjs_2000.png&w=640&q=80"
             summary="Understand API mocking by building a movie streaming platform completely mock-first."
             platformName="egghead"
             className="lg:col-span-2 w-full mx-auto"
