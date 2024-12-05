@@ -50,6 +50,7 @@ export interface Post {
     date: string
     keywords?: Array<string>
     hashtags?: Array<string>
+    canonicalUrl?: string
   }
 }
 

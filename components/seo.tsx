@@ -1,5 +1,4 @@
 import Head from 'next/head'
-import { ReactNode } from 'react'
 import { getOrigin } from '../utils/getOrigin'
 
 interface SeoProps {
