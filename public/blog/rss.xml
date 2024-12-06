@@ -4,9 +4,9 @@
         <description><![CDATA[Artem Zakharchenko's blog]]></description>
         <link>https://kettanaito.com</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Mon, 04 Nov 2024 10:37:14 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 06 Dec 2024 20:24:30 GMT</lastBuildDate>
         <atom:link href="https://kettanaito.com/rss.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Mon, 04 Nov 2024 10:37:12 GMT</pubDate>
+        <pubDate>Fri, 06 Dec 2024 20:24:28 GMT</pubDate>
         <copyright><![CDATA[All rights reserved © 2024 Artem Zakharchenko]]></copyright>
         <language><![CDATA[en-us]]></language>
         <ttl>40</ttl>
@@ -41,6 +41,14 @@
             <guid isPermaLink="false">https://kettanaito.com/blog/building-a-treeshakable-library-with-rollup</guid>
             <category><![CDATA[Engineering]]></category>
             <pubDate>Sun, 28 Jun 2020 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Catching Flaky Tests Before It's Too Late]]></title>
+            <description><![CDATA[Learn how you can use reporting tools to automate flaky test discovery]]></description>
+            <link>https://kettanaito.com/blog/catching-flaky-tests-before-its-too-late</link>
+            <guid isPermaLink="false">https://kettanaito.com/blog/catching-flaky-tests-before-its-too-late</guid>
+            <category><![CDATA[Engineering]]></category>
+            <pubDate>Thu, 05 Dec 2024 00:00:00 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[Debounce vs Throttle: Definitive Visual Guide]]></title>

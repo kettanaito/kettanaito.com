@@ -36,7 +36,9 @@ export default function BlogPost({
   const Component = useMemo(() => getMDXComponent(post.code), [post.code])
 
   const publishedAt = formatDate(post.frontmatter.date)
-  const canonicalUrl = new URL(router.asPath, getOrigin())
+  const canonicalUrl = post.frontmatter.canonicalUrl
+    ? new URL(post.frontmatter.canonicalUrl)
+    : new URL(router.asPath, getOrigin())
   const ogImageUrl = new URL(`${post.url}.jpg`, getOrigin())
 
   return (
