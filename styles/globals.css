@@ -239,3 +239,11 @@ h2 + .code {
 .repo a {
   @apply no-underline;
 }
+
+.image-embed {
+  @apply border border-neutral-200 p-2 rounded-lg my-8;
+
+  img {
+    @apply m-0 flex;
+  }
+}

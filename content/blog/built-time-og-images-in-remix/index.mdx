@@ -1,7 +1,7 @@
 ---
 title: Build-time Open Graph Images in Remix
 category: Engineering
-date: 2024-09-04
+date: 2024-12-12
 keywords:
   - remix
   - og
@@ -315,15 +315,21 @@ Okay, what if I told you I saved the best for last?
 
 **All of this setup is a regular Remix route.** From the way the route module is defined to how you fetch your data. You can even view that route as you are working on your app to get an instant feedback on your OG image:
 
-> TODO: Screenshot of that OG image running in the browser.
+<figure className="image-embed">
+
+![A GIF showcasing how changes to the dynamic data automatically update the OG image preview component in the browser](./workflow-example.gif)
+
+</figure>
 
 If this is not the "Remix way" to generate OG images, I don't know what is.
 
-## Examples
+## Example
 
-Here's a GitHub repository of everything we've just talked through, deployed to Vercel:
+Here's a GitHub repository of everything we've just talked through:
 
-> TODO: Add link to a GitHub example repo using this and deploying the site to Vercel or something.
+<Repo owner="kettanaito" repo="remix-og-image-demo" />
+
+You can also check out the deployed version [here](#).
 
 If you are curious to see the diff of migrating from Satori to `remix-og-images`, take a look at my effort to introduce build-time image generation to the Remix website [here](https://github.com/remix-run/remix-website/pull/293).
 
