@@ -1,0 +1,348 @@
+---
+title: Build-time Open Graph Images in Remix
+description: Generate Open Graph images in Remix on build time with this neat library.
+category: Engineering
+date: 2024-12-12
+keywords:
+  - remix
+  - og
+  - open-graph
+  - generate
+  - build
+---
+
+In the vast candy factory that is the Internet, countless shiny wrappers are fighting for your attention. Whether it's your next favorite kind of sweets or an oversaturated hoax, there's no denying that the way the data is presented is just as important as the data itself.
+
+Once you unfold the wrapper, the text inside is your chocolate. Although a lot of alternative media formats have found their way to your devices in the past decade or so, the text is still the king, and the web is made to serve it.
+
+But how do you share that text? And, most importantly, how do you make that text appealing?
+
+Well, you use _links_, which is even more text. Too much of it, perhaps, and a bit too early as well. Your first experience with something is ought to be memorable, magical. The book publishers of old have already figured this one out for you:
+
+Put your words in a cover, make that cover speak.
+
+Indeed, a picture is worth a thousand words. We associate our content with a visual imagery, and we have the rise of social media to thank for that. The supply is vast, and the world is ever busy. Your work has to be good. Your work has to stand out. And so whenever you share it, the first thing anyone sees is likely a _picture_.
+
+<div className="my-8 border rounded-md overflow-hidden">
+  <img src="/blog/debounce-vs-throttle.jpg" className="!m-0" />
+  <footer className="text-sm p-5">
+    <p className="font-bold text-base">
+      {`Debounce vs Throttle: Definitive Visual Guide`}
+    </p>
+    <p className="mt-2">
+      {`A complete guide to learn the difference between debounce and throttle
+        using visual examples. Never confuse the two again.`}
+    </p>
+    <p className="mt-2 text-gray-400 font-medium">kettanaito.com</p>
+  </footer>
+</div>
+
+> Example of a social embed of one of my articles.
+
+The standardization of the [Open Graph Protocol](https://ogp.me/) opened new doors in how we engage with media on the web. Suddenly, you are able to provide tags to represent your pages in a short, postcard-like format worthy to be shared. And in the heart of it all is always a picture.
+
+## Open Graph images
+
+The way you provide that precious image is through the `og:image` tag on your page:
+
+```html
+<meta name="og:image" content="/my-image.jpg" />
+```
+
+Then, it's up to the social media site to fetch that image and render it whenever you share a link to that page. We will not be talking about getting your meta tags in shape today. I'm mentioning this mostly to remind you that something will be fetching your OG image, something will be making a _request_.
+
+With that in mind, there are two ways for you to serve your OG image:
+
+1. As a static asset. Something you put in your `/public` directory one way or the other;
+1. As a runtime resource. Something you compute whenever your image is requested.
+
+For brevity, I will refer to them as **build-time** and **runtime** images, respectively.
+
+In the past years, the expanse of the serverless and edge architectures have made it more accessible to generate OG images on runtime, with solutions like Satori becoming more and more used in practice. Naturally, I wanted to try them out myself. Here's my experience and my thoughts on them.
+
+## Experience with Satori
+
+[Satori](https://github.com/vercel/satori) is a library from Vercel that converts HTML and CSS to SVG. Additionally, it supports JSX, which means you can create images using React:
+
+```jsx
+import satori from 'satori'
+
+const svg = await satori(<div style={{ color: 'black' }}>Hello world!</div>)
+```
+
+By design, Satori runs as a part of your resource route for the OG image (e.g. `routes/og.tsx`), and is often combined with caching to yield optimal runtime performance.
+
+I admit, this sounds extremely nice on paper. Once I got my hands dirty though, the niceties have faded away, and I was left with a handful of quirks and limitations that resulted in me ditching this solution altogether.
+
+> Disclaimer: just because I encountered these issue doesn't mean you will. Please always try things hands-on before making your own conclusion about them.
+
+Using React to describe the template for my images was the main selling point for me. I quickly learned that while I can write JSX as I normally would, Satori comes with a hefty list of limitations when it comes to rendering your component. Your existing React components likely won't work. Reusing your CSS styles is tedious, and even if you make them work, you cannot use all CSS properties. Using the same fonts requires additional setup...
+
+Truth be told, the only thing you can actually reuse is your knowledge of JSX. Even if I have my styles described in Tailwind, I need to replicate them now in a way that would suit Satori. This is not something you can solve by adding support for \<TOOL_NAME\>. This is an indicative of a larger problem, and we will cover it in a bit.
+
+All things considered, I was okay with these limitations so far. An image template isn't something grandeous, I can recreate the layout and styles as long as the tool gives me the right image back. So I began doing just that when I encountered the next problem.
+
+Satori has no support[<sup>1</sup>](https://github.com/vercel/satori/issues/162) for variable fonts. That meant I had to ditch my 57KB variable font in favor of a OTF alternative that was twice as large once you add all the variants I needed. Then, it turned out to have some problem with the OTF version, so I had to use the TTF one, which was even bigger in size.
+
+Sadly, this was the showstopper for me. I was committing to way too many compromises just to make this tool work, which made me wondering: do I even need runtime generation?
+
+## Runtime image generation
+
+The goal of Runtime Image Generation (RIG) is to generate the asset when it's being requested, then respond with it, and likely cache it, too. In Remix, you can think of it as a resource loader:
+
+```tsx
+// app/routes/og.tsx
+export async function loader() {
+  // 1. Generate.
+  const buffer = await generateImageBuffer()
+
+  // 2. Respond.
+  return new Response(buffer, {
+    headers: {
+      'content-type': 'image/jpeg',
+      // 3. Cache.
+      'cache-control': 'max-age=86400',
+    },
+  })
+}
+```
+
+Satori, and other runtime solutions, sit at the first step—the image generation. But it's important to understand what is the "runtime" here.
+
+In case of your frontend application, the browser is the runtime. You write the components, tinker the stylesheets, refine the layouts, and then you pass it all to the browser's engine to render it as you would expect. The runtime image generation, however, doesn't run in the browser. It runs on the server, whether it's a serverless function or a long-running instance. But it _is_ a server. And by design, the server is incapable of rendering your React component identically to the browser (unless you use browser automation on the server; a bite more on that later). That comprises the root of all the limitations inherent to the runtime image generation.
+
+That being said, runtime image generation is not without its use. RIG shines when your OG image includes _highly dynamic data_. Think of GitHub pull request previews—they include the number of comments, reviews, files edited, and even commits. Everything right on the generated image. That's the perfect use case to use RIG.
+
+<img
+  src="https://opengraph.githubassets.com/23b44f63bf99522a9cd63625ad0a633b358221f7c3978c8effcefe5c43e1f0f8/mswjs/msw/pull/2011"
+  alt="Open Graph image for a GitHub pull request"
+  className="border rounded-md overflow-hidden"
+/>
+
+> The pull request's title, my username and avatar, and the summary of the changes are all dynamic and change independently here.
+
+**As for the other cases, RIG is more trouble than it's worth.**
+
+Your blog post is not highly dynamic (sorry), and neither are your static pages. Employing runtime image generation here means you are paying a lot but getting sorry little in return. You are paying with the extra setup while your users are paying with their bandwidth since, despite caching, you still have to generate the image for the first unique request.
+
+This story reminds me that...
+
+<Quote>Just because we can, doesn't mean we should.</Quote>
+
+I believe that runtime generation of OG images is not something most of you need. Instead, you would be far better off with a _build-time_ generation. Let's talk about that.
+
+## Build-time image generation
+
+As the name implies, Build-time Image Generation (BIG) happens during your application's build. The images are generated one way or the other, becoming a static asset that your application then serves.
+
+BIG is the perfect choice for images that don't update often or only update when the page updates (e.g. you change the post's title). While this approach has some benefits, it's not without the downsides, and I think it's only fair we cover both of those.
+
+## Benefits of build-time generation
+
+### Cost
+
+BIG is cheaper by design. You pay the cost of compute _once_ during the build, then serve an already generated asset, cache and all. Your users also don't pay any computational cost, only the one associated with downloading the image.
+
+### Setup
+
+Technically, this approach can be as simple as running an automation script after the build (which I've been using for years on this blog). For a better DX, you likely want a plugin that would generate the images at the right phase of your build, whether you are using webpack or Vite or something else. With that, the setup is even more straightforward.
+
+### Rendering
+
+Here's the main selling point of build-time image generation: **you can generate your image in the actual browser**.
+
+By spawning a browser during the build, you can take screenshots of the _actual_ React components you created as the templates for your Open Graph images. This means using the same layout, components, styles, fonts, and any other features your app may have. No need for custom setups and workarounds. The OG image component is a real component in your app.
+
+## Downsides of build-time generation
+
+### Static by nature
+
+BIG is meant for static images. If you want to feature a UI element that updates independently from the content (or the build), this approach _is not for you_. This is where RIG is your go-to choice.
+
+Build-time generation is also unsuitable if your application renders content on runtime (e.g. by pulling your posts from GitHub instead of generating static pages out of them on build time). A build is needed to update your images, which means this approach wouldn't work here.
+
+### Build time
+
+Since the image generation is moved to the build, your builds will take more time.
+
+This downside is easily mitigated by introducing persistent build cache that would allow to skip the generation of images for routes that hasn't changed across builds.
+
+---
+
+## Build-time image generation in Remix
+
+There isn't many solutions to build-time Open Graph image generation in Remix. At least, I haven't found any. Quite the contrary, I believe Remix makes it way too easy to create resource routes and use runtime generation, and so many Remix developers handle their images in that way.
+
+But that isn't the only way, as we've discussed above. In fact, I've created an OG image experience that feels times more Remix-y than runtime image generation out there! Okay, it's time to reveal the cards.
+
+## `remix-og-image`
+
+I've created a Vite plugin called [`remix-og-image`](https://github.com/kettanaito/remix-og-image). The purpose behind this plugin is to provide a build-time OG image generation using browser automation to take screenshots of your template components. Here's (roughly) how it works:
+
+1. After the build, spawns a _preview_ server for your appplcation;
+1. Spawns an actual browser, using Puppeteer;
+1. Visits every route that should generate OG images, and takes a screenshot of it;
+1. Writes the screenshots to build assets or exposes them to you as a buffer.
+
+Feel free to [explore the source code](https://github.com/kettanaito/remix-og-image) to see all the innards of the plugin. I'm going to focus on how you would use it to generate OG images in your Remix app.
+
+## Using the plugin
+
+### 1. Setup
+
+```sh
+npm i remix-og-image --save-dev
+```
+
+Once the plugin is installed, head to your Vite config and add it there:
+
+```js
+// vite.config.ts
+import { openGraphImage } from 'remix-og-image/plugin'
+
+export default defineConfig({
+  // ...your regular Vite plugins here.
+
+  openGraphImage({
+    elementSelector: '#og-image',
+    outputDirectory: './og',
+    format: 'webp'
+  })
+})
+```
+
+There are a couple of things going on here:
+
+- `elementSelector`. This is a selector of the DOM element to take the screenshot of. This way, you can serve the image on a layout route without bothering to remove that layout during the screenshots.
+- `outputDirectory`. A path where to emit the generated images relative to the client build assets (`build/client`). In this case, `build/client/og`.
+- `format`. A format of the generated images. I personally recommend using WEBP as it yields superb quality with ~2-3x smaller image size, but please consult the Open Graph support for WEBP before you use it.
+
+### 2. Open Graph route
+
+Next, you create a Remix route to host your Open Graph image template. For example, if I want to create a template for my blog posts, I'd create a route like this:
+
+```
+touch app/routes/blog.$slug.og.tsx
+```
+
+In that route, I need to export a special `openGraphImage` function. Similar to how the special `loader` function tells Remix what data is needed to serve your route, the `openGraphImage` function tells the plugin the data needed to generate your OG images!
+
+I'm going to get all my blog posts and map them to individual images. This way, each image will showcase a unique data while using the same React component as a template.
+
+```tsx
+// app/routes/blog.$slug.og.tsx
+import { type OpenGraphImageData } from 'remix-og-image'
+
+export async function openGraphImage() {
+  // Get all my blog posts.
+  const allPosts = await getAllPosts()
+
+  // Map each blog post to a unique OG image,
+  // providing its "name" and route "params".
+  return allPosts.map<OpenGraphImageData>((post) => {
+    return {
+      name: post.slug,
+      params: { slug: post.slug },
+    }
+  })
+}
+```
+
+> You can think of the `openGraphImage` function as the [`getStaticPaths`](https://nextjs.org/docs/pages/building-your-application/data-fetching/get-static-paths) function in Next.js: it returns all the possible static paths for this dynamic route.
+
+The `openGraphImage` function must return an array of OG images, where each entry has:
+
+- `name`. This is the filename of the generated image. For dynamic content, like blog posts, you probably want this to include a `slug` of your content.
+- `params`. This is the parameters to provide to this OG image route. The plugin will visit the same route (`blog.$slug.og`) with different `params`, and take a screenshot of each alternation of this route.
+
+### 3. Resource loader
+
+In order for the plugin to know how many images you want to generate, your OG image route needs to have a `loader`. That loader will work as a resource loader and a regular loader at the same time.
+
+```tsx
+// app/routes/blog.$slug.og.tsx
+import { type OpenGraphImageData, isOpenGraphRequest } from 'remix-og-image'
+
+export async function openGraphImage() {
+  return [
+    /* ... */
+  ]
+}
+
+export async function loader({ request, params }) {
+  // 1. Resource route scenario.
+  if (isOpenGraphRequest(request)) {
+    return openGraphImage()
+  }
+
+  // 2. Rendering scenario.
+  const post = await getPostBySlug(params.slug)
+  return { post }
+}
+```
+
+When fetched as a _resource_ route during the build, it responds with the result of the `openGraphImage()` call. This lets the plugin know how many images this dynamic route may generate. Then, it visits every page of this route, like `/blog/foo` and `/blog/bar`, taking the screenshots of the OG image elements in the browser.
+
+### 4. Image template
+
+Finally, let's talk about how to create the template for your OG image.
+
+```tsx
+// app/routes/blog.$slug.og.tsx
+import { useLoaderData } from '@remix-run/react'
+
+export async function openGraphImage() {...}
+
+export async function loader() {...}
+
+export default function Template() {
+  const { post } = useLoaderData<typeof loader>()
+
+  return (
+    <div id="og-image" className="w-[1200px] h-[630px] bg-gray-50 text-lg flex items-center justify-center">
+      <p className="font-bold">{post.title}</p>
+    </div>
+  )
+}
+```
+
+> Notice how there's a `div` with `id="og-image"` here. That's the mapping to the `elementSelector` option we've provided to the plugin in `vitest.config.ts`. That is the only element the plugin will take a screenshot of.
+
+Wait is that a regular React component? Using data as you normally would in Remix? And Tailwind? 🤯
+
+Yep. Not just that, but this template component will be rendered in the actual browser, giving you an uncompromised, predictable rendering. No custom engines, no limitations, no shortcomings when it comes to rendering your image.
+
+Okay, what if I told you I saved the best for last?
+
+**All of this setup is a regular Remix route.** From the way the route module is defined to how you fetch your data. You can even view that route as you are working on your app to get an instant feedback on your OG image:
+
+<figure className="image-embed">
+
+![A GIF showcasing how changes to the dynamic data automatically update the OG image preview component in the browser](./workflow-example.gif)
+
+</figure>
+
+If this is not the "Remix way" to generate OG images, I don't know what is.
+
+## Example
+
+Here's a GitHub repository of everything we've just talked through:
+
+<Repo owner="kettanaito" repo="remix-og-image-demo" />
+
+If you are curious to see the diff of migrating from Satori to `remix-og-images`, take a look at my effort to introduce build-time image generation to the Remix website [here](https://github.com/remix-run/remix-website/pull/293).
+
+## Conclusion
+
+Here's a quick recap of the two approaches to rendering Open Graph images:
+
+- Runtime image generation is worth it for highly dynamic content, and not so much otherwise;
+- Satori in a non-browser environment and can't reuse most of your regular React code;
+- Browser automations, like Puppeteer, can render your React components (i.e. image templates) exactly as you image, taking a screenshot of them;
+- Browser automations, however, are heavy due to the browser executable's binary size, which makes them virtually impossible to run on serverless;
+- Most OG images don't change often, which makes build-time image generation the perfect solution;
+- `remix-og-image` is a Vite plugin that provides flawless build-time Open Graph image generation for your Remix applications.
+
+Both runtime and build-time image generation is powerful. But the true power lies in knowing when to use which approach so the effort you invest is worth the return.
+
+<Repo owner="kettanaito" repo="remix-og-image" />
