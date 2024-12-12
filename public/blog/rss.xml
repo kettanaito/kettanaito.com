@@ -4,9 +4,9 @@
         <description><![CDATA[Artem Zakharchenko's blog]]></description>
         <link>https://kettanaito.com</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Tue, 07 May 2024 16:43:29 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 06 Dec 2024 20:24:30 GMT</lastBuildDate>
         <atom:link href="https://kettanaito.com/rss.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Tue, 07 May 2024 16:43:27 GMT</pubDate>
+        <pubDate>Fri, 06 Dec 2024 20:24:28 GMT</pubDate>
         <copyright><![CDATA[All rights reserved © 2024 Artem Zakharchenko]]></copyright>
         <language><![CDATA[en-us]]></language>
         <ttl>40</ttl>
@@ -43,6 +43,14 @@
             <pubDate>Sun, 28 Jun 2020 00:00:00 GMT</pubDate>
         </item>
         <item>
+            <title><![CDATA[Catching Flaky Tests Before It's Too Late]]></title>
+            <description><![CDATA[Learn how you can use reporting tools to automate flaky test discovery]]></description>
+            <link>https://kettanaito.com/blog/catching-flaky-tests-before-its-too-late</link>
+            <guid isPermaLink="false">https://kettanaito.com/blog/catching-flaky-tests-before-its-too-late</guid>
+            <category><![CDATA[Engineering]]></category>
+            <pubDate>Thu, 05 Dec 2024 00:00:00 GMT</pubDate>
+        </item>
+        <item>
             <title><![CDATA[Debounce vs Throttle: Definitive Visual Guide]]></title>
             <description><![CDATA[A complete guide to learn the difference between debounce and throttle using visual examples. Never confuse the two again.]]></description>
             <link>https://kettanaito.com/blog/debounce-vs-throttle</link>
@@ -57,6 +65,14 @@
             <guid isPermaLink="false">https://kettanaito.com/blog/debugging-like-a-pro-xy</guid>
             <category><![CDATA[Engineering]]></category>
             <pubDate>Tue, 29 Aug 2023 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Don't Sleep on AbortController]]></title>
+            <description><![CDATA[Learn how to make anything abortable in JavaScript.]]></description>
+            <link>https://kettanaito.com/blog/dont-sleep-on-abort-controller</link>
+            <guid isPermaLink="false">https://kettanaito.com/blog/dont-sleep-on-abort-controller</guid>
+            <category><![CDATA[Engineering]]></category>
+            <pubDate>Wed, 18 Sep 2024 00:00:00 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[Efficient CircleCI debugging with SSH]]></title>
@@ -161,6 +177,14 @@
             <guid isPermaLink="false">https://kettanaito.com/blog/thinking-in-functions</guid>
             <category><![CDATA[Engineering]]></category>
             <pubDate>Mon, 09 Sep 2019 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Thirty Years and Counting]]></title>
+            <description><![CDATA[Listen as I reminisce about the past ten years of my life.]]></description>
+            <link>https://kettanaito.com/blog/thirty-years-and-counting</link>
+            <guid isPermaLink="false">https://kettanaito.com/blog/thirty-years-and-counting</guid>
+            <category><![CDATA[Personal]]></category>
+            <pubDate>Mon, 04 Nov 2024 00:00:00 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[Why Fetch Promise Doesn't Reject on Error Responses]]></title>

@@ -2,10 +2,11 @@ import { GetStaticProps } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import {
-  SiTwitter as TwitterIcon,
+  SiX as TwitterIcon,
   SiGithub as GitHubIcon,
   SiYoutube as YouTubeIcon,
   SiDiscord as DiscordIcon,
+  SiBluesky as BlueskyIcon,
 } from 'react-icons/si'
 import { HiPlay as PlayIcon } from 'react-icons/hi'
 import socialLinks from '../content/static/social-links.json'
@@ -16,7 +17,6 @@ import { PostThumbnail } from '../components/postThumbnail'
 import { getPostContent, Post, sortPostsByDate } from '../utils/mdx'
 import { TwitterFollowBlock } from '../components/twitterFollowBlock'
 import { Seo } from '../components/seo'
-import { EggheadBanner } from '../components/eggheadBanner'
 
 interface Props {
   featuredPosts: Array<Post>
@@ -32,8 +32,6 @@ export default function About({ featuredPosts }: Props): JSX.Element {
       />
 
       <Container className="my-20 lg:my-32">
-        <EggheadBanner />
-
         <PageHeader
           title={
             <>
@@ -55,22 +53,22 @@ export default function About({ featuredPosts }: Props): JSX.Element {
             </li>
             <li>
               <a
+                href={socialLinks.bluesky}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-block p-5 hover:text-gray-800"
+              >
+                <BlueskyIcon />
+              </a>
+            </li>
+            <li>
+              <a
                 href={socialLinks.twitter}
                 target="_blank"
                 rel="noreferrer"
                 className="inline-block p-5 hover:text-gray-800"
               >
                 <TwitterIcon />
-              </a>
-            </li>
-            <li>
-              <a
-                href={socialLinks.github}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-block p-5 hover:text-gray-800"
-              >
-                <GitHubIcon />
               </a>
             </li>
             <li>
