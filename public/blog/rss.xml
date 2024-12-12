@@ -4,9 +4,9 @@
         <description><![CDATA[Artem Zakharchenko's blog]]></description>
         <link>https://kettanaito.com</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Thu, 12 Dec 2024 12:27:58 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 12 Dec 2024 13:06:48 GMT</lastBuildDate>
         <atom:link href="https://kettanaito.com/rss.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Thu, 12 Dec 2024 12:27:57 GMT</pubDate>
+        <pubDate>Thu, 12 Dec 2024 13:06:47 GMT</pubDate>
         <copyright><![CDATA[All rights reserved © 2024 Artem Zakharchenko]]></copyright>
         <language><![CDATA[en-us]]></language>
         <ttl>40</ttl>
@@ -35,20 +35,20 @@
             <pubDate>Mon, 14 May 2018 00:00:00 GMT</pubDate>
         </item>
         <item>
+            <title><![CDATA[Build-time Open Graph Images in Remix]]></title>
+            <description><![CDATA[Generate Open Graph images in Remix on build time with this neat library.]]></description>
+            <link>https://kettanaito.com/blog/build-time-og-images-in-remix</link>
+            <guid isPermaLink="false">https://kettanaito.com/blog/build-time-og-images-in-remix</guid>
+            <category><![CDATA[Engineering]]></category>
+            <pubDate>Thu, 12 Dec 2024 00:00:00 GMT</pubDate>
+        </item>
+        <item>
             <title><![CDATA[Building a Tree-shakable Library with Rollup]]></title>
             <description><![CDATA[A missing guideline for JavaScript library authors on building and distributing a tree-shakable library using RollupJS.]]></description>
             <link>https://kettanaito.com/blog/building-a-treeshakable-library-with-rollup</link>
             <guid isPermaLink="false">https://kettanaito.com/blog/building-a-treeshakable-library-with-rollup</guid>
             <category><![CDATA[Engineering]]></category>
             <pubDate>Sun, 28 Jun 2020 00:00:00 GMT</pubDate>
-        </item>
-        <item>
-            <title><![CDATA[Build-time Open Graph Images in Remix]]></title>
-            <description><![CDATA[Generate Open Graph images in Remix on build time with this neat library.]]></description>
-            <link>https://kettanaito.com/blog/built-time-og-images-in-remix</link>
-            <guid isPermaLink="false">https://kettanaito.com/blog/built-time-og-images-in-remix</guid>
-            <category><![CDATA[Engineering]]></category>
-            <pubDate>Thu, 12 Dec 2024 00:00:00 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[Catching Flaky Tests Before It's Too Late]]></title>
