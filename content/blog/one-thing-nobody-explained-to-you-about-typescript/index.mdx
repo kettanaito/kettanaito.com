@@ -203,7 +203,7 @@ Since you are using the `references` field, all the referenced configurations mu
 // tsconfig.src.json
 {
   // Inherit the reused options.
-  "extends": "./tsconfig.json",
+  "extends": "./tsconfig.base.json",
   // Apply this configuration only to the files
   // under the "./src" directory.
   "include": ["./src"],
@@ -224,7 +224,7 @@ It gets a little trickier for configurations that intersect, like the one for in
 ```json focusedLines=5
 // tsconfig.test.json
 {
-  "extends": "./tsconfig.json",
+  "extends": "./tsconfig.base.json",
   "include": ["./tests"],
   "references": [{ "path": "./tsconfig.src.json" }],
   "compilerOptions": {
