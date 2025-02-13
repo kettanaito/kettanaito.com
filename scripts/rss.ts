@@ -2,7 +2,7 @@ import * as fs from 'fs'
 import * as path from 'path'
 import { fileURLToPath } from 'url'
 import RSS from 'rss'
-import packageJson from '../package.json' assert { type: 'json' }
+import packageJson from '../package.json' with { type: 'json' }
 import * as mdxUtils from '../utils/mdx.js'
 
 const { getAllPosts } = mdxUtils

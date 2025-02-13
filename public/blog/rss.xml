@@ -4,10 +4,10 @@
         <description><![CDATA[Artem Zakharchenko's blog]]></description>
         <link>https://kettanaito.com</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Thu, 12 Dec 2024 13:06:48 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 13 Feb 2025 18:45:20 GMT</lastBuildDate>
         <atom:link href="https://kettanaito.com/rss.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Thu, 12 Dec 2024 13:06:47 GMT</pubDate>
-        <copyright><![CDATA[All rights reserved © 2024 Artem Zakharchenko]]></copyright>
+        <pubDate>Thu, 13 Feb 2025 18:45:20 GMT</pubDate>
+        <copyright><![CDATA[All rights reserved © 2025 Artem Zakharchenko]]></copyright>
         <language><![CDATA[en-us]]></language>
         <ttl>40</ttl>
         <item>
@@ -113,6 +113,14 @@
             <guid isPermaLink="false">https://kettanaito.com/blog/making-sense-of-typescript-generics</guid>
             <category><![CDATA[Engineering]]></category>
             <pubDate>Fri, 22 Mar 2024 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Mocking in Node.js Has Just Changed Forever]]></title>
+            <description><![CDATA[The two largest API mocking libraries in JavaScript now use the same interception algorithm.]]></description>
+            <link>https://kettanaito.com/blog/mocking-in-nodejs-has-just-changed-forever</link>
+            <guid isPermaLink="false">https://kettanaito.com/blog/mocking-in-nodejs-has-just-changed-forever</guid>
+            <category><![CDATA[Engineering]]></category>
+            <pubDate>Fri, 14 Feb 2025 00:00:00 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[My Struggle With Remix]]></title>
