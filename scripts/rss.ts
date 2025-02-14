@@ -2,8 +2,11 @@ import * as fs from 'fs'
 import * as path from 'path'
 import { fileURLToPath } from 'url'
 import RSS from 'rss'
-import packageJson from '../package.json' assert { type: 'json' }
 import * as mdxUtils from '../utils/mdx.js'
+import { createRequire } from 'node:module'
+
+const require = createRequire(import.meta.url)
+const packageJson = require('../package.json')
 
 const { getAllPosts } = mdxUtils
 

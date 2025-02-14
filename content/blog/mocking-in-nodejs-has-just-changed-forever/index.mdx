@@ -1,0 +1,61 @@
+---
+title: Mocking in Node.js Has Just Changed Forever
+description: The two largest API mocking libraries in JavaScript now use the same interception algorithm.
+category: Engineering
+date: 2025-02-14
+keywords:
+  - nock
+  - mocking
+  - api
+  - javascript
+  - intercept
+  - msw
+---
+
+[Nock](https://github.com/nock/nock) is an API mocking library that has been around for almost 15 years. You’ve definitely heard of it and you’ve likely used it as well. It’s extremely popular to this day because it’s extremely good.
+
+To me, Nock is also a very special library. When I set off to bring Mock Service Worker to Node.js seven years ago, it was one of the first libraries I studied to understand how request interception can be achieved there. My findings lay in the foundation of the library called [￼`@mswjs/interceptors`￼](https://github.com/mswjs/interceptors) (briefly, _Interceptors_) that has been powering the Node.js side of MSW ever since.
+
+While there were some design differences between how Nock and Interceptors worked (mostly because I created Interceptors to be _extremely_ low-level), I meant for that project to be a “framework for others to create their own API mocking libraries”. And people did! It always warms my heart when I see someone using Interceptors directly, granted they know what they are doing.
+
+Today is a special day. Today Nock themselves have migrated to Interceptors.
+
+I don’t believe words can do it justice how incredible this feels to me. The two most used API mocking libraries running on the same interception algorithm. The same algorithm that was inspired by Nock and underwent years of development, improvement, and challenging what was possible.
+
+I recall quite fondly when I described how Interceptors work to [Matteo](https://x.com/matteocollina), one of the core Node.js maintainers. He said, “Wow, you are choosing the hard way.” I did. I chose the hardest way there was because I knew that was the only way to create the interception experience that I wanted. To intercept requests with as little patching as possible, with as little intrusion as possible. To make it run as much of Node.js network code as physically possible all the while promoting web standards and providing a versatile API to build other tools on top.
+
+It is extremely rewarding to see that hard work recognized by fellow open source developers who are no strangers to the never-ending uphill battle which is network interception.
+
+But I don’t want to talk how I feel. I want to talk about why that change was made, who made it, and what it means for everyone using Nock and MSW.
+
+## Why the change?
+
+The first wind of the change had blown from a GitHub issue with a [somewhat spicy title](https://github.com/nock/nock/issues/2397). With Node.js 18 on the horizon, the server-side usage of fetch was becoming more and more widespread. People had to test the browser code that relied on fetch as well (although I sincerely hope [nobody does that anymore](https://www.epicweb.dev/why-i-won-t-use-jsdom)). MSW has come up in the discussion as we have supported the Fetch API as a part of Interceptors.
+
+Despite the appeal to reuse the library, swapping the internals of a project as old and used as Nock was not an easy task. Luckily, the project had skilled and dedicated developers to land their time, eyes, and hands to see it through.
+
+> Funny enough, this has become the final nudge I needed to kick off the Socket-based request interception. That has been a gigantic endeavor of its own, but it was well worth the sweat and tears. No other library in JavaScript intercepts requests _that_ low down the request chain. I hope to write a detailed post on it some day. That would be an educative read.
+
+## People behind the change
+
+I first found out about this notion through [Michael](https://github.com/mikicho) when he submitted an [issue](https://github.com/mswjs/interceptors/issues/425) to Interceptors. We’ve collaborated closely ever since, outlining the roadmap, discussing how to implement various Nock behaviors through Interceptors, and opening a good dozen pull requests in the process.
+
+Michael has provided an exceptional expertise on Nock and Node.js in general. It’s collaborations like this one that make open source truly magical to me (as someone who’s been working mostly by himself). I must confess, I took the opportunity to bother Michael with a bunch of unrelated things in the realm of mocking, and I have no regrets that I did so.
+
+I cannot omit [Gregor Martynus](https://github.com/gr2m) as the creator of Nock and an arbiter of this change. Gregor is an absolute legend, and it was a great honor to collaborate with him.
+
+There were many more people involved with this change, and I highly encourage you to go through the related issues and pull requests to study their work.
+
+## The result
+
+As a result, the fetch support in Nock was achieved. But since Interceptors made it so appealing to use the same interface for different request clients, Michael suggested to also use for other use cases, like `http.ClientRequest` and `XMLHttpRequest` (think JSDOM).
+
+Now _that_ wasn’t as smooth. The vast collection of uses cases behind Nock has quickly pointed out a number of holes and blind spots in Interceptors. So we did what engineers do. We drafted the compatibility document and hacked at it one tricky behavior at a time.
+
+Today, Nock [fully relies](https://github.com/nock/nock/blob/ac7a1b200e34bba4882216d75ba13528164a4f2e/lib/intercept.js#L20) on Interceptors under the hood. There are still a few scenarios left to tackle on our end, but nothing is impossible when passionate people are involved.
+
+## The impact
+
+I honestly think this is nothing short of phenomenally huge. This change means unified behavior, consistent usage experience, and significant improvement to both libraries in the years to come. MSW can learn from Nock’s experience, and Nock can take advantage of all the goodies baked into Interceptors, e.g. the WebSocket support that we’ve shipped last year.
+
+If you can, update your version of Nock and put it to a test. Let us know if you encounter any issues, but otherwise, enjoy the time.
