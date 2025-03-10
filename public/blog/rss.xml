@@ -4,9 +4,9 @@
         <description><![CDATA[Artem Zakharchenko's blog]]></description>
         <link>https://kettanaito.com</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Thu, 13 Feb 2025 18:51:31 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 10 Mar 2025 09:30:22 GMT</lastBuildDate>
         <atom:link href="https://kettanaito.com/rss.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Thu, 13 Feb 2025 18:51:30 GMT</pubDate>
+        <pubDate>Mon, 10 Mar 2025 09:30:22 GMT</pubDate>
         <copyright><![CDATA[All rights reserved © 2025 Artem Zakharchenko]]></copyright>
         <language><![CDATA[en-us]]></language>
         <ttl>40</ttl>
@@ -121,6 +121,14 @@
             <guid isPermaLink="false">https://kettanaito.com/blog/mocking-in-nodejs-has-just-changed-forever</guid>
             <category><![CDATA[Engineering]]></category>
             <pubDate>Fri, 14 Feb 2025 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Monitoring JavaScript Bundle Size Changes in Remix]]></title>
+            <description><![CDATA[Improve your Remix apps by analyzing the cost of every change you make.]]></description>
+            <link>https://kettanaito.com/blog/monitoring-javascript-bundle-size-changes-in-remix</link>
+            <guid isPermaLink="false">https://kettanaito.com/blog/monitoring-javascript-bundle-size-changes-in-remix</guid>
+            <category><![CDATA[Engineering]]></category>
+            <pubDate>Mon, 10 Mar 2025 00:00:00 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[My Struggle With Remix]]></title>
