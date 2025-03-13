@@ -40,6 +40,12 @@ export const mdxComponents: MDXContentProps['components'] = {
       />
     )
   },
+  h2(props) {
+    const id = props.children?.toString().toLowerCase().replace(/\s+/g, '-');
+    return <h2 id={id}>
+      <a href={`#${id}`}>{props.children}</a>
+    </h2>
+  },
   table(props) {
     return (
       <div className="table-wrapper">
