@@ -1,0 +1,99 @@
+---
+title: Container Formats and Where to Find Them
+description: This is how you create custom file formats.
+date: 2025-04-18
+category: Engineering
+keywords:
+  - format
+  - container
+  - zip
+  - rhyme
+  - poem
+---
+
+Have you ever wondered what is a PDF? Or an EPUB? Or an MP4? Those are files, sure, but how do they work? How do you, say, create your own file format just like those?
+
+And so I wondered the very same question recently. Let's talk about files, archives, and what on earth is a "container format"?
+
+## Files
+
+In its very basic form, a file is a _storage for data_. Take a look at this text file as an example:
+
+```txt
+Roses are red,
+Violets are blue,
+About container format
+I should tell you.
+```
+
+It's a file that contains a poem. The poem consists of words that are, in turn, made up from letters. Each letter then gets represented by a byte sequence, becoming something like this:
+
+```
+52 6f 73 65 73 20 61 72 65 20 72 65 64 2c 0a 56 69 6f 6c 65
+74 73 20 61 72 65 20 62 6c 75 65 2c 0a 41 62 6f 75 74 20 63
+6f 6e 74 61 69 6e 65 72 20 66 6f 72 6d 61 74 0a 49 20 73 68
+6f 75 6c 64 20 74 65 6c 6c 20 79 6f 75 2e
+```
+
+> And you wonder why machines cannot understand art. This doesn't even rhyme!
+
+But what if we wanted to associate, say, _text formatting_ with certain words or letters within the poem? Formatting is an abstract concept that we now have to imeplement. As with anything in software engineering, there are multiple ways to go about this.
+
+Let's imagine we choose the following way: have a designated `format.json` file that describes any formatting present in the text. Here's an example:
+
+```json
+[
+  {
+    "location": {
+      "start": [0, 11],
+      "end": [0, 14]
+    },
+    "color": "red"
+  }
+]
+```
+
+Here we've defined a formatting that should make the word "red" at the end of the first line, well, <span style={{ color: 'red' }}>red</span>. But now we have a slight problem...
+
+While our `poem.txt` has the _data_ (the poem itself), the `format.json` contains _metadata_ (data to describe other data) and doesn't make sense by itself. How do we make sure that the two are always kept together?
+
+Well, we can put them in a folder and name it "poem". In the future, if we want to place an image of a nice flower before the first line, we can put `flower.png` in the same folder and describe it somewhere else in metadata. Everything our poem needs stored in one place. Problem solved.
+
+The only thing is, that's not how complex files work. You don't see folders everywhere when you have `poem.docx` or `vacation.mp4`. Those are still _standalone files_. How?
+
+## Container format
+
+It's worth mentioning that for simple applications, like describing text formatting, you may very well design special style tokens and inline them with the data (and reinvent RTF in the process). But I would like to talk about more complex use cases here.
+
+And for those, a [container format](https://en.wikipedia.org/wiki/Container_format) exists.
+
+A container format is a generic term to describe files constisting of other files. It is, essentially, an archive containing everything your custom file format needs. It is a pattern you can follow to design those custom file formats yourself.
+
+Coming back to our poem, wouldn't it be nice if it was just a single `poem.rhyme` file? But what is the `.rhyme` file extension? Just a string, really, until we make a format out of it.
+
+## Designing container formats
+
+There isn't any secret sauce to designing custom file formats. You decide on the extension, container structure, and the algorithm to encode and decode those files (archives). Then, you likely build some software around it so your custom files can be consumed by the end user.
+
+The extension for our format will be `.rhyme`, and the internal container structure may be as follows:
+
+```
+poem
+  /assets
+		flower.png
+  contents.txt
+  format.json
+  attachments.json
+```
+
+> At this point, we are designing a _directory structure_ that will arrange all the needed data and metadata for our file.
+
+Now that this is decided, let's turn a directory into a file or, I should rather say, archive.
+
+```sh
+zip -r poem.rhyme ./poem
+```
+
+Yep, just like that. Compressing the `poem` directory into a single ZIP archive called `poem.rhyme`. Opening a poem file becomes an act of unzipping the given `*.rhyme` and reading its contents (in-memory or writing them to disk). You can improve on your custom format indefinitely, introducing compression, obfuscation, implementing public codecs for others to use, and so on. As long as you have a software capable of writing and reading `*.rhyme` files, you've got yourself an operable file format. Enjoy!
+
+> This isn't some hacky way to create formats though. This is literally how most formats you're working with are implemented. The magic of engineering.
