@@ -4,9 +4,9 @@
         <description><![CDATA[Artem Zakharchenko's blog]]></description>
         <link>https://kettanaito.com</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Mon, 10 Mar 2025 09:30:22 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 17 Apr 2025 16:36:17 GMT</lastBuildDate>
         <atom:link href="https://kettanaito.com/rss.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Mon, 10 Mar 2025 09:30:22 GMT</pubDate>
+        <pubDate>Thu, 17 Apr 2025 16:36:16 GMT</pubDate>
         <copyright><![CDATA[All rights reserved © 2025 Artem Zakharchenko]]></copyright>
         <language><![CDATA[en-us]]></language>
         <ttl>40</ttl>
@@ -57,6 +57,14 @@
             <guid isPermaLink="false">https://kettanaito.com/blog/catching-flaky-tests-before-its-too-late</guid>
             <category><![CDATA[Engineering]]></category>
             <pubDate>Thu, 05 Dec 2024 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Container Formats and Where to Find Them]]></title>
+            <description><![CDATA[This is how you create custom file formats.]]></description>
+            <link>https://kettanaito.com/blog/container-formats-and-where-to-find-them</link>
+            <guid isPermaLink="false">https://kettanaito.com/blog/container-formats-and-where-to-find-them</guid>
+            <category><![CDATA[Engineering]]></category>
+            <pubDate>Fri, 18 Apr 2025 00:00:00 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[Debounce vs Throttle: Definitive Visual Guide]]></title>
