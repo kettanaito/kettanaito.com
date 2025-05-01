@@ -31,6 +31,14 @@ export default function TeachingPage() {
         </Grid>
         <Grid>
           <LearningItem
+            title="React Component Testing with Vitest"
+            url="https://www.epicweb.dev/workshops/react-component-testing-with-vitest"
+            imageUrl="https://www.epicweb.dev/_next/image?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fi1a93n76%2Fproduction%2F9f00d7d39998aaae0b2d0307562e42db82df6697-1200x1200.png&w=640&q=80"
+            summary="Explore how to migrate from JSDOM to Vitest Browser Mode and rediscover updated best practices of React component testing."
+            platformName="epicweb"
+            className="lg:col-span-2 w-full mx-auto"
+          />
+          <LearningItem
             title="Mocking Techniques in Vitest"
             url="https://epicweb.dev/workshops/mocking-techniques-in-vitest"
             imageUrl="https://www.epicweb.dev/_next/image?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fi1a93n76%2Fproduction%2F4a502c2a85828d8dfc0be93302167671b2c4ea8e-1200x1200.png&w=640&q=80"
