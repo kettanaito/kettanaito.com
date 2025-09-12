@@ -316,7 +316,7 @@ export default function About({ featuredPosts }: Props): JSX.Element {
                 <article>
                   <div className="relative rounded-tr-xl rounded-tl-xl overflow-hidden">
                     <Image
-                      src="/talk-msw-2.0.jpg"
+                      src="/talk-msw-ws.jpg"
                       alt={conferenceTalks[0].name}
                       width={1280}
                       height={720}
@@ -367,7 +367,7 @@ export default function About({ featuredPosts }: Props): JSX.Element {
                     <p className="inline-block font-mono text-sm font-medium text-gray-500">
                       {talk.venue}
                     </p>
-                    <p className="mt-5 text-lg font-medium">
+                    <p className="mt-5 font-medium">
                       {talk.description}
                     </p>
                     <p>
