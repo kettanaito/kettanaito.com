@@ -1,9 +1,15 @@
 [
   {
+    "name": "Mocking WebSockets with MSW",
+    "watchUrl": "https://www.epicweb.dev/talks/mocking-websockets-with-msw",
+    "venue": "Epic Web Conf 2024",
+    "description": "Tune in to watch me unveil the WebSocket support in Mock Service Worker. And what is a better way to explore mocking real-time communication than building a multiplayer game entirely mock-first?"
+  },
+  {
     "name": "Mock Service Worker 2.0",
     "watchUrl": "https://www.youtube.com/watch?v=DKvccL1WSeU",
     "venue": "TestJS Summit 2023",
-    "description": "I talk API mocking, web standards, and how Mock Service Worker merries the two together."
+    "description": "I talk API mocking, web standards, and how Mock Service Worker marries the two together."
   },
   {
     "name": "Dissecting Complexity in Tests",
