@@ -29,7 +29,15 @@ export default function TeachingPage() {
             </p>
           </div>
         </Grid>
-        <Grid>
+        <Grid className="gap-y-20">
+          <LearningItem
+            title="Advanced Vitest Patterns"
+            url="https://www.epicweb.dev/workshops/advanced-vitest-patterns"
+            imageUrl="https://www.epicweb.dev/_next/image?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fi1a93n76%2Fproduction%2Ff7e3d7d80e35a95bf725b6b09513166dc354eb9b-424x424.png&w=640&q=80"
+            summary="See how to get the most out of Vitest. From custom context and matchers, to soft assertions, polling, performance profiling, and much more."
+            platformName="epicweb"
+            className="lg:col-span-2 w-full mx-auto"
+          />
           <LearningItem
             title="React Component Testing with Vitest"
             url="https://www.epicweb.dev/workshops/react-component-testing-with-vitest"
