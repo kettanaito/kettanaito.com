@@ -45,7 +45,7 @@
     "eslint-config-next": "13.0.0",
     "glob": "8.0.3",
     "mdx-bundler": "9.2.1",
-    "playwright": "1.28.1",
+    "playwright": "1.55.1",
     "postcss": "8.4.21",
     "remark-gfm": "3.0.1",
     "simple-git-hooks": "2.8.1",
