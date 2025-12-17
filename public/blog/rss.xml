@@ -4,9 +4,9 @@
         <description><![CDATA[Artem Zakharchenko's blog]]></description>
         <link>https://kettanaito.com</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Thu, 17 Apr 2025 16:36:17 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 17 Dec 2025 18:54:48 GMT</lastBuildDate>
         <atom:link href="https://kettanaito.com/rss.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Thu, 17 Apr 2025 16:36:16 GMT</pubDate>
+        <pubDate>Wed, 17 Dec 2025 18:54:47 GMT</pubDate>
         <copyright><![CDATA[All rights reserved © 2025 Artem Zakharchenko]]></copyright>
         <language><![CDATA[en-us]]></language>
         <ttl>40</ttl>
@@ -105,6 +105,14 @@
             <guid isPermaLink="false">https://kettanaito.com/blog/how-to-ask-questions</guid>
             <category><![CDATA[Culture]]></category>
             <pubDate>Fri, 04 Sep 2020 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Symbol.iterator Is Pretty Neat, Actually]]></title>
+            <description><![CDATA[Design custom spread syntax experience with Symbol.iterator.]]></description>
+            <link>https://kettanaito.com/blog/idk-symbol-iterator</link>
+            <guid isPermaLink="false">https://kettanaito.com/blog/idk-symbol-iterator</guid>
+            <category><![CDATA[Engineering]]></category>
+            <pubDate>Thu, 18 Dec 2025 00:00:00 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[Looking For a Job As an Open Source Maintainer]]></title>
