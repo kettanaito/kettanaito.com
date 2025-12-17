@@ -1,0 +1,175 @@
+---
+title: Symbol.iterator Is Pretty Neat, Actually
+description: Design custom spread syntax experience with Symbol.iterator.
+category: Engineering
+date: 2025-12-18
+keywords:
+  - symbol
+  - iterator
+  - spread
+  - syntax
+  - file
+  - utility
+---
+
+> ⚠️ Disclaimer: We're about to talk about the parts of JavaScript that you should, realistically, never use in product code; about APIs so powerful, their mere presence in your code base will highly likely tear the fabric of the universe to shreads. Treat this as an educational piece that it is. You've been warned.
+
+There I was, working on a test setup for the project that deals with files, and I found myself writing a utility like this:
+
+```ts
+export function toFileInit(source: string, type: MIMEType) {
+  return [toUint8Array(source), 'text-file.txt', { type }]
+}
+```
+
+The idea is to use this list of _serializable_ data to create `File` instances in a different context (e.g. on a page in a Playwright test):
+
+```ts
+// Node.js context.
+const fileInit = toFileInit(...)
+
+await page.evaluate((fileInit) => {
+  // Browser context.
+  const file = new File(...fileInit)
+}, fileInit)
+```
+
+But as I kept working with this utility, I found myself wanting to reference some of the data it derives from my `source` and `type`. The thing is, I didn't like this kind of syntax:
+
+```ts
+const fileInit = toFileInit(...)
+await expect(something).toBe(fileInit[0])
+```
+
+Because what even _is_ `fileInit[0]`? Well, it's the file's bytes, but can you truly tell? Value access by index doesn't have the best ergonomics and even type observability suffers here unless you assign the thing to a variable. But what if I don't want to do that?
+
+I can always return an _object_ from my `toFileInit` and have things like `fileInit.bytes`, but that would mean its return value can no longer be spread as arguments to create a `File`. Sounds like I need to choose which behavior I value more or resort to another abstraction, right?
+
+Wrong.
+
+I can actually have both with a slight change to my function. And to understand how, let's first unwrap what the spread syntax (`...`) actually is and what it does to the value it spreads.
+
+## The spread syntax
+
+You've likely used the spread syntax before. Either like this:
+
+```ts
+const prevArray = [1, 2]
+const nextArray = [...prevArray]
+// 1, 2
+```
+
+...or like this:
+
+```ts
+const prevObject = { a: 1, b: 2 }
+const nextObject = { ...prevObject }
+// { a: 1, b: 2 }
+```
+
+...or, perhaps, even like this:
+
+```ts
+const map = new Map([['a', 1], ['b', 2]])
+const list = [...map]
+// [['a', 1], ['b', 2]]
+```
+
+It _spreads_ the values, what is there more to say? Well, nothing. If you're talking about _what_ it does. Today, we are really interested in _how_ that spreading happens.
+
+We pay it no mind when talking about arrays and objects because it has become intuitive to us. They are boxes of values and we can extract whatever goods they have inside and assign them to other boxes. It becomes far more interesting when we put primitives like `Set` and `Map` on our examination table.
+
+A `Map` is _not_ an array and neither is it an object. If you log out a map, you will see this thing:
+
+```ts
+Map(2) {'a' => 1, 'b' => 2}
+```
+
+So how does JavaScript know that when you want to spread this map above it should be `[['a', 1], ['b', 2]]` and not, say, `['a', 'b']` or `[1, 2]`? How does it decide the way the goods inside weird-looking box should be represented when spread?
+
+**It doesn't**. `Map` itself tells the language how its values must be spread using `Symbol.iterator`.
+
+## `Symbol.iterator`
+
+The concept of [symbols](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol) in JavaScript isn't new. It's an API designed to represent _unique values_ and it's often used to prevent internal and user-defined object keys from clashing:
+
+```ts
+const foo = Symbol('foo')
+
+const entity = {
+  foo: 'user-defined',
+  [foo]: 'internal'
+}
+```
+
+> Despite both of those keys looking like `"foo"`, you can never re-define or even access the value behind `Symbol('foo'`) unless you have that exact symbol _reference_.
+
+While you can create your custom symbols, there are also a bunch of built-in ones that are exposed to you by the language to help you control certain behaviors, like representing a value when it's passed to `JSON.stringify()`, or disposing of an object, or... spreading its values.
+
+Yep, you can tell JavaScript what `...myObject` returns by defining the [`Symbol.iterator`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/iterator) on `myObject`:
+
+```ts
+const myObject = {
+  a: 1,
+  b: 2,
+  [Symbol.iterator]: function*() {
+    yield 'hello'
+    yield 'world'
+  }
+}
+
+console.log(...myObject)
+// "hello world"
+```
+
+> The value of the `Symbol.iterator` must be an _iterator_. In this example, I'm using a [generator function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator), which is one of the ways to declare an iterator, and it yields the values for anybody consuming `Symbol.iterator`, like the `for..of` loops or the spread syntax!
+
+Not only is this a legal feature built into the language, but a great tool in your API designing arsenal.
+
+## Back to our muttons
+
+Equipped with this knowledge, we can refactor the `toFileInit` function to _both_ be an object and spread to a list of arguments accepted by the `File` constructor:
+
+```ts
+export function toFileInit(source: string, type: MIMEType) {
+  const bytes = toUint8Array(source)
+  const name = 'text-file.txt'
+
+  return {
+    bytes,
+    name,
+    type,
+    [Symbol.iterator]: function*() {
+      yield [[bytes], name, options]
+    }
+  }
+}
+```
+
+And here's how you push this further and make `Symbol.iterator` type safe:
+
+```ts
+export function toFileInit(source: string, type: MIMEType): {
+  bytes: Uint8Array,
+  name: string
+  type: MIMEType,
+  [Symbol.iterator]: () => IterableIterator<
+    [[Uint8Array<ArrayBuffer>], string, Partial<FileOptions>],
+    void
+  >
+} {/* ... */}
+```
+
+Now that `toFileInit` controls how its values are spread, I can finally use it the way I want.
+
+```ts
+const fileInit = toFileInit(...)
+
+await page.evaluate((fileInit) => {
+  new File(...fileInit)
+}, [...fileInit])
+
+await expect(something).toEqual(fileInit.bytes)
+```
+
+> Note that `Symbol.iterator` does _not_ survive object serialization since its value is a function and functions are, generally, not serializable. That's why I'm spreading the values _before_ passing it to `page.evaluate`. This is a Playwright's thing, you can ignore this detail.
