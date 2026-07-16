@@ -6,6 +6,7 @@
   "author": {
     "name": "Artem Zakharchenko"
   },
+  "packageManager": "pnpm@11.5.2",
   "scripts": {
     "dev": "next dev",
     "start": "next start",
