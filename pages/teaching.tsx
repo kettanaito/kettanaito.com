@@ -8,14 +8,14 @@ export default function TeachingPage() {
       <Seo
         title="Teaching - kettanaito.com"
         ogTitle="Teaching"
-        description="I like to teach you complex things in a simple way."
+        description="I like to teach complex things in a simple way."
         keywords={['teaching', 'workshops', 'courses', 'kettanaito']}
       />
 
       <Container className="my-20">
         <PageHeader
           title="Teaching"
-          subtitle="I like to teach you complex things in a simple way."
+          subtitle="I like to teach complex things in a simple way."
         />
 
         {/* Workshops */}
@@ -30,6 +30,14 @@ export default function TeachingPage() {
           </div>
         </Grid>
         <Grid className="gap-y-20">
+          <LearningItem
+            title="React End-to-End Testing with Playwright"
+            url="https://www.epicweb.dev/workshops/react-end-to-end-testing-with-playwright"
+            imageUrl="https://www.epicweb.dev/_next/image?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fi1a93n76%2Fproduction%2F7d1eba06b77de615890a458f8df464e9f2977eef-1200x1200.png&w=640&q=80"
+            summary="Test your entire application end-to-end with Playwright. Learn about efficient Playwright setup, how to test any authentication, and debug your local and remote test runs."
+            platformName="epicweb"
+            className="lg:col-span-2 w-full mx-auto"
+          />
           <LearningItem
             title="Advanced Vitest Patterns"
             url="https://www.epicweb.dev/workshops/advanced-vitest-patterns"
