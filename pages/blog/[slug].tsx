@@ -1,3 +1,4 @@
+import type { JSX } from 'react'
 import React, { useMemo } from 'react'
 import { invariant } from 'outvariant'
 import { GetStaticPaths, GetStaticProps } from 'next'

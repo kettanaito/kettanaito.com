@@ -1,3 +1,4 @@
+import type { JSX } from 'react'
 import { SiX as TwitterIcon } from 'react-icons/si'
 import { Grid } from './grid'
 

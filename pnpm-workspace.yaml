@@ -2,3 +2,4 @@ allowBuilds:
   esbuild: true
   playwright: true
   simple-git-hooks: true
+  unrs-resolver: false

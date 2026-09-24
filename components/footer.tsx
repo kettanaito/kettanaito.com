@@ -1,3 +1,4 @@
+import type { JSX } from 'react'
 import Link from 'next/link'
 import socialLinks from '../content/static/social-links.json'
 import { Container, Grid } from './grid'

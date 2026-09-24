@@ -1,4 +1,4 @@
-import { SyntheticEvent, useCallback, useEffect, useMemo, useRef } from 'react'
+import { SyntheticEvent, useCallback, useEffect, useMemo, useRef, type JSX } from 'react'
 import vendingMachineImageUrl from '../images/vending-machine.png'
 import articleStylesUrl from '../debounce-vs-throttle.css'
 

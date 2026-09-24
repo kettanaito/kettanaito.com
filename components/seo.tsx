@@ -1,3 +1,4 @@
+import type { JSX } from 'react'
 import Head from 'next/head'
 import { getOrigin } from '../utils/getOrigin'
 

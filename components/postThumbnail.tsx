@@ -1,3 +1,4 @@
+import type { JSX } from 'react'
 import Link from 'next/link'
 
 interface Props {

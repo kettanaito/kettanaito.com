@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, type JSX } from 'react'
 import {
   SiX as TwitterIcon,
   SiFacebook as FacebookIcon,
@@ -61,7 +61,6 @@ function ShareOnFacebookButton({
   return (
     <FacebookShareButton
       url={url}
-      quote={text}
       hashtag={hashtags?.[0]}
       aria-label="Share on Facebook"
       className={`block p-4 ${className} hover:text-gray-900`}
