@@ -29,6 +29,14 @@ async function generateOgImages(): Promise<void> {
       })
       await page.setViewportSize({ width: 1200, height: 630 })
 
+      /**
+       * Hide the Next.js dev tools indicator (the bubble in the corner)
+       * so it doesn't end up in the screenshot.
+       */
+      await page.addStyleTag({
+        content: 'nextjs-portal { display: none !important; }',
+      })
+
       const postHeader = page.locator('#og-image')
       await postHeader.isVisible()
 
