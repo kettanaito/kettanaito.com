@@ -1,3 +1,4 @@
+import type { JSX } from 'react'
 import { invariant } from 'outvariant'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { getAllPaths, getPostContent, Post } from '../../../utils/mdx'

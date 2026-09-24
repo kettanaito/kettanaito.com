@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, type JSX } from 'react'
 import { formatDate } from '../../utils/date'
 
 export function PostMeta({

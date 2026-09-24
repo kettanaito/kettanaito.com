@@ -1,3 +1,4 @@
+import type { JSX } from 'react'
 import Link from 'next/link'
 import { HiArrowCircleLeft as BackIcon } from 'react-icons/hi'
 import { Container } from '../components/grid'

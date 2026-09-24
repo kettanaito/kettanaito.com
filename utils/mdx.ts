@@ -114,7 +114,7 @@ export async function getPostContent(slug: string): Promise<Post> {
   }).data
 
   const remarkGfm = await import('remark-gfm').then((x) => x.default)
-  const remarkMdxImages = await import('remark-mdx-images').then(
+  const rehypeMdxImportMedia = await import('rehype-mdx-import-media').then(
     (x) => x.default
   )
   const { code, frontmatter, errors } = await bundleMDX({
@@ -122,10 +122,10 @@ export async function getPostContent(slug: string): Promise<Post> {
     cwd: postDir,
     files: mdxFiles,
     mdxOptions(options) {
-      options.remarkPlugins = [
-        ...(options.remarkPlugins ?? []),
-        remarkGfm,
-        remarkMdxImages,
+      options.remarkPlugins = [...(options.remarkPlugins ?? []), remarkGfm]
+      options.rehypePlugins = [
+        ...(options.rehypePlugins ?? []),
+        rehypeMdxImportMedia,
       ]
       return options
     },

@@ -1,3 +1,4 @@
+import type { JSX } from 'react'
 import { DetailedHTMLProps, HTMLAttributes } from "react";
 
 export function Quote(

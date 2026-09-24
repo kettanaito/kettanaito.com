@@ -1,3 +1,4 @@
+import type { JSX } from 'react'
 import { SiGithub as GitHubIcon } from 'react-icons/si'
 
 interface Props {

@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, DetailedHTMLProps } from 'react'
+import { ButtonHTMLAttributes, DetailedHTMLProps, type JSX } from 'react'
 
 export function Button(
   props: DetailedHTMLProps<

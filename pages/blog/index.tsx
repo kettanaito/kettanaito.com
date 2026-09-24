@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState, type JSX } from 'react'
 import { GetStaticProps } from 'next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'

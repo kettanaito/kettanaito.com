@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useState, type JSX } from 'react'
 import { DefaultEvents } from './DefaultEvents'
 
 const DEFAULT_THROTTLE_DURATION_MS = 500
