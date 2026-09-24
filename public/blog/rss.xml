@@ -4,10 +4,10 @@
         <description><![CDATA[Artem Zakharchenko's blog]]></description>
         <link>https://kettanaito.com</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Wed, 17 Dec 2025 18:54:48 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 24 Sep 2026 13:12:41 GMT</lastBuildDate>
         <atom:link href="https://kettanaito.com/rss.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Wed, 17 Dec 2025 18:54:47 GMT</pubDate>
-        <copyright><![CDATA[All rights reserved © 2025 Artem Zakharchenko]]></copyright>
+        <pubDate>Thu, 24 Sep 2026 13:12:40 GMT</pubDate>
+        <copyright><![CDATA[All rights reserved © 2026 Artem Zakharchenko]]></copyright>
         <language><![CDATA[en-us]]></language>
         <ttl>40</ttl>
         <item>
@@ -99,20 +99,20 @@
             <pubDate>Mon, 11 May 2020 00:00:00 GMT</pubDate>
         </item>
         <item>
+            <title><![CDATA[Electron to PWA: There and Back Again]]></title>
+            <description><![CDATA[Lessons learned from rewriting an Electron application as a progressive web app.]]></description>
+            <link>https://kettanaito.com/blog/electron-to-pwa-and-back-again</link>
+            <guid isPermaLink="false">https://kettanaito.com/blog/electron-to-pwa-and-back-again</guid>
+            <category><![CDATA[Engineering]]></category>
+            <pubDate>Thu, 24 Sep 2026 00:00:00 GMT</pubDate>
+        </item>
+        <item>
             <title><![CDATA[How To Ask Questions?]]></title>
             <description><![CDATA[Asking the right questions in engineering is hard. This article makes it a bit easier.]]></description>
             <link>https://kettanaito.com/blog/how-to-ask-questions</link>
             <guid isPermaLink="false">https://kettanaito.com/blog/how-to-ask-questions</guid>
             <category><![CDATA[Culture]]></category>
             <pubDate>Fri, 04 Sep 2020 00:00:00 GMT</pubDate>
-        </item>
-        <item>
-            <title><![CDATA[Symbol.iterator Is Pretty Neat, Actually]]></title>
-            <description><![CDATA[Design custom spread syntax experience with Symbol.iterator.]]></description>
-            <link>https://kettanaito.com/blog/idk-symbol-iterator</link>
-            <guid isPermaLink="false">https://kettanaito.com/blog/idk-symbol-iterator</guid>
-            <category><![CDATA[Engineering]]></category>
-            <pubDate>Thu, 18 Dec 2025 00:00:00 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[Looking For a Job As an Open Source Maintainer]]></title>
@@ -169,6 +169,14 @@
             <guid isPermaLink="false">https://kettanaito.com/blog/practical-guide-to-custom-jest-matchers</guid>
             <category><![CDATA[Engineering]]></category>
             <pubDate>Wed, 22 Jun 2022 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Symbol.iterator Is Pretty Neat, Actually]]></title>
+            <description><![CDATA[Design custom spread syntax experience with Symbol.iterator.]]></description>
+            <link>https://kettanaito.com/blog/symbol-iterator-is-pretty-neat-actually</link>
+            <guid isPermaLink="false">https://kettanaito.com/blog/symbol-iterator-is-pretty-neat-actually</guid>
+            <category><![CDATA[Engineering]]></category>
+            <pubDate>Thu, 18 Dec 2025 00:00:00 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[The Art of Code Review]]></title>
